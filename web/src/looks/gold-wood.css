@@ -1,0 +1,121 @@
+/* The Gold and wood look: its tokens, under :root[data-look="gold-wood"]. Dark oak, gold and Cinzel.
+   The fonts' files are fetched only once an element uses their family, so only with this look. */
+
+@import "@fontsource/cinzel/600.css";
+@import "@fontsource/eb-garamond/400.css";
+@import "@fontsource/eb-garamond/400-italic.css";
+@import "@fontsource/eb-garamond/600.css";
+
+/* contrast.test.ts reads this block's values: keep every colour a hex, and every wash an rgba(). */
+:root[data-look="gold-wood"] {
+  --bg: #17110b;
+  --surface: #261c12;
+  --ink: #ecdcb8;
+  --muted: #b29d75;
+  --heading: #f0d79e;
+  --rule: #8a6a3a;
+  --accent: #e0bc74;
+  --accent-ink: #1a1108;
+  --link: #e0bc74;
+  --link-visited: #d0a8d8;
+  --notice-bg: #3a2a14;
+  --notice-ink: #f0d79e;
+  --error: #f0a08e;
+  --error-bg: #3d1d16;
+  --focus: #f0c870;
+  --dm-view: #d9a6e8;
+  --bg-sunken: #100b07;
+  --fg-faint: #9a8664;
+  --warning: #e8b860;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.5), 0 4px 12px rgba(0, 0, 0, 0.35);
+
+  --serif: "EB Garamond", Georgia, serif;
+  --sans: "EB Garamond", Georgia, serif;
+  --display: Cinzel, "EB Garamond", Georgia, serif;
+
+  /* A warm glow of candlelight in the top-left corner; --page-glow is its brightest. */
+  --page-glow: rgba(150, 95, 40, 0.28);
+  --page-wash: radial-gradient(60rem 36rem at 12% -6%, var(--page-glow), transparent 70%);
+
+  /* Dark oak (ambientCG Wood051), lightly darkened, with a gold edge. */
+  --nav-wash: rgba(15, 9, 4, 0.25);
+  --nav-bg: #2a1f17;
+  --nav-texture: linear-gradient(var(--nav-wash), var(--nav-wash)), url("./textures/wood-Wood051.jpg");
+  --nav-edge: #8a6a3a;
+  --nav-current-bg: linear-gradient(#e9c983, #b8904f);
+  --nav-current-ink: #1a1108;
+
+  --button-bg: linear-gradient(#f0d196, #b8904f);
+  /* Cards keep their thin --rule border; this is the faint gold on their top edge. */
+  --card-edge: inset 0 1px 0 rgba(233, 201, 131, 0.14);
+
+  color-scheme: dark;
+}
+
+/* Carved capitals for headings, the menu and buttons. :where() keeps these as weak as plain element rules. */
+:where(:root[data-look="gold-wood"]) :where(h1, h2, h3),
+:where(:root[data-look="gold-wood"]) .wordmark {
+  font-family: var(--display);
+  color: var(--heading);
+  letter-spacing: 0.05em;
+}
+
+:where(:root[data-look="gold-wood"]) button,
+:where(:root[data-look="gold-wood"]) .button-like {
+  font-family: var(--display);
+  letter-spacing: 0.04em;
+}
+
+/* Buttons that hold running text keep the body font. */
+:where(:root[data-look="gold-wood"]) .choice-pick,
+:where(:root[data-look="gold-wood"]) .link-button,
+:where(:root[data-look="gold-wood"]) .party-name {
+  font-family: var(--sans);
+  letter-spacing: normal;
+}
+
+:where(:root[data-look="gold-wood"]) button.primary,
+:where(:root[data-look="gold-wood"]) .button-like.primary {
+  border-color: #b8904f;
+  box-shadow: 0 1px 0 #6b4f25;
+}
+
+:where(:root[data-look="gold-wood"]) .nav {
+  background-size: 256px 256px;
+  box-shadow: inset 0 8px 14px rgba(0, 0, 0, 0.45);
+}
+
+:where(:root[data-look="gold-wood"]) .nav a {
+  font-family: var(--display);
+  color: var(--ink);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+}
+
+:where(:root[data-look="gold-wood"]) .nav .wordmark {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+}
+
+:where(:root[data-look="gold-wood"]) .nav a:hover {
+  background: rgba(240, 215, 158, 0.08);
+}
+
+/* The current item is a gold plate with dark ink. */
+:where(:root[data-look="gold-wood"]) .nav a.active {
+  color: var(--nav-current-ink);
+  background: var(--nav-current-bg);
+  text-shadow: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+@media (min-width: 900px) {
+  /* The gold right edge is two pixels: the border and a line drawn outside it, so nothing moves. */
+  :where(:root[data-look="gold-wood"]) .nav {
+    box-shadow:
+      inset -8px 0 14px rgba(0, 0, 0, 0.45),
+      1px 0 0 var(--nav-edge);
+  }
+
+  :where(:root[data-look="gold-wood"]) .nav a {
+    letter-spacing: 0.06em;
+  }
+}

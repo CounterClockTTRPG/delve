@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portrait Forge</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 1l7 7-7 7-7-7z' fill='%23e0a84a'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>Portrait Forge</h1>
+    <div class="topbar-controls">
+      <label>Theme <select id="theme"></select></label>
+      <label>Archetype <select id="archetype"></select></label>
+      <label>Style <select id="style"></select></label>
+      <label class="describe">Describe <input id="describe" placeholder="e.g. a stout old male dwarf" spellcheck="false"></label>
+      <label class="seed">Seed <input id="seed" spellcheck="false"></label>
+      <button id="randomize" class="primary" title="New seed, keep locked parts (R)">Randomize</button>
+      <button id="undo" title="Undo (Ctrl+Z)" aria-label="Undo">↶</button>
+      <button id="redo" title="Redo (Ctrl+Shift+Z)" aria-label="Redo">↷</button>
+      <button id="help-btn" title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts">?</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="panel" id="parts-panel">
+      <section>
+        <h2>Character</h2>
+        <div id="character"></div>
+      </section>
+      <section>
+        <h2>Fine-tune <button class="link" id="reset-tweaks">reset</button></h2>
+        <div id="tweaks"></div>
+        <p class="hint">Double-click a slider to reset it. Fine-tunes carry over when randomizing.</p>
+      </section>
+      <section>
+        <h2>Features <button class="link" id="unlock-all">unlock all</button></h2>
+        <div id="parts"></div>
+      </section>
+      <section>
+        <h2>Colours</h2>
+        <div id="colors"></div>
+      </section>
+    </aside>
+
+    <section class="stage">
+      <div class="preview-wrap"><div id="preview" aria-label="Portrait preview"></div></div>
+      <div class="emotes">
+        <h2>Emotes</h2>
+        <div id="emotes"></div>
+        <label class="say">Say <input id="say" placeholder="Type a line and press Talk to lip-sync it" spellcheck="false"></label>
+        <span class="hint">Idle ones toggle and carry on during the others. They play in the preview and the SVG export; PNG stays a still.</span>
+      </div>
+      <div class="variations-head">
+        <h2>Variations</h2>
+        <span class="hint">Click one to adopt it. Locked features stay fixed.</span>
+        <button id="more" class="ghost">Reroll</button>
+      </div>
+      <div id="variations"></div>
+      <div class="variations-head"><h2>Recent</h2><span class="hint">Undo with Ctrl+Z, or click a portrait to go back to it.</span></div>
+      <div id="recent"></div>
+    </section>
+
+    <aside class="panel">
+      <section>
+        <h2>Decorations <label class="lock-inline"><input type="checkbox" id="lock-acc"> lock</label></h2>
+        <div id="accessories"></div>
+      </section>
+      <section class="export">
+        <h2>Export</h2>
+        <label>Size (px) <input id="size" type="number" min="16" max="8192" step="1" value="1024"></label>
+        <div class="presets" id="presets"></div>
+        <label class="check"><input type="checkbox" id="transparent"> Transparent background</label>        <div class="buttons">
+          <button id="dl-png" class="primary">Download PNG</button>
+          <button id="dl-svg">SVG</button>
+          <button id="dl-json">Traits JSON</button>
+          <label class="button">Load JSON<input id="load-json" type="file" accept=".json,application/json" hidden></label>
+          <button id="copy-link">Copy link</button>
+        </div>
+        <p class="status" id="status" role="status"></p>
+      </section>
+    </aside>
+  </main>
+  <dialog id="help">
+    <h2>Keyboard shortcuts</h2>
+    <dl class="keys">
+      <dt>R</dt><dd>Randomize (keeps locks, pins and fine-tunes)</dd>
+      <dt>Ctrl+Z / U</dt><dd>Undo</dd>
+      <dt>Ctrl+Shift+Z / Ctrl+Y</dt><dd>Redo</dd>
+      <dt>V</dt><dd>New variations</dd>
+      <dt>1 – 8</dt><dd>Adopt a variation</dd>
+      <dt>F E B N M H J C G</dt><dd>Reroll face, eyes, brows, nose, mouth, hair, facial hair, clothing or backdrop</dd>
+      <dt>Shift + that key</dt><dd>Lock or unlock that feature</dd>
+      <dt>D</dt><dd>Reroll decorations</dd>
+      <dt>A X L</dt><dd>Reroll age, expression or lighting</dd>
+      <dt>?</dt><dd>This help</dd>
+    </dl>
+    <button id="help-close" class="primary">Close</button>
+  </dialog>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

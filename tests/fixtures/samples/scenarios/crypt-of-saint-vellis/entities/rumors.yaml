@@ -1,0 +1,8 @@
+- id: bell
+  text: The chapel bell rang at midnight with no one in the tower.
+  truth: 'true'
+  audience: player
+- id: treasure
+  text: Saint Vellis was buried with a crown of gold.
+  truth: 'false'
+  audience: player

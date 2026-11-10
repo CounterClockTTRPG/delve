@@ -1,0 +1,55 @@
+// Editor icons, mapped to lucide-react. Keyed by tool/action name so callers
+// just do <Icon name="rect" />. lucide icons stroke with currentColor, so they
+// inherit each button's hover/active colour.
+import {
+  ArrowDownAZ,
+  Circle,
+  DoorClosed,
+  Eye,
+  GripHorizontal,
+  Hexagon,
+  LogOut,
+  MousePointer2,
+  Sparkles,
+  Spline,
+  Square,
+  Star,
+  Type,
+  Waves,
+  Waypoints,
+  type LucideIcon,
+} from "lucide-react";
+
+const ICONS: Record<string, LucideIcon> = {
+  select: MousePointer2,
+  rect: Square,
+  circle: Circle,
+  polygon: Hexagon,
+  cave: Spline,
+  corridor: Waypoints,
+  door: DoorClosed,
+  feature: Sparkles,
+  text: Type,
+  area: Waves,
+  line: GripHorizontal,
+  exit: LogOut,
+  sort: ArrowDownAZ,
+  eye: Eye,
+  star: Star,
+};
+
+export function Icon({
+  name,
+  size = 18,
+  fill = false,
+}: {
+  name: string;
+  size?: number;
+  fill?: boolean;
+}) {
+  const Cmp = ICONS[name];
+  if (!Cmp) return null;
+  return (
+    <Cmp size={size} strokeWidth={2} fill={fill ? "currentColor" : "none"} aria-hidden />
+  );
+}

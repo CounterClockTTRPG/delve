@@ -1,0 +1,255 @@
+# Wastes of Cynidicea — campaign world map for B4 The Lost City
+#
+# World view (miles): the desert frontier east of Sulm-Akar; caravan routes,
+#                     the salt-cutter belt, the gnoll cave at the Wash of Sevens,
+#                     Two Pillars border shrine, and the buried Cynidicea ziggurat.
+# Sulm-Akar view (feet): walled trading town in tiers up a sandstone bluff.
+
+workspace wastes-of-cynidicea {
+
+    # ── Workspace-level style overrides ──────────────────────────────────────
+    styles {
+        terrain.biome=desert  { color #d4a25a; fill-opacity 0.35 }
+        terrain.biome=salt    { color #e8e4d0; fill-opacity 0.55 }
+        terrain.biome=cliff   { color #a0704a; fill-opacity 0.6;  stroke #5a3a20; stroke-width 2 }
+        terrain.biome=oasis   { color #5a8a4a; fill-opacity 0.5 }
+        river                 { stroke #6a8aa3; stroke-width 2 }
+        road.surface=track    { stroke #8a6b3a; stroke-width 2 }
+        road.surface=trail    { stroke #6a4a2a; stroke-width 1 }
+        road.surface=dirt     { stroke #a08050; stroke-width 3 }
+        city                  { marker circle; color #3a2a18; marker-size 7 }
+        city.pop>1000         { marker circle; color #3a2a18; marker-size 9; stroke #c8a96e; stroke-width 2 }
+        [walled]              { stroke #c8a96e; stroke-width 2 }
+        [hazard]              { color #aa3030 }
+        [ancient]             { color #7a5a8a }
+    }
+
+    model {
+
+        # ── Polities / regions ───────────────────────────────────────────────
+        kingdom imperial-wastes {
+            description "The bones of a forgotten empire. No throne, no army. Only ziggurats."
+        }
+
+        # ── Cities ───────────────────────────────────────────────────────────
+        city sulm-akar {
+            at   40,100
+            pop  2000
+            in   imperial-wastes
+            tags [walled, trade, last-town]
+            description "Last town before the Empty Quarter. Walled trading post in tiers up a sandstone bluff above a brackish river."
+            doc  locations/wastes-of-cynidicea/sulm-akar.md
+            contains {
+                # Sulm-Akar's local geography & infrastructure (units: feet)
+                river brackish-river { points 0,0 0,30 1,55 0,80 }
+
+                # Buildings live in a sibling include file for clarity.
+                !include sulm-akar-buildings.map
+
+                # Streets and routes inside the walls
+                street main-street       { points 5,40 95,40 }
+                street mud-lane          { points 8,40 26,32 }
+                street market-street     { points 30,15 30,46 }
+                street upper-promenade   { points 58,45 70,45 80,45 }
+                street bluff-walk        { points 78,15 78,70 }
+                street west-stair        { points 50,30 50,50 }
+
+                # The bluff is local terrain — east wall of the town.
+                terrain sandstone-bluff {
+                    polygon 92,8 100,8 100,75 92,75
+                    biome cliff
+                    description "Sheer sandstone bluff; the upper terrace is cut into its base."
+                }
+
+                # Gates as POIs (rendered as markers)
+                poi sun-gate {
+                    at   95,40
+                    kind gate
+                    tags [walled]
+                    description "Main caravan entrance, eastern customs post."
+                }
+                poi river-gate {
+                    at   5,40
+                    kind gate
+                    tags [walled]
+                    description "West gate by the river, near the Sand-Crow."
+                }
+                poi north-postern {
+                    at   50,75
+                    kind gate
+                    description "Small postern in the north wall; locked at sundown."
+                }
+            }
+        }
+
+        city khessar {
+            at   130,175
+            pop  4500
+            in   imperial-wastes
+            tags [walled, trade]
+            description "Caravan terminus to the north — silk, copper, scribes. Most Sulm-Akar caravans end here."
+        }
+
+        # ── Major terrain ────────────────────────────────────────────────────
+        terrain wastes-empty-quarter {
+            polygon 55,40 230,40 235,80 230,160 70,160 60,135
+            biome   desert
+            tags    [hazard]
+            description "The Empty Quarter. Lethal heat by day, bitter cold by night. No surface settlements."
+        }
+
+        terrain salt-pans-east {
+            polygon 56,90 110,88 112,108 58,110
+            biome   salt
+            description "Salt-pan belt east of Sulm-Akar. Cith Ashford's cutter operation works the western edge."
+        }
+
+        terrain cynidicea-ruin-field {
+            polygon 175,90 205,88 210,118 178,120
+            biome   desert
+            tags    [ancient]
+            description "Half-buried street grid around the ziggurat. Toppled walls, drum-stumps of columns, scoured pale as bone."
+        }
+
+        # ── Hydrography ──────────────────────────────────────────────────────
+        river brackish-river {
+            points 38,40 39,70 40,100 41,130 43,160
+            description "Brackish, slow-moving. Drinkable only after settling. Forms Sulm-Akar's western boundary."
+        }
+
+        # ── Roads / caravan routes ───────────────────────────────────────────
+        road northern-caravan-route {
+            from    sulm-akar
+            to      khessar
+            via     65,130 95,160
+            surface dirt
+            description "Main caravan route north to Khessar. Skirts the wastes' northern edge."
+        }
+
+        road wadi-road-east {
+            from    sulm-akar
+            to      two-pillars
+            via     60,95 88,98 110,99
+            surface track
+            description "Eastern caravan-track. Passes the salt-cutters' camp; skirts the Wash of Sevens to the south."
+        }
+
+        road salt-cutter-spur {
+            from    sulm-akar
+            to      salt-cutters-camp
+            via     50,98
+            surface track
+            description "Half-day spur from Sulm-Akar to the salt-cutters' camp on the western pan."
+        }
+
+        road deep-trail-east {
+            from    two-pillars
+            to      cynidicea-ziggurat
+            via     145,103 170,108
+            surface trail
+            description "Beyond Two Pillars, deeper than caravan masters will go. Three more days east."
+        }
+
+        # ── Anchors that need to be cities so roads can `from`/`to` them ────
+        # (Treated as cities for routing purposes; populations are nominal.)
+        city salt-cutters-camp {
+            at   60,95
+            pop  14
+            in   imperial-wastes
+            tags [seasonal, work-camp]
+            description "Cith Ashford's salt-cutting camp. Tents, wind-breaks, a goat-pen, a water-jar cache."
+            doc  locations/wastes-of-cynidicea/salt-cutters-camp.md
+        }
+
+        city two-pillars {
+            at   115,100
+            pop  0
+            in   imperial-wastes
+            tags [shrine, last-well]
+            description "Half-collapsed border shrine. The last reliable well east of Sulm-Akar."
+        }
+
+        city cynidicea-ziggurat {
+            at   190,105
+            pop  0
+            in   imperial-wastes
+            tags [ruined, ancient, hazard]
+            description "Five-tiered ziggurat. Three thirty-foot statues on the top tier. Secret door in the south ramp; a hobgoblin's body holds it open. The deep-stair seal is below."
+            doc  locations/wastes-of-cynidicea/cynidicea-ziggurat.md
+        }
+
+        # ── Points of interest (events, hazards, sightings) ──────────────────
+        poi wash-of-sevens-gnoll-cave {
+            at   75,110
+            kind hazard
+            tags [hazard, gnolls]
+            description "Cliff-cave in a dry channel. Gnoll holdfast; cleared Day 5 evening. Black-tabard commander captured. Watch fled east."
+        }
+
+        poi anaras-vellim-attack {
+            at   78,102
+            kind event
+            tags [event]
+            description "Anaras-Vellim caravan ambush. Thistledew survived as the third reported survivor in a week."
+        }
+
+        poi staged-body-wadi {
+            at   72,108
+            kind event
+            tags [hazard]
+            description "Day 3 midday: salt-cutter Vand laid out in salt-circle ritual; gnoll + scaled-three-toed prints leaving east-NE."
+        }
+
+        poi field-one-sigil-station {
+            at   165,98
+            kind event
+            tags [event]
+            description "Day 14 night: party hit watchers' relay station; codebook + two slates + leg-cylinders recovered."
+        }
+
+        poi broken-tower-line {
+            at   148,103
+            kind landmark
+            tags [ancient]
+            description "Six-mile line of broken towers visible from the western dune-ridge. The middle tower has stairs down."
+        }
+
+        poi column-look-ridge {
+            at   155,107
+            kind landmark
+            tags [ancient]
+            description "Day 14: Sslesha's column-look across 350 yards. Patron-grief at the bound Wind-bringer."
+        }
+    }
+
+    # ── Views ────────────────────────────────────────────────────────────────
+    views {
+        view world {
+            scope   wastes-of-cynidicea
+            include kingdoms, cities, roads, rivers, terrain, poi
+            units   miles
+            styles {
+                # In the world view, push city markers harder for legibility.
+                city.pop>3000 { marker circle; color #3a2a18; marker-size 11; stroke #c8a96e; stroke-width 2 }
+                # Ruins / hazards in the world view: distinct red highlight
+                [hazard]      { color #aa3030; stroke #5a1010; stroke-width 2 }
+            }
+        }
+
+        view sulm-akar-city {
+            scope   sulm-akar
+            include buildings, streets, poi, rivers, terrain
+            units   feet
+            styles {
+                # In the city view, gates pop with a brighter pin.
+                poi.kind=gate     { marker pin; color #c8a96e; marker-size 10; stroke #3a2a18; stroke-width 2 }
+                building.type=temple { color #b08a40; fill-opacity 0.7; stroke #6a4a20; stroke-width 1 }
+                building.type=tavern { color #8a3a3a; fill-opacity 0.7 }
+                building.type=civic  { color #4a6a8a; fill-opacity 0.7 }
+                building.type=stable { color #6a5a3a; fill-opacity 0.6 }
+                building.type=market { color #b8a060; fill-opacity 0.5 }
+                building.type=inn    { color #8a6a3a; fill-opacity 0.7 }
+            }
+        }
+    }
+}

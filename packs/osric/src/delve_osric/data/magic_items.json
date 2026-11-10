@@ -1,0 +1,6034 @@
+{
+ "_source": "OSRIC 3.0 Gamemaster Guide §2.13 Magic Items (Tables 2.13.1A–2.13.6.1H). Transcribed verbatim from extracted/gm_guide.txt lines ~17537–19273 and verified against docs/OSRIC_Gamemaster_Guide.md; parsed by scripts/build_magic_items.py. Each sub-table is a metadata wrapper {_table, _title, _die, rows}; each row has roll_range (verbatim), roll [min,max] (00→100 on d100), die, result (verbatim), and value_gp/value_gp_raw where the source gives a gold-piece column. Rows with an embedded 'Roll 1d100' sub-roll keep a structured `subrolls` list. Cursed items table 2.13.10A and full monster/spell detail live outside this range. (AI-assisted) Verify edge cases against docs/ or reference/. OSRIC text © Stuart Marshall & Matthew Finch.",
+ "determining_type": {
+  "_table": "2.13.1A",
+  "_title": "DETERMINING TYPE OF MAGIC ITEM",
+  "_die": "d20",
+  "rows": [
+   {
+    "roll_range": "01–03",
+    "roll": [
+     1,
+     3
+    ],
+    "die": "d20",
+    "result": "Armour or Shield. Proceed to Table 2.13.1B: Armour and Shield Type"
+   },
+   {
+    "roll_range": "04–06",
+    "roll": [
+     4,
+     6
+    ],
+    "die": "d20",
+    "result": "Miscellaneous Magic. Proceed to Table 2.13.P"
+   },
+   {
+    "roll_range": "07–09",
+    "roll": [
+     7,
+     9
+    ],
+    "die": "d20",
+    "result": "Miscellaneous Weapons. Proceed to Table 2.13.D: Miscellaneous Weapons Type"
+   },
+   {
+    "roll_range": "10–13",
+    "roll": [
+     10,
+     13
+    ],
+    "die": "d20",
+    "result": "Potions. Proceed to Table 2.13.1F: Potion Properties"
+   },
+   {
+    "roll_range": "14",
+    "roll": [
+     14,
+     14
+    ],
+    "die": "d20",
+    "result": "Rings. Proceed to Table 2.13.G: Ring Properties"
+   },
+   {
+    "roll_range": "15",
+    "roll": [
+     15,
+     15
+    ],
+    "die": "d20",
+    "result": "Rods, Staves and Wands. Proceed to Table 2.13.1H: Rods, Staves and Wands Properties"
+   },
+   {
+    "roll_range": "16–18",
+    "roll": [
+     16,
+     18
+    ],
+    "die": "d20",
+    "result": "Scrolls. Proceed to Table 2.13.1I: Scroll Type"
+   },
+   {
+    "roll_range": "19–20",
+    "roll": [
+     19,
+     20
+    ],
+    "die": "d20",
+    "result": "Swords. Proceed to Tables 2.13.1L and M"
+   }
+  ]
+ },
+ "armour_shield_type": {
+  "_table": "2.13.1B",
+  "_title": "ARMOUR AND SHIELD TYPE",
+  "_die": "d20",
+  "rows": [
+   {
+    "roll_range": "01",
+    "roll": [
+     1,
+     1
+    ],
+    "die": "d20",
+    "result": "Banded",
+    "value_gp_raw": "4,000",
+    "value_gp": 4000
+   },
+   {
+    "roll_range": "02–04",
+    "roll": [
+     2,
+     4
+    ],
+    "die": "d20",
+    "result": "Roll d100: (01–90): Chain Mail; (91–00): Elfin Chain",
+    "subrolls": [
+     {
+      "roll_raw": "01–90",
+      "result": "Chain mail",
+      "value_gp_raw": "3,500",
+      "value_gp": 3500
+     },
+     {
+      "roll_raw": "91–00",
+      "result": "Elfin Chain",
+      "value_gp_raw": "5,500",
+      "value_gp": 5500
+     }
+    ]
+   },
+   {
+    "roll_range": "05–06",
+    "roll": [
+     5,
+     6
+    ],
+    "die": "d20",
+    "result": "Leather",
+    "value_gp_raw": "2,000",
+    "value_gp": 2000
+   },
+   {
+    "roll_range": "07–09",
+    "roll": [
+     7,
+     9
+    ],
+    "die": "d20",
+    "result": "Plate Mail",
+    "value_gp_raw": "5,000",
+    "value_gp": 5000
+   },
+   {
+    "roll_range": "10",
+    "roll": [
+     10,
+     10
+    ],
+    "die": "d20",
+    "result": "Ring Mail",
+    "value_gp_raw": "2,500",
+    "value_gp": 2500
+   },
+   {
+    "roll_range": "11–12",
+    "roll": [
+     11,
+     12
+    ],
+    "die": "d20",
+    "result": "Splinted",
+    "value_gp_raw": "4,000",
+    "value_gp": 4000
+   },
+   {
+    "roll_range": "13–14",
+    "roll": [
+     13,
+     14
+    ],
+    "die": "d20",
+    "result": "Scale Mail",
+    "value_gp_raw": "3,000",
+    "value_gp": 3000
+   },
+   {
+    "roll_range": "15",
+    "roll": [
+     15,
+     15
+    ],
+    "die": "d20",
+    "result": "Studded Leather",
+    "value_gp_raw": "2,250",
+    "value_gp": 2250
+   },
+   {
+    "roll_range": "16–20",
+    "roll": [
+     16,
+     20
+    ],
+    "die": "d20",
+    "result": "Shield",
+    "value_gp_raw": "2,500",
+    "value_gp": 2500
+   }
+  ]
+ },
+ "armour_shield_properties": {
+  "_table": "2.13.1C",
+  "_title": "ARMOUR AND SHIELD PROPERTIES",
+  "_die": "d20",
+  "rows": [
+   {
+    "roll_range": "01–10",
+    "roll": [
+     1,
+     10
+    ],
+    "die": "d20",
+    "result": "+1",
+    "bonus": 1,
+    "value_modifier": "×1"
+   },
+   {
+    "roll_range": "11–15",
+    "roll": [
+     11,
+     15
+    ],
+    "die": "d20",
+    "result": "+2",
+    "bonus": 2,
+    "value_modifier": "×2"
+   },
+   {
+    "roll_range": "16",
+    "roll": [
+     16,
+     16
+    ],
+    "die": "d20",
+    "result": "+3",
+    "bonus": 3,
+    "value_modifier": "×3"
+   },
+   {
+    "roll_range": "17",
+    "roll": [
+     17,
+     17
+    ],
+    "die": "d20",
+    "result": "Roll d100: (01–65): +4; (66–00): +5",
+    "value_modifier": "×4 (+4) / ×5 (+5)",
+    "subrolls": [
+     {
+      "roll_raw": "01–65",
+      "result": "+4",
+      "bonus": 4,
+      "value_modifier": "×4"
+     },
+     {
+      "roll_raw": "66–00",
+      "result": "+5",
+      "bonus": 5,
+      "value_modifier": "×5"
+     }
+    ]
+   },
+   {
+    "roll_range": "18",
+    "roll": [
+     18,
+     18
+    ],
+    "die": "d20",
+    "result": "Cursed (see Section 2.13.10)",
+    "value_modifier": "—"
+   },
+   {
+    "roll_range": "19–20",
+    "roll": [
+     19,
+     20
+    ],
+    "die": "d20",
+    "result": "Special (see Section 2.13.5)",
+    "value_modifier": "Variable"
+   }
+  ]
+ },
+ "misc_weapons_type": {
+  "_table": "2.13.1D",
+  "_title": "MISCELLANEOUS WEAPONS TYPE",
+  "_die": "d20",
+  "rows": [
+   {
+    "roll_range": "1–3",
+    "roll": [
+     1,
+     3
+    ],
+    "die": "d20",
+    "result": "Arrow"
+   },
+   {
+    "roll_range": "4–5",
+    "roll": [
+     4,
+     5
+    ],
+    "die": "d20",
+    "result": "Axe"
+   },
+   {
+    "roll_range": "6",
+    "roll": [
+     6,
+     6
+    ],
+    "die": "d20",
+    "result": "Bolt"
+   },
+   {
+    "roll_range": "7",
+    "roll": [
+     7,
+     7
+    ],
+    "die": "d20",
+    "result": "Roll 1d100: (01–50): Bow; (51–00): Crossbow"
+   },
+   {
+    "roll_range": "8–11",
+    "roll": [
+     8,
+     11
+    ],
+    "die": "d20",
+    "result": "Dagger"
+   },
+   {
+    "roll_range": "12",
+    "roll": [
+     12,
+     12
+    ],
+    "die": "d20",
+    "result": "Flail"
+   },
+   {
+    "roll_range": "13",
+    "roll": [
+     13,
+     13
+    ],
+    "die": "d20",
+    "result": "Hammer"
+   },
+   {
+    "roll_range": "14",
+    "roll": [
+     14,
+     14
+    ],
+    "die": "d20",
+    "result": "Javelin"
+   },
+   {
+    "roll_range": "15–16",
+    "roll": [
+     15,
+     16
+    ],
+    "die": "d20",
+    "result": "Mace"
+   },
+   {
+    "roll_range": "17",
+    "roll": [
+     17,
+     17
+    ],
+    "die": "d20",
+    "result": "Roll 1d100: (01–33): Military Pick; (34–66): Morning Star; (67–00): Pole Arm"
+   },
+   {
+    "roll_range": "18",
+    "roll": [
+     18,
+     18
+    ],
+    "die": "d20",
+    "result": "Staff"
+   },
+   {
+    "roll_range": "19",
+    "roll": [
+     19,
+     19
+    ],
+    "die": "d20",
+    "result": "Spear"
+   },
+   {
+    "roll_range": "20",
+    "roll": [
+     20,
+     20
+    ],
+    "die": "d20",
+    "result": "Roll 1d100: (01–50): Trident; (51–00): Sling"
+   }
+  ]
+ },
+ "misc_weapons_properties": {
+  "_table": "2.13.1E",
+  "_title": "MISCELLANEOUS WEAPONS PROPERTIES",
+  "_die": "d20",
+  "rows": [
+   {
+    "roll_range": "01–10",
+    "roll": [
+     1,
+     10
+    ],
+    "die": "d20",
+    "result": "+1",
+    "value_gp_raw": "2,000",
+    "value_gp": 2000,
+    "bonus": 1
+   },
+   {
+    "roll_range": "11–15",
+    "roll": [
+     11,
+     15
+    ],
+    "die": "d20",
+    "result": "+2",
+    "value_gp_raw": "8,000",
+    "value_gp": 8000,
+    "bonus": 2
+   },
+   {
+    "roll_range": "16",
+    "roll": [
+     16,
+     16
+    ],
+    "die": "d20",
+    "result": "+3",
+    "value_gp_raw": "18,000",
+    "value_gp": 18000,
+    "bonus": 3
+   },
+   {
+    "roll_range": "17",
+    "roll": [
+     17,
+     17
+    ],
+    "die": "d20",
+    "result": "Roll 1d100: (01–65): +4; (66–00): +5",
+    "value_gp_raw": "32,000 (+4); 50,000 (+5)",
+    "subrolls": [
+     {
+      "roll_raw": "01–65",
+      "result": "+4",
+      "value_gp_raw": "32,000",
+      "value_gp": 32000
+     },
+     {
+      "roll_raw": "66–00",
+      "result": "+5",
+      "value_gp_raw": "50,000",
+      "value_gp": 50000
+     }
+    ]
+   },
+   {
+    "roll_range": "18",
+    "roll": [
+     18,
+     18
+    ],
+    "die": "d20",
+    "result": "Cursed (see 2.13.10)",
+    "value_gp_raw": "—"
+   },
+   {
+    "roll_range": "19–20",
+    "roll": [
+     19,
+     20
+    ],
+    "die": "d20",
+    "result": "Special (see Table 2.13.1o)",
+    "value_gp_raw": "Variable"
+   }
+  ]
+ },
+ "potions": {
+  "_table": "2.13.1F",
+  "_title": "POTION PROPERTIES",
+  "_die": "d20",
+  "rows": [
+   {
+    "roll_range": "01",
+    "roll": [
+     1,
+     1
+    ],
+    "die": "d20",
+    "result": "Roll 1d100: (01–50): Animal Control; (51–00): Clairaudience",
+    "subrolls": [
+     {
+      "roll_raw": "01–50",
+      "result": "Animal Control",
+      "value_gp_raw": "400",
+      "value_gp": 400
+     },
+     {
+      "roll_raw": "51–00",
+      "result": "Clairaudience",
+      "value_gp_raw": "400",
+      "value_gp": 400
+     }
+    ]
+   },
+   {
+    "roll_range": "02",
+    "roll": [
+     2,
+     2
+    ],
+    "die": "d20",
+    "result": "Roll 1d100: (01–50): Clairvoyance; (51–00): Climbing",
+    "subrolls": [
+     {
+      "roll_raw": "01–50",
+      "result": "Clairvoyance",
+      "value_gp_raw": "500",
+      "value_gp": 500
+     },
+     {
+      "roll_raw": "51–00",
+      "result": "Climbing",
+      "value_gp_raw": "500",
+      "value_gp": 500
+     }
+    ]
+   },
+   {
+    "roll_range": "03",
+    "roll": [
+     3,
+     3
+    ],
+    "die": "d20",
+    "result": "Roll 1d100: (01–50): Cursed; (51–00): Delusion",
+    "subrolls": [
+     {
+      "roll_raw": "01–50",
+      "result": "Cursed",
+      "value_gp_raw": "—"
+     },
+     {
+      "roll_raw": "51–00",
+      "result": "Delusion",
+      "value_gp_raw": "150",
+      "value_gp": 150
+     }
+    ]
+   },
+   {
+    "roll_range": "04",
+    "roll": [
+     4,
+     4
+    ],
+    "die": "d20",
+    "result": "Roll 1d100: (01–65): Diminution; (66–00): Dragon Control",
+    "subrolls": [
+     {
+      "roll_raw": "01–65",
+      "result": "Diminution",
+      "value_gp_raw": "500",
+      "value_gp": 500
+     },
+     {
+      "roll_raw": "66–00",
+      "result": "Dragon Control",
+      "value_gp_raw": "see entry"
+     }
+    ]
+   },
+   {
+    "roll_range": "05",
+    "roll": [
+     5,
+     5
+    ],
+    "die": "d20",
+    "result": "ESP",
+    "value_gp_raw": "850",
+    "value_gp": 850
+   },
+   {
+    "roll_range": "06",
+    "roll": [
+     6,
+     6
+    ],
+    "die": "d20",
+    "result": "Roll 1d100: (01–35): Extra–Healing; (36–00): Fire Resistance",
+    "subrolls": [
+     {
+      "roll_raw": "01–35",
+      "result": "Extra–Healing",
+      "value_gp_raw": "800",
+      "value_gp": 800
+     },
+     {
+      "roll_raw": "36–00",
+      "result": "Fire Resistance",
+      "value_gp_raw": "400",
+      "value_gp": 400
+     }
+    ]
+   },
+   {
+    "roll_range": "07",
+    "roll": [
+     7,
+     7
+    ],
+    "die": "d20",
+    "result": "Roll 1d100: (01–50): Flying; (51–00): Gaseous Form",
+    "subrolls": [
+     {
+      "roll_raw": "01–50",
+      "result": "Flying",
+      "value_gp_raw": "750",
+      "value_gp": 750
+     },
+     {
+      "roll_raw": "51–00",
+      "result": "Gaseous Form",
+      "value_gp_raw": "400",
+      "value_gp": 400
+     }
+    ]
+   },
+   {
+    "roll_range": "08",
+    "roll": [
+     8,
+     8
+    ],
+    "die": "d20",
+    "result": "Roll 1d100: (01–50): Giant Control; (51–00): Giant Strength",
+    "subrolls": [
+     {
+      "roll_raw": "01–50",
+      "result": "Giant Control",
+      "value_gp_raw": "see entry"
+     },
+     {
+      "roll_raw": "51–00",
+      "result": "Giant Strength",
+      "value_gp_raw": "see entry"
+     }
+    ]
+   },
+   {
+    "roll_range": "09",
+    "roll": [
+     9,
+     9
+    ],
+    "die": "d20",
+    "result": "Growth",
+    "value_gp_raw": "300",
+    "value_gp": 300
+   },
+   {
+    "roll_range": "10",
+    "roll": [
+     10,
+     10
+    ],
+    "die": "d20",
+    "result": "Healing",
+    "value_gp_raw": "400",
+    "value_gp": 400
+   },
+   {
+    "roll_range": "11",
+    "roll": [
+     11,
+     11
+    ],
+    "die": "d20",
+    "result": "Roll 1d100: (01–50): Heroism; (51–00): Human Control",
+    "subrolls": [
+     {
+      "roll_raw": "01–50",
+      "result": "Heroism",
+      "value_gp_raw": "500",
+      "value_gp": 500
+     },
+     {
+      "roll_raw": "51–00",
+      "result": "Human Control",
+      "value_gp_raw": "900",
+      "value_gp": 900
+     }
+    ]
+   },
+   {
+    "roll_range": "12",
+    "roll": [
+     12,
+     12
+    ],
+    "die": "d20",
+    "result": "Roll 1d100: (01–50): Invisibility; (51–00): Invulnerability",
+    "subrolls": [
+     {
+      "roll_raw": "01–50",
+      "result": "Invisibility",
+      "value_gp_raw": "500",
+      "value_gp": 500
+     },
+     {
+      "roll_raw": "51–00",
+      "result": "Invulnerability",
+      "value_gp_raw": "500",
+      "value_gp": 500
+     }
+    ]
+   },
+   {
+    "roll_range": "13",
+    "roll": [
+     13,
+     13
+    ],
+    "die": "d20",
+    "result": "Roll 1d100: (01–50): Levitation; (51–00): Longevity",
+    "subrolls": [
+     {
+      "roll_raw": "01–50",
+      "result": "Levitation",
+      "value_gp_raw": "400",
+      "value_gp": 400
+     },
+     {
+      "roll_raw": "51–00",
+      "result": "Longevity",
+      "value_gp_raw": "1,000",
+      "value_gp": 1000
+     }
+    ]
+   },
+   {
+    "roll_range": "14",
+    "roll": [
+     14,
+     14
+    ],
+    "die": "d20",
+    "result": "Roll 1d100: (01–50): Oil of etherealness; (51–00): Oil of Slipperiness",
+    "subrolls": [
+     {
+      "roll_raw": "01–50",
+      "result": "Oil of etherealness",
+      "value_gp_raw": "1,500",
+      "value_gp": 1500
+     },
+     {
+      "roll_raw": "51–00",
+      "result": "Oil of Slipperiness",
+      "value_gp_raw": "750",
+      "value_gp": 750
+     }
+    ]
+   },
+   {
+    "roll_range": "15",
+    "roll": [
+     15,
+     15
+    ],
+    "die": "d20",
+    "result": "Roll 1d100: (01–50): Philtre of Love; (51–00): Philtre of Persuasiveness",
+    "subrolls": [
+     {
+      "roll_raw": "01–50",
+      "result": "Philtre of Love",
+      "value_gp_raw": "300",
+      "value_gp": 300
+     },
+     {
+      "roll_raw": "51–00",
+      "result": "Philtre of Persuasiveness",
+      "value_gp_raw": "850",
+      "value_gp": 850
+     }
+    ]
+   },
+   {
+    "roll_range": "16",
+    "roll": [
+     16,
+     16
+    ],
+    "die": "d20",
+    "result": "Roll 1d100: (01–65): Plant Control; (66–00): Polymorph",
+    "subrolls": [
+     {
+      "roll_raw": "01–65",
+      "result": "Plant Control",
+      "value_gp_raw": "300",
+      "value_gp": 300
+     },
+     {
+      "roll_raw": "66–00",
+      "result": "Polymorph",
+      "value_gp_raw": "350",
+      "value_gp": 350
+     }
+    ]
+   },
+   {
+    "roll_range": "17",
+    "roll": [
+     17,
+     17
+    ],
+    "die": "d20",
+    "result": "Roll 1d100: (01–50): Speed; (51–00): Super–Heroism",
+    "subrolls": [
+     {
+      "roll_raw": "01–50",
+      "result": "Speed",
+      "value_gp_raw": "450",
+      "value_gp": 450
+     },
+     {
+      "roll_raw": "51–00",
+      "result": "Super–Heroism",
+      "value_gp_raw": "750",
+      "value_gp": 750
+     }
+    ]
+   },
+   {
+    "roll_range": "18",
+    "roll": [
+     18,
+     18
+    ],
+    "die": "d20",
+    "result": "Sweet Water",
+    "value_gp_raw": "250",
+    "value_gp": 250
+   },
+   {
+    "roll_range": "19",
+    "roll": [
+     19,
+     19
+    ],
+    "die": "d20",
+    "result": "Roll 1d100: (01–75): Treasure Finding; (76–00): Undead Control",
+    "subrolls": [
+     {
+      "roll_raw": "01–75",
+      "result": "Treasure Finding",
+      "value_gp_raw": "2,000",
+      "value_gp": 2000
+     },
+     {
+      "roll_raw": "76–00",
+      "result": "Undead Control",
+      "value_gp_raw": "2,500",
+      "value_gp": 2500
+     }
+    ]
+   },
+   {
+    "roll_range": "20",
+    "roll": [
+     20,
+     20
+    ],
+    "die": "d20",
+    "result": "Water Breathing",
+    "value_gp_raw": "900",
+    "value_gp": 900
+   }
+  ]
+ },
+ "rings": {
+  "_table": "2.13.1G",
+  "_title": "RING PROPERTIES",
+  "_die": "d20",
+  "rows": [
+   {
+    "roll_range": "01",
+    "roll": [
+     1,
+     1
+    ],
+    "die": "d20",
+    "result": "Charisma",
+    "value_gp_raw": "10,000",
+    "value_gp": 10000
+   },
+   {
+    "roll_range": "02–03",
+    "roll": [
+     2,
+     3
+    ],
+    "die": "d20",
+    "result": "Feather Falling",
+    "value_gp_raw": "5,000",
+    "value_gp": 5000
+   },
+   {
+    "roll_range": "04",
+    "roll": [
+     4,
+     4
+    ],
+    "die": "d20",
+    "result": "Fire Resistance",
+    "value_gp_raw": "5,000",
+    "value_gp": 5000
+   },
+   {
+    "roll_range": "05",
+    "roll": [
+     5,
+     5
+    ],
+    "die": "d20",
+    "result": "Free Action",
+    "value_gp_raw": "5,000",
+    "value_gp": 5000
+   },
+   {
+    "roll_range": "06",
+    "roll": [
+     6,
+     6
+    ],
+    "die": "d20",
+    "result": "Genie Summoning",
+    "value_gp_raw": "20,000",
+    "value_gp": 20000
+   },
+   {
+    "roll_range": "07",
+    "roll": [
+     7,
+     7
+    ],
+    "die": "d20",
+    "result": "Invisibility",
+    "value_gp_raw": "7,500",
+    "value_gp": 7500
+   },
+   {
+    "roll_range": "08–12",
+    "roll": [
+     8,
+     12
+    ],
+    "die": "d20",
+    "result": "Roll 1d100: (01-90): Protection; (91-00): Cursed",
+    "value_gp_raw": "see entry (nil if cursed)",
+    "subrolls": [
+     {
+      "roll_raw": "01-90",
+      "result": "Protection",
+      "value_gp_raw": "see entry"
+     },
+     {
+      "roll_raw": "91-00",
+      "result": "Cursed",
+      "value_gp_raw": "nil if cursed"
+     }
+    ]
+   },
+   {
+    "roll_range": "13",
+    "roll": [
+     13,
+     13
+    ],
+    "die": "d20",
+    "result": "Roll 1d100: (01–25): Regeneration; (25–00): Spell Storing",
+    "subrolls": [
+     {
+      "roll_raw": "01–25",
+      "result": "Regeneration",
+      "value_gp_raw": "40,000",
+      "value_gp": 40000
+     },
+     {
+      "roll_raw": "25–00",
+      "result": "Spell Storing",
+      "value_gp_raw": "25,000",
+      "value_gp": 25000
+     }
+    ]
+   },
+   {
+    "roll_range": "14",
+    "roll": [
+     14,
+     14
+    ],
+    "die": "d20",
+    "result": "Spell Turning",
+    "value_gp_raw": "17,500",
+    "value_gp": 17500
+   },
+   {
+    "roll_range": "15",
+    "roll": [
+     15,
+     15
+    ],
+    "die": "d20",
+    "result": "Swimming",
+    "value_gp_raw": "5,000",
+    "value_gp": 5000
+   },
+   {
+    "roll_range": "16",
+    "roll": [
+     16,
+     16
+    ],
+    "die": "d20",
+    "result": "Roll 1d100: (01–50): Telekinesis; (51–00): Three Wishes",
+    "subrolls": [
+     {
+      "roll_raw": "01–50",
+      "result": "Telekinesis",
+      "value_gp_raw": "10,000",
+      "value_gp": 10000
+     },
+     {
+      "roll_raw": "51–00",
+      "result": "Three Wishes",
+      "value_gp_raw": "15,000",
+      "value_gp": 15000
+     }
+    ]
+   },
+   {
+    "roll_range": "17",
+    "roll": [
+     17,
+     17
+    ],
+    "die": "d20",
+    "result": "Warmth",
+    "value_gp_raw": "5,000",
+    "value_gp": 5000
+   },
+   {
+    "roll_range": "18–19",
+    "roll": [
+     18,
+     19
+    ],
+    "die": "d20",
+    "result": "Water Walking",
+    "value_gp_raw": "5,000",
+    "value_gp": 5000
+   },
+   {
+    "roll_range": "20",
+    "roll": [
+     20,
+     20
+    ],
+    "die": "d20",
+    "result": "Wizardry",
+    "value_gp_raw": "50,000",
+    "value_gp": 50000
+   }
+  ]
+ },
+ "rods_staves_wands": {
+  "_table": "2.13.1H",
+  "_title": "RODS, STAVES & WANDS PROPERTIES",
+  "_die": "d20",
+  "rows": [
+   {
+    "roll_range": "01",
+    "roll": [
+     1,
+     1
+    ],
+    "die": "d20",
+    "result": "Rod of Absorption",
+    "value_gp_raw": "40,000",
+    "value_gp": 40000
+   },
+   {
+    "roll_range": "02–03",
+    "roll": [
+     2,
+     3
+    ],
+    "die": "d20",
+    "result": "Rod of Cancellation",
+    "value_gp_raw": "15,000",
+    "value_gp": 15000
+   },
+   {
+    "roll_range": "04",
+    "roll": [
+     4,
+     4
+    ],
+    "die": "d20",
+    "result": "Roll 1d100: (01–25): Rod of Captivation; (26–75): Rod of Lordly Might; (76–00): Rod of Resurrection",
+    "subrolls": [
+     {
+      "roll_raw": "01–25",
+      "result": "Rod of Captivation",
+      "value_gp_raw": "30,000",
+      "value_gp": 30000
+     },
+     {
+      "roll_raw": "26–75",
+      "result": "Rod of Lordly Might",
+      "value_gp_raw": "20,000",
+      "value_gp": 20000
+     },
+     {
+      "roll_raw": "76–00",
+      "result": "Rod of Resurrection",
+      "value_gp_raw": "35,000",
+      "value_gp": 35000
+     }
+    ]
+   },
+   {
+    "roll_range": "05",
+    "roll": [
+     5,
+     5
+    ],
+    "die": "d20",
+    "result": "Roll 1d100: (01–50): Rod of Rulership; (51–00): Rod of Striking",
+    "subrolls": [
+     {
+      "roll_raw": "01–50",
+      "result": "Rod of Rulership",
+      "value_gp_raw": "35,000",
+      "value_gp": 35000
+     },
+     {
+      "roll_raw": "51–00",
+      "result": "Rod of Striking",
+      "value_gp_raw": "15,000",
+      "value_gp": 15000
+     }
+    ]
+   },
+   {
+    "roll_range": "06",
+    "roll": [
+     6,
+     6
+    ],
+    "die": "d20",
+    "result": "Roll 1d100: (01–50): Staff of Compulsion; (51–00): Staff of Healing",
+    "subrolls": [
+     {
+      "roll_raw": "01–50",
+      "result": "Staff of Compulsion",
+      "value_gp_raw": "25,000",
+      "value_gp": 25000
+     },
+     {
+      "roll_raw": "51–00",
+      "result": "Staff of Healing",
+      "value_gp_raw": "25,000",
+      "value_gp": 25000
+     }
+    ]
+   },
+   {
+    "roll_range": "07",
+    "roll": [
+     7,
+     7
+    ],
+    "die": "d20",
+    "result": "Roll 1d100: (01–25): Staff of Power; (26–00): Staff of the Serpent",
+    "subrolls": [
+     {
+      "roll_raw": "01–25",
+      "result": "Staff of Power",
+      "value_gp_raw": "60,000",
+      "value_gp": 60000
+     },
+     {
+      "roll_raw": "26–00",
+      "result": "Staff of the Serpent",
+      "value_gp_raw": "35,000",
+      "value_gp": 35000
+     }
+    ]
+   },
+   {
+    "roll_range": "08",
+    "roll": [
+     8,
+     8
+    ],
+    "die": "d20",
+    "result": "Roll 1d100: (01–75): Staff of Withering; (76–00): Staff of Wizardry",
+    "subrolls": [
+     {
+      "roll_raw": "01–75",
+      "result": "Staff of Withering",
+      "value_gp_raw": "35,000",
+      "value_gp": 35000
+     },
+     {
+      "roll_raw": "76–00",
+      "result": "Staff of Wizardry",
+      "value_gp_raw": "75,000",
+      "value_gp": 75000
+     }
+    ]
+   },
+   {
+    "roll_range": "09",
+    "roll": [
+     9,
+     9
+    ],
+    "die": "d20",
+    "result": "Wand of Detecting Magic",
+    "value_gp_raw": "25,000",
+    "value_gp": 25000
+   },
+   {
+    "roll_range": "10",
+    "roll": [
+     10,
+     10
+    ],
+    "die": "d20",
+    "result": "Wand of Detecting Minerals & Metals",
+    "value_gp_raw": "7,500",
+    "value_gp": 7500
+   },
+   {
+    "roll_range": "11",
+    "roll": [
+     11,
+     11
+    ],
+    "die": "d20",
+    "result": "Wand of Detecting Traps & Secret Doors",
+    "value_gp_raw": "40,000",
+    "value_gp": 40000
+   },
+   {
+    "roll_range": "12",
+    "roll": [
+     12,
+     12
+    ],
+    "die": "d20",
+    "result": "Wand of Enemy Detection",
+    "value_gp_raw": "10,000",
+    "value_gp": 10000
+   },
+   {
+    "roll_range": "13",
+    "roll": [
+     13,
+     13
+    ],
+    "die": "d20",
+    "result": "Roll 1d100: (01–50): Wand of Fear; (51–00): Wand of Fire",
+    "subrolls": [
+     {
+      "roll_raw": "01–50",
+      "result": "Wand of Fear",
+      "value_gp_raw": "15,000",
+      "value_gp": 15000
+     },
+     {
+      "roll_raw": "51–00",
+      "result": "Wand of Fire",
+      "value_gp_raw": "25,000",
+      "value_gp": 25000
+     }
+    ]
+   },
+   {
+    "roll_range": "14",
+    "roll": [
+     14,
+     14
+    ],
+    "die": "d20",
+    "result": "Roll 1d100: (01–50): Wand of Ice; (51–00): Wand of Light",
+    "subrolls": [
+     {
+      "roll_raw": "01–50",
+      "result": "Wand of Ice",
+      "value_gp_raw": "50,000",
+      "value_gp": 50000
+     },
+     {
+      "roll_raw": "51–00",
+      "result": "Wand of Light",
+      "value_gp_raw": "10,000",
+      "value_gp": 10000
+     }
+    ]
+   },
+   {
+    "roll_range": "15",
+    "roll": [
+     15,
+     15
+    ],
+    "die": "d20",
+    "result": "Roll 1d100: (01–50): Wand of Illusion; (51–00): Wand of Lightning",
+    "subrolls": [
+     {
+      "roll_raw": "01–50",
+      "result": "Wand of Illusion",
+      "value_gp_raw": "20,000",
+      "value_gp": 20000
+     },
+     {
+      "roll_raw": "51–00",
+      "result": "Wand of Lightning",
+      "value_gp_raw": "30,000",
+      "value_gp": 30000
+     }
+    ]
+   },
+   {
+    "roll_range": "16",
+    "roll": [
+     16,
+     16
+    ],
+    "die": "d20",
+    "result": "Wand of Magic Missiles",
+    "value_gp_raw": "35,000",
+    "value_gp": 35000
+   },
+   {
+    "roll_range": "17",
+    "roll": [
+     17,
+     17
+    ],
+    "die": "d20",
+    "result": "Wand of Negation",
+    "value_gp_raw": "15,000",
+    "value_gp": 15000
+   },
+   {
+    "roll_range": "18",
+    "roll": [
+     18,
+     18
+    ],
+    "die": "d20",
+    "result": "Wand of Paralysation",
+    "value_gp_raw": "25,000",
+    "value_gp": 25000
+   },
+   {
+    "roll_range": "19",
+    "roll": [
+     19,
+     19
+    ],
+    "die": "d20",
+    "result": "Wand of Polymorphing",
+    "value_gp_raw": "25,000",
+    "value_gp": 25000
+   },
+   {
+    "roll_range": "20",
+    "roll": [
+     20,
+     20
+    ],
+    "die": "d20",
+    "result": "Roll 1d100: (01–50): Wand of Summoning; (51–00): Wand of Wonder",
+    "subrolls": [
+     {
+      "roll_raw": "01–50",
+      "result": "Wand of Summoning",
+      "value_gp_raw": "10,000",
+      "value_gp": 10000
+     },
+     {
+      "roll_raw": "51–00",
+      "result": "Wand of Wonder",
+      "value_gp_raw": "10,000",
+      "value_gp": 10000
+     }
+    ]
+   }
+  ]
+ },
+ "scroll_type": {
+  "_table": "2.13.1I",
+  "_title": "SCROLL TYPE",
+  "_die": "d20",
+  "rows": [
+   {
+    "roll_range": "01–12",
+    "roll": [
+     1,
+     12
+    ],
+    "die": "d20",
+    "result": "Spell (see Table 2.13.1j)"
+   },
+   {
+    "roll_range": "13–19",
+    "roll": [
+     13,
+     19
+    ],
+    "die": "d20",
+    "result": "Protection (see Table 2.13.1k)"
+   },
+   {
+    "roll_range": "20",
+    "roll": [
+     20,
+     20
+    ],
+    "die": "d20",
+    "result": "Cursed (see Table 2.13.10)"
+   }
+  ]
+ },
+ "spell_scrolls": {
+  "_table": "2.13.1J",
+  "_title": "SPELL SCROLLS",
+  "_die": "d20",
+  "rows": [
+   {
+    "roll_range": "01–03",
+    "roll": [
+     1,
+     3
+    ],
+    "die": "d20",
+    "result": "Cleric",
+    "value_gp_raw": "300/level"
+   },
+   {
+    "roll_range": "04–05",
+    "roll": [
+     4,
+     5
+    ],
+    "die": "d20",
+    "result": "Druid",
+    "value_gp_raw": "300/level"
+   },
+   {
+    "roll_range": "06–07",
+    "roll": [
+     6,
+     7
+    ],
+    "die": "d20",
+    "result": "Illusionist",
+    "value_gp_raw": "300/level"
+   },
+   {
+    "roll_range": "08–20",
+    "roll": [
+     8,
+     20
+    ],
+    "die": "d20",
+    "result": "Magic User",
+    "value_gp_raw": "300/level"
+   }
+  ]
+ },
+ "spell_levels_on_scroll": {
+  "_table": "2.13.1J.1",
+  "_title": "SPELL LEVELS ON A SCROLL",
+  "_die": "d10",
+  "rows": [
+   {
+    "roll_range": "1-3",
+    "roll": [
+     1,
+     3
+    ],
+    "die": "d10",
+    "result": "1d3"
+   },
+   {
+    "roll_range": "4-5",
+    "roll": [
+     4,
+     5
+    ],
+    "die": "d10",
+    "result": "1d4"
+   },
+   {
+    "roll_range": "6-7",
+    "roll": [
+     6,
+     7
+    ],
+    "die": "d10",
+    "result": "1d6"
+   },
+   {
+    "roll_range": "8-9",
+    "roll": [
+     8,
+     9
+    ],
+    "die": "d10",
+    "result": "1d8 (re-roll if level is too high for class)"
+   },
+   {
+    "roll_range": "10",
+    "roll": [
+     10,
+     10
+    ],
+    "die": "d10",
+    "result": "1d10 (results too high for a class are treated as the highest available result)"
+   }
+  ]
+ },
+ "scrolls_of_warding": {
+  "_table": "2.13.1K",
+  "_title": "SCROLLS OF WARDING",
+  "_die": "d20",
+  "rows": [
+   {
+    "roll_range": "01–02",
+    "roll": [
+     1,
+     2
+    ],
+    "die": "d20",
+    "result": "Acid",
+    "value_gp_raw": "5,000",
+    "value_gp": 5000
+   },
+   {
+    "roll_range": "03–04",
+    "roll": [
+     3,
+     4
+    ],
+    "die": "d20",
+    "result": "Demons",
+    "value_gp_raw": "12,500",
+    "value_gp": 12500
+   },
+   {
+    "roll_range": "05–06",
+    "roll": [
+     5,
+     6
+    ],
+    "die": "d20",
+    "result": "Devils",
+    "value_gp_raw": "12,500",
+    "value_gp": 12500
+   },
+   {
+    "roll_range": "07–09",
+    "roll": [
+     7,
+     9
+    ],
+    "die": "d20",
+    "result": "Elementals",
+    "value_gp_raw": "7,500",
+    "value_gp": 7500
+   },
+   {
+    "roll_range": "10–11",
+    "roll": [
+     10,
+     11
+    ],
+    "die": "d20",
+    "result": "Lycanthropes",
+    "value_gp_raw": "5,000",
+    "value_gp": 5000
+   },
+   {
+    "roll_range": "12–14",
+    "roll": [
+     12,
+     14
+    ],
+    "die": "d20",
+    "result": "Magic",
+    "value_gp_raw": "7,500",
+    "value_gp": 7500
+   },
+   {
+    "roll_range": "15–16",
+    "roll": [
+     15,
+     16
+    ],
+    "die": "d20",
+    "result": "Petrifaction",
+    "value_gp_raw": "10,000",
+    "value_gp": 10000
+   },
+   {
+    "roll_range": "17–18",
+    "roll": [
+     17,
+     18
+    ],
+    "die": "d20",
+    "result": "Polymorph",
+    "value_gp_raw": "7,500",
+    "value_gp": 7500
+   },
+   {
+    "roll_range": "19–20",
+    "roll": [
+     19,
+     20
+    ],
+    "die": "d20",
+    "result": "Undead",
+    "value_gp_raw": "7,500",
+    "value_gp": 7500
+   }
+  ]
+ },
+ "sword_type": {
+  "_table": "2.13.1L",
+  "_title": "SWORD TYPE",
+  "_die": "d20",
+  "rows": [
+   {
+    "roll_range": "01",
+    "roll": [
+     1,
+     1
+    ],
+    "die": "d20",
+    "result": "Bastard Sword (20% chance of 2-handed sword instead)"
+   },
+   {
+    "roll_range": "02–05",
+    "roll": [
+     2,
+     5
+    ],
+    "die": "d20",
+    "result": "Broadsword"
+   },
+   {
+    "roll_range": "06–19",
+    "roll": [
+     6,
+     19
+    ],
+    "die": "d20",
+    "result": "Longsword"
+   },
+   {
+    "roll_range": "20",
+    "roll": [
+     20,
+     20
+    ],
+    "die": "d20",
+    "result": "Shortsword (20% chance of a scimitar instead)"
+   }
+  ]
+ },
+ "sword_properties": {
+  "_table": "2.13.1M",
+  "_title": "SWORD PROPERTIES",
+  "_die": "d20",
+  "rows": [
+   {
+    "roll_range": "01–10",
+    "roll": [
+     1,
+     10
+    ],
+    "die": "d20",
+    "result": "+1",
+    "value_gp_raw": "2,000",
+    "value_gp": 2000,
+    "bonus": 1
+   },
+   {
+    "roll_range": "11–15",
+    "roll": [
+     11,
+     15
+    ],
+    "die": "d20",
+    "result": "+2",
+    "value_gp_raw": "4,000",
+    "value_gp": 4000,
+    "bonus": 2
+   },
+   {
+    "roll_range": "16",
+    "roll": [
+     16,
+     16
+    ],
+    "die": "d20",
+    "result": "+3",
+    "value_gp_raw": "7,000",
+    "value_gp": 7000,
+    "bonus": 3
+   },
+   {
+    "roll_range": "17",
+    "roll": [
+     17,
+     17
+    ],
+    "die": "d20",
+    "result": "Roll 1d100: (01–65): +4; (66–00): +5",
+    "subrolls": [
+     {
+      "roll_raw": "01–65",
+      "result": "+4",
+      "value_gp_raw": "10,000",
+      "value_gp": 10000
+     },
+     {
+      "roll_raw": "66–00",
+      "result": "+5",
+      "value_gp_raw": "15,000",
+      "value_gp": 15000
+     }
+    ]
+   },
+   {
+    "roll_range": "18",
+    "roll": [
+     18,
+     18
+    ],
+    "die": "d20",
+    "result": "Cursed (see 2.13.10)",
+    "value_gp_raw": "—"
+   },
+   {
+    "roll_range": "19–20",
+    "roll": [
+     19,
+     20
+    ],
+    "die": "d20",
+    "result": "Special",
+    "value_gp_raw": "Variable"
+   }
+  ],
+  "_note": "An asterisked footnote: any magic sword can also be 'unusual' (roll 1d100 on Table 2.13.6.1a; 76+ = unusual/intelligent)."
+ },
+ "special_magic_swords": {
+  "_table": "2.13.1N",
+  "_title": "SPECIAL MAGIC SWORDS",
+  "_die": "d100",
+  "rows": [
+   {
+    "roll_range": "01",
+    "roll": [
+     1,
+     1
+    ],
+    "die": "d100",
+    "result": "Bleeding Sword",
+    "value_gp_raw": "22,000",
+    "value_gp": 22000
+   },
+   {
+    "roll_range": "02–06",
+    "roll": [
+     2,
+     6
+    ],
+    "die": "d100",
+    "result": "Dancing Sword",
+    "value_gp_raw": "22,000",
+    "value_gp": 22000
+   },
+   {
+    "roll_range": "7–16",
+    "roll": [
+     7,
+     16
+    ],
+    "die": "d100",
+    "result": "Defender",
+    "value_gp_raw": "15,000",
+    "value_gp": 15000
+   },
+   {
+    "roll_range": "17–21",
+    "roll": [
+     17,
+     21
+    ],
+    "die": "d100",
+    "result": "Dragonbane",
+    "value_gp_raw": "4,500",
+    "value_gp": 4500
+   },
+   {
+    "roll_range": "22–31",
+    "roll": [
+     22,
+     31
+    ],
+    "die": "d100",
+    "result": "Flaming Blade",
+    "value_gp_raw": "4,500",
+    "value_gp": 4500
+   },
+   {
+    "roll_range": "32–36",
+    "roll": [
+     32,
+     36
+    ],
+    "die": "d100",
+    "result": "Frost Brand",
+    "value_gp_raw": "8,000",
+    "value_gp": 8000
+   },
+   {
+    "roll_range": "37–46",
+    "roll": [
+     37,
+     46
+    ],
+    "die": "d100",
+    "result": "Giantbane",
+    "value_gp_raw": "4,500",
+    "value_gp": 4500
+   },
+   {
+    "roll_range": "47–51",
+    "roll": [
+     47,
+     51
+    ],
+    "die": "d100",
+    "result": "Holy Sword",
+    "value_gp_raw": "20,000",
+    "value_gp": 20000
+   },
+   {
+    "roll_range": "52–53",
+    "roll": [
+     52,
+     53
+    ],
+    "die": "d100",
+    "result": "Keenblade",
+    "value_gp_raw": "35,000",
+    "value_gp": 35000
+   },
+   {
+    "roll_range": "54–69",
+    "roll": [
+     54,
+     69
+    ],
+    "die": "d100",
+    "result": "Luck Blade",
+    "value_gp_raw": "5,000",
+    "value_gp": 5000
+   },
+   {
+    "roll_range": "70–74",
+    "roll": [
+     70,
+     74
+    ],
+    "die": "d100",
+    "result": "Magebane",
+    "value_gp_raw": "3,000",
+    "value_gp": 3000
+   },
+   {
+    "roll_range": "75–79",
+    "roll": [
+     75,
+     79
+    ],
+    "die": "d100",
+    "result": "Nine Lives Stealer",
+    "value_gp_raw": "8,000",
+    "value_gp": 8000
+   },
+   {
+    "roll_range": "80–84",
+    "roll": [
+     80,
+     84
+    ],
+    "die": "d100",
+    "result": "Trollbane",
+    "value_gp_raw": "4,000",
+    "value_gp": 4000
+   },
+   {
+    "roll_range": "85–89",
+    "roll": [
+     85,
+     89
+    ],
+    "die": "d100",
+    "result": "Vampire Blade",
+    "value_gp_raw": "25,000",
+    "value_gp": 25000
+   },
+   {
+    "roll_range": "90",
+    "roll": [
+     90,
+     90
+    ],
+    "die": "d100",
+    "result": "Vorpal Blade",
+    "value_gp_raw": "50,000",
+    "value_gp": 50000
+   },
+   {
+    "roll_range": "91–95",
+    "roll": [
+     91,
+     95
+    ],
+    "die": "d100",
+    "result": "Werebane",
+    "value_gp_raw": "3,500",
+    "value_gp": 3500
+   },
+   {
+    "roll_range": "96–00",
+    "roll": [
+     96,
+     100
+    ],
+    "die": "d100",
+    "result": "Wyrmbane",
+    "value_gp_raw": "4,000",
+    "value_gp": 4000
+   }
+  ]
+ },
+ "special_misc_weapons": {
+  "_table": "2.13.1O",
+  "_title": "SPECIAL MAGIC MISCELLANEOUS WEAPONS",
+  "_die": "d100",
+  "rows": [
+   {
+    "roll_range": "01–05",
+    "roll": [
+     1,
+     5
+    ],
+    "die": "d100",
+    "result": "Arrow of Slaying",
+    "value_gp_raw": "2,500",
+    "value_gp": 2500
+   },
+   {
+    "roll_range": "06–15",
+    "roll": [
+     6,
+     15
+    ],
+    "die": "d100",
+    "result": "Axe of Hurling",
+    "value_gp_raw": "4,500",
+    "value_gp": 4500
+   },
+   {
+    "roll_range": "16–30",
+    "roll": [
+     16,
+     30
+    ],
+    "die": "d100",
+    "result": "Crossbow of Accuracy",
+    "value_gp_raw": "12,000",
+    "value_gp": 12000
+   },
+   {
+    "roll_range": "31–40",
+    "roll": [
+     31,
+     40
+    ],
+    "die": "d100",
+    "result": "Crossbow of Range",
+    "value_gp_raw": "7,500",
+    "value_gp": 7500
+   },
+   {
+    "roll_range": "41–50",
+    "roll": [
+     41,
+     50
+    ],
+    "die": "d100",
+    "result": "Crossbow of Speed",
+    "value_gp_raw": "7,500",
+    "value_gp": 7500
+   },
+   {
+    "roll_range": "51–60",
+    "roll": [
+     51,
+     60
+    ],
+    "die": "d100",
+    "result": "Dagger of Venom",
+    "value_gp_raw": "3,000",
+    "value_gp": 3000
+   },
+   {
+    "roll_range": "61–70",
+    "roll": [
+     61,
+     70
+    ],
+    "die": "d100",
+    "result": "Hammer of the Dwarfs",
+    "value_gp_raw": "15,000",
+    "value_gp": 15000
+   },
+   {
+    "roll_range": "71–75",
+    "roll": [
+     71,
+     75
+    ],
+    "die": "d100",
+    "result": "Holy Mace",
+    "value_gp_raw": "17,500",
+    "value_gp": 17500
+   },
+   {
+    "roll_range": "76–85",
+    "roll": [
+     76,
+     85
+    ],
+    "die": "d100",
+    "result": "Sling of the Halfling",
+    "value_gp_raw": "7,000",
+    "value_gp": 7000
+   },
+   {
+    "roll_range": "86–00",
+    "roll": [
+     86,
+     100
+    ],
+    "die": "d100",
+    "result": "Trident/Fork",
+    "value_gp_raw": "12,500",
+    "value_gp": 12500
+   }
+  ]
+ },
+ "misc_magic_rarity": {
+  "_table": "2.13.1P",
+  "_title": "MISCELLANEOUS MAGIC ITEMS—RARITY",
+  "_die": "d100",
+  "rows": [
+   {
+    "roll_range": "01–50",
+    "roll": [
+     1,
+     50
+    ],
+    "die": "d100",
+    "result": "Table 2.13.1q: Common"
+   },
+   {
+    "roll_range": "51–70",
+    "roll": [
+     51,
+     70
+    ],
+    "die": "d100",
+    "result": "Table 2.13.1r: Less Common"
+   },
+   {
+    "roll_range": "71–90",
+    "roll": [
+     71,
+     90
+    ],
+    "die": "d100",
+    "result": "Table 2.13.1s: Uncommon"
+   },
+   {
+    "roll_range": "91–99",
+    "roll": [
+     91,
+     99
+    ],
+    "die": "d100",
+    "result": "Table 2.13.1t: Rare"
+   },
+   {
+    "roll_range": "00",
+    "roll": [
+     100,
+     100
+    ],
+    "die": "d100",
+    "result": "Roll Twice, Ignoring This Result"
+   }
+  ]
+ },
+ "misc_magic_common": {
+  "_table": "2.13.1Q",
+  "_title": "COMMON MISCELLANEOUS MAGIC ITEMS",
+  "_die": "d100",
+  "rows": [
+   {
+    "roll_range": "01",
+    "roll": [
+     1,
+     1
+    ],
+    "die": "d100",
+    "result": "Incense of Meditation (1d4+1 cones)",
+    "value_gp_raw": "4,900",
+    "value_gp": 4900
+   },
+   {
+    "roll_range": "02",
+    "roll": [
+     2,
+     2
+    ],
+    "die": "d100",
+    "result": "Javelin of the Raptor",
+    "value_gp_raw": "3,000",
+    "value_gp": 3000
+   },
+   {
+    "roll_range": "03",
+    "roll": [
+     3,
+     3
+    ],
+    "die": "d100",
+    "result": "Thunder Spear",
+    "value_gp_raw": "7,500",
+    "value_gp": 7500
+   },
+   {
+    "roll_range": "04",
+    "roll": [
+     4,
+     4
+    ],
+    "die": "d100",
+    "result": "Boots of Elvenkind",
+    "value_gp_raw": "2,500",
+    "value_gp": 2500
+   },
+   {
+    "roll_range": "05",
+    "roll": [
+     5,
+     5
+    ],
+    "die": "d100",
+    "result": "Candle of Invocation",
+    "value_gp_raw": "8,400",
+    "value_gp": 8400
+   },
+   {
+    "roll_range": "06",
+    "roll": [
+     6,
+     6
+    ],
+    "die": "d100",
+    "result": "Dust of Appearance",
+    "value_gp_raw": "1,800",
+    "value_gp": 1800
+   },
+   {
+    "roll_range": "07",
+    "roll": [
+     7,
+     7
+    ],
+    "die": "d100",
+    "result": "Dust of Disappearance",
+    "value_gp_raw": "3,500",
+    "value_gp": 3500
+   },
+   {
+    "roll_range": "08",
+    "roll": [
+     8,
+     8
+    ],
+    "die": "d100",
+    "result": "Rope of Climbing",
+    "value_gp_raw": "3,000",
+    "value_gp": 3000
+   },
+   {
+    "roll_range": "09",
+    "roll": [
+     9,
+     9
+    ],
+    "die": "d100",
+    "result": "Scarab of Protection",
+    "value_gp_raw": "38,000",
+    "value_gp": 38000
+   },
+   {
+    "roll_range": "10",
+    "roll": [
+     10,
+     10
+    ],
+    "die": "d100",
+    "result": "Slippers of Spider Climbing",
+    "value_gp_raw": "4,800",
+    "value_gp": 4800
+   },
+   {
+    "roll_range": "11",
+    "roll": [
+     11,
+     11
+    ],
+    "die": "d100",
+    "result": "Strand of Prayer Beads",
+    "value_gp_raw": "3,000",
+    "value_gp": 3000
+   },
+   {
+    "roll_range": "12–13",
+    "roll": [
+     12,
+     13
+    ],
+    "die": "d100",
+    "result": "Amulet of Natural Armour",
+    "value_gp_raw": "see entry"
+   },
+   {
+    "roll_range": "14–15",
+    "roll": [
+     14,
+     15
+    ],
+    "die": "d100",
+    "result": "Blessed Book",
+    "value_gp_raw": "12,500",
+    "value_gp": 12500
+   },
+   {
+    "roll_range": "16–17",
+    "roll": [
+     16,
+     17
+    ],
+    "die": "d100",
+    "result": "Brooch of Shielding",
+    "value_gp_raw": "10,000",
+    "value_gp": 10000
+   },
+   {
+    "roll_range": "18–19",
+    "roll": [
+     18,
+     19
+    ],
+    "die": "d100",
+    "result": "Hat of Disguise",
+    "value_gp_raw": "1,800",
+    "value_gp": 1800
+   },
+   {
+    "roll_range": "20–21",
+    "roll": [
+     20,
+     21
+    ],
+    "die": "d100",
+    "result": "Horn of Valhalla",
+    "value_gp_raw": "50,000",
+    "value_gp": 50000
+   },
+   {
+    "roll_range": "22–23",
+    "roll": [
+     22,
+     23
+    ],
+    "die": "d100",
+    "result": "Periapt of Proof Against Poison",
+    "value_gp_raw": "27,000",
+    "value_gp": 27000
+   },
+   {
+    "roll_range": "24–25",
+    "roll": [
+     24,
+     25
+    ],
+    "die": "d100",
+    "result": "Phylactery of Faithfulness",
+    "value_gp_raw": "1,000",
+    "value_gp": 1000
+   },
+   {
+    "roll_range": "26–27",
+    "roll": [
+     26,
+     27
+    ],
+    "die": "d100",
+    "result": "Robe of Blending",
+    "value_gp_raw": "30,000",
+    "value_gp": 30000
+   },
+   {
+    "roll_range": "28–30",
+    "roll": [
+     28,
+     30
+    ],
+    "die": "d100",
+    "result": "Pipes of the Sewers",
+    "value_gp_raw": "1,150",
+    "value_gp": 1150
+   },
+   {
+    "roll_range": "31–33",
+    "roll": [
+     31,
+     33
+    ],
+    "die": "d100",
+    "result": "Restorative Ointment",
+    "value_gp_raw": "4,000",
+    "value_gp": 4000
+   },
+   {
+    "roll_range": "34–36",
+    "roll": [
+     34,
+     36
+    ],
+    "die": "d100",
+    "result": "Robe of Useful Items",
+    "value_gp_raw": "7,000",
+    "value_gp": 7000
+   },
+   {
+    "roll_range": "37–39",
+    "roll": [
+     37,
+     39
+    ],
+    "die": "d100",
+    "result": "Vest of Escape",
+    "value_gp_raw": "5,200",
+    "value_gp": 5200
+   },
+   {
+    "roll_range": "40–42",
+    "roll": [
+     40,
+     42
+    ],
+    "die": "d100",
+    "result": "Cloak of Elvenkind",
+    "value_gp_raw": "2,500",
+    "value_gp": 2500
+   },
+   {
+    "roll_range": "43–46",
+    "roll": [
+     43,
+     46
+    ],
+    "die": "d100",
+    "result": "Wings of Flying",
+    "value_gp_raw": "54,000",
+    "value_gp": 54000
+   },
+   {
+    "roll_range": "47–55",
+    "roll": [
+     47,
+     55
+    ],
+    "die": "d100",
+    "result": "Cloak of Resistance",
+    "value_gp_raw": "see entry"
+   },
+   {
+    "roll_range": "56–65",
+    "roll": [
+     56,
+     65
+    ],
+    "die": "d100",
+    "result": "Feather Token",
+    "value_gp_raw": "see entry"
+   },
+   {
+    "roll_range": "66–75",
+    "roll": [
+     66,
+     75
+    ],
+    "die": "d100",
+    "result": "Figurines of Wondrous Power",
+    "value_gp_raw": "see entry"
+   },
+   {
+    "roll_range": "76–00",
+    "roll": [
+     76,
+     100
+    ],
+    "die": "d100",
+    "result": "Bracers of Armour",
+    "value_gp_raw": "see entry"
+   }
+  ],
+  "_note": "Footnotes: 1=Strand of Prayer Beads roll 1d6 (01-04 Strand, 05 Lesser, 06 Greater); 2=Horn of Valhalla roll 1d4 (1 Silver,2 Brass,3 Bronze,4 Iron); 3=Feather Token roll 1d6 (01 Anchor,02 Bird,03 Fan,04 Swan Boat,05 Tree,06 Whip); 4=Figurines of Wondrous Power roll 1d10 (01 Bronze Griffon,02 Ebony Fly,03 Golden Lions,04 Ivory Goats,05 Marble Elephant,06 Obsidian Steed,07 Onyx Dog,08 Serpentine Owl,09 Silver Raven,10 Re-roll); 5=Bracers of Armour roll d100 (01-35 +1,36-60 +2,61-75 +3,76-85 +4,86-91 +5,92-96 +6,97-99 +7,00 +8)."
+ },
+ "misc_magic_less_common": {
+  "_table": "2.13.1R",
+  "_title": "LESS-COMMON MISCELLANEOUS MAGIC ITEMS",
+  "_die": "d100",
+  "rows": [
+   {
+    "roll_range": "01",
+    "roll": [
+     1,
+     1
+    ],
+    "die": "d100",
+    "result": "Arrow of Direction",
+    "value_gp_raw": "17,500",
+    "value_gp": 17500
+   },
+   {
+    "roll_range": "02",
+    "roll": [
+     2,
+     2
+    ],
+    "die": "d100",
+    "result": "Brazier of Commanding Fire Elementals",
+    "value_gp_raw": "100,000",
+    "value_gp": 100000
+   },
+   {
+    "roll_range": "03",
+    "roll": [
+     3,
+     3
+    ],
+    "die": "d100",
+    "result": "Cape of the Mountebank",
+    "value_gp_raw": "10,080",
+    "value_gp": 10080
+   },
+   {
+    "roll_range": "04",
+    "roll": [
+     4,
+     4
+    ],
+    "die": "d100",
+    "result": "Cloak of the Manta Ray",
+    "value_gp_raw": "7,200",
+    "value_gp": 7200
+   },
+   {
+    "roll_range": "05",
+    "roll": [
+     5,
+     5
+    ],
+    "die": "d100",
+    "result": "Decanter of Endless Water",
+    "value_gp_raw": "9,000",
+    "value_gp": 9000
+   },
+   {
+    "roll_range": "06",
+    "roll": [
+     6,
+     6
+    ],
+    "die": "d100",
+    "result": "Dust of Dryness",
+    "value_gp_raw": "850",
+    "value_gp": 850
+   },
+   {
+    "roll_range": "07",
+    "roll": [
+     7,
+     7
+    ],
+    "die": "d100",
+    "result": "Elixir of Swimming",
+    "value_gp_raw": "250",
+    "value_gp": 250
+   },
+   {
+    "roll_range": "08",
+    "roll": [
+     8,
+     8
+    ],
+    "die": "d100",
+    "result": "Gloves of Arrow Snaring",
+    "value_gp_raw": "4,000",
+    "value_gp": 4000
+   },
+   {
+    "roll_range": "09",
+    "roll": [
+     9,
+     9
+    ],
+    "die": "d100",
+    "result": "Gloves of Swimming and Climbing",
+    "value_gp_raw": "6,250",
+    "value_gp": 6250
+   },
+   {
+    "roll_range": "10",
+    "roll": [
+     10,
+     10
+    ],
+    "die": "d100",
+    "result": "Goggles of Night",
+    "value_gp_raw": "12,000",
+    "value_gp": 12000
+   },
+   {
+    "roll_range": "11",
+    "roll": [
+     11,
+     11
+    ],
+    "die": "d100",
+    "result": "Horseshoes of Speed",
+    "value_gp_raw": "3,000",
+    "value_gp": 3000
+   },
+   {
+    "roll_range": "12",
+    "roll": [
+     12,
+     12
+    ],
+    "die": "d100",
+    "result": "Necklace of Adaptation",
+    "value_gp_raw": "9,000",
+    "value_gp": 9000
+   },
+   {
+    "roll_range": "13",
+    "roll": [
+     13,
+     13
+    ],
+    "die": "d100",
+    "result": "Orb of Storms",
+    "value_gp_raw": "48,000",
+    "value_gp": 48000
+   },
+   {
+    "roll_range": "14",
+    "roll": [
+     14,
+     14
+    ],
+    "die": "d100",
+    "result": "Periapt of Health",
+    "value_gp_raw": "7,400",
+    "value_gp": 7400
+   },
+   {
+    "roll_range": "15",
+    "roll": [
+     15,
+     15
+    ],
+    "die": "d100",
+    "result": "Pipes of Haunting",
+    "value_gp_raw": "6,000",
+    "value_gp": 6000
+   },
+   {
+    "roll_range": "16",
+    "roll": [
+     16,
+     16
+    ],
+    "die": "d100",
+    "result": "Ring Gates",
+    "value_gp_raw": "40,000",
+    "value_gp": 40000
+   },
+   {
+    "roll_range": "17",
+    "roll": [
+     17,
+     17
+    ],
+    "die": "d100",
+    "result": "Robe of Bones",
+    "value_gp_raw": "2,400",
+    "value_gp": 2400
+   },
+   {
+    "roll_range": "18",
+    "roll": [
+     18,
+     18
+    ],
+    "die": "d100",
+    "result": "Unguent of Timelessness",
+    "value_gp_raw": "150",
+    "value_gp": 150
+   },
+   {
+    "roll_range": "19–20",
+    "roll": [
+     19,
+     20
+    ],
+    "die": "d100",
+    "result": "Universal Solvent",
+    "value_gp_raw": "50",
+    "value_gp": 50
+   },
+   {
+    "roll_range": "21–22",
+    "roll": [
+     21,
+     22
+    ],
+    "die": "d100",
+    "result": "Amulet of Proof Against Detection/Location",
+    "value_gp_raw": "35,000",
+    "value_gp": 35000
+   },
+   {
+    "roll_range": "23–24",
+    "roll": [
+     23,
+     24
+    ],
+    "die": "d100",
+    "result": "Boots of Speed",
+    "value_gp_raw": "12,000",
+    "value_gp": 12000
+   },
+   {
+    "roll_range": "25–26",
+    "roll": [
+     25,
+     26
+    ],
+    "die": "d100",
+    "result": "Boots of Striding and Springing",
+    "value_gp_raw": "5,500",
+    "value_gp": 5500
+   },
+   {
+    "roll_range": "27–28",
+    "roll": [
+     27,
+     28
+    ],
+    "die": "d100",
+    "result": "Bracers of Archery, Lesser",
+    "value_gp_raw": "5,000",
+    "value_gp": 5000
+   },
+   {
+    "roll_range": "29–30",
+    "roll": [
+     29,
+     30
+    ],
+    "die": "d100",
+    "result": "Candle of Truth",
+    "value_gp_raw": "2,500",
+    "value_gp": 2500
+   },
+   {
+    "roll_range": "31–32",
+    "roll": [
+     31,
+     32
+    ],
+    "die": "d100",
+    "result": "Cloak of Displacement, Minor",
+    "value_gp_raw": "24,000",
+    "value_gp": 24000
+   },
+   {
+    "roll_range": "33–34",
+    "roll": [
+     33,
+     34
+    ],
+    "die": "d100",
+    "result": "Cloak of the Bat",
+    "value_gp_raw": "26,000",
+    "value_gp": 26000
+   },
+   {
+    "roll_range": "35–36",
+    "roll": [
+     35,
+     36
+    ],
+    "die": "d100",
+    "result": "Dark Skull",
+    "value_gp_raw": "60,000",
+    "value_gp": 60000
+   },
+   {
+    "roll_range": "37–38",
+    "roll": [
+     37,
+     38
+    ],
+    "die": "d100",
+    "result": "Dust of Tracelessness",
+    "value_gp_raw": "250",
+    "value_gp": 250
+   },
+   {
+    "roll_range": "39–40",
+    "roll": [
+     39,
+     40
+    ],
+    "die": "d100",
+    "result": "Elixir of Truth",
+    "value_gp_raw": "500",
+    "value_gp": 500
+   },
+   {
+    "roll_range": "41–42",
+    "roll": [
+     41,
+     42
+    ],
+    "die": "d100",
+    "result": "Elixir of Vision",
+    "value_gp_raw": "250",
+    "value_gp": 250
+   },
+   {
+    "roll_range": "43–44",
+    "roll": [
+     43,
+     44
+    ],
+    "die": "d100",
+    "result": "Glove of Storing",
+    "value_gp_raw": "10,000",
+    "value_gp": 10000
+   },
+   {
+    "roll_range": "45–46",
+    "roll": [
+     45,
+     46
+    ],
+    "die": "d100",
+    "result": "Horn of the Tritons",
+    "value_gp_raw": "15,100",
+    "value_gp": 15100
+   },
+   {
+    "roll_range": "47–48",
+    "roll": [
+     47,
+     48
+    ],
+    "die": "d100",
+    "result": "Necklace of Fireballs",
+    "value_gp_raw": "see entry"
+   },
+   {
+    "roll_range": "49–50",
+    "roll": [
+     49,
+     50
+    ],
+    "die": "d100",
+    "result": "Periapt of Wound Closure",
+    "value_gp_raw": "15,000",
+    "value_gp": 15000
+   },
+   {
+    "roll_range": "51–52",
+    "roll": [
+     51,
+     52
+    ],
+    "die": "d100",
+    "result": "Phylactery of Undead Turning",
+    "value_gp_raw": "11,000",
+    "value_gp": 11000
+   },
+   {
+    "roll_range": "53–54",
+    "roll": [
+     53,
+     54
+    ],
+    "die": "d100",
+    "result": "Rope of Entanglement",
+    "value_gp_raw": "21,000",
+    "value_gp": 21000
+   },
+   {
+    "roll_range": "55–56",
+    "roll": [
+     55,
+     56
+    ],
+    "die": "d100",
+    "result": "Roll 1d?: Stone Horse, draft / Stone Horse, heavy war",
+    "subrolls": [
+     {
+      "roll_raw": "draft",
+      "result": "Stone Horse, draft",
+      "value_gp_raw": "10,000",
+      "value_gp": 10000
+     },
+     {
+      "roll_raw": "heavy war",
+      "result": "Stone Horse, heavy war",
+      "value_gp_raw": "14,800",
+      "value_gp": 14800
+     }
+    ]
+   },
+   {
+    "roll_range": "57–58",
+    "roll": [
+     57,
+     58
+    ],
+    "die": "d100",
+    "result": "Stone of Alarm",
+    "value_gp_raw": "2,700",
+    "value_gp": 2700
+   },
+   {
+    "roll_range": "59–60",
+    "roll": [
+     59,
+     60
+    ],
+    "die": "d100",
+    "result": "Sustaining Spoon",
+    "value_gp_raw": "5,400",
+    "value_gp": 5400
+   },
+   {
+    "roll_range": "61–62",
+    "roll": [
+     61,
+     62
+    ],
+    "die": "d100",
+    "result": "Wind Fan",
+    "value_gp_raw": "5,500",
+    "value_gp": 5500
+   },
+   {
+    "roll_range": "63–65",
+    "roll": [
+     63,
+     65
+    ],
+    "die": "d100",
+    "result": "Bag of Holding",
+    "value_gp_raw": "see entry"
+   },
+   {
+    "roll_range": "66–68",
+    "roll": [
+     66,
+     68
+    ],
+    "die": "d100",
+    "result": "Boots of Levitation",
+    "value_gp_raw": "7,500",
+    "value_gp": 7500
+   },
+   {
+    "roll_range": "69–71",
+    "roll": [
+     69,
+     71
+    ],
+    "die": "d100",
+    "result": "Bottle of Air",
+    "value_gp_raw": "7,250",
+    "value_gp": 7250
+   },
+   {
+    "roll_range": "72–74",
+    "roll": [
+     72,
+     74
+    ],
+    "die": "d100",
+    "result": "Broom of Flying",
+    "value_gp_raw": "17,000",
+    "value_gp": 17000
+   },
+   {
+    "roll_range": "75–77",
+    "roll": [
+     75,
+     77
+    ],
+    "die": "d100",
+    "result": "Crystal Ball",
+    "value_gp_raw": "42,000",
+    "value_gp": 42000
+   },
+   {
+    "roll_range": "78–80",
+    "roll": [
+     78,
+     80
+    ],
+    "die": "d100",
+    "result": "Elixir of Fire Breath",
+    "value_gp_raw": "1,100",
+    "value_gp": 1100
+   },
+   {
+    "roll_range": "81–83",
+    "roll": [
+     81,
+     83
+    ],
+    "die": "d100",
+    "result": "Elixir of Hiding",
+    "value_gp_raw": "250",
+    "value_gp": 250
+   },
+   {
+    "roll_range": "84–86",
+    "roll": [
+     84,
+     86
+    ],
+    "die": "d100",
+    "result": "Handy Haversack",
+    "value_gp_raw": "2,000",
+    "value_gp": 2000
+   },
+   {
+    "roll_range": "87–89",
+    "roll": [
+     87,
+     89
+    ],
+    "die": "d100",
+    "result": "Harp of Charming",
+    "value_gp_raw": "7,500",
+    "value_gp": 7500
+   },
+   {
+    "roll_range": "90–92",
+    "roll": [
+     90,
+     92
+    ],
+    "die": "d100",
+    "result": "Helm of Comprehend Languages/Read Magic",
+    "value_gp_raw": "5,200",
+    "value_gp": 5200
+   },
+   {
+    "roll_range": "93–95",
+    "roll": [
+     93,
+     95
+    ],
+    "die": "d100",
+    "result": "Helm of Underwater Action",
+    "value_gp_raw": "24,000",
+    "value_gp": 24000
+   },
+   {
+    "roll_range": "96–98",
+    "roll": [
+     96,
+     98
+    ],
+    "die": "d100",
+    "result": "Horn of Fog",
+    "value_gp_raw": "2,000",
+    "value_gp": 2000
+   },
+   {
+    "roll_range": "99",
+    "roll": [
+     99,
+     99
+    ],
+    "die": "d100",
+    "result": "Roll Twice on Table 1"
+   },
+   {
+    "roll_range": "00",
+    "roll": [
+     100,
+     100
+    ],
+    "die": "d100",
+    "result": "Roll Twice, Ignore Results >98"
+   }
+  ],
+  "_note": "Footnotes: 1=Necklace of Fireballs roll 1d8 for level; 2=Bag of Holding roll 1d4 (Type I-IV)."
+ },
+ "misc_magic_uncommon": {
+  "_table": "2.13.1S",
+  "_title": "UNCOMMON MISCELLANEOUS MAGIC ITEMS",
+  "_die": "d100",
+  "rows": [
+   {
+    "roll_range": "01",
+    "roll": [
+     1,
+     1
+    ],
+    "die": "d100",
+    "result": "Ahmek’s Copious Coin Purse",
+    "value_gp_raw": "30,000",
+    "value_gp": 30000
+   },
+   {
+    "roll_range": "02",
+    "roll": [
+     2,
+     2
+    ],
+    "die": "d100",
+    "result": "Alchemy Jug",
+    "value_gp_raw": "12,000",
+    "value_gp": 12000
+   },
+   {
+    "roll_range": "03",
+    "roll": [
+     3,
+     3
+    ],
+    "die": "d100",
+    "result": "Amulet of Health",
+    "value_gp_raw": "2,000",
+    "value_gp": 2000
+   },
+   {
+    "roll_range": "04",
+    "roll": [
+     4,
+     4
+    ],
+    "die": "d100",
+    "result": "Amulet of the Planes",
+    "value_gp_raw": "120,000",
+    "value_gp": 120000
+   },
+   {
+    "roll_range": "05",
+    "roll": [
+     5,
+     5
+    ],
+    "die": "d100",
+    "result": "Apparatus of the Lobster",
+    "value_gp_raw": "35,000",
+    "value_gp": 35000
+   },
+   {
+    "roll_range": "06",
+    "roll": [
+     6,
+     6
+    ],
+    "die": "d100",
+    "result": "Roll 1d6: Bag of Tricks, Gray / Rust / Tan",
+    "subrolls": [
+     {
+      "roll_raw": "Gray",
+      "result": "Bag of Tricks, Gray",
+      "value_gp_raw": "900",
+      "value_gp": 900
+     },
+     {
+      "roll_raw": "Rust",
+      "result": "Bag of Tricks, Rust",
+      "value_gp_raw": "3,000",
+      "value_gp": 3000
+     },
+     {
+      "roll_raw": "Tan",
+      "result": "Bag of Tricks, Tan",
+      "value_gp_raw": "6,300",
+      "value_gp": 6300
+     }
+    ]
+   },
+   {
+    "roll_range": "07",
+    "roll": [
+     7,
+     7
+    ],
+    "die": "d100",
+    "result": "Bead of Force",
+    "value_gp_raw": "3,000",
+    "value_gp": 3000
+   },
+   {
+    "roll_range": "08",
+    "roll": [
+     8,
+     8
+    ],
+    "die": "d100",
+    "result": "Blemish Blotter",
+    "value_gp_raw": "1,000/charge"
+   },
+   {
+    "roll_range": "09",
+    "roll": [
+     9,
+     9
+    ],
+    "die": "d100",
+    "result": "Boots of the Winterlands",
+    "value_gp_raw": "2,500",
+    "value_gp": 2500
+   },
+   {
+    "roll_range": "10",
+    "roll": [
+     10,
+     10
+    ],
+    "die": "d100",
+    "result": "Bowl of Commanding Water Elementals",
+    "value_gp_raw": "100,000",
+    "value_gp": 100000
+   },
+   {
+    "roll_range": "11",
+    "roll": [
+     11,
+     11
+    ],
+    "die": "d100",
+    "result": "Bracelet of Friends",
+    "value_gp_raw": "19,000",
+    "value_gp": 19000
+   },
+   {
+    "roll_range": "12",
+    "roll": [
+     12,
+     12
+    ],
+    "die": "d100",
+    "result": "Bracers of Archery, Greater",
+    "value_gp_raw": "25,000",
+    "value_gp": 25000
+   },
+   {
+    "roll_range": "13",
+    "roll": [
+     13,
+     13
+    ],
+    "die": "d100",
+    "result": "Carpet of Flying",
+    "value_gp_raw": "see entry"
+   },
+   {
+    "roll_range": "14",
+    "roll": [
+     14,
+     14
+    ],
+    "die": "d100",
+    "result": "Censer of Controlling Air Elementals",
+    "value_gp_raw": "100,000",
+    "value_gp": 100000
+   },
+   {
+    "roll_range": "15",
+    "roll": [
+     15,
+     15
+    ],
+    "die": "d100",
+    "result": "Chime of Interruption",
+    "value_gp_raw": "16,800",
+    "value_gp": 16800
+   },
+   {
+    "roll_range": "16",
+    "roll": [
+     16,
+     16
+    ],
+    "die": "d100",
+    "result": "Chime of Opening",
+    "value_gp_raw": "3,000",
+    "value_gp": 3000
+   },
+   {
+    "roll_range": "17",
+    "roll": [
+     17,
+     17
+    ],
+    "die": "d100",
+    "result": "Circlet of Blasting, Minor",
+    "value_gp_raw": "6,480",
+    "value_gp": 6480
+   },
+   {
+    "roll_range": "18",
+    "roll": [
+     18,
+     18
+    ],
+    "die": "d100",
+    "result": "Circlet of Persuasion",
+    "value_gp_raw": "4,500",
+    "value_gp": 4500
+   },
+   {
+    "roll_range": "19",
+    "roll": [
+     19,
+     19
+    ],
+    "die": "d100",
+    "result": "Cloak of Etherealness",
+    "value_gp_raw": "55,000",
+    "value_gp": 55000
+   },
+   {
+    "roll_range": "20",
+    "roll": [
+     20,
+     20
+    ],
+    "die": "d100",
+    "result": "Cloak of Arachnida",
+    "value_gp_raw": "14,000",
+    "value_gp": 14000
+   },
+   {
+    "roll_range": "21",
+    "roll": [
+     21,
+     21
+    ],
+    "die": "d100",
+    "result": "Cloak of Charisma",
+    "value_gp_raw": "4,000",
+    "value_gp": 4000
+   },
+   {
+    "roll_range": "22",
+    "roll": [
+     22,
+     22
+    ],
+    "die": "d100",
+    "result": "Cloak of Displacement, Major",
+    "value_gp_raw": "50,000",
+    "value_gp": 50000
+   },
+   {
+    "roll_range": "23",
+    "roll": [
+     23,
+     23
+    ],
+    "die": "d100",
+    "result": "Cube of Force",
+    "value_gp_raw": "62,000",
+    "value_gp": 62000
+   },
+   {
+    "roll_range": "24",
+    "roll": [
+     24,
+     24
+    ],
+    "die": "d100",
+    "result": "Cube of Frost Resistance",
+    "value_gp_raw": "27,000",
+    "value_gp": 27000
+   },
+   {
+    "roll_range": "25",
+    "roll": [
+     25,
+     25
+    ],
+    "die": "d100",
+    "result": "Cubic Gate",
+    "value_gp_raw": "164,000",
+    "value_gp": 164000
+   },
+   {
+    "roll_range": "26",
+    "roll": [
+     26,
+     26
+    ],
+    "die": "d100",
+    "result": "Deck of Illusion",
+    "value_gp_raw": "8,100",
+    "value_gp": 8100
+   },
+   {
+    "roll_range": "27",
+    "roll": [
+     27,
+     27
+    ],
+    "die": "d100",
+    "result": "Dimensional Shackles",
+    "value_gp_raw": "28,000",
+    "value_gp": 28000
+   },
+   {
+    "roll_range": "28",
+    "roll": [
+     28,
+     28
+    ],
+    "die": "d100",
+    "result": "Drums of Panic",
+    "value_gp_raw": "30,000",
+    "value_gp": 30000
+   },
+   {
+    "roll_range": "29",
+    "roll": [
+     29,
+     29
+    ],
+    "die": "d100",
+    "result": "Dust of Illusion",
+    "value_gp_raw": "1,200",
+    "value_gp": 1200
+   },
+   {
+    "roll_range": "30",
+    "roll": [
+     30,
+     30
+    ],
+    "die": "d100",
+    "result": "Efficient Quiver",
+    "value_gp_raw": "1,800",
+    "value_gp": 1800
+   },
+   {
+    "roll_range": "31",
+    "roll": [
+     31,
+     31
+    ],
+    "die": "d100",
+    "result": "Elemental Gem",
+    "value_gp_raw": "2,250",
+    "value_gp": 2250
+   },
+   {
+    "roll_range": "32",
+    "roll": [
+     32,
+     32
+    ],
+    "die": "d100",
+    "result": "Eyes of the Eagle",
+    "value_gp_raw": "2,500",
+    "value_gp": 2500
+   },
+   {
+    "roll_range": "33",
+    "roll": [
+     33,
+     33
+    ],
+    "die": "d100",
+    "result": "Gauntlets of Ogre Power",
+    "value_gp_raw": "4,000",
+    "value_gp": 4000
+   },
+   {
+    "roll_range": "34",
+    "roll": [
+     34,
+     34
+    ],
+    "die": "d100",
+    "result": "Gauntlet of Rust",
+    "value_gp_raw": "11,500",
+    "value_gp": 11500
+   },
+   {
+    "roll_range": "35",
+    "roll": [
+     35,
+     35
+    ],
+    "die": "d100",
+    "result": "Gloves of Dexterity",
+    "value_gp_raw": "4,000",
+    "value_gp": 4000
+   },
+   {
+    "roll_range": "36",
+    "roll": [
+     36,
+     36
+    ],
+    "die": "d100",
+    "result": "Goggles of Minute Seeing",
+    "value_gp_raw": "1,250",
+    "value_gp": 1250
+   },
+   {
+    "roll_range": "37",
+    "roll": [
+     37,
+     37
+    ],
+    "die": "d100",
+    "result": "Headband of Intellect",
+    "value_gp_raw": "4,000",
+    "value_gp": 4000
+   },
+   {
+    "roll_range": "38",
+    "roll": [
+     38,
+     38
+    ],
+    "die": "d100",
+    "result": "Helm of Telepathy",
+    "value_gp_raw": "27,000",
+    "value_gp": 27000
+   },
+   {
+    "roll_range": "39",
+    "roll": [
+     39,
+     39
+    ],
+    "die": "d100",
+    "result": "Horn of Goodness/Evil",
+    "value_gp_raw": "6,500",
+    "value_gp": 6500
+   },
+   {
+    "roll_range": "40",
+    "roll": [
+     40,
+     40
+    ],
+    "die": "d100",
+    "result": "Horseshoes of the Zephyr",
+    "value_gp_raw": "6,000",
+    "value_gp": 6000
+   },
+   {
+    "roll_range": "41",
+    "roll": [
+     41,
+     41
+    ],
+    "die": "d100",
+    "result": "Instant Fortress",
+    "value_gp_raw": "55,000",
+    "value_gp": 55000
+   },
+   {
+    "roll_range": "42",
+    "roll": [
+     42,
+     42
+    ],
+    "die": "d100",
+    "result": "Iron Bands of Binding",
+    "value_gp_raw": "26,000",
+    "value_gp": 26000
+   },
+   {
+    "roll_range": "43",
+    "roll": [
+     43,
+     43
+    ],
+    "die": "d100",
+    "result": "Iron Flask",
+    "value_gp_raw": "170,000",
+    "value_gp": 170000
+   },
+   {
+    "roll_range": "44",
+    "roll": [
+     44,
+     44
+    ],
+    "die": "d100",
+    "result": "Lantern of Revealing",
+    "value_gp_raw": "30,000",
+    "value_gp": 30000
+   },
+   {
+    "roll_range": "45",
+    "roll": [
+     45,
+     45
+    ],
+    "die": "d100",
+    "result": "Mantle of Faith",
+    "value_gp_raw": "76,000",
+    "value_gp": 76000
+   },
+   {
+    "roll_range": "46",
+    "roll": [
+     46,
+     46
+    ],
+    "die": "d100",
+    "result": "Mantle of Magic Resistance",
+    "value_gp_raw": "90,000",
+    "value_gp": 90000
+   },
+   {
+    "roll_range": "47",
+    "roll": [
+     47,
+     47
+    ],
+    "die": "d100",
+    "result": "Marvellous Pigments (1d4 Pots)",
+    "value_gp_raw": "4,000/pot"
+   },
+   {
+    "roll_range": "48",
+    "roll": [
+     48,
+     48
+    ],
+    "die": "d100",
+    "result": "Mask of the Skull",
+    "value_gp_raw": "22,000",
+    "value_gp": 22000
+   },
+   {
+    "roll_range": "49",
+    "roll": [
+     49,
+     49
+    ],
+    "die": "d100",
+    "result": "Medallion of Thoughts",
+    "value_gp_raw": "12,000",
+    "value_gp": 12000
+   },
+   {
+    "roll_range": "50",
+    "roll": [
+     50,
+     50
+    ],
+    "die": "d100",
+    "result": "Pearl of Power",
+    "value_gp_raw": "see entry"
+   },
+   {
+    "roll_range": "51",
+    "roll": [
+     51,
+     51
+    ],
+    "die": "d100",
+    "result": "Pearl of the Sirines",
+    "value_gp_raw": "15,300",
+    "value_gp": 15300
+   },
+   {
+    "roll_range": "52",
+    "roll": [
+     52,
+     52
+    ],
+    "die": "d100",
+    "result": "Periapt of Wisdom",
+    "value_gp_raw": "4,000",
+    "value_gp": 4000
+   },
+   {
+    "roll_range": "53",
+    "roll": [
+     53,
+     53
+    ],
+    "die": "d100",
+    "result": "Pipes of Pain",
+    "value_gp_raw": "12,000",
+    "value_gp": 12000
+   },
+   {
+    "roll_range": "54",
+    "roll": [
+     54,
+     54
+    ],
+    "die": "d100",
+    "result": "Pipes of Sounding",
+    "value_gp_raw": "1,800",
+    "value_gp": 1800
+   },
+   {
+    "roll_range": "55",
+    "roll": [
+     55,
+     55
+    ],
+    "die": "d100",
+    "result": "Plentiful Vessel",
+    "value_gp_raw": "3,500",
+    "value_gp": 3500
+   },
+   {
+    "roll_range": "56",
+    "roll": [
+     56,
+     56
+    ],
+    "die": "d100",
+    "result": "Robe of Stars",
+    "value_gp_raw": "58,000",
+    "value_gp": 58000
+   },
+   {
+    "roll_range": "57",
+    "roll": [
+     57,
+     57
+    ],
+    "die": "d100",
+    "result": "Scabbard of Keen Edges",
+    "value_gp_raw": "16,000",
+    "value_gp": 16000
+   },
+   {
+    "roll_range": "58",
+    "roll": [
+     58,
+     58
+    ],
+    "die": "d100",
+    "result": "Scarab of Golem Bane",
+    "value_gp_raw": "2,500",
+    "value_gp": 2500
+   },
+   {
+    "roll_range": "59",
+    "roll": [
+     59,
+     59
+    ],
+    "die": "d100",
+    "result": "Silversheen",
+    "value_gp_raw": "250",
+    "value_gp": 250
+   },
+   {
+    "roll_range": "60",
+    "roll": [
+     60,
+     60
+    ],
+    "die": "d100",
+    "result": "Sovereign Glue",
+    "value_gp_raw": "2,400",
+    "value_gp": 2400
+   },
+   {
+    "roll_range": "61",
+    "roll": [
+     61,
+     61
+    ],
+    "die": "d100",
+    "result": "Stone of Controlling Earth Elementals",
+    "value_gp_raw": "100,000",
+    "value_gp": 100000
+   },
+   {
+    "roll_range": "62",
+    "roll": [
+     62,
+     62
+    ],
+    "die": "d100",
+    "result": "Stone of Good Luck",
+    "value_gp_raw": "20,000",
+    "value_gp": 20000
+   },
+   {
+    "roll_range": "63",
+    "roll": [
+     63,
+     63
+    ],
+    "die": "d100",
+    "result": "Stone Salve",
+    "value_gp_raw": "4,000",
+    "value_gp": 4000
+   },
+   {
+    "roll_range": "64",
+    "roll": [
+     64,
+     64
+    ],
+    "die": "d100",
+    "result": "Vestment, Druid’s",
+    "value_gp_raw": "10,000",
+    "value_gp": 10000
+   },
+   {
+    "roll_range": "65",
+    "roll": [
+     65,
+     65
+    ],
+    "die": "d100",
+    "result": "Well of Many Worlds",
+    "value_gp_raw": "82,000",
+    "value_gp": 82000
+   },
+   {
+    "roll_range": "66–75",
+    "roll": [
+     66,
+     75
+    ],
+    "die": "d100",
+    "result": "Roll Twice on Table 2.13.1q",
+    "value_gp_raw": "n/a"
+   },
+   {
+    "roll_range": "76–85",
+    "roll": [
+     76,
+     85
+    ],
+    "die": "d100",
+    "result": "Roll once on Table 2.13.1q and once on Table 2.13.1r",
+    "value_gp_raw": "n/a"
+   },
+   {
+    "roll_range": "86–95",
+    "roll": [
+     86,
+     95
+    ],
+    "die": "d100",
+    "result": "Roll twice on Table 2.13.1r",
+    "value_gp_raw": "n/a"
+   },
+   {
+    "roll_range": "96–99",
+    "roll": [
+     96,
+     99
+    ],
+    "die": "d100",
+    "result": "Re-roll and Ignore Results >65, Roll once on Table 2.13.1r",
+    "value_gp_raw": "n/a"
+   },
+   {
+    "roll_range": "00",
+    "roll": [
+     100,
+     100
+    ],
+    "die": "d100",
+    "result": "Roll Twice, Ignore Results > 65",
+    "value_gp_raw": "n/a"
+   }
+  ],
+  "_note": "Footnotes: 1=Bag of Tricks roll 1d6 (1-2 Grey,3-4 Rust,5-6 Tan); 2=Carpet of Flying roll 1d6 for size; 3=Elemental Gem roll 1d4 (1 Clear,2 Brown,3 Bright Red,4 Turquoise)."
+ },
+ "misc_magic_rare": {
+  "_table": "2.13.1T",
+  "_title": "RARE MISCELLANEOUS MAGIC ITEMS",
+  "_die": "d100",
+  "rows": [
+   {
+    "roll_range": "01–02",
+    "roll": [
+     1,
+     2
+    ],
+    "die": "d100",
+    "result": "Efreet Bottle",
+    "value_gp_raw": "145,000",
+    "value_gp": 145000
+   },
+   {
+    "roll_range": "03",
+    "roll": [
+     3,
+     3
+    ],
+    "die": "d100",
+    "result": "Amulet of Life Protection",
+    "value_gp_raw": "20,000",
+    "value_gp": 20000
+   },
+   {
+    "roll_range": "04–05",
+    "roll": [
+     4,
+     5
+    ],
+    "die": "d100",
+    "result": "Amulet of Mighty Fists",
+    "value_gp_raw": "6,000",
+    "value_gp": 6000
+   },
+   {
+    "roll_range": "06–07",
+    "roll": [
+     6,
+     7
+    ],
+    "die": "d100",
+    "result": "Belt of Dwarfkind",
+    "value_gp_raw": "14,900",
+    "value_gp": 14900
+   },
+   {
+    "roll_range": "08–09",
+    "roll": [
+     8,
+     9
+    ],
+    "die": "d100",
+    "result": "Belt of Giant Strength",
+    "value_gp_raw": "see entry"
+   },
+   {
+    "roll_range": "10–11",
+    "roll": [
+     10,
+     11
+    ],
+    "die": "d100",
+    "result": "Boat, Folding",
+    "value_gp_raw": "7,200",
+    "value_gp": 7200
+   },
+   {
+    "roll_range": "12",
+    "roll": [
+     12,
+     12
+    ],
+    "die": "d100",
+    "result": "Boots of Teleportation",
+    "value_gp_raw": "49,000",
+    "value_gp": 49000
+   },
+   {
+    "roll_range": "13–14",
+    "roll": [
+     13,
+     14
+    ],
+    "die": "d100",
+    "result": "Boots, Winged",
+    "value_gp_raw": "16,000",
+    "value_gp": 16000
+   },
+   {
+    "roll_range": "15–16",
+    "roll": [
+     15,
+     16
+    ],
+    "die": "d100",
+    "result": "Brooch of Instigation",
+    "value_gp_raw": "1,000",
+    "value_gp": 1000
+   },
+   {
+    "roll_range": "17–18",
+    "roll": [
+     17,
+     18
+    ],
+    "die": "d100",
+    "result": "Circlet of Blasting, Major",
+    "value_gp_raw": "23,760",
+    "value_gp": 23760
+   },
+   {
+    "roll_range": "19–20",
+    "roll": [
+     19,
+     20
+    ],
+    "die": "d100",
+    "result": "Eversmoking Bottle",
+    "value_gp_raw": "5,400",
+    "value_gp": 5400
+   },
+   {
+    "roll_range": "21–22",
+    "roll": [
+     21,
+     22
+    ],
+    "die": "d100",
+    "result": "Eyes of Charming",
+    "value_gp_raw": "56,000",
+    "value_gp": 56000
+   },
+   {
+    "roll_range": "23–24",
+    "roll": [
+     23,
+     24
+    ],
+    "die": "d100",
+    "result": "Eyes of Doom",
+    "value_gp_raw": "25,000",
+    "value_gp": 25000
+   },
+   {
+    "roll_range": "25–26",
+    "roll": [
+     25,
+     26
+    ],
+    "die": "d100",
+    "result": "Eyes of Petrifaction",
+    "value_gp_raw": "98,000",
+    "value_gp": 98000
+   },
+   {
+    "roll_range": "27–28",
+    "roll": [
+     27,
+     28
+    ],
+    "die": "d100",
+    "result": "Gem of Brightness",
+    "value_gp_raw": "13,000",
+    "value_gp": 13000
+   },
+   {
+    "roll_range": "29–30",
+    "roll": [
+     29,
+     30
+    ],
+    "die": "d100",
+    "result": "Gem of Seeing",
+    "value_gp_raw": "75,000",
+    "value_gp": 75000
+   },
+   {
+    "roll_range": "31–32",
+    "roll": [
+     31,
+     32
+    ],
+    "die": "d100",
+    "result": "Roll 1d?: Golem Manual (Flesh / Clay / Stone / Iron)",
+    "subrolls": [
+     {
+      "roll_raw": "Flesh",
+      "result": "Golem Manual, Flesh",
+      "value_gp_raw": "8,000",
+      "value_gp": 8000
+     },
+     {
+      "roll_raw": "Clay",
+      "result": "Golem Manual, Clay",
+      "value_gp_raw": "12,000",
+      "value_gp": 12000
+     },
+     {
+      "roll_raw": "Stone",
+      "result": "Golem Manual, Stone",
+      "value_gp_raw": "22,000",
+      "value_gp": 22000
+     },
+     {
+      "roll_raw": "Iron",
+      "result": "Golem Manual, Iron",
+      "value_gp_raw": "35,000",
+      "value_gp": 35000
+     }
+    ]
+   },
+   {
+    "roll_range": "33–34",
+    "roll": [
+     33,
+     34
+    ],
+    "die": "d100",
+    "result": "Helm of Brilliance",
+    "value_gp_raw": "125,000",
+    "value_gp": 125000
+   },
+   {
+    "roll_range": "35–36",
+    "roll": [
+     35,
+     36
+    ],
+    "die": "d100",
+    "result": "Helm of Teleportation",
+    "value_gp_raw": "73,500",
+    "value_gp": 73500
+   },
+   {
+    "roll_range": "37–38",
+    "roll": [
+     37,
+     38
+    ],
+    "die": "d100",
+    "result": "Horn of Blasting",
+    "value_gp_raw": "20,000",
+    "value_gp": 20000
+   },
+   {
+    "roll_range": "39–40",
+    "roll": [
+     39,
+     40
+    ],
+    "die": "d100",
+    "result": "Horn of Blasting, Greater",
+    "value_gp_raw": "70,000",
+    "value_gp": 70000
+   },
+   {
+    "roll_range": "41–42",
+    "roll": [
+     41,
+     42
+    ],
+    "die": "d100",
+    "result": "Ioun Stones",
+    "value_gp_raw": "see table"
+   },
+   {
+    "roll_range": "43–44",
+    "roll": [
+     43,
+     44
+    ],
+    "die": "d100",
+    "result": "Lyre of Building",
+    "value_gp_raw": "13,000",
+    "value_gp": 13000
+   },
+   {
+    "roll_range": "45–46",
+    "roll": [
+     45,
+     46
+    ],
+    "die": "d100",
+    "result": "Manual of Bodily Health",
+    "value_gp_raw": "4,000",
+    "value_gp": 4000
+   },
+   {
+    "roll_range": "47–48",
+    "roll": [
+     47,
+     48
+    ],
+    "die": "d100",
+    "result": "Manual of Gainful Exercise",
+    "value_gp_raw": "4,000",
+    "value_gp": 4000
+   },
+   {
+    "roll_range": "49–50",
+    "roll": [
+     49,
+     50
+    ],
+    "die": "d100",
+    "result": "Manual of Quickness of Action",
+    "value_gp_raw": "4,000",
+    "value_gp": 4000
+   },
+   {
+    "roll_range": "51–52",
+    "roll": [
+     51,
+     52
+    ],
+    "die": "d100",
+    "result": "Mattock of the Titans",
+    "value_gp_raw": "23,348",
+    "value_gp": 23348
+   },
+   {
+    "roll_range": "53–54",
+    "roll": [
+     53,
+     54
+    ],
+    "die": "d100",
+    "result": "Maul of the Titans",
+    "value_gp_raw": "25,305",
+    "value_gp": 25305
+   },
+   {
+    "roll_range": "55–56",
+    "roll": [
+     55,
+     56
+    ],
+    "die": "d100",
+    "result": "Mirror of Life Trapping",
+    "value_gp_raw": "200,000",
+    "value_gp": 200000
+   },
+   {
+    "roll_range": "57–58",
+    "roll": [
+     57,
+     58
+    ],
+    "die": "d100",
+    "result": "Mirror of Mental Prowess",
+    "value_gp_raw": "175,000",
+    "value_gp": 175000
+   },
+   {
+    "roll_range": "59–60",
+    "roll": [
+     59,
+     60
+    ],
+    "die": "d100",
+    "result": "Mirror of Opposition",
+    "value_gp_raw": "92,000",
+    "value_gp": 92000
+   },
+   {
+    "roll_range": "61–62",
+    "roll": [
+     61,
+     62
+    ],
+    "die": "d100",
+    "result": "Oil of Famishing",
+    "value_gp_raw": "—"
+   },
+   {
+    "roll_range": "63–64",
+    "roll": [
+     63,
+     64
+    ],
+    "die": "d100",
+    "result": "Portable Hole",
+    "value_gp_raw": "20,000",
+    "value_gp": 20000
+   },
+   {
+    "roll_range": "65–66",
+    "roll": [
+     65,
+     66
+    ],
+    "die": "d100",
+    "result": "Robe of Eyes",
+    "value_gp_raw": "120,000",
+    "value_gp": 120000
+   },
+   {
+    "roll_range": "67–68",
+    "roll": [
+     67,
+     68
+    ],
+    "die": "d100",
+    "result": "Robe of Scintillating Colours",
+    "value_gp_raw": "27,000",
+    "value_gp": 27000
+   },
+   {
+    "roll_range": "69–70",
+    "roll": [
+     69,
+     70
+    ],
+    "die": "d100",
+    "result": "Robe of the Archmagi",
+    "value_gp_raw": "75,000",
+    "value_gp": 75000
+   },
+   {
+    "roll_range": "71–72",
+    "roll": [
+     71,
+     72
+    ],
+    "die": "d100",
+    "result": "Sagacious Volume",
+    "value_gp_raw": "50,000",
+    "value_gp": 50000
+   },
+   {
+    "roll_range": "73–74",
+    "roll": [
+     73,
+     74
+    ],
+    "die": "d100",
+    "result": "Shrouds of Disintegration",
+    "value_gp_raw": "6,600",
+    "value_gp": 6600
+   },
+   {
+    "roll_range": "75–76",
+    "roll": [
+     75,
+     76
+    ],
+    "die": "d100",
+    "result": "Tome of Clear Thought",
+    "value_gp_raw": "27,500",
+    "value_gp": 27500
+   },
+   {
+    "roll_range": "77–78",
+    "roll": [
+     77,
+     78
+    ],
+    "die": "d100",
+    "result": "Tome of Leadership and Influence",
+    "value_gp_raw": "27,500",
+    "value_gp": 27500
+   },
+   {
+    "roll_range": "79–80",
+    "roll": [
+     79,
+     80
+    ],
+    "die": "d100",
+    "result": "Tome of Understanding",
+    "value_gp_raw": "27,500",
+    "value_gp": 27500
+   },
+   {
+    "roll_range": "81–85",
+    "roll": [
+     81,
+     85
+    ],
+    "die": "d100",
+    "result": "Roll twice on Table 2.13.1s",
+    "value_gp_raw": "n/a"
+   },
+   {
+    "roll_range": "86–90",
+    "roll": [
+     86,
+     90
+    ],
+    "die": "d100",
+    "result": "Roll again and Roll Misc. Magic Weapon",
+    "value_gp_raw": "n/a"
+   },
+   {
+    "roll_range": "91–95",
+    "roll": [
+     91,
+     95
+    ],
+    "die": "d100",
+    "result": "Roll again and Roll Magic Sword",
+    "value_gp_raw": "n/a"
+   },
+   {
+    "roll_range": "96–00",
+    "roll": [
+     96,
+     100
+    ],
+    "die": "d100",
+    "result": "Roll on Cursed Items Table",
+    "value_gp_raw": "n/a"
+   }
+  ],
+  "_note": "Footnotes: 1=Ioun Stones consult Table 2.13.1U; 2=use Specific Cursed Items table."
+ },
+ "ioun_stones": {
+  "_table": "2.13.1U",
+  "_title": "IOUN STONES SUBTABLE",
+  "_die": "d100",
+  "rows": [
+   {
+    "roll_range": "01–06",
+    "roll": [
+     1,
+     6
+    ],
+    "die": "d100",
+    "result": "Clear Spindle",
+    "value_gp_raw": "4,000",
+    "value_gp": 4000
+   },
+   {
+    "roll_range": "07–12",
+    "roll": [
+     7,
+     12
+    ],
+    "die": "d100",
+    "result": "Dusty Rose Prism",
+    "value_gp_raw": "5,000",
+    "value_gp": 5000
+   },
+   {
+    "roll_range": "13–18",
+    "roll": [
+     13,
+     18
+    ],
+    "die": "d100",
+    "result": "Deep Red Sphere",
+    "value_gp_raw": "8,000",
+    "value_gp": 8000
+   },
+   {
+    "roll_range": "19–24",
+    "roll": [
+     19,
+     24
+    ],
+    "die": "d100",
+    "result": "Incandescent Blue Sphere",
+    "value_gp_raw": "8,000",
+    "value_gp": 8000
+   },
+   {
+    "roll_range": "25–30",
+    "roll": [
+     25,
+     30
+    ],
+    "die": "d100",
+    "result": "Pale Blue Rhomboid",
+    "value_gp_raw": "8,000",
+    "value_gp": 8000
+   },
+   {
+    "roll_range": "31–36",
+    "roll": [
+     31,
+     36
+    ],
+    "die": "d100",
+    "result": "Pink Rhomboid",
+    "value_gp_raw": "8,000",
+    "value_gp": 8000
+   },
+   {
+    "roll_range": "37–42",
+    "roll": [
+     37,
+     42
+    ],
+    "die": "d100",
+    "result": "Pink & Green Sphere",
+    "value_gp_raw": "8,000",
+    "value_gp": 8000
+   },
+   {
+    "roll_range": "43–48",
+    "roll": [
+     43,
+     48
+    ],
+    "die": "d100",
+    "result": "Scarlet & Blue Sphere",
+    "value_gp_raw": "8,000",
+    "value_gp": 8000
+   },
+   {
+    "roll_range": "49–54",
+    "roll": [
+     49,
+     54
+    ],
+    "die": "d100",
+    "result": "Dark Blue Rhomboid",
+    "value_gp_raw": "10,000",
+    "value_gp": 10000
+   },
+   {
+    "roll_range": "55–60",
+    "roll": [
+     55,
+     60
+    ],
+    "die": "d100",
+    "result": "Vibrant Purple Prism",
+    "value_gp_raw": "36,000",
+    "value_gp": 36000
+   },
+   {
+    "roll_range": "61–66",
+    "roll": [
+     61,
+     66
+    ],
+    "die": "d100",
+    "result": "Iridescent Spindle",
+    "value_gp_raw": "18,000",
+    "value_gp": 18000
+   },
+   {
+    "roll_range": "67–72",
+    "roll": [
+     67,
+     72
+    ],
+    "die": "d100",
+    "result": "Pale Lavender Ellipsoid",
+    "value_gp_raw": "20,000",
+    "value_gp": 20000
+   },
+   {
+    "roll_range": "73–77",
+    "roll": [
+     73,
+     77
+    ],
+    "die": "d100",
+    "result": "Pearly White Spindle",
+    "value_gp_raw": "20,000",
+    "value_gp": 20000
+   },
+   {
+    "roll_range": "78–83",
+    "roll": [
+     78,
+     83
+    ],
+    "die": "d100",
+    "result": "Pale Green Prism",
+    "value_gp_raw": "30,000",
+    "value_gp": 30000
+   },
+   {
+    "roll_range": "84–89",
+    "roll": [
+     84,
+     89
+    ],
+    "die": "d100",
+    "result": "Orange Prism",
+    "value_gp_raw": "30,000",
+    "value_gp": 30000
+   },
+   {
+    "roll_range": "90–96",
+    "roll": [
+     90,
+     96
+    ],
+    "die": "d100",
+    "result": "Lavender & Green Ellipsoid",
+    "value_gp_raw": "40,000",
+    "value_gp": 40000
+   },
+   {
+    "roll_range": "97–99",
+    "roll": [
+     97,
+     99
+    ],
+    "die": "d100",
+    "result": "Re-roll twice, ignoring results over 96",
+    "value_gp_raw": "n/a"
+   },
+   {
+    "roll_range": "00",
+    "roll": [
+     100,
+     100
+    ],
+    "die": "d100",
+    "result": "Re-roll thrice, ignoring result over 96",
+    "value_gp_raw": "n/a"
+   }
+  ]
+ },
+ "potion_admixture": {
+  "_table": "2.13.2A",
+  "_title": "POTION ADMIXTURE RESULTS",
+  "_die": "d100",
+  "rows": [
+   {
+    "roll_range": "01",
+    "roll": [
+     1,
+     1
+    ],
+    "die": "d100",
+    "result": "Eldritch blast! A catastrophic release of magical energies. This massive energy discharge does 6d10 points of internal damage and 1d10 points of damage to anyone with 10ft of the imbiber. If mixed externally, all persons within 10ft of the epicentre of the blast take 4d6 points of damage, no saving throw allowed."
+   },
+   {
+    "roll_range": "02–03",
+    "roll": [
+     2,
+     3
+    ],
+    "die": "d100",
+    "result": "Poison, causing instant death if mixed internally, no save. External admixtures create a poisonous cloud 10ft in diameter. Anyone within the cloud must save versus poison or die."
+   },
+   {
+    "roll_range": "04–07",
+    "roll": [
+     4,
+     7
+    ],
+    "die": "d100",
+    "result": "A strange brew results and imbiber sickens, losing 1d4 each strength and dexterity for 4d6 rounds, no saving throw. One potion is completely nullified and the other works at 50% strength and duration, determined randomly."
+   },
+   {
+    "roll_range": "08–12",
+    "roll": [
+     8,
+     12
+    ],
+    "die": "d100",
+    "result": "The potions cancel each other out."
+   },
+   {
+    "roll_range": "13–20",
+    "roll": [
+     13,
+     20
+    ],
+    "die": "d100",
+    "result": "One potion is cancelled and the other works at 50% strength and duration, determined randomly."
+   },
+   {
+    "roll_range": "21–30",
+    "roll": [
+     21,
+     30
+    ],
+    "die": "d100",
+    "result": "Both potions work but only at 50% strength and duration."
+   },
+   {
+    "roll_range": "31–90",
+    "roll": [
+     31,
+     90
+    ],
+    "die": "d100",
+    "result": "Successful admixture: both potions work normally."
+   },
+   {
+    "roll_range": "91–99",
+    "roll": [
+     91,
+     99
+    ],
+    "die": "d100",
+    "result": "Extraordinary success: one potion, determined randomly, works at 150% strength and duration while the other is cancelled."
+   },
+   {
+    "roll_range": "00",
+    "roll": [
+     100,
+     100
+    ],
+    "die": "d100",
+    "result": "Spectacular success! One of the imbibed potions, determined randomly, has bestowed its effect permanently. Of course, this may not always be a good thing! Consider, for instance, a permanent potion of gaseous form effect."
+   }
+  ]
+ },
+ "spell_scroll_class": {
+  "_table": "2.13.3.1A",
+  "_title": "TYPE OF SPELL SCROLL",
+  "_die": "d10",
+  "rows": [
+   {
+    "roll_range": "1–6",
+    "roll": [
+     1,
+     6
+    ],
+    "die": "d10",
+    "result": "Magic user"
+   },
+   {
+    "roll_range": "7",
+    "roll": [
+     7,
+     7
+    ],
+    "die": "d10",
+    "result": "Illusionist"
+   },
+   {
+    "roll_range": "8–9",
+    "roll": [
+     8,
+     9
+    ],
+    "die": "d10",
+    "result": "Cleric"
+   },
+   {
+    "roll_range": "10",
+    "roll": [
+     10,
+     10
+    ],
+    "die": "d10",
+    "result": "Druid"
+   }
+  ]
+ },
+ "charges": {
+  "_table": "2.13.4A",
+  "_title": "CHARGES IN A ROD, STAFF, OR WAND",
+  "_die": "formula",
+  "rows": [
+   {
+    "device_type": "Wands",
+    "charges": "101–1d20"
+   },
+   {
+    "device_type": "Rods",
+    "charges": "51–1d10"
+   },
+   {
+    "device_type": "Staves",
+    "charges": "26–1d6"
+   }
+  ],
+  "_note": "Charges are the listed base minus a die (e.g. Wands = 101 − 1d20)."
+ },
+ "sword_intelligence": {
+  "_table": "2.13.6.1A",
+  "_title": "SWORD INTELLIGENCE AND CAPABILITIES",
+  "_die": "d100",
+  "rows": [
+   {
+    "roll_range": "01–75",
+    "roll": [
+     1,
+     75
+    ],
+    "die": "d100",
+    "result": "None / None / None",
+    "int": "None",
+    "capabilities": "None",
+    "communication": "None"
+   },
+   {
+    "roll_range": "76–83",
+    "roll": [
+     76,
+     83
+    ],
+    "die": "d100",
+    "result": "13 / 1 minor power / Low Empathy",
+    "int": "13",
+    "capabilities": "1 minor power",
+    "communication": "Low Empathy"
+   },
+   {
+    "roll_range": "84–89",
+    "roll": [
+     84,
+     89
+    ],
+    "die": "d100",
+    "result": "14 / 2 minor powers / High Empathy",
+    "int": "14",
+    "capabilities": "2 minor powers",
+    "communication": "High Empathy"
+   },
+   {
+    "roll_range": "90–94",
+    "roll": [
+     90,
+     94
+    ],
+    "die": "d100",
+    "result": "15 / 2 minor powers / Speech",
+    "int": "15",
+    "capabilities": "2 minor powers",
+    "communication": "Speech"
+   },
+   {
+    "roll_range": "95–97",
+    "roll": [
+     95,
+     97
+    ],
+    "die": "d100",
+    "result": "16 / 3 minor powers / Speech",
+    "int": "16",
+    "capabilities": "3 minor powers",
+    "communication": "Speech"
+   },
+   {
+    "roll_range": "98–99",
+    "roll": [
+     98,
+     99
+    ],
+    "die": "d100",
+    "result": "17 / 3 minor powers / Speech",
+    "int": "17",
+    "capabilities": "3 minor powers",
+    "communication": "Speech"
+   },
+   {
+    "roll_range": "00",
+    "roll": [
+     100,
+     100
+    ],
+    "die": "d100",
+    "result": "18 / 3 minor powers and 1 major power / Telepathy",
+    "int": "18",
+    "capabilities": "3 minor powers and 1 major power",
+    "communication": "Telepathy"
+   }
+  ]
+ },
+ "sword_alignment": {
+  "_table": "2.13.6.1B",
+  "_title": "SWORD ALIGNMENT",
+  "_die": "d100",
+  "rows": [
+   {
+    "roll_range": "01–05",
+    "roll": [
+     1,
+     5
+    ],
+    "die": "d100",
+    "result": "Chaotic Good"
+   },
+   {
+    "roll_range": "06–15",
+    "roll": [
+     6,
+     15
+    ],
+    "die": "d100",
+    "result": "Chaotic Neutral"
+   },
+   {
+    "roll_range": "16–20",
+    "roll": [
+     16,
+     20
+    ],
+    "die": "d100",
+    "result": "Chaotic Evil"
+   },
+   {
+    "roll_range": "21–25",
+    "roll": [
+     21,
+     25
+    ],
+    "die": "d100",
+    "result": "Neutral Evil"
+   },
+   {
+    "roll_range": "26–30",
+    "roll": [
+     26,
+     30
+    ],
+    "die": "d100",
+    "result": "Lawful Evil"
+   },
+   {
+    "roll_range": "31–55",
+    "roll": [
+     31,
+     55
+    ],
+    "die": "d100",
+    "result": "Lawful Good"
+   },
+   {
+    "roll_range": "56–60",
+    "roll": [
+     56,
+     60
+    ],
+    "die": "d100",
+    "result": "Lawful Neutral"
+   },
+   {
+    "roll_range": "61–80",
+    "roll": [
+     61,
+     80
+    ],
+    "die": "d100",
+    "result": "True Neutral"
+   },
+   {
+    "roll_range": "81–00",
+    "roll": [
+     81,
+     100
+    ],
+    "die": "d100",
+    "result": "Neutral Good"
+   }
+  ]
+ },
+ "sword_minor_powers": {
+  "_table": "2.13.6.1C",
+  "_title": "SWORD MINOR POWERS",
+  "_die": "d100",
+  "rows": [
+   {
+    "roll_range": "01–11",
+    "roll": [
+     1,
+     11
+    ],
+    "die": "d100",
+    "result": "Detect evil/good within 10ft radius"
+   },
+   {
+    "roll_range": "12–22",
+    "roll": [
+     12,
+     22
+    ],
+    "die": "d100",
+    "result": "Detect gold or silver within 20ft radius"
+   },
+   {
+    "roll_range": "23–33",
+    "roll": [
+     23,
+     33
+    ],
+    "die": "d100",
+    "result": "Detect shifting rooms or walls within 10ft radius"
+   },
+   {
+    "roll_range": "34–44",
+    "roll": [
+     34,
+     44
+    ],
+    "die": "d100",
+    "result": "Detect sloping passages within 10ft radius"
+   },
+   {
+    "roll_range": "45–55",
+    "roll": [
+     45,
+     55
+    ],
+    "die": "d100",
+    "result": "Detect traps 10ft within radius"
+   },
+   {
+    "roll_range": "56–66",
+    "roll": [
+     56,
+     66
+    ],
+    "die": "d100",
+    "result": "Detect type and number of gems within 5ft radius"
+   },
+   {
+    "roll_range": "67–77",
+    "roll": [
+     67,
+     77
+    ],
+    "die": "d100",
+    "result": "Detect magic within 10ft radius"
+   },
+   {
+    "roll_range": "78–82",
+    "roll": [
+     78,
+     82
+    ],
+    "die": "d100",
+    "result": "Detect secret doors within 5ft radius"
+   },
+   {
+    "roll_range": "83–87",
+    "roll": [
+     83,
+     87
+    ],
+    "die": "d100",
+    "result": "See invisible within 10ft radius"
+   },
+   {
+    "roll_range": "88–92",
+    "roll": [
+     88,
+     92
+    ],
+    "die": "d100",
+    "result": "Locate object with 120ft range"
+   },
+   {
+    "roll_range": "93–98",
+    "roll": [
+     93,
+     98
+    ],
+    "die": "d100",
+    "result": "Roll twice on this table, ignoring results 93–100"
+   },
+   {
+    "roll_range": "99–00",
+    "roll": [
+     99,
+     100
+    ],
+    "die": "d100",
+    "result": "Roll once on major power table instead"
+   }
+  ]
+ },
+ "sword_major_powers": {
+  "_table": "2.13.6.1D",
+  "_title": "SWORD MAJOR POWERS",
+  "_die": "d100",
+  "rows": [
+   {
+    "roll_range": "01–07",
+    "roll": [
+     1,
+     7
+    ],
+    "die": "d100",
+    "result": "Charm person on contact, thrice per day"
+   },
+   {
+    "roll_range": "08–15",
+    "roll": [
+     8,
+     15
+    ],
+    "die": "d100",
+    "result": "Clairaudience 30ft range for 1 round, thrice per day"
+   },
+   {
+    "roll_range": "16–22",
+    "roll": [
+     16,
+     22
+    ],
+    "die": "d100",
+    "result": "Clairvoyance 30ft range for 1 round, thrice per day"
+   },
+   {
+    "roll_range": "23–28",
+    "roll": [
+     23,
+     28
+    ],
+    "die": "d100",
+    "result": "Determine direction and depth, thrice per day"
+   },
+   {
+    "roll_range": "29–34",
+    "roll": [
+     29,
+     34
+    ],
+    "die": "d100",
+    "result": "Esp 30ft range for 1 round, thrice per day"
+   },
+   {
+    "roll_range": "35–41",
+    "roll": [
+     35,
+     41
+    ],
+    "die": "d100",
+    "result": "Flying for 1 hour per day, 120ft move"
+   },
+   {
+    "roll_range": "42–47",
+    "roll": [
+     42,
+     47
+    ],
+    "die": "d100",
+    "result": "Heal, once per day"
+   },
+   {
+    "roll_range": "48–54",
+    "roll": [
+     48,
+     54
+    ],
+    "die": "d100",
+    "result": "Illusion (as per the wand of illusions), twice per day"
+   },
+   {
+    "roll_range": "55–61",
+    "roll": [
+     55,
+     61
+    ],
+    "die": "d100",
+    "result": "Levitate up to 600 lbs for 1 turn, thrice per day"
+   },
+   {
+    "roll_range": "62–67",
+    "roll": [
+     62,
+     67
+    ],
+    "die": "d100",
+    "result": "Strength as the spell, once per day (wielder only)"
+   },
+   {
+    "roll_range": "68–75",
+    "roll": [
+     68,
+     75
+    ],
+    "die": "d100",
+    "result": "Telekinesis up to 250 lbs for 1 round, once per day"
+   },
+   {
+    "roll_range": "76–81",
+    "roll": [
+     76,
+     81
+    ],
+    "die": "d100",
+    "result": "Telepathy 60ft range, twice per day"
+   },
+   {
+    "roll_range": "82–88",
+    "roll": [
+     82,
+     88
+    ],
+    "die": "d100",
+    "result": "Teleport as the spell, 600 lbs max, once per day"
+   },
+   {
+    "roll_range": "89–94",
+    "roll": [
+     89,
+     94
+    ],
+    "die": "d100",
+    "result": "X-ray vision 40ft range for 1 turn, twice per day"
+   },
+   {
+    "roll_range": "95–97",
+    "roll": [
+     95,
+     97
+    ],
+    "die": "d100",
+    "result": "Roll twice, ignoring this result"
+   },
+   {
+    "roll_range": "98–99",
+    "roll": [
+     98,
+     99
+    ],
+    "die": "d100",
+    "result": "Player may choose 1 power"
+   },
+   {
+    "roll_range": "00",
+    "roll": [
+     100,
+     100
+    ],
+    "die": "d100",
+    "result": "Roll on special purpose table"
+   }
+  ]
+ },
+ "sword_special_purpose": {
+  "_table": "2.13.6.1E",
+  "_title": "SPECIAL PURPOSE",
+  "_die": "d100",
+  "rows": [
+   {
+    "roll_range": "01–10",
+    "roll": [
+     1,
+     10
+    ],
+    "die": "d100",
+    "result": "Defeat good or evil"
+   },
+   {
+    "roll_range": "11–20",
+    "roll": [
+     11,
+     20
+    ],
+    "die": "d100",
+    "result": "Defeat law or chaos"
+   },
+   {
+    "roll_range": "21–30",
+    "roll": [
+     21,
+     30
+    ],
+    "die": "d100",
+    "result": "Slay clerics or druids"
+   },
+   {
+    "roll_range": "31–40",
+    "roll": [
+     31,
+     40
+    ],
+    "die": "d100",
+    "result": "Slay diametrically opposed alignment*"
+   },
+   {
+    "roll_range": "41–50",
+    "roll": [
+     41,
+     50
+    ],
+    "die": "d100",
+    "result": "Slay fighters, paladins or rangers"
+   },
+   {
+    "roll_range": "51–60",
+    "roll": [
+     51,
+     60
+    ],
+    "die": "d100",
+    "result": "Slay magic users or illusionists"
+   },
+   {
+    "roll_range": "61–90",
+    "roll": [
+     61,
+     90
+    ],
+    "die": "d100",
+    "result": "Slay non-human monsters"
+   },
+   {
+    "roll_range": "91–00",
+    "roll": [
+     91,
+     100
+    ],
+    "die": "d100",
+    "result": "Slay thieves or assassins"
+   }
+  ]
+ },
+ "sword_special_power": {
+  "_table": "2.13.6.1F",
+  "_title": "SPECIAL POWER",
+  "_die": "d100",
+  "rows": [
+   {
+    "roll_range": "01–10",
+    "roll": [
+     1,
+     10
+    ],
+    "die": "d100",
+    "result": "Blindness for 2d6 rounds"
+   },
+   {
+    "roll_range": "11–15",
+    "roll": [
+     11,
+     15
+    ],
+    "die": "d100",
+    "result": "Cause disease as the spell (evil aligned swords only)"
+   },
+   {
+    "roll_range": "16–25",
+    "roll": [
+     16,
+     25
+    ],
+    "die": "d100",
+    "result": "Confusion for 2d6 rounds"
+   },
+   {
+    "roll_range": "26–30",
+    "roll": [
+     26,
+     30
+    ],
+    "die": "d100",
+    "result": "Disintegrate"
+   },
+   {
+    "roll_range": "31–35",
+    "roll": [
+     31,
+     35
+    ],
+    "die": "d100",
+    "result": "Dispel magic (single-target)"
+   },
+   {
+    "roll_range": "36–55",
+    "roll": [
+     36,
+     55
+    ],
+    "die": "d100",
+    "result": "Fear for 1d4 rounds"
+   },
+   {
+    "roll_range": "56–65",
+    "roll": [
+     56,
+     65
+    ],
+    "die": "d100",
+    "result": "Insanity for 1d4 rounds"
+   },
+   {
+    "roll_range": "66–80",
+    "roll": [
+     66,
+     80
+    ],
+    "die": "d100",
+    "result": "Paralysis for 1d4 rounds"
+   },
+   {
+    "roll_range": "81",
+    "roll": [
+     81,
+     81
+    ],
+    "die": "d100",
+    "result": "Petrifaction"
+   },
+   {
+    "roll_range": "82–90",
+    "roll": [
+     82,
+     90
+    ],
+    "die": "d100",
+    "result": "Silence for 1d4 rounds"
+   },
+   {
+    "roll_range": "91–00",
+    "roll": [
+     91,
+     100
+    ],
+    "die": "d100",
+    "result": "Slow for 2d6 rounds"
+   }
+  ]
+ },
+ "nonalignment_languages": {
+  "_table": "2.13.6.1G",
+  "_title": "NON-ALIGNMENT LANGUAGES",
+  "_die": "d100",
+  "rows": [
+   {
+    "roll_range": "01–40",
+    "roll": [
+     1,
+     40
+    ],
+    "die": "d100",
+    "result": "1"
+   },
+   {
+    "roll_range": "41–70",
+    "roll": [
+     41,
+     70
+    ],
+    "die": "d100",
+    "result": "2"
+   },
+   {
+    "roll_range": "71–85",
+    "roll": [
+     71,
+     85
+    ],
+    "die": "d100",
+    "result": "3"
+   },
+   {
+    "roll_range": "86–95",
+    "roll": [
+     86,
+     95
+    ],
+    "die": "d100",
+    "result": "4"
+   },
+   {
+    "roll_range": "96–99",
+    "roll": [
+     96,
+     99
+    ],
+    "die": "d100",
+    "result": "5"
+   },
+   {
+    "roll_range": "00",
+    "roll": [
+     100,
+     100
+    ],
+    "die": "d100",
+    "result": "6"
+   }
+  ]
+ },
+ "sword_ego": {
+  "_table": "2.13.6.1H",
+  "_title": "SWORD EGO",
+  "_die": "none",
+  "rows": [
+   {
+    "attribute": "Each + of Sword*",
+    "ego_points": "1"
+   },
+   {
+    "attribute": "Each Language Spoken",
+    "ego_points": "1/2"
+   },
+   {
+    "attribute": "Each Major Power**",
+    "ego_points": "2"
+   },
+   {
+    "attribute": "Each Minor Power**",
+    "ego_points": "1"
+   },
+   {
+    "attribute": "Special Purpose",
+    "ego_points": "6"
+   },
+   {
+    "attribute": "Telepathic Ability",
+    "ego_points": "2"
+   }
+  ],
+  "_note": "Ego = sum of attribute ego points; round 1/2 upward. Personality score = intelligence + ego points."
+ },
+ "potion_animal_control": {
+  "_table": "2.13.2 (animal control)",
+  "_title": "ANIMAL CONTROL — ANIMAL TYPE",
+  "_die": "d20",
+  "rows": [
+   {
+    "roll_range": "1–4",
+    "roll": [
+     1,
+     4
+    ],
+    "die": "d20",
+    "result": "Avian"
+   },
+   {
+    "roll_range": "5–7",
+    "roll": [
+     5,
+     7
+    ],
+    "die": "d20",
+    "result": "Fish"
+   },
+   {
+    "roll_range": "8–11",
+    "roll": [
+     8,
+     11
+    ],
+    "die": "d20",
+    "result": "Mammal, including marsupial"
+   },
+   {
+    "roll_range": "12–13",
+    "roll": [
+     12,
+     13
+    ],
+    "die": "d20",
+    "result": "Any mammal and avian"
+   },
+   {
+    "roll_range": "14–17",
+    "roll": [
+     14,
+     17
+    ],
+    "die": "d20",
+    "result": "Amphibians and reptiles"
+   },
+   {
+    "roll_range": "18–19",
+    "roll": [
+     18,
+     19
+    ],
+    "die": "d20",
+    "result": "Amphibians, reptiles, and fish"
+   },
+   {
+    "roll_range": "20",
+    "roll": [
+     20,
+     20
+    ],
+    "die": "d20",
+    "result": "All listed above"
+   }
+  ]
+ },
+ "potion_dragon_control": {
+  "_table": "2.13.2 (dragon control)",
+  "_title": "DRAGON CONTROL TABLE",
+  "_die": "d20",
+  "rows": [
+   {
+    "roll_range": "1–2",
+    "roll": [
+     1,
+     2
+    ],
+    "die": "d20",
+    "result": "Black dragon control",
+    "value_gp_raw": "12,000",
+    "value_gp": 12000
+   },
+   {
+    "roll_range": "3–4",
+    "roll": [
+     3,
+     4
+    ],
+    "die": "d20",
+    "result": "Blue dragon control",
+    "value_gp_raw": "14,000",
+    "value_gp": 14000
+   },
+   {
+    "roll_range": "5–6",
+    "roll": [
+     5,
+     6
+    ],
+    "die": "d20",
+    "result": "Brass dragon control",
+    "value_gp_raw": "12,000",
+    "value_gp": 12000
+   },
+   {
+    "roll_range": "7",
+    "roll": [
+     7,
+     7
+    ],
+    "die": "d20",
+    "result": "Bronze dragon control",
+    "value_gp_raw": "14,000",
+    "value_gp": 14000
+   },
+   {
+    "roll_range": "8–9",
+    "roll": [
+     8,
+     9
+    ],
+    "die": "d20",
+    "result": "Copper dragon control",
+    "value_gp_raw": "13,000",
+    "value_gp": 13000
+   },
+   {
+    "roll_range": "10",
+    "roll": [
+     10,
+     10
+    ],
+    "die": "d20",
+    "result": "Gold dragon control",
+    "value_gp_raw": "16,000",
+    "value_gp": 16000
+   },
+   {
+    "roll_range": "11–13",
+    "roll": [
+     11,
+     13
+    ],
+    "die": "d20",
+    "result": "Green dragon control",
+    "value_gp_raw": "13,000",
+    "value_gp": 13000
+   },
+   {
+    "roll_range": "14",
+    "roll": [
+     14,
+     14
+    ],
+    "die": "d20",
+    "result": "Red dragon control",
+    "value_gp_raw": "15,000",
+    "value_gp": 15000
+   },
+   {
+    "roll_range": "15",
+    "roll": [
+     15,
+     15
+    ],
+    "die": "d20",
+    "result": "Silver dragon control",
+    "value_gp_raw": "15,000",
+    "value_gp": 15000
+   },
+   {
+    "roll_range": "16–17",
+    "roll": [
+     16,
+     17
+    ],
+    "die": "d20",
+    "result": "White dragon control",
+    "value_gp_raw": "10,000",
+    "value_gp": 10000
+   },
+   {
+    "roll_range": "18–19",
+    "roll": [
+     18,
+     19
+    ],
+    "die": "d20",
+    "result": "All evil dragons",
+    "value_gp_raw": "20,000",
+    "value_gp": 20000
+   },
+   {
+    "roll_range": "20",
+    "roll": [
+     20,
+     20
+    ],
+    "die": "d20",
+    "result": "All good dragons",
+    "value_gp_raw": "20,000",
+    "value_gp": 20000
+   }
+  ]
+ },
+ "potion_giant_control": {
+  "_table": "2.13.2 (giant control)",
+  "_title": "GIANT CONTROL TABLE",
+  "_die": "d20",
+  "rows": [
+   {
+    "roll_range": "1–2",
+    "roll": [
+     1,
+     2
+    ],
+    "die": "d20",
+    "result": "Cloud giant",
+    "value_gp_raw": "5,000",
+    "value_gp": 5000
+   },
+   {
+    "roll_range": "3–6",
+    "roll": [
+     3,
+     6
+    ],
+    "die": "d20",
+    "result": "Fire giant",
+    "value_gp_raw": "4,000",
+    "value_gp": 4000
+   },
+   {
+    "roll_range": "7–10",
+    "roll": [
+     7,
+     10
+    ],
+    "die": "d20",
+    "result": "Frost giant",
+    "value_gp_raw": "3,000",
+    "value_gp": 3000
+   },
+   {
+    "roll_range": "11–15",
+    "roll": [
+     11,
+     15
+    ],
+    "die": "d20",
+    "result": "Hill giant",
+    "value_gp_raw": "1,000",
+    "value_gp": 1000
+   },
+   {
+    "roll_range": "16–19",
+    "roll": [
+     16,
+     19
+    ],
+    "die": "d20",
+    "result": "Stone giant",
+    "value_gp_raw": "2,000",
+    "value_gp": 2000
+   },
+   {
+    "roll_range": "20",
+    "roll": [
+     20,
+     20
+    ],
+    "die": "d20",
+    "result": "Storm giant",
+    "value_gp_raw": "6,000",
+    "value_gp": 6000
+   }
+  ]
+ },
+ "potion_giant_strength": {
+  "_table": "2.13.2 (giant strength)",
+  "_title": "GIANT STRENGTH TABLE",
+  "_die": "d20",
+  "rows": [
+   {
+    "roll_range": "1-6",
+    "roll": [
+     1,
+     6
+    ],
+    "die": "d20",
+    "result": "Hill",
+    "value_gp_raw": "900",
+    "value_gp": 900,
+    "melee_dmg": "+1d8",
+    "wt_allow": "+450",
+    "rock_dmg": "1d6",
+    "major_test": "50%"
+   },
+   {
+    "roll_range": "7-10",
+    "roll": [
+     7,
+     10
+    ],
+    "die": "d20",
+    "result": "Stone",
+    "value_gp_raw": "1,000",
+    "value_gp": 1000,
+    "melee_dmg": "+1d10",
+    "wt_allow": "+500",
+    "rock_dmg": "1d12",
+    "major_test": "60%"
+   },
+   {
+    "roll_range": "11-14",
+    "roll": [
+     11,
+     14
+    ],
+    "die": "d20",
+    "result": "Frost",
+    "value_gp_raw": "1,100",
+    "value_gp": 1100,
+    "melee_dmg": "+1d12",
+    "wt_allow": "+600",
+    "rock_dmg": "1d8",
+    "major_test": "70%"
+   },
+   {
+    "roll_range": "15-17",
+    "roll": [
+     15,
+     17
+    ],
+    "die": "d20",
+    "result": "Fire",
+    "value_gp_raw": "1,200",
+    "value_gp": 1200,
+    "melee_dmg": "+2d6",
+    "wt_allow": "+750",
+    "rock_dmg": "1d8",
+    "major_test": "80%"
+   },
+   {
+    "roll_range": "18-19",
+    "roll": [
+     18,
+     19
+    ],
+    "die": "d20",
+    "result": "Cloud",
+    "value_gp_raw": "1,300",
+    "value_gp": 1300,
+    "melee_dmg": "+2d8",
+    "wt_allow": "+900",
+    "rock_dmg": "1d10",
+    "major_test": "90%"
+   },
+   {
+    "roll_range": "20",
+    "roll": [
+     20,
+     20
+    ],
+    "die": "d20",
+    "result": "Storm",
+    "value_gp_raw": "1,400",
+    "value_gp": 1400,
+    "melee_dmg": "+2d10",
+    "wt_allow": "+1200",
+    "rock_dmg": "1d12",
+    "major_test": "99%"
+   }
+  ]
+ },
+ "potion_human_control": {
+  "_table": "2.13.2 (human control)",
+  "_title": "HUMAN CONTROL TABLE",
+  "_die": "d20",
+  "rows": [
+   {
+    "roll_range": "1–2",
+    "roll": [
+     1,
+     2
+    ],
+    "die": "d20",
+    "result": "dwarfs"
+   },
+   {
+    "roll_range": "3–4",
+    "roll": [
+     3,
+     4
+    ],
+    "die": "d20",
+    "result": "elves and half-elves"
+   },
+   {
+    "roll_range": "5",
+    "roll": [
+     5,
+     5
+    ],
+    "die": "d20",
+    "result": "elves, half-elves, and humans"
+   },
+   {
+    "roll_range": "6–7",
+    "roll": [
+     6,
+     7
+    ],
+    "die": "d20",
+    "result": "gnomes"
+   },
+   {
+    "roll_range": "8–9",
+    "roll": [
+     8,
+     9
+    ],
+    "die": "d20",
+    "result": "halflings"
+   },
+   {
+    "roll_range": "10–11",
+    "roll": [
+     10,
+     11
+    ],
+    "die": "d20",
+    "result": "half-orcs"
+   },
+   {
+    "roll_range": "12–17",
+    "roll": [
+     12,
+     17
+    ],
+    "die": "d20",
+    "result": "humans"
+   },
+   {
+    "roll_range": "18–20",
+    "roll": [
+     18,
+     20
+    ],
+    "die": "d20",
+    "result": "other humanoids (orcs, gnolls, goblins, etc.)"
+   }
+  ]
+ },
+ "potion_undead_control": {
+  "_table": "2.13.2 (undead control)",
+  "_title": "UNDEAD CONTROL TABLE",
+  "_die": "d10",
+  "rows": [
+   {
+    "roll_range": "1",
+    "roll": [
+     1,
+     1
+    ],
+    "die": "d10",
+    "result": "Ghasts"
+   },
+   {
+    "roll_range": "2",
+    "roll": [
+     2,
+     2
+    ],
+    "die": "d10",
+    "result": "Ghosts"
+   },
+   {
+    "roll_range": "3",
+    "roll": [
+     3,
+     3
+    ],
+    "die": "d10",
+    "result": "Ghouls"
+   },
+   {
+    "roll_range": "4",
+    "roll": [
+     4,
+     4
+    ],
+    "die": "d10",
+    "result": "Shadows"
+   },
+   {
+    "roll_range": "5",
+    "roll": [
+     5,
+     5
+    ],
+    "die": "d10",
+    "result": "Skeletons"
+   },
+   {
+    "roll_range": "6",
+    "roll": [
+     6,
+     6
+    ],
+    "die": "d10",
+    "result": "Spectres"
+   },
+   {
+    "roll_range": "7",
+    "roll": [
+     7,
+     7
+    ],
+    "die": "d10",
+    "result": "Vampires"
+   },
+   {
+    "roll_range": "8",
+    "roll": [
+     8,
+     8
+    ],
+    "die": "d10",
+    "result": "Wights"
+   },
+   {
+    "roll_range": "9",
+    "roll": [
+     9,
+     9
+    ],
+    "die": "d10",
+    "result": "Wraiths"
+   },
+   {
+    "roll_range": "10",
+    "roll": [
+     10,
+     10
+    ],
+    "die": "d10",
+    "result": "Zombies"
+   }
+  ]
+ }
+}

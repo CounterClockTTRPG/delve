@@ -1,0 +1,82 @@
+[[fact]]
+text = "Hask has no bridge: the Ferryman, the small god of Hask Ford, drowns anyone who tries to build one. Three bridges were begun, in 855, 940 and 1032, and their stumps still stand in midstream."
+category = "places"
+
+[[fact]]
+text = "In Hask it is a crime to string a rope across the Ambre, even a fishing line, and a swimmer must throw a copper toe into the river before wading in."
+category = "customs"
+
+[[fact]]
+text = "Hask's law is a price list: almost every crime has a posted fine on Gallows Hill. Paying the posted price without haggling marks you as new in town."
+category = "customs"
+
+[[fact]]
+text = "Hask's coins are the copper toe, the silver oar (ten toes) and the gold barge (twenty oars)."
+category = "customs"
+
+[[fact]]
+text = "A Hask ferry costs one toe for a person, three for a horse, five for a cart and seven for a coffin. The Ferryman likes the dead."
+category = "places"
+
+[[fact]]
+text = "The Lamp Quarter is named for a Thaumarch street-lamp that has burned every night for twelve hundred years. Nobody lights it, nobody can put it out, and it is cold enough to take the skin off your hand."
+category = "places"
+
+[[fact]]
+text = "No house on Tallow Lane burns: fires there go out on their own, by the grace of Old Tallow, the fat and kindly god of the street. Never blow out a candle there; pinch it."
+category = "gods"
+
+[[fact]]
+text = "Light a candle-stub at a door niche on Tallow Lane and the house will take you in for the night, no questions asked."
+category = "customs"
+
+[[fact]]
+text = "Hask's beggars call themselves the Gutter's Children and serve Mother Gutter, the small god of the sewers. Stealing the crumbs left on a gutter-grating for her is the one theft the Quiet Hand punishes for free."
+category = "gods"
+
+[[fact]]
+text = "The Drowned Toe's Toe Wall holds one copper toe nailed up for every adventurer who went into the Pale Tower from there and never came back. There are thousands."
+category = "places"
+
+[[fact]]
+text = "The Pale Tower leans toward the river at a sickening angle. Birds don't nest on it, rain doesn't wet it, and nobody has ever got in through its walls: the only way in is down, into the Undercroft."
+category = "places"
+
+[[fact]]
+text = "Going down into the Undercroft is free. Coming up costs a tenth of what you carry, paid to the Lord Warden's tollkeeper at the Lean Gate."
+category = "customs"
+
+[[fact]]
+text = "The Council Hall of Hask has nine doors, one for each guild, so that no guildmaster need ever walk behind another."
+category = "places"
+
+[[fact]]
+text = "Lord Warden Benedek Sallow keeps three food-tasters: two for poison, and one because he likes to hear someone else enjoy the food first."
+category = "people"
+
+[[fact]]
+text = "The Widow, head of the Quiet Hand, sends her orders on black-edged mourning paper sealed with a thumbprint in grey wax. People who cheat the Hand are found in the river with a stone in their right hand."
+category = "people"
+
+[[fact]]
+text = "Under Hask's law, working magic without a licence from the Collegium of the Lamp is a hanging matter. There are only seven licensed wizards in the city."
+category = "customs"
+
+[[fact]]
+text = "The Riverfolk of Hurlock Weir pay the Ferryman his toe at Hask with their eyes lowered, so that the jealous Lady of the Weir won't see."
+category = "gods"
+
+[[fact]]
+text = "The Widow of the Quiet Hand is Clemence Sallow, the Lord Warden's sister, known on Tollside as a pious widow who plays cards badly."
+category = "people"
+dm_only = true
+
+[[fact]]
+text = "The Last Lamp is fed from the Lantern at the bottom of the Undercroft, and dims a little each time a Thaumarch work is carried out of the Pale Tower."
+category = "places"
+dm_only = true
+
+[[fact]]
+text = "Hask's Open Mouth cell has a way from the sewers into the Undercroft's Wet Halls, and its leader, the Tongue, is a well-liked cook at the Gilded Eel."
+category = "people"
+dm_only = true

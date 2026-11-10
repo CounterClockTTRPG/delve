@@ -1,0 +1,120 @@
+/* The Dark dungeon look: its tokens, under :root[data-look="dark-dungeon"]. Cave rock, torch orange and IM Fell.
+   The fonts' files are fetched only once an element uses their family, so only with this look. */
+
+@import "@fontsource/im-fell-english/400.css";
+@import "@fontsource/im-fell-english/400-italic.css";
+@import "@fontsource/im-fell-english-sc/400.css";
+
+/* contrast.test.ts reads this block's values: keep every colour a hex, and every wash an rgba(). */
+:root[data-look="dark-dungeon"] {
+  --bg: #131617;
+  --surface: #141718;
+  --ink: #c9ccc8;
+  --muted: #9aa19c;
+  --heading: #e6e1d6;
+  --rule: #7c8480;
+  --accent: #e08a3c;
+  --accent-ink: #160b03;
+  --link: #e08a3c;
+  --link-visited: #c8a0d0;
+  --notice-bg: #2a1c0e;
+  --notice-ink: #f0c08a;
+  --error: #f0a08e;
+  --error-bg: #3a1513;
+  --focus: #f0a050;
+  --dm-view: #d9a6e8;
+  --bg-sunken: #08090a;
+  --fg-faint: #7d847f;
+  --warning: #e8a050;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.6), 0 4px 12px rgba(0, 0, 0, 0.45);
+
+  --serif: "IM Fell English", Georgia, serif;
+  --sans: "IM Fell English", Georgia, serif;
+  --display: "IM Fell English SC", "IM Fell English", Georgia, serif;
+
+  /* Rough cave rock (ambientCG Rock030) under a heavy near-black wash, and a faint torch glow from the top right. */
+  --page-shade: rgba(8, 10, 11, 0.82);
+  --page-glow: rgba(255, 120, 40, 0.1);
+  --page-texture: url("./textures/stone-Rock030.jpg");
+  --page-wash:
+    radial-gradient(ellipse at 85% 0%, var(--page-glow), transparent 45%),
+    linear-gradient(var(--page-shade), var(--page-shade));
+
+  --nav-bg: #0c0e0f;
+  --nav-edge: #2a2f31;
+  /* A breath of torchlight, rgba(224, 138, 60, 0.08) on the nav, as one colour. */
+  --nav-current-bg: #1d1813;
+  --nav-current-ink: #ffb36b;
+
+  --button-bg: #e08a3c;
+  /* Cards are near-black and slightly see-through, with a grey left rule drawn inside them, so nothing moves. */
+  --card-bg: rgba(10, 12, 13, 0.82);
+  --card-edge: inset 3px 0 0 #4d5559;
+
+  color-scheme: dark;
+}
+
+/* The rock stays put while the page scrolls: one body background, never a layer of its own under the story. */
+:where(:root[data-look="dark-dungeon"]) body {
+  background-size: auto, auto, 320px 320px;
+  background-attachment: fixed;
+}
+
+@media print {
+  :root[data-look="dark-dungeon"] {
+    --page-texture: none;
+  }
+}
+
+@media (prefers-reduced-data: reduce) {
+  :root[data-look="dark-dungeon"] {
+    --page-texture: none;
+  }
+}
+
+/* Old-print capitals for headings and the menu, lit faintly by the torch. IM Fell has one weight: no faux bold. */
+:where(:root[data-look="dark-dungeon"]) :where(h1, h2, h3),
+:where(:root[data-look="dark-dungeon"]) .wordmark {
+  font-family: var(--display);
+  font-weight: 400;
+  color: var(--heading);
+  text-shadow:
+    0 0 12px rgba(255, 140, 60, 0.25),
+    0 1px 2px #000;
+}
+
+:where(:root[data-look="dark-dungeon"]) .nav .wordmark {
+  color: var(--accent);
+}
+
+:where(:root[data-look="dark-dungeon"]) .nav a {
+  font-family: var(--display);
+}
+
+:where(:root[data-look="dark-dungeon"]) .nav a:hover {
+  background: rgba(224, 138, 60, 0.05);
+}
+
+:where(:root[data-look="dark-dungeon"]) .nav a.active,
+:where(:root[data-look="dark-dungeon"]) button.primary,
+:where(:root[data-look="dark-dungeon"]) .button-like.primary {
+  font-weight: 400;
+}
+
+:where(:root[data-look="dark-dungeon"]) button.primary,
+:where(:root[data-look="dark-dungeon"]) .button-like.primary {
+  box-shadow: 0 0 14px rgba(224, 138, 60, 0.35);
+}
+
+:where(:root[data-look="dark-dungeon"]) :is(
+    .choice,
+    .gate-card,
+    .sheet,
+    .story,
+    .party-member,
+    .attachment-card,
+    .first-run
+  ) {
+  background: var(--card-bg);
+  border-color: var(--nav-edge);
+}

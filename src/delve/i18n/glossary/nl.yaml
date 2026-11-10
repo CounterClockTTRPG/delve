@@ -1,0 +1,8 @@
+# Game terms for translations between English and Dutch (plan 4 Task 7, spec §7.7): each English term with its Dutch,
+# or `keep` when Dutch players use the English term as it is. The names of the campaign's characters, the module's
+# NPCs and its keyed places are never translated; the translation prompt lists them itself.
+THAC0: keep
+AC: keep
+HP: keep
+hit dice: keep
+saving throw: reddingsworp

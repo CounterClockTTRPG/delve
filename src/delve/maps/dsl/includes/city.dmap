@@ -1,0 +1,194 @@
+# city.dmap — bundled feature_defs for urban / market / street maps.
+#
+# `include "city.dmap"` from any .dmap file. Designed for town squares,
+# market districts, street scenes, courtyards — anything where the
+# props are wheels, lanterns, stalls, and benches rather than tombs or
+# dungeon furniture.
+#
+# Includes: well_stone, fountain, market_stall, cart, wagon,
+#           lantern_post, signpost, hitching_post, barrel_stack,
+#           crate_stack, bench, planter, guard_post,
+#           house, ruin, ziggurat, tower, gatehouse
+
+feature_def "well_stone" {
+  name "Well"
+  shape circle radius 0.55
+  background "#7c7264"
+  outline { color "#2a2418" width 0.08 stroke solid }
+  overlay circle radius 0.38 fill "#3a3022"
+  overlay circle radius 0.22 fill "#1a1408"
+}
+
+feature_def "fountain" {
+  name "Fountain"
+  shape circle radius 0.95
+  background "#8a8b86"
+  outline { color "#2a2818" width 0.08 stroke solid }
+  overlay circle radius 0.7 fill "#4f7c8a"
+  overlay circle radius 0.25 fill "#8a8b86"
+  overlay circle radius 0.10 fill "#86b0bd"
+}
+
+feature_def "market_stall" {
+  name "Market Stall"
+  shape rect 1.6 x 1.2
+  background "#a67b3e"
+  outline { color "#3a2a14" width 0.07 stroke solid }
+  overlay rect 1.4 x 0.30 offset 0,-0.40 fill "#5a3e1a"
+  overlay rect 1.4 x 0.30 offset 0,0.10  fill "#7a5828"
+}
+
+feature_def "cart" {
+  name "Cart"
+  shape rect 1.6 x 0.9
+  background "#7a5828"
+  outline { color "#2a1f10" width 0.06 stroke solid }
+  overlay circle radius 0.22 offset -0.55,0.50 fill "#1a1208"
+  overlay circle radius 0.22 offset 0.55,0.50 fill "#1a1208"
+}
+
+feature_def "wagon" {
+  name "Wagon"
+  shape rect 2.4 x 1.2
+  background "#6a4a22"
+  outline { color "#2a1f10" width 0.07 stroke solid }
+  overlay rect 2.2 x 0.6 offset 0,-0.05 fill "#3a2818"
+  overlay circle radius 0.30 offset -0.90,0.70 fill "#1a1208"
+  overlay circle radius 0.30 offset 0.90,0.70 fill "#1a1208"
+}
+
+feature_def "lantern_post" {
+  name "Lantern Post"
+  shape circle radius 0.25
+  background "#2a2418"
+  outline { color "#1a1408" width 0.05 stroke solid }
+  overlay circle radius 0.14 fill "#f3c14d"
+}
+
+feature_def "signpost" {
+  name "Signpost"
+  shape rect 0.28 x 0.95
+  background "#5a3e1a"
+  outline { color "#1a1208" width 0.05 stroke solid }
+  overlay rect 0.95 x 0.20 offset 0,-0.30 fill "#a8884c"
+}
+
+feature_def "hitching_post" {
+  name "Hitching Post"
+  shape rect 0.95 x 0.18
+  background "#3a2818"
+  outline { color "#1a1208" width 0.05 stroke solid }
+}
+
+feature_def "barrel_stack" {
+  name "Barrel Stack"
+  shape circle radius 0.55
+  background "#7a5828"
+  outline { color "#2a1f10" width 0.06 stroke solid }
+  overlay circle radius 0.28 offset -0.20,0 fill "#a8884c"
+  overlay circle radius 0.28 offset 0.20,0 fill "#a8884c"
+}
+
+feature_def "crate_stack" {
+  name "Crate Stack"
+  shape rect 1.0 x 1.0
+  background "#7a5828"
+  outline { color "#2a1f10" width 0.06 stroke solid }
+  overlay rect 0.42 x 0.42 offset -0.22,-0.22 fill "#a8884c"
+  overlay rect 0.42 x 0.42 offset 0.22,-0.22  fill "#a8884c"
+  overlay rect 0.42 x 0.42 offset -0.22,0.22  fill "#a8884c"
+  overlay rect 0.42 x 0.42 offset 0.22,0.22   fill "#a8884c"
+}
+
+feature_def "bench" {
+  name "Bench"
+  shape rect 1.6 x 0.35
+  background "#5a3e1a"
+  outline { color "#1a1208" width 0.05 stroke solid }
+}
+
+feature_def "planter" {
+  name "Planter"
+  shape rect 1.0 x 0.45
+  background "#5a4030"
+  outline { color "#1a1208" width 0.05 stroke solid }
+  overlay rect 0.85 x 0.30 offset 0,0 fill "#3a5530"
+}
+
+feature_def "guard_post" {
+  name "Guard Post"
+  shape rect 0.9 x 0.9
+  background "#5a5040"
+  outline { color "#1a1408" width 0.08 stroke solid }
+  overlay rect 0.5 x 0.5 offset 0,0 fill "#2a2418"
+}
+
+# ---------- buildings at map scale (a city seen from above) ----------
+# Each is drawn 1 x 1 around its point: `scale` it to the footprint.
+
+# A small building: a pitched roof seen from above, its ridge along x.
+feature_def "house" {
+  name "House"
+  description "A small building seen from above. Scale it to the footprint; rotate to turn the ridge."
+  glyph {
+    rect plain at -0.45,-0.3 0.9 x 0.3 fill-color "#bdb5a3" stroke-color "none"
+    rect plain at -0.45,0 0.9 x 0.3 fill-color "#d6cfbf" stroke-color "none"
+    rect plain at -0.45,-0.3 0.9 x 0.6 fill-color "none" stroke-color "#3a3a3a" stroke-width 0.04
+    line plain from -0.45,0 to 0.45,0 stroke-color "#3a3a3a" stroke-width 0.03
+  }
+}
+
+# What is left of a building: broken walls round a weedy floor, rubble in the gaps.
+feature_def "ruin" {
+  name "Ruin"
+  description "A roofless, broken-walled building foundation."
+  glyph {
+    rect plain at -0.45,-0.35 0.9 x 0.7 fill-color "#ddd8cc" stroke-color "none"
+    polyline plain (-0.45,-0.08) (-0.45,-0.35) (0.08,-0.35) fill-color "none" stroke-color "#3a3a3a" stroke-width 0.07
+    polyline plain (0.24,-0.35) (0.45,-0.35) (0.45,0.04) fill-color "none" stroke-color "#3a3a3a" stroke-width 0.07
+    polyline plain (0.45,0.2) (0.45,0.35) (-0.18,0.35) fill-color "none" stroke-color "#3a3a3a" stroke-width 0.07
+    polyline plain (-0.33,0.35) (-0.45,0.35) (-0.45,0.1) fill-color "none" stroke-color "#3a3a3a" stroke-width 0.07
+    polygon plain (0.1,-0.38) (0.2,-0.3) (0.14,-0.24) fill-color "#8a8a8a" stroke-color "none"
+    polygon plain (0.41,0.08) (0.5,0.13) (0.42,0.18) fill-color "#8a8a8a" stroke-color "none"
+    polygon plain (-0.3,0.3) (-0.22,0.4) (-0.3,0.42) fill-color "#8a8a8a" stroke-color "none"
+    polygon plain (-0.1,-0.05) (0.02,-0.1) (0.05,0.02) fill-color "#a8a8a8" stroke-color "none"
+  }
+}
+
+# A stepped pyramid seen from above: three tiers and a shrine on top, its
+# stairway climbing the east (+x) face. Rotate to face the stairs elsewhere.
+feature_def "ziggurat" {
+  name "Ziggurat"
+  description "A stepped temple pyramid; the stairs climb its east face (rotate 90 to face south)."
+  glyph {
+    rect plain at -0.5,-0.5 1 x 1 fill-color "#a9a49a" stroke-color "#2e2e2e" stroke-width 0.04
+    rect plain at -0.37,-0.37 0.74 x 0.74 fill-color "#bdb8ad" stroke-color "#2e2e2e" stroke-width 0.03
+    rect plain at -0.24,-0.24 0.48 x 0.48 fill-color "#d1ccc1" stroke-color "#2e2e2e" stroke-width 0.03
+    rect plain at -0.12,-0.12 0.24 x 0.24 fill-color "#ece8de" stroke-color "#2e2e2e" stroke-width 0.03
+    rect plain at 0.12,-0.08 0.38 x 0.16 fill-color "#e2ded4" stroke-color "#2e2e2e" stroke-width 0.03
+    line plain from 0.21,-0.08 to 0.21,0.08 stroke-color "#2e2e2e" stroke-width 0.02
+    line plain from 0.3,-0.08 to 0.3,0.08 stroke-color "#2e2e2e" stroke-width 0.02
+    line plain from 0.39,-0.08 to 0.39,0.08 stroke-color "#2e2e2e" stroke-width 0.02
+  }
+}
+
+# Tower — a round tower seen from above: the wall ring with its crenellations.
+feature_def "tower" {
+  name "Tower"
+  glyph {
+    circle stroke at 0,0 radius 0.42 fill-color "#d9d4c7"
+    circle stroke at 0,0 radius 0.28 fill-color "none" stroke-width 0.03
+    path stroke "M0,-0.42 L0,-0.28 M0.42,0 L0.28,0 M0,0.42 L0,0.28 M-0.42,0 L-0.28,0 M0.3,-0.3 L0.2,-0.2 M0.3,0.3 L0.2,0.2 M-0.3,0.3 L-0.2,0.2 M-0.3,-0.3 L-0.2,-0.2" fill-color "none" stroke-width 0.03
+  }
+}
+
+# Gatehouse — a gate between two flanking towers (the passage runs top to
+# bottom; `rotate` it for a wall that runs another way).
+feature_def "gatehouse" {
+  name "Gatehouse"
+  glyph {
+    rect stroke at -0.5,-0.3 0.34 x 0.6 fill-color "#d9d4c7"
+    rect stroke at 0.16,-0.3 0.34 x 0.6 fill-color "#d9d4c7"
+    line stroke from -0.16,0 to 0.16,0 stroke-width 0.05
+  }
+}

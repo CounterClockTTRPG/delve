@@ -1,0 +1,617 @@
+{
+ "_source": "OSRIC 3.0 Player Guide, Chapter One: Ability Scores (Tables 1.1.2A–1.1.7A). Verified against PDF pages.",
+ "_notes": {
+  "ac_adjustment": "Two values are given for Dexterity AC. 'ac_adj_descending' applies when the group uses Descending AC (lower is better, classic). 'ac_adj_ascending' applies when using Ascending AC.",
+  "strength_exceptional": "Fighters, paladins and rangers with STR 18 roll d100 for exceptional strength (18/01 .. 18/00). 18/00 counts as 19."
+ },
+ "strength": {
+  "normal": {
+   "3": {
+    "to_hit": -3,
+    "damage": -1,
+    "weight_allowance": 0,
+    "open_doors": "1",
+    "bend_bars_pct": 0
+   },
+   "4": {
+    "to_hit": -2,
+    "damage": -1,
+    "weight_allowance": 10,
+    "open_doors": "1",
+    "bend_bars_pct": 0
+   },
+   "5": {
+    "to_hit": -2,
+    "damage": -1,
+    "weight_allowance": 10,
+    "open_doors": "1",
+    "bend_bars_pct": 0
+   },
+   "6": {
+    "to_hit": -1,
+    "damage": 0,
+    "weight_allowance": 20,
+    "open_doors": "1",
+    "bend_bars_pct": 0
+   },
+   "7": {
+    "to_hit": -1,
+    "damage": 0,
+    "weight_allowance": 20,
+    "open_doors": "1",
+    "bend_bars_pct": 0
+   },
+   "8": {
+    "to_hit": 0,
+    "damage": 0,
+    "weight_allowance": 35,
+    "open_doors": "1-2",
+    "bend_bars_pct": 1
+   },
+   "9": {
+    "to_hit": 0,
+    "damage": 0,
+    "weight_allowance": 35,
+    "open_doors": "1-2",
+    "bend_bars_pct": 1
+   },
+   "10": {
+    "to_hit": 0,
+    "damage": 0,
+    "weight_allowance": 35,
+    "open_doors": "1-2",
+    "bend_bars_pct": 2
+   },
+   "11": {
+    "to_hit": 0,
+    "damage": 0,
+    "weight_allowance": 35,
+    "open_doors": "1-2",
+    "bend_bars_pct": 2
+   },
+   "12": {
+    "to_hit": 0,
+    "damage": 0,
+    "weight_allowance": 45,
+    "open_doors": "1-2",
+    "bend_bars_pct": 4
+   },
+   "13": {
+    "to_hit": 0,
+    "damage": 0,
+    "weight_allowance": 45,
+    "open_doors": "1-2",
+    "bend_bars_pct": 4
+   },
+   "14": {
+    "to_hit": 0,
+    "damage": 0,
+    "weight_allowance": 55,
+    "open_doors": "1-2",
+    "bend_bars_pct": 7
+   },
+   "15": {
+    "to_hit": 0,
+    "damage": 0,
+    "weight_allowance": 55,
+    "open_doors": "1-2",
+    "bend_bars_pct": 7
+   },
+   "16": {
+    "to_hit": 0,
+    "damage": 1,
+    "weight_allowance": 70,
+    "open_doors": "1-3",
+    "bend_bars_pct": 10
+   },
+   "17": {
+    "to_hit": 1,
+    "damage": 1,
+    "weight_allowance": 85,
+    "open_doors": "1-3",
+    "bend_bars_pct": 13
+   },
+   "18": {
+    "to_hit": 1,
+    "damage": 2,
+    "weight_allowance": 110,
+    "open_doors": "1-3",
+    "bend_bars_pct": 16
+   },
+   "19": {
+    "to_hit": 3,
+    "damage": 6,
+    "weight_allowance": 300,
+    "open_doors": "1-5",
+    "bend_bars_pct": 40
+   }
+  },
+  "exceptional": [
+   {
+    "pct_min": 1,
+    "pct_max": 50,
+    "label": "18/01-50",
+    "to_hit": 1,
+    "damage": 3,
+    "weight_allowance": 135,
+    "open_doors": "1-3",
+    "bend_bars_pct": 20
+   },
+   {
+    "pct_min": 51,
+    "pct_max": 75,
+    "label": "18/51-75",
+    "to_hit": 2,
+    "damage": 3,
+    "weight_allowance": 160,
+    "open_doors": "1-4",
+    "bend_bars_pct": 25
+   },
+   {
+    "pct_min": 76,
+    "pct_max": 90,
+    "label": "18/76-90",
+    "to_hit": 2,
+    "damage": 4,
+    "weight_allowance": 185,
+    "open_doors": "1-4",
+    "bend_bars_pct": 30
+   },
+   {
+    "pct_min": 91,
+    "pct_max": 99,
+    "label": "18/91-99",
+    "to_hit": 2,
+    "damage": 5,
+    "weight_allowance": 235,
+    "open_doors": "1-4",
+    "bend_bars_pct": 35
+   },
+   {
+    "pct_min": 100,
+    "pct_max": 100,
+    "label": "18/00",
+    "to_hit": 3,
+    "damage": 6,
+    "weight_allowance": 300,
+    "open_doors": "1-5",
+    "bend_bars_pct": 40
+   }
+  ]
+ },
+ "dexterity": {
+  "3": {
+   "surprise": -3,
+   "missile_to_hit": -3,
+   "initiative": 3,
+   "ac_adj_descending": 4,
+   "ac_adj_ascending": -4,
+   "agility_save": -4
+  },
+  "4": {
+   "surprise": -2,
+   "missile_to_hit": -2,
+   "initiative": 2,
+   "ac_adj_descending": 3,
+   "ac_adj_ascending": -3,
+   "agility_save": -3
+  },
+  "5": {
+   "surprise": -1,
+   "missile_to_hit": -1,
+   "initiative": 1,
+   "ac_adj_descending": 2,
+   "ac_adj_ascending": -2,
+   "agility_save": -2
+  },
+  "6": {
+   "surprise": 0,
+   "missile_to_hit": 0,
+   "initiative": 0,
+   "ac_adj_descending": 1,
+   "ac_adj_ascending": -1,
+   "agility_save": -1
+  },
+  "7": {
+   "surprise": 0,
+   "missile_to_hit": 0,
+   "initiative": 0,
+   "ac_adj_descending": 0,
+   "ac_adj_ascending": 0,
+   "agility_save": 0
+  },
+  "8": {
+   "surprise": 0,
+   "missile_to_hit": 0,
+   "initiative": 0,
+   "ac_adj_descending": 0,
+   "ac_adj_ascending": 0,
+   "agility_save": 0
+  },
+  "9": {
+   "surprise": 0,
+   "missile_to_hit": 0,
+   "initiative": 0,
+   "ac_adj_descending": 0,
+   "ac_adj_ascending": 0,
+   "agility_save": 0
+  },
+  "10": {
+   "surprise": 0,
+   "missile_to_hit": 0,
+   "initiative": 0,
+   "ac_adj_descending": 0,
+   "ac_adj_ascending": 0,
+   "agility_save": 0
+  },
+  "11": {
+   "surprise": 0,
+   "missile_to_hit": 0,
+   "initiative": 0,
+   "ac_adj_descending": 0,
+   "ac_adj_ascending": 0,
+   "agility_save": 0
+  },
+  "12": {
+   "surprise": 0,
+   "missile_to_hit": 0,
+   "initiative": 0,
+   "ac_adj_descending": 0,
+   "ac_adj_ascending": 0,
+   "agility_save": 0
+  },
+  "13": {
+   "surprise": 0,
+   "missile_to_hit": 0,
+   "initiative": 0,
+   "ac_adj_descending": 0,
+   "ac_adj_ascending": 0,
+   "agility_save": 0
+  },
+  "14": {
+   "surprise": 0,
+   "missile_to_hit": 0,
+   "initiative": 0,
+   "ac_adj_descending": 0,
+   "ac_adj_ascending": 0,
+   "agility_save": 0
+  },
+  "15": {
+   "surprise": 0,
+   "missile_to_hit": 0,
+   "initiative": 0,
+   "ac_adj_descending": -1,
+   "ac_adj_ascending": 1,
+   "agility_save": 1
+  },
+  "16": {
+   "surprise": 1,
+   "missile_to_hit": 1,
+   "initiative": -1,
+   "ac_adj_descending": -2,
+   "ac_adj_ascending": 2,
+   "agility_save": 2
+  },
+  "17": {
+   "surprise": 2,
+   "missile_to_hit": 2,
+   "initiative": -2,
+   "ac_adj_descending": -3,
+   "ac_adj_ascending": 3,
+   "agility_save": 3
+  },
+  "18": {
+   "surprise": 3,
+   "missile_to_hit": 3,
+   "initiative": -3,
+   "ac_adj_descending": -4,
+   "ac_adj_ascending": 4,
+   "agility_save": 4
+  },
+  "19": {
+   "surprise": 3,
+   "missile_to_hit": 3,
+   "initiative": -3,
+   "ac_adj_descending": -4,
+   "ac_adj_ascending": 4,
+   "agility_save": 4
+  }
+ },
+ "constitution": {
+  "3": {
+   "hp_mod": -2,
+   "hp_mod_warrior": -2,
+   "resurrection_pct": 40,
+   "system_shock_pct": 35
+  },
+  "4": {
+   "hp_mod": -1,
+   "hp_mod_warrior": -1,
+   "resurrection_pct": 45,
+   "system_shock_pct": 40
+  },
+  "5": {
+   "hp_mod": -1,
+   "hp_mod_warrior": -1,
+   "resurrection_pct": 50,
+   "system_shock_pct": 45
+  },
+  "6": {
+   "hp_mod": -1,
+   "hp_mod_warrior": -1,
+   "resurrection_pct": 55,
+   "system_shock_pct": 50
+  },
+  "7": {
+   "hp_mod": 0,
+   "hp_mod_warrior": 0,
+   "resurrection_pct": 60,
+   "system_shock_pct": 55
+  },
+  "8": {
+   "hp_mod": 0,
+   "hp_mod_warrior": 0,
+   "resurrection_pct": 65,
+   "system_shock_pct": 60
+  },
+  "9": {
+   "hp_mod": 0,
+   "hp_mod_warrior": 0,
+   "resurrection_pct": 70,
+   "system_shock_pct": 65
+  },
+  "10": {
+   "hp_mod": 0,
+   "hp_mod_warrior": 0,
+   "resurrection_pct": 75,
+   "system_shock_pct": 70
+  },
+  "11": {
+   "hp_mod": 0,
+   "hp_mod_warrior": 0,
+   "resurrection_pct": 80,
+   "system_shock_pct": 75
+  },
+  "12": {
+   "hp_mod": 0,
+   "hp_mod_warrior": 0,
+   "resurrection_pct": 85,
+   "system_shock_pct": 80
+  },
+  "13": {
+   "hp_mod": 0,
+   "hp_mod_warrior": 0,
+   "resurrection_pct": 90,
+   "system_shock_pct": 85
+  },
+  "14": {
+   "hp_mod": 0,
+   "hp_mod_warrior": 0,
+   "resurrection_pct": 92,
+   "system_shock_pct": 88
+  },
+  "15": {
+   "hp_mod": 1,
+   "hp_mod_warrior": 1,
+   "resurrection_pct": 94,
+   "system_shock_pct": 91
+  },
+  "16": {
+   "hp_mod": 2,
+   "hp_mod_warrior": 2,
+   "resurrection_pct": 96,
+   "system_shock_pct": 95
+  },
+  "17": {
+   "hp_mod": 2,
+   "hp_mod_warrior": 3,
+   "resurrection_pct": 98,
+   "system_shock_pct": 97
+  },
+  "18": {
+   "hp_mod": 2,
+   "hp_mod_warrior": 4,
+   "resurrection_pct": 100,
+   "system_shock_pct": 99
+  },
+  "19": {
+   "hp_mod": 2,
+   "hp_mod_warrior": 5,
+   "resurrection_pct": 100,
+   "system_shock_pct": 99
+  }
+ },
+ "intelligence": {
+  "3": {
+   "max_additional_languages": 0
+  },
+  "4": {
+   "max_additional_languages": 0
+  },
+  "5": {
+   "max_additional_languages": 0
+  },
+  "6": {
+   "max_additional_languages": 0
+  },
+  "7": {
+   "max_additional_languages": 0
+  },
+  "8": {
+   "max_additional_languages": 1
+  },
+  "9": {
+   "max_additional_languages": 1
+  },
+  "10": {
+   "max_additional_languages": 2
+  },
+  "11": {
+   "max_additional_languages": 2
+  },
+  "12": {
+   "max_additional_languages": 3
+  },
+  "13": {
+   "max_additional_languages": 3
+  },
+  "14": {
+   "max_additional_languages": 4
+  },
+  "15": {
+   "max_additional_languages": 4
+  },
+  "16": {
+   "max_additional_languages": 5
+  },
+  "17": {
+   "max_additional_languages": 6
+  },
+  "18": {
+   "max_additional_languages": 7
+  },
+  "19": {
+   "max_additional_languages": 8
+  }
+ },
+ "wisdom": {
+  "3": {
+   "mental_save": -3
+  },
+  "4": {
+   "mental_save": -2
+  },
+  "5": {
+   "mental_save": -1
+  },
+  "6": {
+   "mental_save": -1
+  },
+  "7": {
+   "mental_save": -1
+  },
+  "8": {
+   "mental_save": 0
+  },
+  "9": {
+   "mental_save": 0
+  },
+  "10": {
+   "mental_save": 0
+  },
+  "11": {
+   "mental_save": 0
+  },
+  "12": {
+   "mental_save": 0
+  },
+  "13": {
+   "mental_save": 0
+  },
+  "14": {
+   "mental_save": 0
+  },
+  "15": {
+   "mental_save": 1
+  },
+  "16": {
+   "mental_save": 2
+  },
+  "17": {
+   "mental_save": 3
+  },
+  "18": {
+   "mental_save": 4
+  },
+  "19": {
+   "mental_save": 5
+  }
+ },
+ "charisma": {
+  "3": {
+   "henchmen_max": 1,
+   "loyalty": -30,
+   "reaction": -25
+  },
+  "4": {
+   "henchmen_max": 1,
+   "loyalty": -25,
+   "reaction": -20
+  },
+  "5": {
+   "henchmen_max": 2,
+   "loyalty": -20,
+   "reaction": -15
+  },
+  "6": {
+   "henchmen_max": 2,
+   "loyalty": -15,
+   "reaction": -10
+  },
+  "7": {
+   "henchmen_max": 3,
+   "loyalty": -10,
+   "reaction": -5
+  },
+  "8": {
+   "henchmen_max": 3,
+   "loyalty": -5,
+   "reaction": 0
+  },
+  "9": {
+   "henchmen_max": 4,
+   "loyalty": 0,
+   "reaction": 0
+  },
+  "10": {
+   "henchmen_max": 4,
+   "loyalty": 0,
+   "reaction": 0
+  },
+  "11": {
+   "henchmen_max": 4,
+   "loyalty": 0,
+   "reaction": 0
+  },
+  "12": {
+   "henchmen_max": 5,
+   "loyalty": 0,
+   "reaction": 0
+  },
+  "13": {
+   "henchmen_max": 5,
+   "loyalty": 0,
+   "reaction": 5
+  },
+  "14": {
+   "henchmen_max": 6,
+   "loyalty": 5,
+   "reaction": 10
+  },
+  "15": {
+   "henchmen_max": 7,
+   "loyalty": 15,
+   "reaction": 15
+  },
+  "16": {
+   "henchmen_max": 8,
+   "loyalty": 20,
+   "reaction": 25
+  },
+  "17": {
+   "henchmen_max": 10,
+   "loyalty": 30,
+   "reaction": 30
+  },
+  "18": {
+   "henchmen_max": 15,
+   "loyalty": 40,
+   "reaction": 35
+  },
+  "19": {
+   "henchmen_max": 20,
+   "loyalty": 50,
+   "reaction": 40
+  }
+ }
+}

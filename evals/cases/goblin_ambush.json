@@ -1,0 +1,25 @@
+{
+  "id": "goblin_ambush",
+  "description": "A fighter charges three goblins. The fight runs through setup_combat/combat_round/end_combat and the loot through award_treasure or generate_treasure.",
+  "module": "crypt-of-saint-vellis",
+  "setup": [
+    {"tool": "create_character", "args": {"name": "Bren", "sheet": {
+      "race": "Human", "gender": "male", "cls": "Fighter", "level": 3, "hp_max": 26, "ac": 4, "thac0": 18,
+      "ability_scores": {"str": 16, "dex": 12, "con": 14, "int": 10, "wis": 11, "cha": 9},
+      "attacks": [{"name": "long sword", "speed": 5, "attacks": 1, "thac0": 18, "damage_sm": "1d8+1", "damage_l": "1d12+1"}],
+      "movement_rate": 12, "alignment": "Lawful Good"}}},
+    {"tool": "move_party", "args": {"to": "entry_hall"}}
+  ],
+  "secrets": [
+    {"text": "Brother Kael, a cult ritualist, waits in the throne room with a bound skeleton; he flees through the vestry when the first goblin dies.",
+     "tags": ["ambush"], "related_to": "the throne room", "terms": ["Kael", "ritualist", "skeleton", "vestry"]}
+  ],
+  "beats": [
+    {"player": "Three goblins block the passage. Bren draws his sword and charges them.",
+     "expect": {"combat": true}},
+    {"player": "Bren keeps fighting until they are all down, then searches the bodies.",
+     "expect": {"combat": true, "combat_ends": true,
+                "roll": {"tools": ["award_treasure", "generate_treasure"],
+                         "outcome": ["\\b\\d+\\s*(?:gp|sp|cp|ep|pp|gold|silver|copper|electrum|platinum)\\b"]}}}
+  ]
+}

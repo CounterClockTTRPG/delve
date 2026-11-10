@@ -1,0 +1,98 @@
+/* A novel for print: a title page, then each chapter from a new page, set as a book. The toolbar keeps MapPrint's
+   styles, and is hidden in print by them. The page is named, so the module's and the map's print views keep their
+   own size and margins in the one bundle. */
+
+@page novel {
+  size: A5;
+  margin: 18mm 16mm 20mm;
+}
+
+.page {
+  max-width: 66ch;
+  margin: 0 auto;
+  padding: 32px 16px 80px;
+  font-family: var(--serif);
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: var(--fg);
+}
+
+.titlePage {
+  padding: 96px 0 48px;
+  text-align: center;
+}
+.titlePage h1 {
+  font-size: 2.4rem;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  margin: 0 0 16px;
+}
+.byline {
+  font-style: italic;
+  color: var(--fg-muted);
+}
+
+.chapter {
+  margin-top: 64px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+.chapter h2 {
+  margin-bottom: 24px;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.text p {
+  margin: 0;
+  text-indent: 1.5em;
+  hyphens: auto;
+}
+.text p:first-child,
+.text :is(blockquote, hr, ul, ol, h3, h4) + p {
+  text-indent: 0;
+}
+.text blockquote {
+  margin: 1em 2em;
+  font-style: italic;
+}
+.text hr {
+  margin: 1.5em auto;
+  width: 30%;
+  border: none;
+  border-top: 1px solid var(--border);
+}
+
+@media print {
+  body {
+    background: #fff !important;
+  }
+  .page {
+    page: novel;
+    max-width: none;
+    padding: 0;
+    font-size: 11pt;
+    line-height: 1.5;
+    color: #000;
+  }
+  .titlePage {
+    padding-top: 50mm;
+  }
+  .titlePage h1 {
+    font-size: 24pt;
+  }
+  .chapter {
+    break-before: page;
+    page-break-before: always;
+    margin-top: 0;
+    padding-top: 12mm;
+    border-top: none;
+  }
+  .chapter h2 {
+    font-size: 16pt;
+  }
+  .text p {
+    orphans: 2;
+    widows: 2;
+  }
+}

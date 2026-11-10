@@ -1,0 +1,340 @@
+{
+ "_source": "OSRIC 3.0 Gamemaster Guide §2.1.4, Table 2.1.4A “Experience Point Awards for Monsters” (with its “How to use this table” explanation and Special/Exceptional-ability definitions). Transcribed verbatim from extracted/gm_guide.txt and cross-checked against docs/OSRIC_Gamemaster_Guide.md, then parsed by scripts/build_monster_xp.py. This is the canonical OSRIC monster-XP formula and supersedes the non-OSRIC `xp_source` field in data/monsters.json. Formula: XP = base_xp (by Hit Dice) + (special × #special abilities) + (exceptional × #exceptional abilities) + (per_hp × monster hit points), all read off the same Hit-Dice row. Verify edge cases against docs/ or reference/.",
+ "_notes": {
+  "how_to_use": "Start with the Base XP value of a monster, which comes straight from its hit dice. Find the Hit Die value in the left column, and trace along that row to find the “Base Value”. Then, add to that Base XP value an additional amount for any and all Special or Exceptional abilities the monster might have (staying on the same row). Finally, for each individual monster, add the “per hit point” bonus. The bonus per hit point stays the same based on the monster's hit dice.",
+  "example": "You have created a 3 hit die monster with one ability you estimate to be “Special,” and one you estimate to be “Exceptional” (see below for a discussion of “Special” versus “Exceptional” abilities). Since it has 3 hit dice, its Base XP is 50. The special ability is worth an additional 15 XP (you are staying on the 3HD row to find this), and the exceptional ability is worth an additional 60 XP. This monster has an XP value of 50 (base) + 15 (one Special Ability) + 60 (one Exceptional Ability) for a total of 125 + 2/hp.",
+  "special_abilities": "Examples of special abilities are use of spells (casting spells like a 1st to 3rd level character), a single spell-like power that's equivalent to a spell of level 1-3, invulnerability to non-magical weapons, three or more attacks, and so on.",
+  "exceptional_abilities": "These are more powerful abilities such as a dragon's fiery breath, casting spells like a level 4+ character, a single spell-like power that's equivalent to a spell over level 4, very low armour class, very high damage potential, or unusual powers such as a gaze which petrifies its victims."
+ },
+ "schedule": [
+  {
+   "hd_raw": "Less than 1–1",
+   "base_xp": 5,
+   "base_xp_raw": "5",
+   "per_hp": 1,
+   "per_hp_raw": "1"
+  },
+  {
+   "hd_raw": "1–1 to 1",
+   "base_xp": 10,
+   "base_xp_raw": "10",
+   "per_hp": 1,
+   "per_hp_raw": "1"
+  },
+  {
+   "hd_raw": "1+1 to 2",
+   "base_xp": 30,
+   "base_xp_raw": "30",
+   "per_hp": 1,
+   "per_hp_raw": "1"
+  },
+  {
+   "hd_raw": "2+1 to 3",
+   "base_xp": 50,
+   "base_xp_raw": "50",
+   "per_hp": 2,
+   "per_hp_raw": "2"
+  },
+  {
+   "hd_raw": "3+1 to 4",
+   "base_xp": 75,
+   "base_xp_raw": "75",
+   "per_hp": 3,
+   "per_hp_raw": "3"
+  },
+  {
+   "hd_raw": "4+1 to 5",
+   "base_xp": 110,
+   "base_xp_raw": "110",
+   "per_hp": 4,
+   "per_hp_raw": "4"
+  },
+  {
+   "hd_raw": "5+1 to 6",
+   "base_xp": 160,
+   "base_xp_raw": "160",
+   "per_hp": 6,
+   "per_hp_raw": "6"
+  },
+  {
+   "hd_raw": "6+1 to 7",
+   "base_xp": 225,
+   "base_xp_raw": "225",
+   "per_hp": 8,
+   "per_hp_raw": "8"
+  },
+  {
+   "hd_raw": "7+1 to 8",
+   "base_xp": 350,
+   "base_xp_raw": "350",
+   "per_hp": 10,
+   "per_hp_raw": "10"
+  },
+  {
+   "hd_raw": "8+1 to 9",
+   "base_xp": 600,
+   "base_xp_raw": "600",
+   "per_hp": 12,
+   "per_hp_raw": "12"
+  },
+  {
+   "hd_raw": "9+1 to 10",
+   "base_xp": 700,
+   "base_xp_raw": "700",
+   "per_hp": 13,
+   "per_hp_raw": "13"
+  },
+  {
+   "hd_raw": "10+1 to 11",
+   "base_xp": 900,
+   "base_xp_raw": "900",
+   "per_hp": 14,
+   "per_hp_raw": "14"
+  },
+  {
+   "hd_raw": "11+1 to 12",
+   "base_xp": 1200,
+   "base_xp_raw": "1,200",
+   "per_hp": 16,
+   "per_hp_raw": "16"
+  },
+  {
+   "hd_raw": "12+1 to 13",
+   "base_xp": 1500,
+   "base_xp_raw": "1,500",
+   "per_hp": 17,
+   "per_hp_raw": "17"
+  },
+  {
+   "hd_raw": "13+1 to 14",
+   "base_xp": 1800,
+   "base_xp_raw": "1,800",
+   "per_hp": 18,
+   "per_hp_raw": "18"
+  },
+  {
+   "hd_raw": "14+1 to 15",
+   "base_xp": 2100,
+   "base_xp_raw": "2,100",
+   "per_hp": 19,
+   "per_hp_raw": "19"
+  },
+  {
+   "hd_raw": "15+1 to 16",
+   "base_xp": 2400,
+   "base_xp_raw": "2,400",
+   "per_hp": 20,
+   "per_hp_raw": "20"
+  },
+  {
+   "hd_raw": "16+1 to 17",
+   "base_xp": 2700,
+   "base_xp_raw": "2,700",
+   "per_hp": 23,
+   "per_hp_raw": "23"
+  },
+  {
+   "hd_raw": "17+1 to 18",
+   "base_xp": 3000,
+   "base_xp_raw": "3,000",
+   "per_hp": 25,
+   "per_hp_raw": "25"
+  },
+  {
+   "hd_raw": "18+1 to 19",
+   "base_xp": 3500,
+   "base_xp_raw": "3,500",
+   "per_hp": 28,
+   "per_hp_raw": "28"
+  },
+  {
+   "hd_raw": "19+1 to 20",
+   "base_xp": 4000,
+   "base_xp_raw": "4,000",
+   "per_hp": 30,
+   "per_hp_raw": "30"
+  },
+  {
+   "hd_raw": "20+1 to 21",
+   "base_xp": 4500,
+   "base_xp_raw": "4,500",
+   "per_hp": 33,
+   "per_hp_raw": "33"
+  },
+  {
+   "hd_raw": "21+1 and up",
+   "base_xp": 5000,
+   "base_xp_raw": "5,000",
+   "per_hp": 35,
+   "per_hp_raw": "35"
+  }
+ ],
+ "special_ability_bonus": {
+  "_description": "Additional XP added to the Base Value for EACH special or exceptional ability the monster possesses. The bonus is read off the same Hit-Dice row as the monster's Base Value (i.e. it scales with Hit Dice). `special` applies per special ability; `exceptional` applies per exceptional ability.",
+  "special_ability_definition": "Examples of special abilities are use of spells (casting spells like a 1st to 3rd level character), a single spell-like power that's equivalent to a spell of level 1-3, invulnerability to non-magical weapons, three or more attacks, and so on.",
+  "exceptional_ability_definition": "These are more powerful abilities such as a dragon's fiery breath, casting spells like a level 4+ character, a single spell-like power that's equivalent to a spell over level 4, very low armour class, very high damage potential, or unusual powers such as a gaze which petrifies its victims.",
+  "by_hit_dice": [
+   {
+    "hd_raw": "Less than 1–1",
+    "special": 3,
+    "special_raw": "3",
+    "exceptional": 25,
+    "exceptional_raw": "25"
+   },
+   {
+    "hd_raw": "1–1 to 1",
+    "special": 5,
+    "special_raw": "5",
+    "exceptional": 35,
+    "exceptional_raw": "35"
+   },
+   {
+    "hd_raw": "1+1 to 2",
+    "special": 10,
+    "special_raw": "10",
+    "exceptional": 50,
+    "exceptional_raw": "50"
+   },
+   {
+    "hd_raw": "2+1 to 3",
+    "special": 15,
+    "special_raw": "15",
+    "exceptional": 60,
+    "exceptional_raw": "60"
+   },
+   {
+    "hd_raw": "3+1 to 4",
+    "special": 30,
+    "special_raw": "30",
+    "exceptional": 70,
+    "exceptional_raw": "70"
+   },
+   {
+    "hd_raw": "4+1 to 5",
+    "special": 45,
+    "special_raw": "45",
+    "exceptional": 80,
+    "exceptional_raw": "80"
+   },
+   {
+    "hd_raw": "5+1 to 6",
+    "special": 70,
+    "special_raw": "70",
+    "exceptional": 120,
+    "exceptional_raw": "120"
+   },
+   {
+    "hd_raw": "6+1 to 7",
+    "special": 120,
+    "special_raw": "120",
+    "exceptional": 200,
+    "exceptional_raw": "200"
+   },
+   {
+    "hd_raw": "7+1 to 8",
+    "special": 200,
+    "special_raw": "200",
+    "exceptional": 300,
+    "exceptional_raw": "300"
+   },
+   {
+    "hd_raw": "8+1 to 9",
+    "special": 300,
+    "special_raw": "300",
+    "exceptional": 400,
+    "exceptional_raw": "400"
+   },
+   {
+    "hd_raw": "9+1 to 10",
+    "special": 400,
+    "special_raw": "400",
+    "exceptional": 500,
+    "exceptional_raw": "500"
+   },
+   {
+    "hd_raw": "10+1 to 11",
+    "special": 500,
+    "special_raw": "500",
+    "exceptional": 600,
+    "exceptional_raw": "600"
+   },
+   {
+    "hd_raw": "11+1 to 12",
+    "special": 700,
+    "special_raw": "700",
+    "exceptional": 850,
+    "exceptional_raw": "850"
+   },
+   {
+    "hd_raw": "12+1 to 13",
+    "special": 800,
+    "special_raw": "800",
+    "exceptional": 1000,
+    "exceptional_raw": "1,000"
+   },
+   {
+    "hd_raw": "13+1 to 14",
+    "special": 950,
+    "special_raw": "950",
+    "exceptional": 1200,
+    "exceptional_raw": "1,200"
+   },
+   {
+    "hd_raw": "14+1 to 15",
+    "special": 1100,
+    "special_raw": "1,100",
+    "exceptional": 1400,
+    "exceptional_raw": "1,400"
+   },
+   {
+    "hd_raw": "15+1 to 16",
+    "special": 1250,
+    "special_raw": "1,250",
+    "exceptional": 1600,
+    "exceptional_raw": "1,600"
+   },
+   {
+    "hd_raw": "16+1 to 17",
+    "special": 1400,
+    "special_raw": "1,400",
+    "exceptional": 1800,
+    "exceptional_raw": "1,800"
+   },
+   {
+    "hd_raw": "17+1 to 18",
+    "special": 1550,
+    "special_raw": "1,550",
+    "exceptional": 2000,
+    "exceptional_raw": "2,000"
+   },
+   {
+    "hd_raw": "18+1 to 19",
+    "special": 1800,
+    "special_raw": "1,800",
+    "exceptional": 2250,
+    "exceptional_raw": "2,250"
+   },
+   {
+    "hd_raw": "19+1 to 20",
+    "special": 2100,
+    "special_raw": "2,100",
+    "exceptional": 2500,
+    "exceptional_raw": "2,500"
+   },
+   {
+    "hd_raw": "20+1 to 21",
+    "special": 2350,
+    "special_raw": "2,350",
+    "exceptional": 2750,
+    "exceptional_raw": "2,750"
+   },
+   {
+    "hd_raw": "21+1 and up",
+    "special": 2600,
+    "special_raw": "2,600",
+    "exceptional": 3000,
+    "exceptional_raw": "3,000"
+   }
+  ]
+ }
+}

@@ -1,0 +1,1037 @@
+{
+ "_source": "OSRIC 3.0 Player Guide §1.6.5 (Table 1.6.5A: Turning the Undead). Transcribed verbatim from the PDF (extracted/player_guide.txt) and parsed by scripts/build_turning.py; cross-checked against docs/OSRIC_Player_Guide.md. Rows are the undead types (Type 1 Skeleton .. Type 13 Fiend); columns are the cleric/paladin caster level. On a turning attempt the cleric rolls a single d20: a NUMBER cell means the undead are turned if the roll is >= that number; 'T' = automatic turn; 'D'/'D*' = automatic destroy (evil clerics may instead control); '—' = no chance. Each cell carries the raw printed value plus a parsed interpretation. Verify edge cases against docs/ or reference/.",
+ "_die": "d20",
+ "_cleric_levels": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9-13",
+  "14-18",
+  "19+"
+ ],
+ "table": [
+  {
+   "type": "Type 1",
+   "example": "Skeleton",
+   "results": {
+    "1": {
+     "raw": "10",
+     "type": "number_needed",
+     "value": 10,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "2": {
+     "raw": "7",
+     "type": "number_needed",
+     "value": 7,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "3": {
+     "raw": "4",
+     "type": "number_needed",
+     "value": 4,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "4": {
+     "raw": "T",
+     "type": "auto_turn",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "5": {
+     "raw": "T",
+     "type": "auto_turn",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "6": {
+     "raw": "D",
+     "type": "auto_destroy",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "7": {
+     "raw": "D",
+     "type": "auto_destroy",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "8": {
+     "raw": "D*",
+     "type": "auto_destroy",
+     "starred": true,
+     "affected": "1d6+6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "9-13": {
+     "raw": "D*",
+     "type": "auto_destroy",
+     "starred": true,
+     "affected": "1d6+6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "14-18": {
+     "raw": "D*",
+     "type": "auto_destroy",
+     "starred": true,
+     "affected": "1d6+6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "19+": {
+     "raw": "D*",
+     "type": "auto_destroy",
+     "starred": true,
+     "affected": "1d6+6",
+     "affected_fiend_paladin": "1d2"
+    }
+   }
+  },
+  {
+   "type": "Type 2",
+   "example": "Zombie",
+   "results": {
+    "1": {
+     "raw": "13",
+     "type": "number_needed",
+     "value": 13,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "2": {
+     "raw": "10",
+     "type": "number_needed",
+     "value": 10,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "3": {
+     "raw": "7",
+     "type": "number_needed",
+     "value": 7,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "4": {
+     "raw": "T",
+     "type": "auto_turn",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "5": {
+     "raw": "T",
+     "type": "auto_turn",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "6": {
+     "raw": "D",
+     "type": "auto_destroy",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "7": {
+     "raw": "D",
+     "type": "auto_destroy",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "8": {
+     "raw": "D",
+     "type": "auto_destroy",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "9-13": {
+     "raw": "D*",
+     "type": "auto_destroy",
+     "starred": true,
+     "affected": "1d6+6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "14-18": {
+     "raw": "D*",
+     "type": "auto_destroy",
+     "starred": true,
+     "affected": "1d6+6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "19+": {
+     "raw": "D*",
+     "type": "auto_destroy",
+     "starred": true,
+     "affected": "1d6+6",
+     "affected_fiend_paladin": "1d2"
+    }
+   }
+  },
+  {
+   "type": "Type 3",
+   "example": "Ghoul",
+   "results": {
+    "1": {
+     "raw": "16",
+     "type": "number_needed",
+     "value": 16,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "2": {
+     "raw": "13",
+     "type": "number_needed",
+     "value": 13,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "3": {
+     "raw": "10",
+     "type": "number_needed",
+     "value": 10,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "4": {
+     "raw": "4",
+     "type": "number_needed",
+     "value": 4,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "5": {
+     "raw": "T",
+     "type": "auto_turn",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "6": {
+     "raw": "T",
+     "type": "auto_turn",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "7": {
+     "raw": "D",
+     "type": "auto_destroy",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "8": {
+     "raw": "D",
+     "type": "auto_destroy",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "9-13": {
+     "raw": "D",
+     "type": "auto_destroy",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "14-18": {
+     "raw": "D*",
+     "type": "auto_destroy",
+     "starred": true,
+     "affected": "1d6+6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "19+": {
+     "raw": "D*",
+     "type": "auto_destroy",
+     "starred": true,
+     "affected": "1d6+6",
+     "affected_fiend_paladin": "1d2"
+    }
+   }
+  },
+  {
+   "type": "Type 4",
+   "example": "Shadow",
+   "results": {
+    "1": {
+     "raw": "19",
+     "type": "number_needed",
+     "value": 19,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "2": {
+     "raw": "16",
+     "type": "number_needed",
+     "value": 16,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "3": {
+     "raw": "13",
+     "type": "number_needed",
+     "value": 13,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "4": {
+     "raw": "7",
+     "type": "number_needed",
+     "value": 7,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "5": {
+     "raw": "4",
+     "type": "number_needed",
+     "value": 4,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "6": {
+     "raw": "T",
+     "type": "auto_turn",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "7": {
+     "raw": "T",
+     "type": "auto_turn",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "8": {
+     "raw": "D",
+     "type": "auto_destroy",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "9-13": {
+     "raw": "D",
+     "type": "auto_destroy",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "14-18": {
+     "raw": "D",
+     "type": "auto_destroy",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "19+": {
+     "raw": "D*",
+     "type": "auto_destroy",
+     "starred": true,
+     "affected": "1d6+6",
+     "affected_fiend_paladin": "1d2"
+    }
+   }
+  },
+  {
+   "type": "Type 5",
+   "example": "Wight",
+   "results": {
+    "1": {
+     "raw": "20",
+     "type": "number_needed",
+     "value": 20,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "2": {
+     "raw": "19",
+     "type": "number_needed",
+     "value": 19,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "3": {
+     "raw": "16",
+     "type": "number_needed",
+     "value": 16,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "4": {
+     "raw": "10",
+     "type": "number_needed",
+     "value": 10,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "5": {
+     "raw": "7",
+     "type": "number_needed",
+     "value": 7,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "6": {
+     "raw": "4",
+     "type": "number_needed",
+     "value": 4,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "7": {
+     "raw": "T",
+     "type": "auto_turn",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "8": {
+     "raw": "T",
+     "type": "auto_turn",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "9-13": {
+     "raw": "D",
+     "type": "auto_destroy",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "14-18": {
+     "raw": "D",
+     "type": "auto_destroy",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "19+": {
+     "raw": "D",
+     "type": "auto_destroy",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    }
+   }
+  },
+  {
+   "type": "Type 6",
+   "example": "Ghast",
+   "results": {
+    "1": {
+     "raw": "—",
+     "type": "no_effect"
+    },
+    "2": {
+     "raw": "20",
+     "type": "number_needed",
+     "value": 20,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "3": {
+     "raw": "19",
+     "type": "number_needed",
+     "value": 19,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "4": {
+     "raw": "13",
+     "type": "number_needed",
+     "value": 13,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "5": {
+     "raw": "10",
+     "type": "number_needed",
+     "value": 10,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "6": {
+     "raw": "7",
+     "type": "number_needed",
+     "value": 7,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "7": {
+     "raw": "4",
+     "type": "number_needed",
+     "value": 4,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "8": {
+     "raw": "T",
+     "type": "auto_turn",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "9-13": {
+     "raw": "T",
+     "type": "auto_turn",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "14-18": {
+     "raw": "D",
+     "type": "auto_destroy",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "19+": {
+     "raw": "D",
+     "type": "auto_destroy",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    }
+   }
+  },
+  {
+   "type": "Type 7",
+   "example": "Wraith",
+   "results": {
+    "1": {
+     "raw": "—",
+     "type": "no_effect"
+    },
+    "2": {
+     "raw": "—",
+     "type": "no_effect"
+    },
+    "3": {
+     "raw": "20",
+     "type": "number_needed",
+     "value": 20,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "4": {
+     "raw": "16",
+     "type": "number_needed",
+     "value": 16,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "5": {
+     "raw": "13",
+     "type": "number_needed",
+     "value": 13,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "6": {
+     "raw": "10",
+     "type": "number_needed",
+     "value": 10,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "7": {
+     "raw": "7",
+     "type": "number_needed",
+     "value": 7,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "8": {
+     "raw": "4",
+     "type": "number_needed",
+     "value": 4,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "9-13": {
+     "raw": "T",
+     "type": "auto_turn",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "14-18": {
+     "raw": "T",
+     "type": "auto_turn",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "19+": {
+     "raw": "D",
+     "type": "auto_destroy",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    }
+   }
+  },
+  {
+   "type": "Type 8",
+   "example": "Mummy",
+   "results": {
+    "1": {
+     "raw": "—",
+     "type": "no_effect"
+    },
+    "2": {
+     "raw": "—",
+     "type": "no_effect"
+    },
+    "3": {
+     "raw": "—",
+     "type": "no_effect"
+    },
+    "4": {
+     "raw": "19",
+     "type": "number_needed",
+     "value": 19,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "5": {
+     "raw": "16",
+     "type": "number_needed",
+     "value": 16,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "6": {
+     "raw": "13",
+     "type": "number_needed",
+     "value": 13,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "7": {
+     "raw": "10",
+     "type": "number_needed",
+     "value": 10,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "8": {
+     "raw": "7",
+     "type": "number_needed",
+     "value": 7,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "9-13": {
+     "raw": "4",
+     "type": "number_needed",
+     "value": 4,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "14-18": {
+     "raw": "T",
+     "type": "auto_turn",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "19+": {
+     "raw": "D",
+     "type": "auto_destroy",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    }
+   }
+  },
+  {
+   "type": "Type 9",
+   "example": "Spectre",
+   "results": {
+    "1": {
+     "raw": "—",
+     "type": "no_effect"
+    },
+    "2": {
+     "raw": "—",
+     "type": "no_effect"
+    },
+    "3": {
+     "raw": "—",
+     "type": "no_effect"
+    },
+    "4": {
+     "raw": "20",
+     "type": "number_needed",
+     "value": 20,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "5": {
+     "raw": "19",
+     "type": "number_needed",
+     "value": 19,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "6": {
+     "raw": "16",
+     "type": "number_needed",
+     "value": 16,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "7": {
+     "raw": "13",
+     "type": "number_needed",
+     "value": 13,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "8": {
+     "raw": "10",
+     "type": "number_needed",
+     "value": 10,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "9-13": {
+     "raw": "7",
+     "type": "number_needed",
+     "value": 7,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "14-18": {
+     "raw": "T",
+     "type": "auto_turn",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "19+": {
+     "raw": "T",
+     "type": "auto_turn",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    }
+   }
+  },
+  {
+   "type": "Type 10",
+   "example": "Vampire",
+   "results": {
+    "1": {
+     "raw": "—",
+     "type": "no_effect"
+    },
+    "2": {
+     "raw": "—",
+     "type": "no_effect"
+    },
+    "3": {
+     "raw": "—",
+     "type": "no_effect"
+    },
+    "4": {
+     "raw": "—",
+     "type": "no_effect"
+    },
+    "5": {
+     "raw": "20",
+     "type": "number_needed",
+     "value": 20,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "6": {
+     "raw": "19",
+     "type": "number_needed",
+     "value": 19,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "7": {
+     "raw": "16",
+     "type": "number_needed",
+     "value": 16,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "8": {
+     "raw": "13",
+     "type": "number_needed",
+     "value": 13,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "9-13": {
+     "raw": "10",
+     "type": "number_needed",
+     "value": 10,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "14-18": {
+     "raw": "7",
+     "type": "number_needed",
+     "value": 7,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "19+": {
+     "raw": "4",
+     "type": "number_needed",
+     "value": 4,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    }
+   }
+  },
+  {
+   "type": "Type 11",
+   "example": "Ghost",
+   "results": {
+    "1": {
+     "raw": "—",
+     "type": "no_effect"
+    },
+    "2": {
+     "raw": "—",
+     "type": "no_effect"
+    },
+    "3": {
+     "raw": "—",
+     "type": "no_effect"
+    },
+    "4": {
+     "raw": "—",
+     "type": "no_effect"
+    },
+    "5": {
+     "raw": "—",
+     "type": "no_effect"
+    },
+    "6": {
+     "raw": "20",
+     "type": "number_needed",
+     "value": 20,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "7": {
+     "raw": "19",
+     "type": "number_needed",
+     "value": 19,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "8": {
+     "raw": "16",
+     "type": "number_needed",
+     "value": 16,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "9-13": {
+     "raw": "13",
+     "type": "number_needed",
+     "value": 13,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "14-18": {
+     "raw": "10",
+     "type": "number_needed",
+     "value": 10,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "19+": {
+     "raw": "7",
+     "type": "number_needed",
+     "value": 7,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    }
+   }
+  },
+  {
+   "type": "Type 12",
+   "example": "Lich",
+   "results": {
+    "1": {
+     "raw": "—",
+     "type": "no_effect"
+    },
+    "2": {
+     "raw": "—",
+     "type": "no_effect"
+    },
+    "3": {
+     "raw": "—",
+     "type": "no_effect"
+    },
+    "4": {
+     "raw": "—",
+     "type": "no_effect"
+    },
+    "5": {
+     "raw": "—",
+     "type": "no_effect"
+    },
+    "6": {
+     "raw": "—",
+     "type": "no_effect"
+    },
+    "7": {
+     "raw": "20",
+     "type": "number_needed",
+     "value": 20,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "8": {
+     "raw": "19",
+     "type": "number_needed",
+     "value": 19,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "9-13": {
+     "raw": "16",
+     "type": "number_needed",
+     "value": 16,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "14-18": {
+     "raw": "13",
+     "type": "number_needed",
+     "value": 13,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "19+": {
+     "raw": "10",
+     "type": "number_needed",
+     "value": 10,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    }
+   }
+  },
+  {
+   "type": "Type 13",
+   "example": "Fiend",
+   "results": {
+    "1": {
+     "raw": "—",
+     "type": "no_effect"
+    },
+    "2": {
+     "raw": "—",
+     "type": "no_effect"
+    },
+    "3": {
+     "raw": "—",
+     "type": "no_effect"
+    },
+    "4": {
+     "raw": "—",
+     "type": "no_effect"
+    },
+    "5": {
+     "raw": "—",
+     "type": "no_effect"
+    },
+    "6": {
+     "raw": "—",
+     "type": "no_effect"
+    },
+    "7": {
+     "raw": "—",
+     "type": "no_effect"
+    },
+    "8": {
+     "raw": "20",
+     "type": "number_needed",
+     "value": 20,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "9-13": {
+     "raw": "19",
+     "type": "number_needed",
+     "value": 19,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "14-18": {
+     "raw": "16",
+     "type": "number_needed",
+     "value": 16,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    },
+    "19+": {
+     "raw": "13",
+     "type": "number_needed",
+     "value": 13,
+     "roll": "d20",
+     "affected": "2d6",
+     "affected_fiend_paladin": "1d2"
+    }
+   }
+  }
+ ]
+}

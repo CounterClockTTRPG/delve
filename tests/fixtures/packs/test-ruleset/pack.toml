@@ -1,0 +1,7 @@
+id = "test-ruleset"
+kind = "ruleset"
+title = "Test ruleset"
+version = "1.0.0"
+delve_api = 1
+package = "test_ruleset_pack"
+entry = "test_ruleset_pack.pack:PACK"

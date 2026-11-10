@@ -1,0 +1,496 @@
+/* The account pages (players and tavern Task E): the login page, a one-time link, My tables, the Account section and
+   the Players page. */
+
+.account-form {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.account-form h1,
+.account-form h2 {
+  margin-bottom: 0.25rem;
+}
+
+.account-form button {
+  justify-self: start;
+  margin-top: 0.5rem;
+}
+
+.account-form .hint {
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+/* The email switches (DEL-314): one tick a line under their legend. */
+.email-switches {
+  margin: 0.75rem 0 0;
+  padding: 0;
+  border: 0;
+}
+
+.email-switches .check {
+  display: flex;
+}
+
+.first-owner {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule);
+}
+
+.account-username {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* My tables: a card per table, its banner on top. */
+
+.my-tables {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.my-table {
+  display: grid;
+  gap: 0.25rem;
+  align-content: start;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-top: 4px solid var(--accent);
+  border-radius: 4px;
+  box-shadow: var(--card-edge);
+}
+
+.my-table-banner {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 1;
+  object-fit: cover;
+}
+
+.my-table-body {
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.75rem 1rem 1rem;
+}
+
+.my-table h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.my-table .row-meta {
+  color: var(--muted);
+}
+
+.my-table a.button-like,
+.my-table .button {
+  justify-self: start;
+  margin-top: 0.5rem;
+}
+
+/* A complete campaign: kept to read back, not to play on, so it steps back. */
+.my-table.complete {
+  border-top-color: var(--rule);
+  box-shadow: none;
+  color: var(--muted);
+}
+
+.my-table.complete .my-table-banner {
+  filter: grayscale(1);
+  opacity: 0.55;
+}
+
+.my-table.complete h2 {
+  color: var(--muted);
+}
+
+.my-table-status {
+  margin-left: 0.5rem;
+  padding: 0 0.4rem;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  font-size: 0.85em;
+}
+
+/* The notice of an old seat this account may keep, above the screen. */
+
+.keep-seat {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+/* The Account section of Preferences, and the Players page. */
+
+.account-sessions,
+.players-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.account-sessions td,
+.players-table td,
+.players-table th {
+  padding: 0.4rem 0.5rem;
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.account-session-current {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.players-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.players-link {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.players-link input {
+  flex: 1 1 20rem;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+/* The join page's forms: making an account, logging in, and the role step. */
+
+.join-form {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.join-form button[type="submit"] {
+  justify-self: start;
+}
+
+.join-tabs {
+  margin: 0.5rem 0;
+}
+
+/* The two tabs share the row and keep their words on one line: on a phone "Log in" wrapped (DEL-263). */
+.join-tabs .view-tab {
+  flex: 1 1 0;
+  white-space: nowrap;
+}
+
+/* Log out and Help in the nav: buttons that sit in the nav as its links do. */
+
+.nav .nav-logout,
+.nav .nav-help,
+.nav .nav-more {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  margin: 0;
+  padding: 0 0.15rem;
+  color: var(--muted);
+  background: none;
+  border: 0;
+  border-top: 3px solid transparent;
+  border-radius: 0;
+  font-size: 0.7rem;
+  line-height: 1.1;
+}
+
+@media (min-width: 900px) {
+  .nav .nav-logout,
+  .nav .nav-help {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 0.75rem;
+    height: auto;
+    padding: 0.6rem 1.25rem;
+    font-size: 0.95rem;
+    color: var(--ink);
+    border-top: 0;
+    border-left: 3px solid transparent;
+  }
+
+  .nav .nav-logout:hover,
+  .nav .nav-help:hover {
+    background: var(--bg);
+  }
+}
+
+/* Sign-up with approval (DEL-156): the switch, and the sign-ups waiting to be let in. */
+.players-sign-up,
+.players-waiting {
+  margin: 1.25rem 0;
+}
+
+.players-waiting ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* When it was asked, on a line of its own: without a note it ran into the username (DEL-268). */
+.players-waiting li .hint {
+  display: block;
+}
+
+.players-waiting li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.players-note {
+  margin: 0.35rem 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.sign-up-entry,
+.forgot-entry {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+/* A forgotten password (DEL-268): asked of the owner, below the login. */
+.forgot {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule);
+}
+
+.forgot h2 {
+  font-size: 1rem;
+  margin: 0 0 0.5rem;
+}
+
+/* Logging in, signing up and linking with an outside account (DEL-206). */
+.outside-logins {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.outside-login {
+  width: 100%;
+}
+
+.account-linked {
+  margin-top: 1.5rem;
+}
+
+.account-identities {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0;
+}
+
+.account-identities li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.35rem 0;
+}
+
+/* The public privacy policy and terms (DEL-208): a page of text, read before logging in. */
+.legal-page {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: 2rem 1rem 3rem;
+  line-height: 1.55;
+}
+
+.legal-page h2 {
+  margin-top: 1.75rem;
+}
+
+.legal-page li {
+  margin: 0.4rem 0;
+}
+
+.legal-links {
+  margin-top: 1.25rem;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+/* My tables' head: the title, and Find a table beside it (DEL-204). */
+.page-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+}
+
+/* Find a table (FindTables.tsx): a card per public table. */
+.find-tables {
+  display: grid;
+  gap: 1rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.find-table {
+  display: grid;
+  gap: 0.5rem;
+  padding: 1rem 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  box-shadow: var(--card-edge);
+}
+
+.find-table-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.9rem;
+}
+
+.find-table-head h2 {
+  margin: 0;
+}
+
+/* Who sits at the table: a line of its own under the title. */
+.find-table-head .table-faces {
+  flex-basis: 100%;
+}
+
+.find-host {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+}
+
+.find-table .table-about {
+  margin-top: 0;
+}
+
+.find-table-actions,
+.find-ask {
+  display: grid;
+  gap: 0.4rem;
+  justify-items: start;
+}
+
+.find-ask {
+  justify-items: stretch;
+  max-width: 40rem;
+}
+
+/* A request to join's thread (RequestThread.tsx), on My tables and in the host's controls. */
+.my-requests {
+  margin-top: 2rem;
+}
+
+.my-requests > ul {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.my-request {
+  display: grid;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+}
+
+.my-request-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem 0.8rem;
+}
+
+.request-status {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.05rem 0.5rem;
+  border-radius: 999px;
+  background: var(--bg-sunken);
+  color: var(--muted);
+}
+
+.request-status.pending {
+  background: var(--notice-bg);
+  color: var(--notice-ink);
+}
+
+.request-status.accepted {
+  background: color-mix(in srgb, var(--accent) 15%, var(--surface));
+  color: var(--accent);
+}
+
+.request-thread {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.request-messages {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.request-messages li {
+  padding-left: 0.6rem;
+  border-left: 3px solid var(--rule);
+}
+
+.request-messages li.from-host {
+  border-left-color: var(--accent);
+}
+
+.request-messages p {
+  margin: 0.1rem 0 0;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+.request-who {
+  font-weight: 600;
+}
+
+.request-reply {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.request-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}

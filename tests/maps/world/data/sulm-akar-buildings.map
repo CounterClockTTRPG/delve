@@ -1,0 +1,87 @@
+# Sulm-Akar buildings — included from wastes-of-cynidicea.map
+# Coordinates in feet relative to the city's local frame.
+# Origin (0,0) at the southwest corner; +x east, +y north.
+
+# ── Lower terrace, near the river gate ───────────────────────────────────────
+building rerds-yard {
+    at   12,32
+    size 8,7
+    type stable
+    tags [stable, low-rent]
+    description "Rerd Jasper's stable. Camels, mules, and a bad-tempered gelding. Loft sleeps boarders for cheap."
+    doc locations/wastes-of-cynidicea/river-gate-stable.md
+}
+
+building sand-crow {
+    at   14,42
+    size 6,5
+    type tavern
+    tags [tavern, low-rent, rumour]
+    description "Bottom-rung tavern by the river gate. Where Carm Ulvane sells the buried-city rumour for a cup."
+}
+
+building brown-wren {
+    at   22,33
+    size 6,5
+    type stable
+    tags [stable]
+    description "Brown Wren stable yard. Brask the camel and four pack-camels are stabled here."
+}
+
+building lower-market {
+    at   30,16
+    size 14,9
+    type market
+    tags [market, open-air]
+    description "Open-air market, dawn to noon. Cloth, livestock, dried fruit, salt, slaves."
+}
+
+# ── Upper terrace, against the sandstone bluff ───────────────────────────────
+building brass-cup {
+    at   62,30
+    size 9,6
+    type inn
+    tags [inn, upper, merchants]
+    description "Best inn in town. Merchants and caravan masters drink here."
+}
+
+building council-house {
+    at   58,46
+    size 12,8
+    type civic
+    tags [civic, walled]
+    description "Civic authority. Senior merchants on the council; rarely intervenes outside the walls."
+}
+
+building half-buried-shrine {
+    at   84,52
+    size 6,6
+    type temple
+    tags [temple, ancient, sun-god]
+    description "Temple to the One Who Watches the Long Light. Caretaker La Crestwell. Surface twin of the deep-stair seal."
+    doc locations/wastes-of-cynidicea/half-buried-shrine.md
+}
+
+building militia-post {
+    at   86,36
+    size 6,5
+    type guard
+    tags [militia, guard]
+    description "Sun Gate militia post. Sergeant Bans Quell on duty; brother Penth Quell at the salt market."
+}
+
+building customs-house {
+    at   80,42
+    size 5,5
+    type civic
+    tags [civic, customs]
+    description "Eastern customs post. Modest tariff on spices, salt, captives."
+}
+
+# ── A few more residences/shops to fill the terraces ─────────────────────────
+building merchant-row-a    { at 40,30; size 6,4; type residence }
+building merchant-row-b    { at 47,30; size 6,4; type residence }
+building potter            { at 35,52; size 5,4; type shop; tags [craft]; description "Potter's workshop. Cheap clay, brackish-tinted glaze." }
+building leather-stall     { at 42,52; size 5,4; type shop; tags [craft] }
+building grain-store       { at 50,52; size 7,5; type warehouse; tags [trade] }
+building scribe-and-letter { at 70,52; size 5,4; type shop; tags [civic, literate]; description "Scribe-and-letter house. La's cousin works here." }

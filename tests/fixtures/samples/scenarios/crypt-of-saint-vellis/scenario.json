@@ -1,0 +1,142 @@
+{
+  "format": "dungml-scenario",
+  "version": 1,
+  "id": "3f6c1a52-8d1e-4c0b-9b7a-5a2d6e1f0c11",
+  "title": "The Crypt of Saint Vellis",
+  "subtitle": "A one-shot for low-level characters",
+  "summary": "A one-session crypt crawl: interrupt a cult priest's binding ritual before a saint wakes.",
+  "description": "Two centuries ago the Order of Saint Vellis sealed its founder's bones beneath the chapel hill. Last night the chapel bell rang on its own.\n\nA short crawl through three keyed rooms, a cult priest racing to finish a binding, and a saint who should not be woken.",
+  "authors": [
+    {
+      "name": "dungml samples",
+      "role": "author"
+    },
+    {
+      "name": "dungml samples",
+      "role": "cartographer"
+    }
+  ],
+  "release": {
+    "version": "1.1.0",
+    "date": "2026-10-17",
+    "notes": "Structured metadata (party, duration, release)."
+  },
+  "created": "2026-10-17T09:00:00Z",
+  "updated": "2026-10-17T15:30:00Z",
+  "system": "adnd2e",
+  "system_name": "AD&D 2nd Edition",
+  "setting": "generic",
+  "language": "en",
+  "party": {
+    "size": {
+      "min": 3,
+      "max": 6,
+      "recommended": 4
+    },
+    "levels": {
+      "min": 1,
+      "max": 3,
+      "recommended": 2
+    },
+    "notes": "A cleric helps against the risen saint."
+  },
+  "duration": {
+    "sessions": 1,
+    "hours": {
+      "min": 2,
+      "max": 4
+    }
+  },
+  "tags": [
+    "dungeon",
+    "undead",
+    "one-shot"
+  ],
+  "content_warnings": [
+    "human remains"
+  ],
+  "license": {
+    "spdx": "CC0-1.0",
+    "name": "CC0 — sample content"
+  },
+  "cover": "asset:ritualist-token",
+  "requires": {
+    "dungml": ">=0.1"
+  },
+  "maps": [
+    {
+      "name": "crypt",
+      "file": "maps/crypt.dmap",
+      "default": true,
+      "title": "Crypt of Saint Vellis"
+    },
+    {
+      "name": "core.dmap",
+      "file": "maps/lib/core.dmap",
+      "role": "library"
+    }
+  ],
+  "text": [
+    {
+      "id": "intro",
+      "file": "text/intro.md",
+      "title": "Introduction",
+      "audience": "player"
+    },
+    {
+      "id": "crypt-key",
+      "file": "text/keyed/crypt.md",
+      "title": "Keyed encounters",
+      "map": "crypt"
+    }
+  ],
+  "assets": [
+    {
+      "id": "ritualist-token",
+      "file": "assets/img/ritualist-token.png",
+      "type": "image/png",
+      "sha256": "78b972a7f365ee3e41ee6adbedeb4154f0f451fc3b32b6b50e2eb52fe6bc05a3",
+      "size": 79,
+      "audience": "player",
+      "caption": "Cult ritualist token"
+    }
+  ],
+  "entities": {
+    "npcs": "entities/npcs.yaml",
+    "encounters": "entities/encounters.yaml",
+    "rumors": "entities/rumors.yaml",
+    "secrets": "entities/secrets.yaml"
+  },
+  "keys": [
+    {
+      "key": "C1",
+      "title": "Entry Hall",
+      "node": "map:crypt#room.entry_hall",
+      "text": "text:crypt-key#c1"
+    },
+    {
+      "key": "C2",
+      "title": "Throne Chamber",
+      "node": "map:crypt#room.throne_chamber",
+      "text": "text:crypt-key#c2",
+      "assets": [
+        "asset:ritualist-token"
+      ],
+      "npcs": [
+        "npc:ritualist"
+      ],
+      "encounter": "encounter:c2-saint"
+    },
+    {
+      "key": "C3",
+      "title": "Vestry Alcove",
+      "node": "map:crypt#room.vestry_alcove",
+      "text": "text:crypt-key#c3"
+    }
+  ],
+  "start": {
+    "map": "crypt",
+    "node": "room.entry_hall",
+    "text": "text:intro"
+  }
+}

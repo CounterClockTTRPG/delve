@@ -1,0 +1,577 @@
+{
+ "_source": "OSRIC 3.0 Player Guide: Armour (Table 1.4.2.G), Melee Weapons (1.4.2.3B/C), Missile Weapons (1.4.2.3D), Monster Base-To-Hit-Bonus (1.4.2 section). Verified against PDF.",
+ "ac_systems": {
+  "_note": "OSRIC supports both. Descending is the default (lower AC = better). Ascending AC = 20 - descending AC (higher = better). The engine computes hits from descending values and can display either.",
+  "unarmoured": {
+   "descending": 10,
+   "ascending": 10
+  }
+ },
+ "armour": {
+  "none": {
+   "ac_descending": 10,
+   "ac_ascending": 10,
+   "weight": 0,
+   "movement_cap_ft": null,
+   "cost_gp": 0
+  },
+  "padded": {
+   "ac_descending": 8,
+   "ac_ascending": 12,
+   "weight": 10,
+   "movement_cap_ft": 90,
+   "cost_gp": 4
+  },
+  "leather": {
+   "ac_descending": 8,
+   "ac_ascending": 12,
+   "weight": 15,
+   "movement_cap_ft": 120,
+   "cost_gp": 5
+  },
+  "studded_leather": {
+   "ac_descending": 7,
+   "ac_ascending": 13,
+   "weight": 20,
+   "movement_cap_ft": 90,
+   "cost_gp": 15
+  },
+  "ring_mail": {
+   "ac_descending": 7,
+   "ac_ascending": 13,
+   "weight": 35,
+   "movement_cap_ft": 90,
+   "cost_gp": 30
+  },
+  "scale_lamellar": {
+   "ac_descending": 6,
+   "ac_ascending": 14,
+   "weight": 40,
+   "movement_cap_ft": 60,
+   "cost_gp": 45
+  },
+  "chain_mail": {
+   "ac_descending": 5,
+   "ac_ascending": 15,
+   "weight": 30,
+   "movement_cap_ft": 90,
+   "cost_gp": 75
+  },
+  "elfin_mail": {
+   "ac_descending": 5,
+   "ac_ascending": 15,
+   "weight": 15,
+   "movement_cap_ft": 120,
+   "cost_gp": null
+  },
+  "banded": {
+   "ac_descending": 4,
+   "ac_ascending": 16,
+   "weight": 35,
+   "movement_cap_ft": 90,
+   "cost_gp": 90
+  },
+  "splint": {
+   "ac_descending": 4,
+   "ac_ascending": 16,
+   "weight": 40,
+   "movement_cap_ft": 60,
+   "cost_gp": 80
+  },
+  "plate_mail": {
+   "ac_descending": 3,
+   "ac_ascending": 17,
+   "weight": 45,
+   "movement_cap_ft": 60,
+   "cost_gp": 400
+  }
+ },
+ "shields": {
+  "_note": "A shield improves AC by 1 (descending -1 / ascending +1) against attacks it can be used against: small=1 attack, medium=2 attacks, large=3 attacks per round, from the front/shield side only.",
+  "shield_small": {
+   "ac_bonus_descending": -1,
+   "ac_bonus_ascending": 1,
+   "attacks_covered": 1,
+   "weight": 5,
+   "cost_gp": 10
+  },
+  "shield_medium": {
+   "ac_bonus_descending": -1,
+   "ac_bonus_ascending": 1,
+   "attacks_covered": 2,
+   "weight": 8,
+   "cost_gp": 12
+  },
+  "shield_large": {
+   "ac_bonus_descending": -1,
+   "ac_bonus_ascending": 1,
+   "attacks_covered": 3,
+   "weight": 10,
+   "cost_gp": 15
+  }
+ },
+ "monster_to_hit_by_hd": {
+  "_note": "Monster/NPC base-to-hit-bonus (BTHB) by hit dice. thac0 = 20 - bthb. Matched to a monster's HD (including +/- modifiers).",
+  "table": [
+   {
+    "hd_max": 0.5,
+    "label": "up to 1-1",
+    "bthb": -1,
+    "thac0": 21
+   },
+   {
+    "hd_max": 0.99,
+    "label": "1-1",
+    "bthb": 0,
+    "thac0": 20
+   },
+   {
+    "hd_max": 1.0,
+    "label": "1",
+    "bthb": 1,
+    "thac0": 19
+   },
+   {
+    "hd_max": 1.99,
+    "label": "1+ to <2",
+    "bthb": 2,
+    "thac0": 18
+   },
+   {
+    "hd_max": 3.99,
+    "label": "2 to 3+",
+    "bthb": 4,
+    "thac0": 16
+   },
+   {
+    "hd_max": 5.99,
+    "label": "4 to 5+",
+    "bthb": 5,
+    "thac0": 15
+   },
+   {
+    "hd_max": 7.99,
+    "label": "6 to 7+",
+    "bthb": 7,
+    "thac0": 13
+   },
+   {
+    "hd_max": 9.99,
+    "label": "8 to 9+",
+    "bthb": 8,
+    "thac0": 12
+   },
+   {
+    "hd_max": 11.99,
+    "label": "10 to 11+",
+    "bthb": 10,
+    "thac0": 10
+   },
+   {
+    "hd_max": 13.99,
+    "label": "12 to 13+",
+    "bthb": 11,
+    "thac0": 9
+   },
+   {
+    "hd_max": 15.99,
+    "label": "14 to 15+",
+    "bthb": 12,
+    "thac0": 8
+   },
+   {
+    "hd_max": 999,
+    "label": "16+",
+    "bthb": 13,
+    "thac0": 7
+   }
+  ]
+ },
+ "melee_weapons": {
+  "_columns": "damage_vs_medium (M and smaller), damage_vs_large (L+), hands, str_min (to use one-handed if 2-or-1), weight_lb, cost, speed_factor, damage_type",
+  "battle_axe": {
+   "damage_vs_medium": "1d8",
+   "damage_vs_large": "1d8",
+   "hands": "2 or 1",
+   "str_min": 15,
+   "weight": 7,
+   "cost": "5 gp",
+   "speed_factor": 7,
+   "damage_type": "slashing"
+  },
+  "hand_axe": {
+   "damage_vs_medium": "1d6",
+   "damage_vs_large": "1d4",
+   "hands": "1",
+   "weight": 5,
+   "cost": "1 gp",
+   "speed_factor": 4,
+   "damage_type": "slashing"
+  },
+  "club": {
+   "damage_vs_medium": "1d6",
+   "damage_vs_large": "1d3",
+   "hands": "1",
+   "weight": 3,
+   "cost": "2 cp",
+   "speed_factor": 4,
+   "damage_type": "blunt"
+  },
+  "dagger": {
+   "damage_vs_medium": "1d4",
+   "damage_vs_large": "1d3",
+   "hands": "1",
+   "weight": 1,
+   "cost": "2 gp",
+   "speed_factor": 2,
+   "damage_type": "piercing/slashing"
+  },
+  "fist_or_kick": {
+   "damage_vs_medium": "1d2",
+   "damage_vs_large": "1d2",
+   "hands": "1",
+   "weight": 0,
+   "cost": "0",
+   "speed_factor": 1,
+   "damage_type": "blunt"
+  },
+  "flail_heavy": {
+   "damage_vs_medium": "1d6+1",
+   "damage_vs_large": "2d4",
+   "hands": "2 or 1",
+   "str_min": 14,
+   "weight": 10,
+   "cost": "3 gp",
+   "speed_factor": 7,
+   "damage_type": "blunt"
+  },
+  "flail_light": {
+   "damage_vs_medium": "1d4+1",
+   "damage_vs_large": "1d4+1",
+   "hands": "1",
+   "weight": 4,
+   "cost": "6 gp",
+   "speed_factor": 6,
+   "damage_type": "blunt"
+  },
+  "halberd": {
+   "damage_vs_medium": "1d10",
+   "damage_vs_large": "2d6",
+   "hands": "2",
+   "weight": 18,
+   "cost": "9 gp",
+   "speed_factor": 9,
+   "damage_type": "piercing/slashing"
+  },
+  "javelin": {
+   "damage_vs_medium": "1d6",
+   "damage_vs_large": "1d4",
+   "hands": "1",
+   "weight": 2,
+   "cost": "5 sp",
+   "speed_factor": 8,
+   "damage_type": "piercing"
+  },
+  "lance": {
+   "damage_vs_medium": "2d4+1",
+   "damage_vs_large": "3d6",
+   "hands": "1",
+   "weight": 15,
+   "cost": "6 gp",
+   "speed_factor": 8,
+   "damage_type": "piercing"
+  },
+  "mace_heavy": {
+   "damage_vs_medium": "1d6+1",
+   "damage_vs_large": "1d6",
+   "hands": "2 or 1",
+   "str_min": 13,
+   "weight": 10,
+   "cost": "10 gp",
+   "speed_factor": 7,
+   "damage_type": "blunt"
+  },
+  "mace_light": {
+   "damage_vs_medium": "1d4+1",
+   "damage_vs_large": "1d4+1",
+   "hands": "1",
+   "weight": 5,
+   "cost": "4 gp",
+   "speed_factor": 6,
+   "damage_type": "blunt"
+  },
+  "morning_star": {
+   "damage_vs_medium": "2d4",
+   "damage_vs_large": "1d6+1",
+   "hands": "2 or 1",
+   "str_min": 16,
+   "weight": 12,
+   "cost": "5 gp",
+   "speed_factor": 7,
+   "damage_type": "blunt/piercing"
+  },
+  "pick_heavy": {
+   "damage_vs_medium": "1d6+1",
+   "damage_vs_large": "2d4",
+   "hands": "2 or 1",
+   "str_min": 14,
+   "weight": 8,
+   "cost": "8 gp",
+   "speed_factor": 7,
+   "damage_type": "blunt/piercing"
+  },
+  "pick_light": {
+   "damage_vs_medium": "1d4+1",
+   "damage_vs_large": "1d4",
+   "hands": "1",
+   "weight": 4,
+   "cost": "5 gp",
+   "speed_factor": 5,
+   "damage_type": "blunt/piercing"
+  },
+  "pole_arm": {
+   "damage_vs_medium": "1d6+1",
+   "damage_vs_large": "1d10",
+   "hands": "2",
+   "weight": 8,
+   "cost": "6 gp",
+   "speed_factor": 13,
+   "damage_type": "blunt/piercing/slashing"
+  },
+  "spear": {
+   "damage_vs_medium": "1d6",
+   "damage_vs_large": "1d8",
+   "hands": "2 or 1",
+   "weight": 5,
+   "cost": "1 gp",
+   "speed_factor": 7,
+   "damage_type": "piercing"
+  },
+  "staff": {
+   "damage_vs_medium": "1d6",
+   "damage_vs_large": "1d6",
+   "hands": "2",
+   "weight": 5,
+   "cost": "found",
+   "speed_factor": 4,
+   "damage_type": "blunt"
+  },
+  "sword_bastard": {
+   "damage_vs_medium": "2d4",
+   "damage_vs_large": "2d8",
+   "hands": "2 or 1",
+   "str_min": 15,
+   "weight": 10,
+   "cost": "25 gp",
+   "speed_factor": 6,
+   "damage_type": "slashing"
+  },
+  "sword_broad": {
+   "damage_vs_medium": "2d4",
+   "damage_vs_large": "1d6+1",
+   "hands": "2 or 1",
+   "str_min": 12,
+   "weight": 8,
+   "cost": "15 gp",
+   "speed_factor": 5,
+   "damage_type": "slashing"
+  },
+  "sword_long": {
+   "damage_vs_medium": "1d8",
+   "damage_vs_large": "1d12",
+   "hands": "1",
+   "weight": 7,
+   "cost": "15 gp",
+   "speed_factor": 5,
+   "damage_type": "slashing"
+  },
+  "sword_scimitar": {
+   "damage_vs_medium": "1d8",
+   "damage_vs_large": "1d8",
+   "hands": "1",
+   "weight": 5,
+   "cost": "15 gp",
+   "speed_factor": 5,
+   "damage_type": "slashing"
+  },
+  "sword_short": {
+   "damage_vs_medium": "1d6",
+   "damage_vs_large": "1d8",
+   "hands": "1",
+   "weight": 3,
+   "cost": "8 gp",
+   "speed_factor": 3,
+   "damage_type": "slashing"
+  },
+  "sword_two_handed": {
+   "damage_vs_medium": "1d10",
+   "damage_vs_large": "3d6",
+   "hands": "2",
+   "weight": 25,
+   "cost": "30 gp",
+   "speed_factor": 10,
+   "damage_type": "slashing"
+  },
+  "torch": {
+   "damage_vs_medium": "1d4",
+   "damage_vs_large": "1d4",
+   "hands": "1",
+   "weight": 1,
+   "cost": "1 cp",
+   "speed_factor": 4,
+   "damage_type": "blunt/fire"
+  },
+  "trident": {
+   "damage_vs_medium": "1d6+1",
+   "damage_vs_large": "3d4",
+   "hands": "2 or 1",
+   "str_min": 14,
+   "weight": 5,
+   "cost": "4 gp",
+   "speed_factor": 6,
+   "damage_type": "piercing"
+  },
+  "warhammer_heavy": {
+   "damage_vs_medium": "1d6+1",
+   "damage_vs_large": "1d6",
+   "hands": "2 or 1",
+   "str_min": 15,
+   "weight": 10,
+   "cost": "7 gp",
+   "speed_factor": 7,
+   "damage_type": "blunt"
+  },
+  "warhammer_light": {
+   "damage_vs_medium": "1d4+1",
+   "damage_vs_large": "1d4",
+   "hands": "1",
+   "weight": 5,
+   "cost": "1 gp",
+   "speed_factor": 6,
+   "damage_type": "blunt"
+  }
+ },
+ "missile_weapons": {
+  "_columns": "damage_vs_medium, damage_vs_large, range_increment_ft, rate_of_fire_per_round, weight_lb, cost. Strength damage bonus applies only to Hurled (H) weapons, not Launched (L).",
+  "bow_long": {
+   "damage_vs_medium": "1d6",
+   "damage_vs_large": "1d6",
+   "range_increment_ft": 70,
+   "rate_of_fire": 2,
+   "launch": "L",
+   "weight": 12,
+   "cost": "60 gp",
+   "ammo": "arrow"
+  },
+  "bow_short": {
+   "damage_vs_medium": "1d6",
+   "damage_vs_large": "1d6",
+   "range_increment_ft": 50,
+   "rate_of_fire": 2,
+   "launch": "L",
+   "weight": 8,
+   "cost": "15 gp",
+   "ammo": "arrow"
+  },
+  "bow_composite_long": {
+   "damage_vs_medium": "1d6",
+   "damage_vs_large": "1d6",
+   "range_increment_ft": 60,
+   "rate_of_fire": 2,
+   "launch": "L",
+   "weight": 8,
+   "cost": "100 gp",
+   "ammo": "arrow"
+  },
+  "bow_composite_short": {
+   "damage_vs_medium": "1d6",
+   "damage_vs_large": "1d6",
+   "range_increment_ft": 50,
+   "rate_of_fire": 2,
+   "launch": "L",
+   "weight": 5,
+   "cost": "75 gp",
+   "ammo": "arrow"
+  },
+  "crossbow_heavy": {
+   "damage_vs_medium": "1d6+1",
+   "damage_vs_large": "1d6+1",
+   "range_increment_ft": 80,
+   "rate_of_fire": 0.5,
+   "launch": "L",
+   "weight": 12,
+   "cost": "20 gp",
+   "ammo": "bolt_heavy"
+  },
+  "crossbow_light": {
+   "damage_vs_medium": "1d4+1",
+   "damage_vs_large": "1d4+1",
+   "range_increment_ft": 60,
+   "rate_of_fire": 1,
+   "launch": "L",
+   "weight": 4,
+   "cost": "12 gp",
+   "ammo": "bolt_light"
+  },
+  "dart": {
+   "damage_vs_medium": "1d3",
+   "damage_vs_large": "1d2",
+   "range_increment_ft": 15,
+   "rate_of_fire": 3,
+   "launch": "H",
+   "weight": 0.5,
+   "cost": "2 sp",
+   "ammo": null
+  },
+  "sling": {
+   "damage_vs_medium": "1d4+1",
+   "damage_vs_large": "1d6+1",
+   "range_increment_ft": 35,
+   "rate_of_fire": 1,
+   "launch": "L",
+   "weight": 0.5,
+   "cost": "5 sp",
+   "ammo": "sling_bullet (1d4/1d4 with stone)"
+  },
+  "hand_axe_thrown": {
+   "damage_vs_medium": "1d6",
+   "damage_vs_large": "1d4",
+   "range_increment_ft": 10,
+   "rate_of_fire": 1,
+   "launch": "H",
+   "weight": 5,
+   "cost": "1 gp",
+   "ammo": null
+  },
+  "dagger_thrown": {
+   "damage_vs_medium": "1d4",
+   "damage_vs_large": "1d3",
+   "range_increment_ft": 10,
+   "rate_of_fire": 2,
+   "launch": "H",
+   "weight": 1,
+   "cost": "2 gp",
+   "ammo": null
+  },
+  "javelin_thrown": {
+   "damage_vs_medium": "1d6",
+   "damage_vs_large": "1d4",
+   "range_increment_ft": 20,
+   "rate_of_fire": 1,
+   "launch": "H",
+   "weight": 2,
+   "cost": "5 sp",
+   "ammo": null
+  },
+  "spear_thrown": {
+   "damage_vs_medium": "1d6",
+   "damage_vs_large": "1d8",
+   "range_increment_ft": 15,
+   "rate_of_fire": 1,
+   "launch": "H",
+   "weight": 5,
+   "cost": "1 gp",
+   "ammo": null
+  }
+ }
+}

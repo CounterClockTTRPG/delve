@@ -1,0 +1,14 @@
+.venv/
+node_modules/
+src/delve/web/static/
+*.db
+__pycache__/
+.import_linter_cache/
+*.tsbuildinfo
+web/test-results/
+web/playwright-report/
+# Live eval recordings, Delve's and ttrpg2's (`make evals-live`): measurements, kept out of git.
+evals/recordings/
+# The owner's map picture (plateau 7): never in the repository.
+greyhawk*.jpg
+web/e2e/screenshots/help/

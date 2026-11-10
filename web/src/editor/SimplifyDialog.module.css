@@ -1,0 +1,110 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  padding: 16px;
+}
+
+.dialog {
+  background: var(--bg-elevated);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  width: min(640px, 100%);
+  max-height: min(80vh, 720px);
+  overflow-y: auto;
+  padding: 18px 20px;
+}
+
+.title {
+  font-family: var(--serif);
+  margin: 0 0 4px;
+  font-size: 1.25rem;
+}
+
+.lede,
+.muted {
+  color: var(--fg-muted);
+  margin: 4px 0 12px;
+}
+
+.error {
+  color: var(--error);
+}
+
+.targets {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px;
+}
+
+.targets > li + li {
+  margin-top: 10px;
+}
+
+.target {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.target code {
+  font-family: var(--mono);
+  font-weight: 600;
+}
+
+.counts {
+  color: var(--accent);
+  font-size: 0.9em;
+}
+
+.changes {
+  margin: 4px 0 0;
+  padding-left: 18px;
+  font-size: 0.92em;
+}
+
+.changes li + li {
+  margin-top: 2px;
+}
+
+.line {
+  font-family: var(--mono);
+  font-size: 0.85em;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-sunken);
+  color: var(--fg-muted);
+  padding: 0 4px;
+  cursor: pointer;
+}
+
+.kind {
+  font-weight: 600;
+}
+
+.kept {
+  border-left: 3px solid var(--warning);
+  padding: 6px 10px;
+  margin: 8px 0 12px;
+  background: var(--bg-sunken);
+  font-size: 0.92em;
+}
+
+.option {
+  display: block;
+  margin: 8px 0 14px;
+  font-size: 0.92em;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}

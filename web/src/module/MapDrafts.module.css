@@ -1,0 +1,81 @@
+/* The drafts of dungeon maps, side by side (plan 7 Task 13). */
+.drafts {
+  margin-top: 1.25rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.head {
+  margin: 0;
+}
+
+/* A tab per level of a book draft (faithful modules Task 4). */
+.levels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.levels [aria-selected="true"] {
+  border-color: var(--accent);
+  font-weight: 600;
+}
+
+.svg {
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: #fff;
+}
+
+.svg :global(svg) {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 22rem;
+}
+
+.warnings {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.actions input {
+  width: 12rem;
+}
+
+/* The dialog that draws them: wider than a confirm, so two drafts fit side by side. */
+.dialog {
+  width: min(64rem, calc(100vw - 2rem));
+}
+
+.dialog textarea {
+  width: 100%;
+  min-height: 6rem;
+}

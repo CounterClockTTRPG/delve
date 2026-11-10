@@ -1,0 +1,71 @@
+{
+ "_source": "OSRIC 3.0 Player Guide §1.5.3.3 (Table 1.5.3.3A: ENCUMBRANCE). Transcribed from the PDF (extracted/player_guide.txt ~lines 5290-5317) and cross-checked against docs/OSRIC_Player_Guide.md (~lines 2846-2875), parsed by scripts/build_encumbrance.py. Weight bands are pounds carried ABOVE the character's encumbrance allowance (Table 1.1.2a Strength); Max. Movement is a fraction of base movement rate, not absolute feet. Verify edge cases against docs/ or reference/.",
+ "keyed_by": "weight_over_encumbrance_allowance_lb",
+ "movement_is_fraction_of_base": true,
+ "bands": [
+  {
+   "category": "full_movement",
+   "weight_raw": "Unencumbered",
+   "over_encumbrance_min_lb": null,
+   "over_encumbrance_max_lb": 0,
+   "max_weight_lb": 0,
+   "movement_ft": null,
+   "movement_fraction": 1.0,
+   "movement_raw": "Full Movement",
+   "surprise_raw": "+1 (for armour lighter than chain mail only)"
+  },
+  {
+   "category": "three_quarter_movement",
+   "weight_raw": "1 to 40 lbs over Encumbrance",
+   "over_encumbrance_min_lb": 1,
+   "over_encumbrance_max_lb": 40,
+   "max_weight_lb": 40,
+   "movement_ft": null,
+   "movement_fraction": 0.75,
+   "movement_raw": "Three Quarter Movement",
+   "surprise_raw": "Normal bonuses apply"
+  },
+  {
+   "category": "half_movement",
+   "weight_raw": "41-80 lbs over Encumbrance",
+   "over_encumbrance_min_lb": 41,
+   "over_encumbrance_max_lb": 80,
+   "max_weight_lb": 80,
+   "movement_ft": null,
+   "movement_fraction": 0.5,
+   "movement_raw": "Half Movement",
+   "surprise_raw": "No normal bonuses apply (but penalties do)"
+  },
+  {
+   "category": "quarter_movement",
+   "weight_raw": "81-120 lbs over Encumbrance",
+   "over_encumbrance_min_lb": 81,
+   "over_encumbrance_max_lb": 120,
+   "max_weight_lb": 120,
+   "movement_ft": null,
+   "movement_fraction": 0.25,
+   "movement_raw": "Quarter Movement",
+   "surprise_raw": "No normal bonuses apply (but penalties do); -1 extra penalty"
+  },
+  {
+   "category": "cannot_move",
+   "weight_raw": "121+ lbs over Encumbrance",
+   "over_encumbrance_min_lb": 121,
+   "over_encumbrance_max_lb": null,
+   "max_weight_lb": null,
+   "movement_ft": null,
+   "movement_fraction": 0.0,
+   "movement_raw": "Cannot Move",
+   "surprise_raw": "Cannot Move"
+  }
+ ],
+ "_notes": [
+  "Table is keyed by weight carried ABOVE your encumbrance allowance ('encumbered weight', from Table 1.1.2a Strength), not absolute weight.",
+  "Max. Movement is a fraction of the character's base movement rate (from ancestry), not an absolute distance. Full=1.0, Three Quarter=0.75, Half=0.5, Quarter=0.25, Cannot Move=0.0.",
+  "Armour sets a separate maximum movement rate (the movement cap in Table 1.4.2.3g) that applies independent of all weight calculations, due to bulkiness; it is the cap even when unencumbered.",
+  "Magical armour you are wearing does not count toward encumbrance and allows a movement cap 30ft faster than normal, up to a max of 120ft.",
+  "In OSRIC coins are heavy: ten coins weigh one pound (a 'coin' = 0.1 lb).",
+  "Example (docs 1.5.3.2): a character with base Movement Rate 120 who is encumbered to half movement moves at 60, and can hike 12 miles/day in level terrain (60 x 0.2 miles per day).",
+  "Being at the maximum encumbrance category (Cannot Move / 121+ over) also prevents charging in combat unless mounted on a less-encumbered mount."
+ ]
+}

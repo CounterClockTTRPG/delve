@@ -1,0 +1,547 @@
+/* The message board (DEL-297): its frame, the zones, a zone's topics and a topic as a modern thread (layout B: face
+   and name above each post, the text the full width beneath). The app's own colours, so the board follows the Look
+   and dark mode. Nothing is wider than the window on a phone: long words and links wrap, code scrolls in its box. */
+
+.board {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.board-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  max-width: 52rem;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1.25rem 1rem 0;
+  box-sizing: border-box;
+}
+
+.board-home {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: "IM Fell English", var(--serif);
+  font-size: 1.5rem;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.board-home img {
+  border-radius: 5px;
+}
+
+.board-title-link {
+  color: var(--muted);
+}
+
+.board-out {
+  margin-left: auto;
+}
+
+.board-main {
+  flex: 1;
+  max-width: 52rem;
+  width: 100%;
+  min-width: 0;
+  margin: 0 auto;
+  padding: 1rem 1rem 3rem;
+  box-sizing: border-box;
+  line-height: 1.5;
+}
+
+.board-main h1 {
+  font-family: "IM Fell English", var(--serif);
+  font-weight: 400;
+  font-size: 2.2rem;
+  line-height: 1.2;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.board-thread h1 {
+  font-size: 1.8rem;
+}
+
+.board-lede {
+  color: var(--muted);
+  margin: 0.25rem 0 1.25rem;
+}
+
+.board-quiet,
+.board-meta {
+  color: var(--muted);
+}
+
+.board-meta {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.board-crumb {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin: 0 0 0.5rem;
+  overflow-wrap: anywhere;
+}
+
+.board-page-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.board-mark {
+  margin-right: 0.35rem;
+  vertical-align: -0.1em;
+  color: var(--muted);
+}
+
+.board-pill {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0 0.5rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+/* The board's zones and a zone's topics: one list each, its rows parted by a rule, so the names read down the page
+   like a notice board's. The posts of a topic stay apart, each its own card. */
+.board-zones,
+.board-topics,
+.board-posts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.board-posts {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.board-zones,
+.board-topics {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+}
+
+.board-zone,
+.board-topic {
+  padding: 0.9rem 1.1rem;
+  min-width: 0;
+}
+
+.board-zone + .board-zone,
+.board-topic + .board-topic {
+  border-top: 1px solid var(--rule);
+}
+
+.board-post,
+.board-new-topic {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 0.75rem 1rem;
+  min-width: 0;
+}
+
+/* A zone: what it is on the left, what was written there last on the right; stacked on a phone. */
+.board-zone {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 15rem) auto;
+  align-items: start;
+  gap: 0.5rem 1.5rem;
+}
+
+@media (max-width: 640px) {
+  .board-zone {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .board-zone-latest {
+    grid-column: 1;
+  }
+}
+
+.board-zone-words {
+  min-width: 0;
+}
+
+/* The names a reader looks for, in the board's display face, the ink's colour until pointed at. */
+.board-zone-name,
+.board-topic-title a {
+  font-family: "IM Fell English", var(--serif);
+  font-size: 1.45rem;
+  line-height: 1.2;
+  color: var(--ink);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.board-topic-title a {
+  font-size: 1.25rem;
+}
+
+.board-zone-name:hover,
+.board-topic-title a:hover,
+.board-latest-title:hover {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.board-zone-description {
+  margin: 0.2rem 0 0.3rem;
+}
+
+.board-access {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.board-zone-latest {
+  display: grid;
+  gap: 0.1rem;
+  min-width: 0;
+  padding-top: 0.25rem;
+}
+
+.board-latest-title {
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 600;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+.board-zone-latest .board-meta {
+  font-size: 0.85rem;
+}
+
+.board-topic .board-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1rem;
+  margin-top: 0.15rem;
+}
+
+.board-new-topic {
+  display: grid;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.board-field {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.board-field input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* A post, layout B: the author above, the text beneath at the full width. */
+.board-post-head {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+}
+
+.board-post-who {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 0.5rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.board-badge {
+  font-size: 0.8rem;
+  padding: 0 0.4rem;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  color: var(--muted);
+}
+
+.board-edited::before {
+  content: " · ";
+}
+
+.board-removed {
+  margin: 0.5rem 0 0;
+  font-style: italic;
+  color: var(--muted);
+}
+
+.board-text {
+  margin-top: 0.5rem;
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+.board-text > :first-child {
+  margin-top: 0;
+}
+
+.board-text > :last-child {
+  margin-bottom: 0;
+}
+
+.board-text blockquote {
+  margin: 0.5rem 0;
+  padding: 0.25rem 0.75rem;
+  border-left: 3px solid var(--accent);
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.board-text pre {
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 0.5rem;
+  background: var(--bg);
+  border-radius: var(--radius-sm);
+}
+
+.board-text code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+}
+
+.board-text p,
+.board-text ul,
+.board-text ol {
+  margin: 0 0 0.75rem;
+}
+
+.board-text ul,
+.board-text ol {
+  padding-left: 1.4rem;
+}
+
+.board-text li + li {
+  margin-top: 0.15rem;
+}
+
+.board-text h1,
+.board-text h2,
+.board-text h3 {
+  font-family: "IM Fell English", var(--serif);
+  font-weight: 400;
+  line-height: 1.2;
+  margin: 0.75rem 0 0.25rem;
+}
+
+.board-picture {
+  margin-top: 0.6rem;
+  max-width: 100%;
+}
+
+.board-picture img {
+  display: block;
+  max-width: 100%;
+  max-height: 20rem;
+  width: auto;
+  height: auto;
+  border-radius: var(--radius-sm);
+}
+
+.board-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.board-post-actions {
+  margin-top: 0.6rem;
+}
+
+/* A post's own actions are quieter than the page's: words, not buttons, until pointed at. Moderating a topic is a
+   small row of its own, beneath its title. */
+.board-post-actions {
+  gap: 0.15rem;
+  margin-left: -0.5rem;
+}
+
+.board-post-actions button {
+  padding: 0.15rem 0.5rem;
+  font-size: 0.85rem;
+  background: transparent;
+  border-color: transparent;
+  color: var(--muted);
+  box-shadow: none;
+}
+
+.board-post-actions button:hover:not(:disabled) {
+  color: var(--ink);
+  border-color: var(--rule);
+}
+
+.board-post-actions button.danger:hover:not(:disabled) {
+  color: var(--error);
+}
+
+.board-mod button {
+  padding: 0.2rem 0.65rem;
+  font-size: 0.85rem;
+}
+
+.board-post-actions:empty {
+  display: none;
+}
+
+.board-reply {
+  margin-top: 1.25rem;
+}
+
+.board-reply h2 {
+  font-family: "IM Fell English", var(--serif);
+  font-weight: 400;
+  font-size: 1.3rem;
+  margin: 0 0 0.4rem;
+}
+
+.board-foot-note {
+  margin-top: 1.25rem;
+  color: var(--muted);
+}
+
+/* The post editor: the formatting buttons, the box (or its preview), the picture chosen and the count. */
+.board-editor {
+  display: grid;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.board-editor-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.board-editor-picture {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem;
+  cursor: pointer;
+  color: var(--ink);
+}
+
+.board-editor-preview {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-left: auto;
+}
+
+.board-editor textarea {
+  width: 100%;
+  min-height: 9rem;
+  box-sizing: border-box;
+  resize: vertical;
+  font: inherit;
+}
+
+.board-editor-shown {
+  min-height: 9rem;
+  padding: 0.5rem;
+  border: 1px dashed var(--rule);
+  border-radius: var(--radius-sm);
+}
+
+.board-editor-chosen {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+  font-size: 0.9rem;
+  overflow-wrap: anywhere;
+}
+
+.board-editor-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.board-editor-foot .composer-count {
+  margin-right: auto;
+}
+
+.check.board-editor-follow {
+  margin: 0;
+}
+
+.board-foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem 1.25rem;
+  padding: 1.5rem 1rem;
+  font-size: 0.9rem;
+  border-top: 1px solid var(--rule);
+}
+
+/* The zone's settings and people: the dialog's own rows. */
+.board-dialog select,
+.board-dialog textarea {
+  width: 100%;
+}
+
+.board-check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.6rem 0;
+}
+
+.board-people {
+  list-style: none;
+  margin: 0 0 0.75rem;
+  padding: 0;
+}
+
+.board-people li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+}
+
+.board-zone-order {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.board-zone-order button {
+  display: inline-flex;
+  padding: 0.2rem 0.35rem;
+}

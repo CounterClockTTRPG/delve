@@ -1,0 +1,131 @@
+{
+  "title": "First session: into the Crypt of Saint Vellis",
+  "module": "crypt-of-saint-vellis",
+  "seed": 237,
+  "beats": [
+    {
+      "beat": "beat-01",
+      "note": "The table makes its party: four characters, under the campaign's character-creation house rules.",
+      "calls": [
+        {"tool": "new_session", "args": {"title": "Into the crypt"}},
+        {"tool": "create_character", "args": {"name": "Garrek", "sheet": {
+          "race": "Human", "gender": "male", "cls": "Fighter", "level": 1, "hp_max": 10, "ac": 4, "thac0": 20,
+          "ability_scores": {"str": 17, "dex": 12, "con": 15, "int": 9, "wis": 10, "cha": 11},
+          "attacks": [{"name": "long sword", "speed": 5, "attacks": 1, "thac0": 19, "damage_sm": "1d8+1", "damage_l": "1d12+1"}],
+          "movement_rate": 12, "alignment": "Lawful Good"}}},
+        {"tool": "create_character", "args": {"name": "Pippa", "sheet": {
+          "race": "Halfling", "gender": "female", "cls": "Thief", "level": 1, "hp_max": 6, "ac": 6, "thac0": 20,
+          "ability_scores": {"str": 10, "dex": 17, "con": 13, "int": 12, "wis": 9, "cha": 14},
+          "attacks": [{"name": "short sword", "speed": 3, "attacks": 1, "thac0": 20, "damage_sm": "1d6", "damage_l": "1d8"}],
+          "skills": {"pick_pockets": 45, "open_locks": 37, "find_remove_traps": 20, "move_silently": 33, "hide_in_shadows": 25, "detect_noise": 20, "climb_walls": 45},
+          "movement_rate": 6, "alignment": "Neutral"}}},
+        {"tool": "create_character", "args": {"name": "Corwin", "sheet": {
+          "race": "Elf", "gender": "male", "cls": "Mage", "level": 1, "hp_max": 4, "ac": 10, "thac0": 20,
+          "ability_scores": {"str": 9, "dex": 15, "con": 12, "int": 17, "wis": 11, "cha": 10},
+          "attacks": [{"name": "dagger", "speed": 2, "attacks": 1, "thac0": 20, "damage_sm": "1d4", "damage_l": "1d3"}],
+          "spell_slots": {"1": 1}, "movement_rate": 12, "alignment": "Chaotic Good"}}},
+        {"tool": "create_character", "args": {"name": "Ilse", "sheet": {
+          "race": "Human", "gender": "female", "cls": "Cleric", "level": 1, "hp_max": 8, "ac": 5, "thac0": 20,
+          "ability_scores": {"str": 13, "dex": 10, "con": 14, "int": 10, "wis": 16, "cha": 12},
+          "attacks": [{"name": "footman's mace", "speed": 7, "attacks": 1, "thac0": 20, "damage_sm": "1d6+1", "damage_l": "1d6"}],
+          "spell_slots": {"1": 2}, "movement_rate": 12, "alignment": "Lawful Good"}}},
+        {"tool": "set_marching_order", "args": {"order": ["Garrek", "Ilse", "Pippa", "Corwin"]}}
+      ]
+    },
+    {
+      "beat": "beat-02",
+      "note": "The casters choose their spells for the day.",
+      "calls": [
+        {"tool": "set_spell_loadout", "args": {"character": "Corwin", "known": {"1": ["Sleep", "Magic Missile", "Detect Magic"]}, "default": {"1": ["Sleep"]}}},
+        {"tool": "set_spell_loadout", "args": {"character": "Ilse", "known": {"1": ["Cure Light Wounds", "Bless", "Command"]}, "default": {"1": ["Cure Light Wounds", "Bless"]}}},
+        {"tool": "memorize_spells", "args": {"character": "Corwin"}},
+        {"tool": "memorize_spells", "args": {"character": "Ilse"}}
+      ]
+    },
+    {
+      "beat": "beat-03",
+      "note": "They go down into the crypt.",
+      "calls": [
+        {"tool": "move_party", "args": {"to": "Entry Hall"}}
+      ]
+    },
+    {
+      "beat": "beat-04",
+      "note": "Goblins burst out of the hall to the east.",
+      "calls": [
+        {"tool": "setup_combat", "args": {"enemies": [{"name": "goblin", "count": 3, "node": "corridor.main_hall"}]}}
+      ]
+    },
+    {
+      "beat": "beat-05",
+      "note": "Round 1: everyone declares, then initiative.",
+      "calls": [
+        {"tool": "combat_round", "args": {"actions": [
+          {"attacker": "Garrek", "target": "Goblin 1", "targets": ["Goblin 2", "Goblin 3"]},
+          {"attacker": "Pippa", "target": "Goblin 2", "targets": ["Goblin 1", "Goblin 3"]},
+          {"attacker": "Corwin", "target": "Goblin 3", "targets": ["Goblin 2", "Goblin 1"]},
+          {"attacker": "Ilse", "target": "Goblin 1", "targets": ["Goblin 2", "Goblin 3"]},
+          {"attacker": "Goblin 1", "target": "Garrek"},
+          {"attacker": "Goblin 2", "target": "Pippa", "targets": ["Garrek"]},
+          {"attacker": "Goblin 3", "target": "Ilse", "targets": ["Garrek"]}
+        ]}}
+      ]
+    },
+    {
+      "beat": "beat-06",
+      "note": "Round 2.",
+      "calls": [
+        {"tool": "combat_round", "args": {"actions": [
+          {"attacker": "Garrek", "target": "Goblin 1", "targets": ["Goblin 2", "Goblin 3"]},
+          {"attacker": "Pippa", "target": "Goblin 2", "targets": ["Goblin 3", "Goblin 1"]},
+          {"attacker": "Corwin", "target": "Goblin 3", "targets": ["Goblin 2", "Goblin 1"]},
+          {"attacker": "Ilse", "target": "Goblin 2", "targets": ["Goblin 3", "Goblin 1"]},
+          {"attacker": "Goblin 1", "target": "Garrek"},
+          {"attacker": "Goblin 2", "target": "Pippa", "targets": ["Garrek"]},
+          {"attacker": "Goblin 3", "target": "Ilse", "targets": ["Garrek"]}
+        ]}}
+      ]
+    },
+    {
+      "beat": "beat-07",
+      "note": "Round 3.",
+      "calls": [
+        {"tool": "combat_round", "args": {"actions": [
+          {"attacker": "Garrek", "target": "Goblin 3", "targets": ["Goblin 2", "Goblin 1"]},
+          {"attacker": "Pippa", "target": "Goblin 3", "targets": ["Goblin 2", "Goblin 1"]},
+          {"attacker": "Corwin", "target": "Goblin 3", "targets": ["Goblin 2", "Goblin 1"]},
+          {"attacker": "Ilse", "target": "Goblin 3", "targets": ["Goblin 2", "Goblin 1"]},
+          {"attacker": "Goblin 1", "target": "Garrek"},
+          {"attacker": "Goblin 2", "target": "Garrek"},
+          {"attacker": "Goblin 3", "target": "Garrek"}
+        ]}}
+      ]
+    },
+    {
+      "beat": "beat-08",
+      "note": "The fight is over: experience, with a story award for Pippa, and the goblins' purses.",
+      "calls": [
+        {"tool": "end_combat", "args": {}},
+        {"tool": "award_xp", "args": {"character": "Garrek", "amount": 12}},
+        {"tool": "award_xp", "args": {"character": "Pippa", "amount": 1261}},
+        {"tool": "award_xp", "args": {"character": "Corwin", "amount": 11}},
+        {"tool": "award_xp", "args": {"character": "Ilse", "amount": 11}},
+        {"tool": "award_treasure", "args": {"treasure_types": "Individual 1", "source": "the goblins", "log_note": "The goblins' purses."}}
+      ]
+    },
+    {
+      "beat": "beat-09",
+      "note": "They bar the door and rest for the night.",
+      "calls": [
+        {"tool": "rest", "args": {"days": 1, "rememorize": true}}
+      ]
+    },
+    {
+      "beat": "beat-10",
+      "note": "The evening ends.",
+      "calls": [
+        {"tool": "end_session", "args": {"recap": "The party entered the Crypt of Saint Vellis, beat three goblins in the hall beyond the entry, and rested behind a barred door."}}
+      ]
+    }
+  ]
+}

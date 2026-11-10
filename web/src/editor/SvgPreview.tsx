@@ -1,0 +1,1138 @@
+// SVG preview with pan, zoom, fit-to-container — plus an optional tracing
+// overlay (a reference image under the map) and click-to-draw tools that
+// emit .dmap snippets back to the editor.
+//
+// The server-rendered SVG is inserted via dangerouslySetInnerHTML inside a
+// "stage" div that we CSS-transform. A reference <img> and a transparent
+// drawing <svg> are siblings inside that same stage, so they pan/zoom in
+// lockstep with the map. Zoom anchors on the cursor; drag pans (select tool
+// only); double-click + the "Fit" button reset. Keyboard: +/- zoom, 0 fit.
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+  type WheelEvent,
+  type MouseEvent,
+  type KeyboardEvent,
+} from "react";
+import { usePrompt } from "../components/dialogs";
+import { useT } from "../i18n";
+import styles from "./SvgPreview.module.css";
+import { innermostAnchor, type CursorPos } from "./lib/sourceAnchor";
+
+// Lengths are in map units (the SVG's user space): 0.12 ≈ 4px at 32px/cell.
+const SOURCE_HIGHLIGHT_CSS =
+  "[data-src-hl]{filter:drop-shadow(0 0 0.12px #f5a623) drop-shadow(0 0 0.3px #f5a623)}" +
+  "path.floor[data-src-hl],path.corridor-floor[data-src-hl],path.area[data-src-hl]" +
+  "{stroke:#f5a623 !important;stroke-width:0.14 !important;stroke-opacity:0.9}";
+import {
+  DRAG_TOOLS,
+  FEATURE_TOOLS,
+  VERTEX_TOOLS,
+  dist,
+  readMapMeta,
+  screenToSvg,
+  snapCellCenter,
+  snapPt,
+  svgToWorld,
+  worldToSvg,
+  type DraftShape,
+  type MapMeta,
+  type Pt,
+  type Tool,
+} from "./lib/draw";
+
+const MIN_RELATIVE = 0.25; // can zoom down to 25% of fit-scale
+const MAX_ABSOLUTE = 32; // …and up to 3200% pixel scale
+const WHEEL_FACTOR = 1.15;
+const KEYBOARD_FACTOR = 1.25;
+const CLOSE_DIST = 0.75; // world units: click this near the start to close a polygon
+
+/** Round a world coordinate to 0.1 and drop a trailing ".0" for display. */
+function fmtCoord(v: number): string {
+  const r = Math.round(v * 10) / 10;
+  return Number.isInteger(r) ? String(r) : r.toFixed(1);
+}
+
+export function SvgPreview({
+  svg,
+  error,
+  loading,
+  notice,
+  tool = "select",
+  snap = true,
+  snapResolution = 1,
+  bgImage = null,
+  bgOpacity = 0.5,
+  doorType = "wooden",
+  doorState = "closed",
+  doorFacing = "auto",
+  doorTrapped = false,
+  featureType = "pit-trap",
+  featureRotate = 0,
+  featureScale = 1,
+  featureGlobal = false,
+  corridorOrganic = false,
+  corridorStraight = false,
+  textContent = "",
+  textSize = 1,
+  textDescription = "",
+  textGlobal = false,
+  areaKind = "water",
+  areaOrganic = true,
+  lineKind = "bars",
+  exitTargetMap = "",
+  exitTargetX = 0,
+  exitTargetY = 0,
+  exitLabel = "",
+  exitSecret = false,
+  exitGlobal = false,
+  pathCheck = false,
+  connectivity = null,
+  focusTarget = null,
+  followTarget = false,
+  fitKnown = false,
+  highlightAt = null,
+  onEmit,
+  onPick,
+}: {
+  svg: string | null;
+  error?: string | null;
+  loading?: boolean;
+  /** Informational message shown in place of "No preview yet." — used
+   * by the editor to flag library files (which have no map block and
+   * therefore intentionally produce no render). */
+  notice?: string | null;
+  /** Active drawing tool. "select" keeps the pan/zoom behaviour. */
+  tool?: Tool;
+  /** Snap emitted coordinates to whole world units. */
+  snap?: boolean;
+  /** Subdivide the snap grid: 1 = whole-cell dots, 2 = twice as many, … */
+  snapResolution?: number;
+  /** Reference image (data URL) shown under the map for tracing. */
+  bgImage?: string | null;
+  bgOpacity?: number;
+  /** Door properties applied by the "door" tool. */
+  doorType?: string;
+  doorState?: string;
+  doorFacing?: string;
+  doorTrapped?: boolean;
+  /** Feature tool: which built-in glyph to drop, plus rotation/scale. */
+  featureType?: string;
+  featureRotate?: number;
+  featureScale?: number;
+  /** Force features to be added globally (top-level) even when dropped on a
+   * room/corridor. When false, a feature dropped on a node nests inside it. */
+  featureGlobal?: boolean;
+  /** Draw corridors with an organic (wavy) wall style. */
+  corridorOrganic?: boolean;
+  /** Draw corridors with straight (sharp) corners instead of rounded. */
+  corridorStraight?: boolean;
+  /** Text tool: the content to place and its font-size multiplier. */
+  textContent?: string;
+  textSize?: number;
+  /** Text tool: optional description (key meaning, shown as a tooltip). */
+  textDescription?: string;
+  /** Text tool: force a top-level text instead of nesting in the region. */
+  textGlobal?: boolean;
+  /** Area tool: terrain kind and whether to give it an organic edge. */
+  areaKind?: string;
+  areaOrganic?: boolean;
+  /** Line-feature tool: which style to draw (bars / curtain / barred). */
+  lineKind?: string;
+  /** Exit tool: destination map + landing position, optional label/secret. */
+  exitTargetMap?: string;
+  exitTargetX?: number;
+  exitTargetY?: number;
+  exitLabel?: string;
+  exitSecret?: boolean;
+  /** Force exits to be added globally (top-level) even when dropped on a
+   * room/corridor. When false, an exit dropped on a node nests inside it. */
+  exitGlobal?: boolean;
+  /** Pathing check: tint each room/corridor by whether a door touches it. */
+  pathCheck?: boolean;
+  connectivity?: { kind: string; name: string; connected: boolean }[] | null;
+  /** A node id ("room.x" / "corridor.y") to enable a "focus" toggle that
+   * zooms to that node (+1 cell of margin) and re-frames when it changes.
+   * Null hides the toggle. Used by the play view to follow the party. */
+  focusTarget?: string | null;
+  /** Start with the focus toggle on, so the view opens framed on `focusTarget`. */
+  followTarget?: boolean;
+  /** Frame every room and corridor drawn, rather than the whole SVG, when not following: in a fog view, the map the
+   * characters know (the phone's play map). */
+  fitKnown?: boolean;
+  /** An editor cursor position: the entity whose source range contains it
+   * (the innermost — a feature over its room) is highlighted on the map. */
+  highlightAt?: CursorPos | null;
+  /** Called with a completed shape; the editor turns it into a snippet. */
+  onEmit?: (shape: DraftShape) => void;
+  /** Select-mode: a click on a room/corridor (jump-to-definition). */
+  onPick?: (kind: "room" | "corridor", name: string) => void;
+}) {
+  const t = useT();
+  const prompt = usePrompt();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<HTMLDivElement>(null);
+  const dragRef = useRef<{
+    startX: number;
+    startY: number;
+    tx: number;
+    ty: number;
+    button: number; // 0 = left (select pan / click), 1 = middle (pan in any mode)
+  } | null>(null);
+
+  const [scale, setScale] = useState(1);
+  const [fitScale, setFitScale] = useState(1);
+  const [tx, setTx] = useState(0);
+  const [ty, setTy] = useState(0);
+  const [natural, setNatural] = useState<{ w: number; h: number } | null>(null);
+  const [viewBox, setViewBox] = useState<string | null>(null);
+  const [meta, setMeta] = useState<MapMeta | null>(null);
+  const [tip, setTip] = useState<
+    | {
+        x: number;
+        y: number;
+        title: string;
+        body: string;
+        dmNotes: string;
+        coords: string;
+      }
+    | null
+  >(null);
+
+  // Drawing state (all points in world coords).
+  const [draft, setDraft] = useState<Pt[]>([]);
+  const [cursor, setCursor] = useState<Pt | null>(null);
+  const [doorHint, setDoorHint] = useState<string[]>([]); // inferred connects under cursor
+  // Corridor graph being drawn: a set of nodes, the runs between them, and the
+  // node new runs extend from. Clicking an existing node re-points `current`
+  // there, which is how branches / junctions are drawn.
+  const [corr, setCorr] = useState<{
+    nodes: Pt[];
+    runs: [number, number][];
+    current: number | null;
+  }>({ nodes: [], runs: [], current: null });
+  const dragStart = useRef<Pt | null>(null);
+  // Time/place of the last vertex-adding click, to swallow the second click of
+  // a double-click (which would otherwise drop a spurious short end segment).
+  const lastDown = useRef<{ t: number; x: number; y: number } | null>(null);
+
+  const drawing = tool !== "select";
+
+  // After every render where the SVG markup changes, measure the underlying
+  // <svg> element and recompute the fit scale + center, and capture the map
+  // metadata the drawing layer needs.
+  useLayoutEffect(() => {
+    const host = mapRef.current;
+    if (!host) return;
+    const inner = host.querySelector("svg");
+    if (!inner) {
+      setNatural(null);
+      setMeta(null);
+      setViewBox(null);
+      return;
+    }
+    const w =
+      parseFloat(inner.getAttribute("width") ?? "") ||
+      inner.viewBox.baseVal.width ||
+      inner.getBoundingClientRect().width;
+    const h =
+      parseFloat(inner.getAttribute("height") ?? "") ||
+      inner.viewBox.baseVal.height ||
+      inner.getBoundingClientRect().height;
+    if (w > 0 && h > 0) {
+      setNatural((prev) =>
+        prev && prev.w === w && prev.h === h ? prev : { w, h },
+      );
+    }
+    setViewBox(inner.getAttribute("viewBox"));
+    setMeta(readMapMeta(inner as SVGSVGElement));
+  }, [svg]);
+
+  // Pathing check: tint each room floor (fill) / corridor floor (stroke) green
+  // if a door touches it, red if not. Mutates the injected SVG in place; reset
+  // whenever the SVG, the toggle, or the connectivity data changes.
+  useLayoutEffect(() => {
+    const root = mapRef.current?.querySelector("svg");
+    if (!root) return;
+    root.querySelectorAll("[data-pathtint]").forEach((el) => {
+      const e = el as SVGElement;
+      e.style.fill = "";
+      e.style.stroke = "";
+      e.removeAttribute("data-pathtint");
+    });
+    root.querySelector("#dungml-pathtint-style")?.remove();
+    if (!pathCheck || !connectivity) return;
+    const status = new Map(
+      connectivity.map((n) => [`${n.kind}.${n.name}`, n.connected]),
+    );
+    const GREEN = "rgba(34, 160, 90, 0.55)";
+    const RED = "rgba(206, 52, 38, 0.6)";
+    root.querySelectorAll("[data-room],[data-corridor]").forEach((el) => {
+      const e = el as SVGElement;
+      const room = e.getAttribute("data-room");
+      const ok = status.get(room ? `room.${room}` : `corridor.${e.getAttribute("data-corridor")}`);
+      if (ok === undefined) return;
+      const color = ok ? GREEN : RED;
+      const cls = e.getAttribute("class") ?? "";
+      // Room and corridor floors are both filled shapes.
+      if (cls === "floor" || cls.includes("corridor-floor")) {
+        e.style.fill = color;
+        e.setAttribute("data-pathtint", "1");
+      }
+    });
+    // Recolor doors a distinct blue so it's easy to confirm each wall has one.
+    // A class rule beats the door-leaf's `fill="#111"` presentation attribute.
+    const style = document.createElementNS("http://www.w3.org/2000/svg", "style");
+    style.id = "dungml-pathtint-style";
+    style.textContent =
+      ".door,.door-swing,.secret-door{stroke:#1763c9 !important}" +
+      ".door-leaf{fill:#1763c9 !important}";
+    root.appendChild(style);
+  }, [svg, pathCheck, connectivity]);
+
+  // Source highlight: every element anchored to the entity under the editor
+  // cursor (`data-src`, written by the renderer) gets a glow; floors also an
+  // outline. Non-destructive, so textures and the path tint stay visible.
+  useLayoutEffect(() => {
+    const root = mapRef.current?.querySelector("svg");
+    if (!root) return;
+    root.querySelectorAll("[data-src-hl]").forEach((el) => el.removeAttribute("data-src-hl"));
+    root.querySelector("#dungml-src-hl-style")?.remove();
+    if (!highlightAt) return;
+    const anchored = Array.from(root.querySelectorAll("[data-src]"));
+    const pick = innermostAnchor(
+      new Set(anchored.map((el) => el.getAttribute("data-src") ?? "")),
+      highlightAt,
+    );
+    if (!pick) return;
+    for (const el of anchored) {
+      if (el.getAttribute("data-src") === pick) el.setAttribute("data-src-hl", "1");
+    }
+    const style = document.createElementNS("http://www.w3.org/2000/svg", "style");
+    style.id = "dungml-src-hl-style";
+    style.textContent = SOURCE_HIGHLIGHT_CSS;
+    root.appendChild(style);
+  }, [svg, highlightAt]);
+
+  // Recompute fit scale + translate whenever natural or container size changes.
+  const fit = useCallback(() => {
+    const container = containerRef.current;
+    if (!container || !natural) return;
+    const cw = container.clientWidth;
+    const ch = container.clientHeight;
+    if (cw <= 0 || ch <= 0) return;
+    const pad = 0.94;
+    const s = Math.min(cw / natural.w, ch / natural.h) * pad;
+    setFitScale(s);
+    setScale(s);
+    setTx((cw - natural.w * s) / 2);
+    setTy((ch - natural.h * s) / 2);
+  }, [natural]);
+
+  // "Focus on party" toggle (play view): see focusOnTarget below the zoom
+  // helpers — it needs clampScale, which is defined there.
+  const [focused, setFocused] = useState(followTarget);
+
+  useLayoutEffect(() => {
+    fit();
+  }, [fit]);
+
+  // A resize re-frames: on the party while following (set below, once focusOnTarget exists), else the whole map.
+  // The observer's first call comes after mount, so without this it would undo a view that opens following.
+  const reframe = useRef<() => boolean>(() => false);
+  useEffect(() => {
+    const c = containerRef.current;
+    if (!c) return;
+    const ro = new ResizeObserver(() => {
+      if (!reframe.current()) fit();
+    });
+    ro.observe(c);
+    return () => ro.disconnect();
+  }, [fit]);
+
+  // Abandon any in-progress drawing when the tool changes.
+  useEffect(() => {
+    setDraft([]);
+    setCursor(null);
+    setDoorHint([]);
+    setCorr({ nodes: [], runs: [], current: null });
+    dragStart.current = null;
+  }, [tool]);
+
+  // --- zoom helpers ---
+
+  const minScale = useMemo(
+    () => Math.max(0.01, fitScale * MIN_RELATIVE),
+    [fitScale],
+  );
+
+  const clampScale = useCallback(
+    (s: number) => Math.max(minScale, Math.min(MAX_ABSOLUTE, s)),
+    [minScale],
+  );
+
+  const zoomAt = useCallback(
+    (cx: number, cy: number, factor: number) => {
+      setScale((current) => {
+        const next = clampScale(current * factor);
+        const ratio = next / current;
+        setTx((x) => cx - (cx - x) * ratio);
+        setTy((y) => cy - (cy - y) * ratio);
+        return next;
+      });
+    },
+    [clampScale],
+  );
+
+  // Zoom/centre on the nodes `selector` finds (rooms/corridors) plus one cell
+  // of margin. Reads the rendered SVG's data-room/data-corridor bbox; the
+  // viewBox is in cell units, so PAD=1 is one cell. Returns false if no such
+  // node is in the current (possibly fogged) render.
+  const frameNodes = useCallback((selector: string): boolean => {
+    const container = containerRef.current;
+    const el = mapRef.current?.querySelector("svg") as SVGSVGElement | null;
+    if (!container || !el || !natural) return false;
+    let nodes: NodeListOf<Element>;
+    try {
+      nodes = el.querySelectorAll(selector);
+    } catch {
+      return false;
+    }
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    nodes.forEach((n) => {
+      const g = n as SVGGraphicsElement;
+      if (typeof g.getBBox !== "function") return;
+      const b = g.getBBox();
+      if (!b.width && !b.height) return;
+      minX = Math.min(minX, b.x);
+      minY = Math.min(minY, b.y);
+      maxX = Math.max(maxX, b.x + b.width);
+      maxY = Math.max(maxY, b.y + b.height);
+    });
+    if (!Number.isFinite(minX)) return false;
+    const PAD = 1; // one cell of margin
+    minX -= PAD; minY -= PAD; maxX += PAD; maxY += PAD;
+    const vb = el.viewBox.baseVal;
+    const fx = natural.w / vb.width;
+    const fy = natural.h / vb.height;
+    const pxX = (minX - vb.x) * fx;
+    const pxY = (minY - vb.y) * fy;
+    const pxW = (maxX - minX) * fx;
+    const pxH = (maxY - minY) * fy;
+    const cw = container.clientWidth;
+    const ch = container.clientHeight;
+    if (cw <= 0 || ch <= 0 || pxW <= 0 || pxH <= 0) return false;
+    const s = clampScale(Math.min(cw / pxW, ch / pxH) * 0.94);
+    setScale(s);
+    setTx(cw / 2 - (pxX + pxW / 2) * s);
+    setTy(ch / 2 - (pxY + pxH / 2) * s);
+    return true;
+  }, [natural, clampScale]);
+
+  // The `focusTarget` node.
+  const focusOnTarget = useCallback((): boolean => {
+    if (!focusTarget) return false;
+    const dot = focusTarget.indexOf(".");
+    const kind = dot >= 0 ? focusTarget.slice(0, dot) : "room";
+    const name = dot >= 0 ? focusTarget.slice(dot + 1) : focusTarget;
+    const attr = kind === "corridor" ? "data-corridor" : "data-room";
+    return frameNodes(`[${attr}="${name.replace(/(["\\])/g, "\\$1")}"]`);
+  }, [focusTarget, frameNodes]);
+
+  // Every room and corridor drawn: in a fog view, what the characters know.
+  const frameKnown = useCallback(() => frameNodes("[data-room], [data-corridor]"), [frameNodes]);
+
+  // Re-frame on the party whenever focus is on and the target/SVG changes, or
+  // on the known map with `fitKnown`. Declared after the fit() effect, so
+  // these win when both fire on a reload.
+  useLayoutEffect(() => {
+    reframe.current = () => (focused ? focusOnTarget() : fitKnown && frameKnown());
+    reframe.current();
+  }, [focused, focusOnTarget, fitKnown, frameKnown, svg]);
+
+  // --- drawing helpers ---
+
+  const mapSvg = useCallback(
+    () => mapRef.current?.querySelector("svg") as SVGSVGElement | null,
+    [],
+  );
+
+  const worldFromEvent = useCallback(
+    (clientX: number, clientY: number): Pt | null => {
+      const el = mapSvg();
+      if (!el || !meta) return null;
+      const world = svgToWorld(screenToSvg(el, clientX, clientY), meta);
+      // Single-cell features and exits sit at cell centres; corridors and doors
+      // snap on a double-resolution (half-cell) grid; rooms snap to whole cells.
+      // The snap resolution subdivides that further (2 = twice as many dots, …).
+      if (FEATURE_TOOLS.has(tool) || tool === "exit")
+        return snapCellCenter(world, snap, snapResolution);
+      const base = tool === "corridor" || tool === "door" ? 0.5 : 1;
+      const step = base / Math.max(1, snapResolution);
+      return snapPt(world, snap, step);
+    },
+    [mapSvg, meta, snap, snapResolution, tool],
+  );
+
+  // Exact world coordinates under a client point, formatted for display.
+  // Unlike `worldFromEvent` this applies no snapping — it's an inspection
+  // readout, not an emit point. Returns "" when geometry isn't ready.
+  const worldUnderCursor = useCallback(
+    (clientX: number, clientY: number): string => {
+      const el = mapSvg();
+      if (!el || !meta) return "";
+      const w = svgToWorld(screenToSvg(el, clientX, clientY), meta);
+      return `${fmtCoord(w.x)}, ${fmtCoord(w.y)}`;
+    },
+    [mapSvg, meta],
+  );
+
+  // Which room/corridor (if any) covers a world point — read off the rendered
+  // SVG's data-room / data-corridor attributes via document hit-testing. The
+  // tracing/draw overlays are pointer-events:none, so they're skipped.
+  const regionAt = useCallback(
+    (w: Pt): string | null => {
+      const el = mapSvg();
+      if (!el || !meta) return null;
+      const rect = el.getBoundingClientRect();
+      const vb = el.viewBox.baseVal;
+      const sp = worldToSvg(w, meta);
+      const sx = rect.left + (sp.x / vb.width) * rect.width;
+      const sy = rect.top + (sp.y / vb.height) * rect.height;
+      for (const e of document.elementsFromPoint(sx, sy)) {
+        const r = e.getAttribute("data-room");
+        if (r) return `room.${r}`;
+        const c = e.getAttribute("data-corridor");
+        if (c) return `corridor.${c}`;
+      }
+      return null;
+    },
+    [mapSvg, meta],
+  );
+
+  // A door sits on a wall between (up to) two regions: probe a little to each
+  // side and collect the distinct regions found. One region → an exterior
+  // door; none → leave connects off (the user can fill it in).
+  const inferConnects = useCallback(
+    (w: Pt): string[] => {
+      const D = 0.7;
+      const probes: Pt[] = [
+        { x: w.x - D, y: w.y },
+        { x: w.x + D, y: w.y },
+        { x: w.x, y: w.y - D },
+        { x: w.x, y: w.y + D },
+      ];
+      const ids: string[] = [];
+      for (const p of probes) {
+        const id = regionAt(p);
+        if (id && !ids.includes(id)) ids.push(id);
+        if (ids.length === 2) break;
+      }
+      return ids;
+    },
+    [regionAt],
+  );
+
+  const finishVertexShape = useCallback(
+    (pts: Pt[]) => {
+      if (tool === "line") {
+        // An open polyline — two points is the minimum (a single segment).
+        if (pts.length >= 2)
+          onEmit?.({ kind: "lineFeature", pts, lineKind });
+      } else if (pts.length >= 3) {
+        if (tool === "area")
+          onEmit?.({ kind: "area", pts, areaKind, organic: areaOrganic });
+        else onEmit?.({ kind: tool === "cave" ? "cave" : "polygon", pts });
+      }
+      setDraft([]);
+      setCursor(null);
+    },
+    [tool, onEmit, areaKind, areaOrganic, lineKind],
+  );
+
+  const finishCorridor = useCallback(() => {
+    setCorr((c) => {
+      if (c.runs.length >= 1)
+        onEmit?.({
+          kind: "corridor",
+          nodes: c.nodes,
+          runs: c.runs,
+          organic: corridorOrganic,
+          straight: corridorStraight,
+        });
+      return { nodes: [], runs: [], current: null };
+    });
+    setCursor(null);
+  }, [onEmit, corridorOrganic, corridorStraight]);
+
+  // --- event handlers ---
+
+  function onWheel(e: WheelEvent<HTMLDivElement>) {
+    if (e.ctrlKey || e.metaKey || !e.shiftKey) {
+      e.preventDefault();
+      const rect = containerRef.current?.getBoundingClientRect();
+      if (!rect) return;
+      const cx = e.clientX - rect.left;
+      const cy = e.clientY - rect.top;
+      const factor = e.deltaY < 0 ? WHEEL_FACTOR : 1 / WHEEL_FACTOR;
+      zoomAt(cx, cy, factor);
+    }
+  }
+
+  function onMouseDown(e: MouseEvent<HTMLDivElement>) {
+    // Middle button pans in every mode (drawing or select).
+    if (e.button === 1) {
+      e.preventDefault();
+      dragRef.current = {
+        startX: e.clientX,
+        startY: e.clientY,
+        tx,
+        ty,
+        button: 1,
+      };
+      return;
+    }
+    if (e.button !== 0) return;
+    if (drawing) {
+      const w = worldFromEvent(e.clientX, e.clientY);
+      if (!w) return;
+      e.preventDefault();
+      // For the multi-click tools, ignore the second click of a double-click
+      // (the finish gesture) so it can't add a stray short segment.
+      if (tool === "corridor" || VERTEX_TOOLS.has(tool)) {
+        const ld = lastDown.current;
+        const rapid =
+          !!ld &&
+          e.timeStamp - ld.t < 350 &&
+          Math.hypot(e.clientX - ld.x, e.clientY - ld.y) < 6;
+        lastDown.current = { t: e.timeStamp, x: e.clientX, y: e.clientY };
+        if (rapid) return;
+      }
+      if (tool === "door") {
+        onEmit?.({
+          kind: "door",
+          at: w,
+          connects: inferConnects(w),
+          doorType,
+          state: doorState,
+          facing: doorFacing,
+          trapped: doorTrapped,
+        });
+      } else if (FEATURE_TOOLS.has(tool)) {
+        // By default a feature dropped on a room/corridor nests inside that
+        // node; "global" forces a top-level feature, and one dropped on empty
+        // space (no region under the cursor) is global regardless.
+        const region = featureGlobal ? null : regionAt(w);
+        onEmit?.({
+          kind: "feature",
+          at: w,
+          ref: featureType,
+          rotate: featureRotate,
+          scale: featureScale,
+          region,
+        });
+      } else if (tool === "exit") {
+        // Like features: an exit dropped on a room/corridor nests inside that
+        // node by default; "global" forces top-level, and one on empty space
+        // (no region under the cursor) is global regardless.
+        const region = exitGlobal ? null : regionAt(w);
+        onEmit?.({
+          kind: "exit",
+          at: w,
+          targetMap: exitTargetMap,
+          targetPos: { x: exitTargetX, y: exitTargetY },
+          label: exitLabel,
+          secret: exitSecret,
+          region,
+        });
+      } else if (tool === "text") {
+        // Use the toolbar's text if set; otherwise prompt so a click always
+        // does something (rather than silently no-op on an empty field).
+        const preset = textContent.trim();
+        // Like features/exits: text dropped on a room/corridor nests inside
+        // that node by default; "global" forces top-level, and one on empty
+        // space (no region under the cursor) is global regardless.
+        const region = textGlobal ? null : regionAt(w);
+        const place = (content: string) =>
+          content &&
+          onEmit?.({
+            kind: "text",
+            at: w,
+            content,
+            size: textSize,
+            description: textDescription,
+            region,
+          });
+        if (preset) place(preset);
+        else
+          void prompt({ title: t("editor.preview.textTitle"), label: t("editor.preview.textPrompt"), confirm: t("dialog.place") }).then(
+            (text) => place((text ?? "").trim()),
+          );
+      } else if (DRAG_TOOLS.has(tool)) {
+        dragStart.current = w;
+        setDraft([w]);
+        setCursor(w);
+      } else if (tool === "corridor") {
+        // Click an existing node → make it current (start a branch from it);
+        // click empty → add a node and a run from the current node.
+        setCorr((c) => {
+          const k = c.nodes.findIndex((n) => dist(n, w) < 1e-6);
+          if (k >= 0) return { ...c, current: k };
+          const nodes = [...c.nodes, w];
+          const m = nodes.length - 1;
+          const runs: [number, number][] =
+            c.current != null ? [...c.runs, [c.current, m]] : c.runs;
+          return { nodes, runs, current: m };
+        });
+        setCursor(w);
+      } else if (
+        VERTEX_TOOLS.has(tool) &&
+        draft.length >= 3 &&
+        dist(w, draft[0]) < CLOSE_DIST
+      ) {
+        finishVertexShape(draft);
+      } else if (draft.length && dist(w, draft[draft.length - 1]) < 1e-6) {
+        setCursor(w); // ignore the duplicate click that precedes a double-click
+      } else {
+        setDraft([...draft, w]);
+        setCursor(w);
+      }
+      return;
+    }
+    dragRef.current = { startX: e.clientX, startY: e.clientY, tx, ty, button: 0 };
+  }
+
+  function onMouseMove(e: MouseEvent<HTMLDivElement>) {
+    // Panning (middle button anywhere, or left button in select mode).
+    const pan = dragRef.current;
+    if (pan) {
+      setTx(pan.tx + (e.clientX - pan.startX));
+      setTy(pan.ty + (e.clientY - pan.startY));
+      return;
+    }
+    if (drawing) {
+      const w = worldFromEvent(e.clientX, e.clientY);
+      if (w) {
+        setCursor(w);
+        if (tool === "door") setDoorHint(inferConnects(w));
+      }
+      return;
+    }
+    // Hover-tooltip (select mode only). Exact (unsnapped) world coordinates
+    // under the cursor always show — even over empty map space — so the
+    // readout tells you precisely where you are, not the snapped draw grid.
+    const target = e.target as Element | null;
+    const el = target?.closest(
+      "[data-description],[data-label],[data-ref],[data-room],[data-corridor],[data-dm-notes]",
+    ) as Element | null;
+    const coords = worldUnderCursor(e.clientX, e.clientY);
+    if (el) {
+      const body = el.getAttribute("data-description") ?? "";
+      const dmNotes = el.getAttribute("data-dm-notes") ?? "";
+      const title =
+        el.getAttribute("data-label") ??
+        el.getAttribute("data-ref") ??
+        el.getAttribute("data-room") ??
+        el.getAttribute("data-corridor") ??
+        "";
+      if (title || body || dmNotes || coords) {
+        setTip({ x: e.clientX, y: e.clientY, title, body, dmNotes, coords });
+      } else if (tip) {
+        setTip(null);
+      }
+    } else if (coords) {
+      setTip({ x: e.clientX, y: e.clientY, title: "", body: "", dmNotes: "", coords });
+    } else if (tip) {
+      setTip(null);
+    }
+  }
+
+  function onMouseUp(e: MouseEvent<HTMLDivElement>) {
+    // End a pan. A left-button (select) pan that barely moved is a click →
+    // jump to the clicked room/corridor's definition. Middle-button pans never
+    // pick.
+    const pan = dragRef.current;
+    if (pan) {
+      dragRef.current = null;
+      if (
+        pan.button === 0 &&
+        onPick &&
+        Math.hypot(e.clientX - pan.startX, e.clientY - pan.startY) < 4
+      ) {
+        // Hit-test by point, not e.target: pointer capture on the host can
+        // retarget mouseup to the container, hiding the clicked room.
+        const el = document
+          .elementFromPoint(e.clientX, e.clientY)
+          ?.closest("[data-room],[data-corridor]");
+        if (el) {
+          const room = el.getAttribute("data-room");
+          const corr = el.getAttribute("data-corridor");
+          if (room) onPick("room", room);
+          else if (corr) onPick("corridor", corr);
+        }
+      }
+      return;
+    }
+    if (drawing) {
+      if (DRAG_TOOLS.has(tool) && dragStart.current) {
+        const a = dragStart.current;
+        const b = worldFromEvent(e.clientX, e.clientY) ?? cursor ?? a;
+        dragStart.current = null;
+        if (dist(a, b) > 0.001) {
+          if (tool === "rect") onEmit?.({ kind: "rect", a, b });
+          else if (tool === "circle")
+            onEmit?.({ kind: "circle", center: a, edge: b });
+        }
+        setDraft([]);
+        setCursor(null);
+      }
+    }
+  }
+
+  function onMouseLeaveHost() {
+    dragRef.current = null;
+    setTip(null);
+  }
+
+  function onDoubleClick() {
+    if (drawing) {
+      if (tool === "corridor") finishCorridor();
+      else if (VERTEX_TOOLS.has(tool)) finishVertexShape(draft);
+      return;
+    }
+    fit();
+  }
+
+  function onKey(e: KeyboardEvent<HTMLDivElement>) {
+    if (drawing && (e.key === "Enter" || e.key === "Escape")) {
+      e.preventDefault();
+      if (e.key === "Enter") {
+        if (tool === "corridor") finishCorridor();
+        else if (VERTEX_TOOLS.has(tool)) finishVertexShape(draft);
+      } else {
+        setDraft([]);
+        setCursor(null);
+        setCorr({ nodes: [], runs: [], current: null });
+        dragStart.current = null;
+      }
+      return;
+    }
+    const rect = containerRef.current?.getBoundingClientRect();
+    const cx = rect ? rect.width / 2 : 0;
+    const cy = rect ? rect.height / 2 : 0;
+    if (e.key === "+" || e.key === "=") {
+      e.preventDefault();
+      zoomAt(cx, cy, KEYBOARD_FACTOR);
+    } else if (e.key === "-" || e.key === "_") {
+      e.preventDefault();
+      zoomAt(cx, cy, 1 / KEYBOARD_FACTOR);
+    } else if (e.key === "0") {
+      e.preventDefault();
+      fit();
+    }
+  }
+
+  const showOverlay = svg !== null && !error;
+  const zoomPct = Math.round((scale / fitScale) * 100);
+
+  return (
+    <div className={styles.wrap}>
+      <div
+        ref={containerRef}
+        className={`${styles.stageHost} ${drawing ? styles.drawing : ""}`}
+        tabIndex={0}
+        onWheel={onWheel}
+        onMouseDown={onMouseDown}
+        onMouseMove={onMouseMove}
+        onMouseUp={onMouseUp}
+        onMouseLeave={onMouseLeaveHost}
+        onDoubleClick={onDoubleClick}
+        onKeyDown={onKey}
+        role="presentation"
+      >
+        {loading && svg === null ? (
+          <div className={styles.placeholder}>{t("editor.preview.rendering")}</div>
+        ) : error && !svg ? (
+          <div className={styles.errorBox}>
+            <div className={styles.errorTitle}>{t("editor.preview.cannotRender")}</div>
+            <div className={styles.errorDetail}>{error}</div>
+          </div>
+        ) : svg ? (
+          <div
+            ref={stageRef}
+            className={`${styles.stage} ${error ? styles.stale : ""}`}
+            style={{
+              transform: `translate3d(${tx}px, ${ty}px, 0) scale(${scale})`,
+            }}
+          >
+            {bgImage && natural ? (
+              <img
+                className={styles.bgLayer}
+                src={bgImage}
+                alt=""
+                draggable={false}
+                style={{
+                  width: natural.w,
+                  height: natural.h,
+                  opacity: bgOpacity,
+                }}
+              />
+            ) : null}
+            <div
+              ref={mapRef}
+              className={styles.mapLayer}
+              dangerouslySetInnerHTML={{ __html: svg }}
+            />
+            {natural && viewBox ? (
+              <svg
+                className={styles.drawLayer}
+                width={natural.w}
+                height={natural.h}
+                viewBox={viewBox}
+              >
+                {meta ? renderDraft(tool, draft, corr, cursor, meta) : null}
+              </svg>
+            ) : null}
+          </div>
+        ) : notice ? (
+          <div className={styles.placeholder}>{notice}</div>
+        ) : (
+          <div className={styles.placeholder}>{t("editor.preview.none")}</div>
+        )}
+      </div>
+      {showOverlay ? (
+        <div className={styles.controls}>
+          {drawing && cursor ? (
+            <span className={styles.coordReadout} title={t("editor.preview.cursor")}>
+              {cursor.x}, {cursor.y}
+              {tool === "door"
+                ? ` → ${doorHint.length ? doorHint.join(" · ") : t("editor.preview.exterior")}`
+                : ""}
+            </span>
+          ) : null}
+          {focusTarget ? (
+            <button
+              type="button"
+              className={`${styles.ctrlBtn} ${focused ? styles.ctrlBtnActive : ""}`}
+              onClick={() => {
+                setFocused((f) => {
+                  const next = !f;
+                  if (next) focusOnTarget();
+                  return next;
+                });
+              }}
+              title={
+                focused
+                  ? t("editor.preview.following")
+                  : t("editor.preview.focusParty")
+              }
+              aria-label={t("editor.preview.focusLabel")}
+              aria-pressed={focused}
+            >
+              ⌖
+            </button>
+          ) : null}
+          <button
+            type="button"
+            className={styles.ctrlBtn}
+            onClick={() => {
+              const r = containerRef.current?.getBoundingClientRect();
+              if (r) zoomAt(r.width / 2, r.height / 2, KEYBOARD_FACTOR);
+            }}
+            title={t("editor.preview.zoomIn")}
+            aria-label={t("editor.preview.zoomInLabel")}
+          >
+            +
+          </button>
+          <button
+            type="button"
+            className={styles.ctrlBtn}
+            onClick={() => {
+              const r = containerRef.current?.getBoundingClientRect();
+              if (r) zoomAt(r.width / 2, r.height / 2, 1 / KEYBOARD_FACTOR);
+            }}
+            title={t("editor.preview.zoomOut")}
+            aria-label={t("editor.preview.zoomOutLabel")}
+          >
+            −
+          </button>
+          <button
+            type="button"
+            className={styles.ctrlBtn}
+            onClick={() => {
+              setFocused(false);
+              fit();
+            }}
+            title={t("editor.preview.fit")}
+            aria-label={t("editor.preview.fitLabel")}
+          >
+            ⤢
+          </button>
+          <span className={styles.zoomReadout} title={t("editor.preview.zoomLevel")}>
+            {zoomPct}%
+          </span>
+        </div>
+      ) : null}
+      {tip ? (
+        <div
+          className={styles.tooltip}
+          style={{ left: tip.x + 14, top: tip.y + 14 }}
+          role="tooltip"
+        >
+          {tip.title ? (
+            <div className={styles.tooltipTitle}>{tip.title}</div>
+          ) : null}
+          {tip.coords ? (
+            <div className={styles.tooltipCoords}>{tip.coords}</div>
+          ) : null}
+          {tip.body ? (
+            <div className={styles.tooltipBody}>{tip.body}</div>
+          ) : null}
+          {tip.dmNotes ? (
+            <div className={styles.tooltipDm}>
+              <span className={styles.tooltipDmLabel}>{t("editor.dm")}</span>
+              <span>{tip.dmNotes}</span>
+            </div>
+          ) : null}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+// Live preview of the shape being drawn, in SVG/world space.
+function renderDraft(
+  tool: Tool,
+  draft: Pt[],
+  corr: { nodes: Pt[]; runs: [number, number][]; current: number | null },
+  cursor: Pt | null,
+  meta: MapMeta,
+) {
+  const s = (p: Pt) => worldToSvg(p, meta);
+  const dot = (p: Pt, key: string) => {
+    const q = s(p);
+    return <circle key={key} cx={q.x} cy={q.y} r={0.3} className={styles.dDot} />;
+  };
+
+  // Corridor: the run graph so far, a rubber band from the active node to the
+  // cursor, and a dot per node (the active one — what a new run extends from —
+  // drawn larger).
+  if (tool === "corridor") {
+    const runs = corr.runs.map(([i, j], idx) => {
+      const a = s(corr.nodes[i]);
+      const b = s(corr.nodes[j]);
+      return (
+        <line
+          key={`r${idx}`}
+          className={styles.dLine}
+          x1={a.x}
+          y1={a.y}
+          x2={b.x}
+          y2={b.y}
+        />
+      );
+    });
+    let band = null;
+    if (corr.current != null && cursor) {
+      const a = s(corr.nodes[corr.current]);
+      const b = s(cursor);
+      band = (
+        <line
+          className={styles.dLine}
+          x1={a.x}
+          y1={a.y}
+          x2={b.x}
+          y2={b.y}
+          strokeOpacity={0.5}
+        />
+      );
+    }
+    const dots = corr.nodes.map((p, i) => {
+      const q = s(p);
+      const isCur = i === corr.current;
+      return (
+        <circle
+          key={`n${i}`}
+          cx={q.x}
+          cy={q.y}
+          r={isCur ? 0.45 : 0.3}
+          className={isCur ? styles.dDotActive : styles.dDot}
+        />
+      );
+    });
+    return (
+      <g>
+        {runs}
+        {band}
+        {dots}
+      </g>
+    );
+  }
+
+  // Text: a small dot marking where the text will be anchored.
+  if (tool === "text") {
+    if (!cursor) return null;
+    return dot(cursor, "text-cursor");
+  }
+
+  // Door / single-cell feature / exit: a 1-unit marker at the cursor cell.
+  if (tool === "door" || tool === "exit" || FEATURE_TOOLS.has(tool)) {
+    if (!cursor) return null;
+    const q = s(cursor);
+    return (
+      <rect
+        className={styles.dShape}
+        x={q.x - 0.5}
+        y={q.y - 0.5}
+        width={1}
+        height={1}
+      />
+    );
+  }
+
+  if (DRAG_TOOLS.has(tool)) {
+    if (!draft.length || !cursor) return null;
+    const a = s(draft[0]);
+    const b = s(cursor);
+    if (tool === "rect") {
+      return (
+        <rect
+          className={styles.dShape}
+          x={Math.min(a.x, b.x)}
+          y={Math.min(a.y, b.y)}
+          width={Math.abs(b.x - a.x)}
+          height={Math.abs(b.y - a.y)}
+        />
+      );
+    }
+    return (
+      <circle
+        className={styles.dShape}
+        cx={a.x}
+        cy={a.y}
+        r={Math.hypot(b.x - a.x, b.y - a.y)}
+      />
+    );
+  }
+
+  // Vertex tools: the placed points plus a rubber band to the cursor. The
+  // line-feature tool is an open polyline; the rest close into a polygon.
+  if (!draft.length) return null;
+  const pts = cursor ? [...draft, cursor] : draft;
+  const ptsStr = pts.map((p) => { const q = s(p); return `${q.x},${q.y}`; }).join(" ");
+  return (
+    <g>
+      {tool === "line" ? (
+        <polyline className={styles.dShape} points={ptsStr} fill="none" />
+      ) : (
+        <polygon className={styles.dShape} points={ptsStr} />
+      )}
+      {draft.map((p, i) => dot(p, `v${i}`))}
+    </g>
+  );
+}

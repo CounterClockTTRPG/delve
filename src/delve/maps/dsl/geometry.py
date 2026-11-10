@@ -1,0 +1,624 @@
+"""Edges, shared-edge detection, and door-opening helpers.
+
+Renderers use this module to:
+
+- Enumerate the wall segments of a room (line + arc walls).
+- Find collinear-overlapping segments shared between two rooms.
+- Project a door/window position onto the wall it sits on so a gap can
+  be cut out of the wall before drawing.
+"""
+from __future__ import annotations
+
+import math
+from dataclasses import dataclass
+from typing import Optional, Union
+
+from . import walk
+from .model import (
+    ArcEdge,
+    ArcSegment,
+    BoundaryRoom,
+    CircleRoom,
+    Corridor,
+    DungeonMap,
+    LineEdge,
+    LineSegment,
+    PolygonRoom,
+    RectRoom,
+    Room,
+    Vec2,
+)
+
+# Sides used to approximate a circular room as a polygon. High enough that
+# the chord error is sub-pixel at normal map scales.
+_CIRCLE_SAMPLES = 64
+
+
+def circle_points(center: Vec2, radius: float, n: int = _CIRCLE_SAMPLES) -> list[Vec2]:
+    """A circle sampled into `n` polygon vertices (counter-clockwise)."""
+    cx, cy = center
+    return [
+        (cx + radius * math.cos(2 * math.pi * i / n),
+         cy + radius * math.sin(2 * math.pi * i / n))
+        for i in range(n)
+    ]
+
+EPS = 1e-6
+
+
+@dataclass(frozen=True)
+class LineWall:
+    """A straight wall segment from `a` to `b`."""
+    a: Vec2
+    b: Vec2
+
+
+@dataclass(frozen=True)
+class ArcWall:
+    """A circular-arc wall from `a` to `b` passing through `via`."""
+    a: Vec2
+    b: Vec2
+    via: Vec2
+
+
+Wall = Union[LineWall, ArcWall]
+
+
+# ----- enumeration -----
+
+def room_walls(room: Room) -> list[Wall]:
+    """Closed boundary of a room as an ordered list of walls."""
+    s = room.shape
+    if isinstance(s, RectRoom):
+        x, y = s.position
+        w, h = s.width, s.height
+        corners: list[Vec2] = [(x, y), (x + w, y), (x + w, y + h), (x, y + h)]
+        return _close_line_polygon(corners)
+    if isinstance(s, PolygonRoom):
+        return _close_line_polygon(s.points)
+    if isinstance(s, CircleRoom):
+        return _close_line_polygon(circle_points(s.center, s.radius))
+    if isinstance(s, BoundaryRoom):
+        walls: list[Wall] = []
+        cur = s.start
+        for e in s.edges:
+            if isinstance(e, LineEdge):
+                walls.append(LineWall(cur, e.end))
+            else:
+                walls.append(ArcWall(cur, e.end, e.via))
+            cur = e.end
+        if _dist(cur, s.start) > EPS:
+            walls.append(LineWall(cur, s.start))
+        return walls
+    raise TypeError(f"unknown room shape: {type(s).__name__}")
+
+
+def _close_line_polygon(pts: list[Vec2]) -> list[Wall]:
+    n = len(pts)
+    return [LineWall(pts[i], pts[(i + 1) % n]) for i in range(n)]
+
+
+# ----- low-level geometry -----
+
+def _dist(a: Vec2, b: Vec2) -> float:
+    return ((a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2) ** 0.5
+
+
+def _cross_z(ax: float, ay: float, bx: float, by: float, cx: float, cy: float) -> float:
+    """Z-component of (b-a) x (c-a) — twice the signed area of triangle abc."""
+    return (bx - ax) * (cy - ay) - (by - ay) * (cx - ax)
+
+
+# ----- shared-edge detection -----
+
+def overlap_segment(w1: LineWall, w2: LineWall) -> tuple[Vec2, Vec2] | None:
+    """If two line walls overlap collinearly, return the overlap subsegment.
+
+    Returns None if they aren't collinear, or if they only touch at a
+    single point.
+    """
+    ax, ay = w1.a
+    bx, by = w1.b
+    dx, dy = bx - ax, by - ay
+    L2 = dx * dx + dy * dy
+    if L2 < EPS * EPS:
+        return None
+
+    # Collinearity test — both endpoints of w2 must lie on the infinite
+    # line through w1. The cross is ~ 2 * signed_area = L * perp_dist.
+    L = L2 ** 0.5
+    tol = max(L, 1.0) * 1e-6
+    if abs(_cross_z(ax, ay, bx, by, *w2.a)) > tol:
+        return None
+    if abs(_cross_z(ax, ay, bx, by, *w2.b)) > tol:
+        return None
+
+    def t_of(p: Vec2) -> float:
+        return ((p[0] - ax) * dx + (p[1] - ay) * dy) / L2
+
+    tb_lo, tb_hi = sorted((t_of(w2.a), t_of(w2.b)))
+    lo = max(0.0, tb_lo)
+    hi = min(1.0, tb_hi)
+    # Require more than a single-point touch.
+    if (hi - lo) * L < EPS:
+        return None
+
+    def point_at(t: float) -> Vec2:
+        return (ax + t * dx, ay + t * dy)
+
+    return point_at(lo), point_at(hi)
+
+
+def shared_segments(
+    rooms: dict[str, Room],
+) -> list[tuple[str, str, tuple[Vec2, Vec2]]]:
+    """Pairs of rooms with their shared-wall subsegments."""
+    walls_by_room: list[tuple[str, list[LineWall]]] = []
+    for name, r in rooms.items():
+        walls_by_room.append(
+            (name, [w for w in room_walls(r) if isinstance(w, LineWall)])
+        )
+    out: list[tuple[str, str, tuple[Vec2, Vec2]]] = []
+    n = len(walls_by_room)
+    for i in range(n):
+        na, wa = walls_by_room[i]
+        for j in range(i + 1, n):
+            nb, wb = walls_by_room[j]
+            for ea in wa:
+                for eb in wb:
+                    seg = overlap_segment(ea, eb)
+                    if seg is not None:
+                        out.append((na, nb, seg))
+    return out
+
+
+# ----- projection / door cutting -----
+
+def project_onto_wall(p: Vec2, w: LineWall) -> tuple[Vec2, float, float]:
+    """Project `p` onto line wall `w`.
+
+    Returns `(projected_point, t, dist)` where `t` is clamped to [0, 1]
+    along the wall and `dist` is the perpendicular distance from `p` to
+    the projected point.
+    """
+    ax, ay = w.a
+    bx, by = w.b
+    dx, dy = bx - ax, by - ay
+    L2 = dx * dx + dy * dy
+    if L2 < EPS * EPS:
+        return w.a, 0.0, _dist(p, w.a)
+    t = ((p[0] - ax) * dx + (p[1] - ay) * dy) / L2
+    t = max(0.0, min(1.0, t))
+    proj = (ax + t * dx, ay + t * dy)
+    return proj, t, _dist(p, proj)
+
+
+def cut_wall(w: LineWall, t_lo: float, t_hi: float) -> list[LineWall]:
+    """Remove the [t_lo, t_hi] subsegment from `w`, returning what's left.
+
+    `t_lo` and `t_hi` are along-wall parameters in [0, 1].
+    """
+    t_lo = max(0.0, t_lo)
+    t_hi = min(1.0, t_hi)
+    if t_hi <= t_lo + EPS:
+        return [w]
+    ax, ay = w.a
+    bx, by = w.b
+    dx, dy = bx - ax, by - ay
+    pieces: list[LineWall] = []
+    if t_lo > EPS:
+        pieces.append(LineWall(w.a, (ax + t_lo * dx, ay + t_lo * dy)))
+    if t_hi < 1.0 - EPS:
+        pieces.append(LineWall((ax + t_hi * dx, ay + t_hi * dy), w.b))
+    return pieces
+
+
+def wall_length(w: LineWall) -> float:
+    return _dist(w.a, w.b)
+
+
+# ----- interior-overlap detection (validation) -----
+#
+# Distinct from `shared_segments`: two adjacent rooms are *meant* to share
+# a wall, and that is fine. What we flag here is two areas whose interiors
+# genuinely intersect — a sign the author placed one space on top of
+# another by mistake. Arcs are sampled into short chords; this is a
+# warning-grade heuristic, not exact area arithmetic.
+
+_ARC_SAMPLES = 12
+
+
+def _arc_points(a: Vec2, b: Vec2, via: Vec2, n: int = _ARC_SAMPLES) -> list[Vec2]:
+    """Sample an arc through a→via→b into `n` chord points (excluding `a`)."""
+    ax, ay = a
+    bx, by = b
+    vx, vy = via
+    # Circle through three points (perpendicular-bisector intersection).
+    d = 2 * (ax * (by - vy) + bx * (vy - ay) + vx * (ay - by))
+    if abs(d) < EPS:  # collinear → treat as a straight chord
+        return [b]
+    a2 = ax * ax + ay * ay
+    b2 = bx * bx + by * by
+    v2 = vx * vx + vy * vy
+    cx = (a2 * (by - vy) + b2 * (vy - ay) + v2 * (ay - by)) / d
+    cy = (a2 * (vx - bx) + b2 * (ax - vx) + v2 * (bx - ax)) / d
+    r = _dist((cx, cy), a)
+    a0 = math.atan2(ay - cy, ax - cx)
+    a1 = math.atan2(by - cy, bx - cx)
+    am = math.atan2(vy - cy, vx - cx)
+
+    def norm(x: float) -> float:
+        while x - a0 > math.pi:
+            x -= 2 * math.pi
+        while x - a0 < -math.pi:
+            x += 2 * math.pi
+        return x
+
+    a1n, amn = norm(a1), norm(am)
+    # Ensure the sweep direction passes through the via point.
+    if not (min(a0, a1n) <= amn <= max(a0, a1n)):
+        a1n += 2 * math.pi if a1n < a0 else -2 * math.pi
+    return [
+        (cx + r * math.cos(a0 + (a1n - a0) * i / n),
+         cy + r * math.sin(a0 + (a1n - a0) * i / n))
+        for i in range(1, n + 1)
+    ]
+
+
+def room_polygon(room: Room) -> list[Vec2]:
+    """A room's outline as a flat list of polygon vertices (arcs sampled)."""
+    s = room.shape
+    if isinstance(s, RectRoom):
+        x, y = s.position
+        w, h = s.width, s.height
+        return [(x, y), (x + w, y), (x + w, y + h), (x, y + h)]
+    if isinstance(s, PolygonRoom):
+        return list(s.points)
+    if isinstance(s, CircleRoom):
+        return circle_points(s.center, s.radius)
+    if isinstance(s, BoundaryRoom):
+        pts: list[Vec2] = [s.start]
+        cur = s.start
+        for e in s.edges:
+            if isinstance(e, ArcEdge):
+                pts.extend(_arc_points(cur, e.end, e.via))
+            else:
+                pts.append(e.end)
+            cur = e.end
+        return pts
+    raise TypeError(f"unknown room shape: {type(s).__name__}")
+
+
+def corridor_polygons(corr: Corridor) -> list[list[Vec2]]:
+    """A corridor as a list of width-buffered polygons, one per segment.
+
+    Each straight segment becomes a rectangle of its width (a run's own
+    `width`, else the corridor's); each arc becomes a buffered band sampled
+    into a polygon.
+    """
+    half = corr.width / 2.0
+    polys: list[list[Vec2]] = []
+
+    def buffer_chord(a: Vec2, b: Vec2) -> list[Vec2] | None:
+        dx, dy = b[0] - a[0], b[1] - a[1]
+        L = math.hypot(dx, dy)
+        if L < EPS:
+            return None
+        nx, ny = -dy / L * half, dx / L * half
+        return [
+            (a[0] + nx, a[1] + ny), (b[0] + nx, b[1] + ny),
+            (b[0] - nx, b[1] - ny), (a[0] - nx, a[1] - ny),
+        ]
+
+    for seg in corr.segments:
+        half = corr.segment_width(seg) / 2.0
+        if isinstance(seg, LineSegment):
+            p = buffer_chord(seg.start, seg.end)
+            if p:
+                polys.append(p)
+        elif isinstance(seg, ArcSegment):
+            # Sample the arc centerline, buffer each chord.
+            a0, a1 = seg.from_angle, seg.to_angle
+            if seg.sweep == "cw" and a1 > a0:
+                a1 -= 2 * math.pi
+            if seg.sweep == "ccw" and a1 < a0:
+                a1 += 2 * math.pi
+            cx, cy = seg.center
+            pts = [
+                (cx + seg.radius * math.cos(a0 + (a1 - a0) * i / _ARC_SAMPLES),
+                 cy + seg.radius * math.sin(a0 + (a1 - a0) * i / _ARC_SAMPLES))
+                for i in range(_ARC_SAMPLES + 1)
+            ]
+            for a, b in zip(pts, pts[1:]):
+                p = buffer_chord(a, b)
+                if p:
+                    polys.append(p)
+    return polys
+
+
+def _orient(a: Vec2, b: Vec2, c: Vec2) -> float:
+    return _cross_z(a[0], a[1], b[0], b[1], c[0], c[1])
+
+
+def _proper_segments_intersect(p1: Vec2, p2: Vec2, p3: Vec2, p4: Vec2) -> bool:
+    """True if segments p1p2 and p3p4 cross at a single interior point.
+
+    Collinear overlaps and shared/endpoint touches return False, so two
+    rooms sharing a wall are not treated as intersecting.
+    """
+    d1 = _orient(p3, p4, p1)
+    d2 = _orient(p3, p4, p2)
+    d3 = _orient(p1, p2, p3)
+    d4 = _orient(p1, p2, p4)
+    if min(abs(d1), abs(d2), abs(d3), abs(d4)) < EPS:
+        return False  # some point is collinear → a touch, not a crossing
+    return ((d1 > 0) != (d2 > 0)) and ((d3 > 0) != (d4 > 0))
+
+
+def _point_strictly_inside(pt: Vec2, poly: list[Vec2]) -> bool:
+    """Ray-cast point-in-polygon, returning False for points on the boundary."""
+    n = len(poly)
+    if n < 3:
+        return False
+    # On-boundary → not strictly inside.
+    for i in range(n):
+        a, b = poly[i], poly[(i + 1) % n]
+        if abs(_orient(a, b, pt)) < EPS:
+            # collinear with edge; inside the segment's bounding box?
+            if (min(a[0], b[0]) - EPS <= pt[0] <= max(a[0], b[0]) + EPS
+                    and min(a[1], b[1]) - EPS <= pt[1] <= max(a[1], b[1]) + EPS):
+                return False
+    inside = False
+    x, y = pt
+    for i in range(n):
+        ax, ay = poly[i]
+        bx, by = poly[(i + 1) % n]
+        if (ay > y) != (by > y):
+            xc = ax + (y - ay) * (bx - ax) / (by - ay)
+            if x < xc:
+                inside = not inside
+    return inside
+
+
+def _centroid(poly: list[Vec2]) -> Vec2:
+    n = len(poly)
+    return (sum(p[0] for p in poly) / n, sum(p[1] for p in poly) / n)
+
+
+def polygons_overlap(a: list[Vec2], b: list[Vec2]) -> bool:
+    """True if two simple polygons' interiors intersect (not just touch)."""
+    if len(a) < 3 or len(b) < 3:
+        return False
+    na, nb = len(a), len(b)
+    for i in range(na):
+        a1, a2 = a[i], a[(i + 1) % na]
+        for j in range(nb):
+            b1, b2 = b[j], b[(j + 1) % nb]
+            if _proper_segments_intersect(a1, a2, b1, b2):
+                return True
+    # Containment (one fully inside the other, no edge crossings).
+    if any(_point_strictly_inside(p, b) for p in a):
+        return True
+    if any(_point_strictly_inside(p, a) for p in b):
+        return True
+    # Identical / near-identical polygons: edges only touch, vertices sit on
+    # the boundary — fall back to a centroid test.
+    if _point_strictly_inside(_centroid(a), b) or _point_strictly_inside(
+        _centroid(b), a
+    ):
+        return True
+    return False
+
+
+def overlap_area(a: list[Vec2], b: list[Vec2], step: float = 0.2) -> float:
+    """Approximate the intersection area of two polygons by point sampling.
+
+    Samples a regular grid over the polygons' overlapping bounding box and
+    counts cells whose centre is strictly inside both. Accurate to roughly
+    `step**2`, which is ample for a warning-grade threshold; it handles
+    concave room outlines that exact convex clipping would not.
+    """
+    if len(a) < 3 or len(b) < 3:
+        return 0.0
+    ax0 = max(min(p[0] for p in a), min(p[0] for p in b))
+    ay0 = max(min(p[1] for p in a), min(p[1] for p in b))
+    ax1 = min(max(p[0] for p in a), max(p[0] for p in b))
+    ay1 = min(max(p[1] for p in a), max(p[1] for p in b))
+    if ax0 >= ax1 or ay0 >= ay1:
+        return 0.0
+    cell = step * step
+    total = 0.0
+    y = ay0 + step / 2
+    while y < ay1:
+        x = ax0 + step / 2
+        while x < ax1:
+            if _point_strictly_inside((x, y), a) and _point_strictly_inside((x, y), b):
+                total += cell
+            x += step
+        y += step
+    return total
+
+
+@dataclass(frozen=True)
+class Area:
+    """A labelled set of polygons (a room = 1, a corridor = many)."""
+    label: str
+    polygons: list[list[Vec2]]
+
+
+def find_overlapping_areas(
+    areas: list[Area], min_area: float = 0.0
+) -> list[tuple[str, str, float]]:
+    """Return `(label_a, label_b, area)` for every pair whose areas overlap
+    by at least `min_area` square units. Each unordered pair is compared
+    once; an area is never compared with itself. The reported area is the
+    largest single polygon-pair overlap between the two (corridors carry
+    several polygons).
+
+    Delve (DEL-171): a pair whose bounding boxes don't overlap is skipped
+    before its polygons are compared; boxes that only touch can't share an
+    interior, so nothing an overlap would report is skipped."""
+    out: list[tuple[str, str, float]] = []
+    n = len(areas)
+    boxes = [[_box(p) for p in area.polygons] for area in areas]
+    outer = [_union(b) for b in boxes]
+    for i in range(n):
+        for j in range(i + 1, n):
+            if not _boxes_overlap(outer[i], outer[j]):
+                continue
+            best = 0.0
+            hit = False
+            for pa, ba in zip(areas[i].polygons, boxes[i]):
+                for pb, bb in zip(areas[j].polygons, boxes[j]):
+                    if not _boxes_overlap(ba, bb) or not polygons_overlap(pa, pb):
+                        continue
+                    hit = True
+                    if min_area <= 0.0:
+                        break
+                    best = max(best, overlap_area(pa, pb))
+                if hit and min_area <= 0.0:
+                    break
+            if hit and best >= min_area:
+                out.append((areas[i].label, areas[j].label, best))
+    return out
+
+
+Box = tuple[float, float, float, float]
+"""min x, min y, max x, max y; None-free: an empty polygon's box is empty."""
+_EMPTY: Box = (math.inf, math.inf, -math.inf, -math.inf)
+
+
+def _box(polygon: list[Vec2]) -> Box:
+    if not polygon:
+        return _EMPTY
+    xs = [p[0] for p in polygon]
+    ys = [p[1] for p in polygon]
+    return (min(xs), min(ys), max(xs), max(ys))
+
+
+def _union(boxes: list[Box]) -> Box:
+    if not boxes:
+        return _EMPTY
+    return (min(b[0] for b in boxes), min(b[1] for b in boxes), max(b[2] for b in boxes), max(b[3] for b in boxes))
+
+
+def _boxes_overlap(a: Box, b: Box) -> bool:
+    """Whether the boxes share more than an edge: only then can their polygons' interiors meet."""
+    return a[0] < b[2] and b[0] < a[2] and a[1] < b[3] and b[1] < a[3]
+
+
+def _find_room(dmap: DungeonMap, name: str) -> Optional[Room]:
+    return walk.rooms(dmap).get(name)
+
+
+def _find_corridor(dmap: DungeonMap, name: str) -> Optional[Corridor]:
+    return walk.corridors(dmap).get(name)
+
+
+def _corridor_centroid(c: Corridor) -> Optional[Vec2]:
+    pts: list[Vec2] = list(c.nodes.values())
+    if not pts:
+        for s in c.segments:
+            if isinstance(s, LineSegment):
+                pts.append(s.start)
+                pts.append(s.end)
+    if not pts:
+        return None
+    return (sum(p[0] for p in pts) / len(pts), sum(p[1] for p in pts) / len(pts))
+
+
+def node_centroid(dmap: DungeonMap, node_id: str) -> Optional[Vec2]:
+    """A representative interior point for a `room.X` / `corridor.Y` node,
+    used to place the party marker. None if the node can't be located."""
+    kind, _, name = node_id.partition(".")
+    if kind == "room":
+        room = _find_room(dmap, name)
+        if room is None:
+            return None
+        poly = room_polygon(room)
+        if len(poly) < 3:
+            return None
+        # A point inside the room even when it is concave (an L's vertex
+        # average can sit outside it): the pole of inaccessibility.
+        from shapely.geometry import Polygon
+        from shapely.ops import polylabel
+
+        shape = Polygon(poly).buffer(0)
+        if shape.is_empty or shape.geom_type != "Polygon":
+            return _centroid(poly)
+        if shape.contains(shape.centroid):
+            c = shape.centroid  # rectangles and other convex rooms: as before
+            return (c.x, c.y)
+        p = polylabel(shape, tolerance=0.05)
+        return (p.x, p.y)
+    if kind == "corridor":
+        corr = _find_corridor(dmap, name)
+        return _corridor_centroid(corr) if corr is not None else None
+    return None
+
+
+def party_start_node(dmap: DungeonMap) -> Optional[str]:
+    """The graph node id a room-referencing `party_start` points at, or None
+    (no ref, or ref matches nothing). Room takes precedence over corridor."""
+    ps = dmap.map.party_start
+    if ps is None or ps.ref is None:
+        return None
+    if _find_room(dmap, ps.ref) is not None:
+        return f"room.{ps.ref}"
+    if _find_corridor(dmap, ps.ref) is not None:
+        return f"corridor.{ps.ref}"
+    return None
+
+
+def party_start_point(dmap: DungeonMap) -> Optional[Vec2]:
+    """Where the start marker draws: explicit `at`, else the ref's centroid,
+    else None (nothing to draw)."""
+    ps = dmap.map.party_start
+    if ps is None:
+        return None
+    if ps.at is not None:
+        return ps.at
+    node = party_start_node(dmap)
+    return node_centroid(dmap, node) if node else None
+
+
+def _polygon_area(poly: list[Vec2]) -> float:
+    return abs(sum(poly[i][0] * poly[(i + 1) % len(poly)][1]
+                   - poly[(i + 1) % len(poly)][0] * poly[i][1]
+                   for i in range(len(poly)))) / 2.0
+
+
+def owner_node(dmap: DungeonMap, point: Vec2) -> Optional[str]:
+    """The node (`room.X` / `corridor.Y`) whose outline contains `point` —
+    the smallest one, so a cave drawn inside a canyon polygon owns what is
+    placed in the cave. None if the point is in no node."""
+    best: tuple[float, str] | None = None
+    for nid, obj in walk.nodes(dmap).items():
+        polys = [room_polygon(obj)] if nid.startswith("room.") else corridor_polygons(obj)
+        for poly in polys:
+            if len(poly) >= 3 and _point_strictly_inside(point, poly):
+                a = _polygon_area(poly)
+                if best is None or a < best[0]:
+                    best = (a, nid)
+    return best[1] if best else None
+
+
+def _segment_distance(p: Vec2, a: Vec2, b: Vec2) -> float:
+    dx, dy = b[0] - a[0], b[1] - a[1]
+    length = dx * dx + dy * dy
+    t = 0.0 if length == 0 else max(0.0, min(1.0, ((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / length))
+    return math.hypot(p[0] - (a[0] + t * dx), p[1] - (a[1] + t * dy))
+
+
+def nearest_node(dmap: DungeonMap, point: Vec2) -> Optional[str]:
+    """The node whose outline is closest to `point`: for what stands on a wall, a seam or just outside a doorway, in no
+    node (Delve, DEL-125: an exit's node in the fog). None on a map without nodes."""
+    best: tuple[float, str] | None = None
+    for nid, obj in walk.nodes(dmap).items():
+        polys = [room_polygon(obj)] if nid.startswith("room.") else corridor_polygons(obj)
+        for poly in polys:
+            for i in range(len(poly)):
+                d = _segment_distance(point, poly[i], poly[(i + 1) % len(poly)])
+                if best is None or d < best[0]:
+                    best = (d, nid)
+    return best[1] if best else None

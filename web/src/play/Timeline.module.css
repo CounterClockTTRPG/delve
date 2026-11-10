@@ -1,0 +1,446 @@
+/* The initiative timeline above the story (table voice and fixes Task B2.3). Sides take the map markers' colours
+   (`MARKER_PALETTE`: party, ally, enemy), which every look keeps. */
+.strip {
+  --side-party: #2c7be5;
+  --side-ally: #2db469;
+  --side-enemy: #c43232;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  background: var(--card-bg, var(--surface));
+  padding: 0.4rem 0.6rem 0.5rem;
+  min-width: 0;
+}
+
+.head {
+  display: flex;
+  gap: 0.75rem;
+  align-items: baseline;
+  flex-wrap: wrap;
+  margin-bottom: 0.25rem;
+}
+
+.round {
+  font-family: var(--display);
+  color: var(--heading);
+}
+
+/* The round's number in a small gilt medallion (DEL-275). */
+.medallion {
+  align-self: center;
+  flex: none;
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font: 700 0.9rem/1 var(--display);
+  color: #f2d27a;
+  background: radial-gradient(circle at 35% 30%, #4a3f27, #1b1710);
+  border: 2px solid #b8963e;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.4);
+}
+
+.note {
+  color: var(--muted);
+  font-size: 0.85em;
+}
+
+.scroll {
+  overflow-x: auto;
+}
+
+/* Each name keeps to its count's column, so the ends need little room. */
+.axis {
+  display: grid;
+  padding: 0 0.25rem;
+  grid-auto-rows: auto;
+  row-gap: 0.2rem;
+  align-items: start;
+}
+
+.tick {
+  text-align: center;
+  font-size: 0.75em;
+  color: var(--fg-faint);
+  border-bottom: 1px solid var(--rule);
+}
+
+.stack {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* On the axis a token keeps to its count's column, its name cut to fit, so neighbours never run into each other;
+   two on one count stand one above the other. */
+.axis .stack {
+  padding-top: 0.5rem;
+  min-width: 0;
+}
+
+.axis .token,
+.axis .stack[data-raised] .token {
+  flex-direction: column;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.token {
+  --side: var(--side-enemy);
+  --size: 2.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: 0.75em;
+  line-height: 1.1;
+  max-width: 4.5rem;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.token[data-side="party"] {
+  --side: var(--side-party);
+}
+
+.token[data-side="ally"] {
+  --side: var(--side-ally);
+}
+
+/* A neighbour's name goes above its token, out of the way of the name below the one before it. */
+.stack[data-raised] .token {
+  flex-direction: column-reverse;
+}
+
+/* A token (DEL-275): a framed square in its side's colour, a face or an initial inside. */
+.frame {
+  position: relative;
+  width: var(--size);
+  height: var(--size);
+  box-sizing: border-box;
+  border: 2px solid var(--side);
+  border-radius: 7px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--side) 22%, #1f272b);
+  box-shadow:
+    0 2px 6px rgb(0 0 0 / 0.35),
+    inset 0 0 0 1px rgb(255 255 255 / 0.06);
+}
+
+.frame[data-unseen] {
+  border-style: dashed;
+  background: var(--bg-sunken);
+}
+
+.initial {
+  font: 600 1.35rem/1 var(--display);
+  color: #fff;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.5);
+}
+
+.frame[data-unseen] .initial {
+  color: var(--muted);
+  text-shadow: none;
+}
+
+.frame :global(.portrait-zoom) {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+}
+
+.frame :global(.portrait) {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+  border-radius: 0;
+}
+
+.frame :global(.portrait) svg,
+.frame :global(img.portrait) {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+/* Paint (DEL-275), an organiser's: a small brush in the frame's corner of a monster without a picture. */
+.paint {
+  position: absolute;
+  right: 1px;
+  bottom: 1px;
+  width: 1.15rem;
+  height: 1.15rem;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--accent);
+  color: var(--accent-fg);
+  cursor: pointer;
+}
+
+.paint[data-painting] {
+  animation: painting 1.4s ease-in-out infinite;
+}
+
+@keyframes painting {
+  50% {
+    opacity: 0.45;
+  }
+}
+
+/* The one acting stands raised and lit; those who acted are dimmed. */
+.token[data-state="acting"] {
+  transform: translateY(-0.4rem);
+}
+
+.token[data-state="acting"] .frame {
+  border-color: #f2c14e;
+  box-shadow:
+    0 0 0 2px rgb(242 193 78 / 0.35),
+    0 0 16px rgb(242 193 78 / 0.55),
+    0 4px 10px rgb(0 0 0 / 0.4);
+}
+
+.token[data-state="acting"] .name {
+  font-weight: 600;
+}
+
+.token[data-state="acted"] .frame {
+  filter: saturate(0.35) brightness(0.75);
+}
+
+.token[data-state="down"] .frame,
+.token[data-state="fled"] .frame {
+  filter: saturate(0.2) brightness(0.6);
+  opacity: 0.7;
+}
+
+.token[data-state="dead"] .frame {
+  filter: grayscale(1) brightness(0.45);
+}
+
+/* The hit points left, a bar under the frame. */
+.hp {
+  display: block;
+  width: var(--size);
+  height: 5px;
+  border-radius: 3px;
+  overflow: hidden;
+  background: rgb(0 0 0 / 0.35);
+  box-shadow: inset 0 0 0 1px var(--rule);
+}
+
+.hp > span {
+  display: block;
+  height: 100%;
+}
+
+.name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.mark {
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* A span's row runs to the axis's end, for its words; its bar (the background) covers its counts only. */
+.span {
+  --side: var(--side-enemy);
+  position: relative;
+  font-size: 0.75em;
+  padding: 0.1rem 0 0.1rem 0.4rem;
+  white-space: nowrap;
+  display: flex;
+  gap: 0.35rem;
+  align-items: baseline;
+  border-radius: 3px;
+  box-shadow: inset 3px 0 0 var(--side);
+  background: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--side) 24%, transparent) var(--covered),
+    transparent var(--covered)
+  );
+}
+
+.span[data-side="party"] {
+  --side: var(--side-party);
+}
+
+.span[data-side="ally"] {
+  --side: var(--side-ally);
+}
+
+.span[data-next-round] {
+  mask-image: linear-gradient(to right, #000 85%, transparent);
+}
+
+.span[data-state="interrupted"] {
+  --side: var(--error);
+}
+
+.span[data-state="interrupted"] .doing {
+  text-decoration: line-through;
+}
+
+.span[data-state="interrupted"] .end {
+  color: var(--error);
+}
+
+.span[data-state="completed"] .end {
+  color: var(--heading);
+}
+
+.who {
+  font-weight: bold;
+}
+
+.end {
+  color: var(--muted);
+}
+
+.downRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+  padding-top: 0.45rem;
+  border-top: 1px solid var(--rule);
+}
+
+.downLabel {
+  font-size: 0.75em;
+  color: var(--fg-faint);
+}
+
+.down {
+  flex-direction: row;
+  gap: 0.6rem;
+}
+
+.down .token {
+  flex-direction: row;
+  gap: 0.4rem;
+  max-width: none;
+}
+
+.down .token {
+  --size: 2.1rem;
+}
+
+/* On a phone: one thin row at the top of the story, scrolling sideways. */
+.phone {
+  padding: 0.2rem 0.4rem;
+}
+
+.row {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  align-items: center;
+}
+
+.rowRound {
+  flex: none;
+  font-family: var(--display);
+  color: var(--heading);
+  font-size: 0.85em;
+}
+
+.chip {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.chip .stack {
+  flex-direction: row;
+}
+
+.chip .token {
+  --size: 2.5rem;
+  max-width: 3.25rem;
+}
+
+.chip .initial {
+  font-size: 1.05rem;
+}
+
+.chip .hp {
+  height: 4px;
+}
+
+.count {
+  font-size: 0.7em;
+  color: var(--fg-faint);
+}
+
+.mini {
+  font-size: 0.7em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 9rem;
+  color: var(--muted);
+}
+
+.mini[data-state="interrupted"] {
+  color: var(--error);
+}
+
+/* Fold and hide (DEL-130): small icon buttons at the head's end. */
+.tools {
+  margin-left: auto;
+  display: inline-flex;
+  gap: 0.2rem;
+}
+
+.tool {
+  min-height: 1.6rem;
+  padding: 0.1rem 0.3rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.tool[aria-pressed="true"] {
+  color: var(--heading);
+}
+
+.hidden {
+  font-size: 0.75em;
+}
+
+.rowTools {
+  flex: none;
+  order: 99;
+  margin-left: auto;
+}
+
+.phone .head {
+  margin-bottom: 0;
+}

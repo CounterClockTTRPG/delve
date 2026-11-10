@@ -1,0 +1,9 @@
+id = "greyhawk"
+kind = "setting"
+title = "Greyhawk"
+version = "1.0.0"
+delve_api = 1
+package = "delve_fixture_greyhawk"
+entry = "delve_fixture_greyhawk.pack:PACK"
+fact_categories = ["greyhawk", "history"]
+preferred = true

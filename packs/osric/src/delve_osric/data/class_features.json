@@ -1,0 +1,72 @@
+{
+ "_source": "OSRIC 3.0 Player's Guide — the per-class 'Higher-Level Abilities' sections (§1.3.2.3 cleric, §1.3.4.3 fighter, §1.3.6.3 magic-user, §1.3.10.3 thief) and the NOTES column of each class level-advancement table.",
+ "_note": "Concise summaries; the full rules text lives in docs/OSRIC_Player_Guide.md. In OSRIC these abilities are gained automatically on reaching the listed level (there is no chosen-feat mechanic). Only the four engine-supported classes are encoded here; assassin, druid, illusionist, monk, paladin and ranger have their own Higher-Level Abilities sections in the docs and can be added in this same shape.",
+ "fighter": [
+  {
+   "level": 2,
+   "name": "Heroic Assault",
+   "summary": "Act on segment 1 regardless of initiative and make one attack per fighter level against enemies too weak to have rolled 8+ hp on their Hit Dice; replaces your normal attack / Melee Attack Combination that round."
+  },
+  {
+   "level": 7,
+   "name": "Melee Attack Combination (3/2)",
+   "summary": "3 melee attacks over 2 rounds (attack in segments 1 and 10 on the odd round). Non-specialised weapons only; improves to 2/1 with a specialised weapon."
+  },
+  {
+   "level": 8,
+   "name": "Mighty Blow",
+   "summary": "When your to-hit bonuses drive the number you need below zero, add that overage as a bonus to your damage roll."
+  },
+  {
+   "level": 9,
+   "name": "Stronghold and Title",
+   "summary": "May build a stronghold and attract followers."
+  },
+  {
+   "level": 13,
+   "name": "Melee Attack Combination (2/1)",
+   "summary": "2 melee attacks per round (segments 1 and 10). Non-specialised weapons only; improves to 5/2 with a specialised weapon."
+  }
+ ],
+ "cleric": [
+  {
+   "level": 7,
+   "name": "Divine Craft",
+   "summary": "Craft holy water, certain potions (including healing and extra-healing) and clerical scrolls of spells you can cast — never for monetary profit."
+  },
+  {
+   "level": 9,
+   "name": "High Priest / Priestess",
+   "summary": "May establish a temple and attract followers."
+  },
+  {
+   "level": 16,
+   "name": "Divine Power",
+   "summary": "May attempt to create certain permanent magic items (GM-gated by religion; success never guaranteed)."
+  }
+ ],
+ "magic-user": [
+  {
+   "level": 7,
+   "name": "Eldritch Craft",
+   "summary": "Brew potions, scribe arcane scrolls of spells you know, and recharge aimed magic items (rods, staves, wands) — recharging risks destroying the item."
+  },
+  {
+   "level": 12,
+   "name": "Eldritch Power",
+   "summary": "With enchant an item known, may attempt to create magic items (GM-gated; success never guaranteed)."
+  }
+ ],
+ "thief": [
+  {
+   "level": 10,
+   "name": "Establish Guild",
+   "summary": "May establish a guild or stronghold in a town or city."
+  },
+  {
+   "level": 10,
+   "name": "Read Scrolls",
+   "summary": "May attempt to cast from an arcane, phantasmal or druidic scroll: roll 1d4 (1 = the casting fails, scroll survives); a cast spell has a 5% chance of a reversed or harmful effect."
+  }
+ ]
+}

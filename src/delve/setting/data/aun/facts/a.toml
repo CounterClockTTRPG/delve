@@ -1,0 +1,82 @@
+[[fact]]
+text = "Years in the Reaches are counted from the Unmaking, the night Ishavel burned to glass. It is now 1188 RY, the Reckoned Year."
+category = "history"
+
+[[fact]]
+text = "The last month of the year was once Nhul's. Its name is never said; people call it the Nameless Month."
+category = "customs"
+
+[[fact]]
+text = "During the five Hollow Days at midwinter, doors are barred at dusk, hearths are kept burning, and no journey may be begun."
+category = "customs"
+
+[[fact]]
+text = "The Thaumarchs lit their streets without oil and built roads that did not wear. Some of those roads still run arrow-straight across the Reaches."
+category = "history"
+
+[[fact]]
+text = "The last Thaumarch-Queen, Ysarre the Bright, forged seven Lanterns to bind the great gods so the empire would never need to pray again."
+category = "history"
+
+[[fact]]
+text = "On the night of the Unmaking every brass servant in the empire stopped at once. They are still found in ruins, standing at their tasks."
+category = "history"
+
+[[fact]]
+text = "Hask did not fight for its freedom: in 901 RY its guilds bought their charter from a bankrupt king of Calder."
+category = "history"
+
+[[fact]]
+text = "Toes are copper, except one: every year the Moneyers strike a single toe in silver, and Hask sends it to the King of Calder 'in memory of friendship'."
+category = "customs"
+
+[[fact]]
+text = "Hask's copper toe is stamped with a bare foot, to remind travellers what the Ferryman takes if they don't pay the coin."
+category = "customs"
+
+[[fact]]
+text = "Crews going down the Undercroft drop a toe in the Ambre first. A crew that forgets is counted as already dead at the Drowned Toe."
+category = "customs"
+
+[[fact]]
+text = "On Ferry Night, 1 Oruun, Hask's guildmasters tip chests of copper into the Ambre as the Ferryman's tithe, and every lantern in the city is lit at once."
+category = "places"
+
+[[fact]]
+text = "On Isaine's Morning, a sprig of blackthorn blossom pinned to your sleeve means 'ask me'."
+category = "customs"
+
+[[fact]]
+text = "At Harvest Home the first loaf of the new flour goes to the small gods of the village. Only the second goes to Hollin."
+category = "gods"
+
+[[fact]]
+text = "A verdict given by a Sunward court on the Sun's Judgement, 15 Aurelmas, is held to be Aurel's own and cannot be appealed."
+category = "gods"
+
+[[fact]]
+text = "A small god's priest has real gifts at home, and loses them a few days' walk away."
+category = "gods"
+
+[[fact]]
+text = "The Undying Margrave put on the Ember Crown in 887 RY. Portraits of him painted three centuries apart show the same face."
+category = "people"
+
+[[fact]]
+text = "In Hask, a wizard must wear a Collegium seal at the throat. Casting without one is a fifty-gold fine the first time and the gallows the second."
+category = "places"
+
+[[fact]]
+text = "At most two of the Seven Lanterns are real and survive. One lies at the bottom of the Undercroft, and the Pale Tower leans because of it."
+category = "history"
+dm_only = true
+
+[[fact]]
+text = "The Ember Crown burns the trapped spark of a lesser power to keep the Margrave alive, and the spark is nearly spent."
+category = "people"
+dm_only = true
+
+[[fact]]
+text = "Hask's charter is void if the King of Calder's line fails, and Bertil III has no heir."
+category = "history"
+dm_only = true

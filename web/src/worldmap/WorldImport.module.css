@@ -1,0 +1,112 @@
+/* The import, review and start-of-knowledge screens (plan 7, Task 16). */
+
+.dialog {
+  width: min(44rem, calc(100vw - 2rem));
+  max-height: calc(100dvh - 2rem);
+  overflow: auto;
+}
+
+.ways {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  border: 0;
+  padding: 0;
+}
+
+.mapping {
+  border-left: 3px solid var(--rule);
+  padding-left: 0.75rem;
+  margin: 0.75rem 0;
+}
+
+.points img {
+  display: block;
+  max-width: 100%;
+  max-height: 50vh;
+  cursor: crosshair;
+  border: 1px solid var(--rule);
+}
+
+.page {
+  padding: 1rem;
+}
+
+.header {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.layout {
+  display: grid;
+  gap: 1rem;
+}
+
+.map {
+  height: calc(100dvh - 9rem);
+  min-height: 20rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.panel {
+  overflow: auto;
+}
+
+@media (min-width: 900px) {
+  .layout {
+    grid-template-columns: minmax(0, 2fr) minmax(20rem, 1fr);
+  }
+
+  .panel {
+    max-height: calc(100dvh - 9rem);
+  }
+}
+
+.kind {
+  margin-bottom: 1rem;
+}
+
+/* A doubt's choices wrap within the panel: a mixed cell has fourteen. */
+.choices {
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.resolved {
+  opacity: 0.6;
+}
+
+.colour {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.swatch {
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  flex: none;
+}
+
+/* A mixed cell's colour in its "Read as" line (DEL-94): the swatch at the text's size. */
+.inlineSwatch {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+}
+
+.startMap {
+  height: min(50vh, 24rem);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+}

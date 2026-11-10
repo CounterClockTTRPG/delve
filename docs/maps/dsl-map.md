@@ -1,0 +1,109 @@
+> Ported from dungml (commit a66a1bb).
+
+# Map header
+
+Part of the [dungml DSL reference](/docs/dsl).
+
+## `map` — required header
+
+Every file must contain exactly one `map`:
+
+```dmap
+map "The Sunken Library" {
+  grid {
+    cell   20 px
+    units  feet 5
+    bounds 100 x 70
+    origin top-left
+  }
+  renderer "classic-bw"
+  theme    paper
+  party_start "entry_hall"   # optional: room the PCs begin in on load
+}
+```
+
+### `party_start`
+
+`party_start` (optional) marks where the characters begin when the map loads.
+It's drawn as a green **S** marker and, when it names a room/corridor, becomes
+the default party location for new play-sessions (auto-revealed on load; an
+explicit start passed to session-create overrides it).
+
+Three forms:
+
+- `party_start X,Y` — a bare marker at a world cell (no session linkage).
+- `party_start "name"` — a room (or, failing that, corridor) named `name`; the
+  marker is drawn at its centroid.
+- `party_start "name" at X,Y` — as above, but the marker is forced to the
+  absolute cell `X,Y` instead of the centroid.
+
+### `room_numbers`
+
+Rooms are auto-numbered in source order, and on-map labels are prefixed with
+that number (`1. Hall`). `room_numbers off` in the map block suppresses the
+prefix so labels render bare (`Hall`). Default `on`.
+
+### `grid`
+
+| Property | Form | Default | Meaning |
+|----------|------|---------|---------|
+| `cell N px`        | integer pixels | `32`  | Pixel size of one world-unit cell in the output SVG |
+| `units NAME N`     | `units feet 5` | none  | Real-world unit name and how many of them per cell |
+| `bounds W x H`     | two numbers    | `60 x 40` | Map extent in world units |
+| `origin K`         | `top-left` \| `bottom-left` | `top-left` | Which corner is `(0,0)` |
+
+### `renderer`
+
+Pick the visual style. Built-in renderers:
+
+- `"classic-bw"` — flat fill, hard outline. Dungeon default.
+- `"floorplan"` — alias of `classic-bw`. Use for buildings.
+- `"hatched"` — diagonal hatching outside walls. Architectural drawing style.
+- `"oldschool-blue"` — classic blue-ink dungeon style: blue line-work over a
+  solid blue page with white room floors, so rooms read as carved out of rock.
+  A `grid_overlay` / `cell_grid` is tinted blue to match if the map declares
+  one (no grid is forced).
+
+If omitted, defaults to `"classic-bw"`.
+
+### `theme`
+
+The palette and font to draw with, independent of the renderer's geometry:
+`renderer "hatched"` + `theme blue` is blue ink on a hatched halo. Built-in
+themes:
+
+- `mono` — black line-work on white (default for `classic-bw` / `floorplan`)
+- `paper` — warm paper page and floors, sepia hatching (default for `hatched`)
+- `blue` — blue ink, white floors, light-blue page (default for `oldschool-blue`)
+
+If omitted, the renderer's default theme applies. An unknown name draws with
+that default too, and validation warns (with a suggestion). Semantic colours —
+marker tags, area and slice kinds, the party-start and exit accents — are not
+part of a theme.
+
+### `grid_overlay` — graph-paper grid across the canvas
+
+A faint grid drawn across the whole map. Useful for tactical / square-
+based grids on outdoor or freeform maps where you don't have a single
+"room" to attach a per-room grid to.
+
+```dmap
+map "X" {
+  grid { cell 20 px bounds 60 x 40 }
+  grid_overlay                  # default — 1-unit spacing, default colour
+  # grid_overlay 2              # 2-unit spacing
+  # grid_overlay 1 "#444444"    # 1-unit spacing, custom colour
+}
+```
+
+| Form                       | Result |
+|----------------------------|--------|
+| (omitted)                  | No overlay (default). |
+| `grid_overlay`             | 1 world-unit spacing, default faint grey. |
+| `grid_overlay N`           | N-unit spacing. |
+| `grid_overlay N "#color"`  | N-unit spacing with explicit CSS colour. |
+
+The overlay is drawn AFTER all map content (rooms, corridors, slices,
+features) but BEFORE labels, so labels remain readable on top of it.
+Per-room `grid` overlays still work and are clipped to their room — the
+two stack cleanly when both are set.

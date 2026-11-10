@@ -1,0 +1,35 @@
+# ttrpg2 wgr1 map; two campaign POIs tagged hidden
+workspace greyhawk-region {
+    model {
+        terrain cairn-hills { polygon 510,420 540,415 580,420 615,430 640,440 640,470 640,500 640,530 615,545 580,548 545,545 515,535 500,510 500,475 500,440; biome hills; description "The burial-ground hills east of the Free City, between the Selintan and the Abbor-Alz. Bandits, dwarven shrines, ancient barrows. Where the wagon was ambushed three days ago." }
+        terrain abbor-alz { polygon 640,530 640,500 640,470 640,440 665,420 700,408 740,410 770,420 770,470 770,510 760,540 730,555 700,560 670,555; biome mountain; description "The Abbor-Alz mountain range, east of the Cairn Hills. High peaks, sparsely settled, gold and silver veins, dragon-rumored crags. The eastern miner's track climbs from Hardby into the southern foothills around Tellach." }
+        terrain gnarley-forest { polygon 470,300 430,300 380,300 330,300 300,330 295,370 305,410 330,440 370,460 410,470 450,460 480,440 490,400 495,360 485,325; biome forest; description "Korrhast's homeland: deep wood west of the Selintan, centaur clans, druid circles. Stretches south from below the Free City to the marches above the Wild Coast." }
+        terrain wild-coast { polygon 330,300 380,300 430,300 470,300 490,275 495,235 480,200 440,180 380,170 320,175 280,200 270,240 285,275; biome plains; description "Lawless coastal strip far south of the Free City and Hardby. Vissa rode up through here on a merchant caravan two years ago." }
+
+        lake nyr-dyv { polygon 380,560 620,560 640,680 360,680; description "The Lake of Unknown Depths. Greyhawk's northern coast." }
+        lake wooly-bay { polygon 580,380 720,380 720,470 540,470 540,420 580,420; description "The Wooly Bay. Inland sea south of the Nyr Dyv, connected by the Strait of Gearnat. Hardby commands the south coast." }
+        river selintan { points 510,400 505,450 500,500 490,540 470,560; description "The Selintan, flowing south-to-north past Greyhawk into the Nyr Dyv." }
+
+        city greyhawk { at 500,500; pop 60000; description "The Free City of Greyhawk. The party meets at dawn at Dard Lorne's office, Day 1."; tags [walled, capital, freecity] }
+        city hardby { at 640,385; pop 5000; description "Free port on the south shore of the Wooly Bay. Matron-ruled by the Despotrix. Smaller and harder-edged than Greyhawk, sea-stone walls, iron-banded gates. Watch courtesy with Greyhawk under Halmer's writ."; tags [walled, port, matron-ruled] }
+        city tellach { at 730,430; pop 80; description "Cairn-tribe village in the high country above the Abbor-Alz feet, four days east of Hardby on the southern miner's track. Sheep, stone-grain, mountain-honey. Henda's home village. Reached via the Stair, a limestone switchback at the third Watch way-house."; tags [village, cairn-tribe] }
+
+        poi castle-greyhawk { at 508,485; description "The ruined Castle Greyhawk on a bluff above the Selintan, a short ride upstream from the Free City. Twelve sublevels of Halaster-tier megadungeon. Long-term campaign destination."; tags [ruined, dungeon] }
+        poi clan-temple { at 525,500; description "Eberk Brawnanvil's Cairn Hills clan-temple of Moradin. Source of the lost hammer-and-anvil sigil. The Old Smith presides here."; tags [shrine, dwarven, hidden] }
+        poi ambush-site { at 512,500; description "Where Dard Lorne's wagon was ambushed three days ago. Two guards killed, driver fled. The hammer-icon was taken here. Half a day's ride east on the trade road."; tags [event, ambush, hidden] }
+
+        road east-trade { from greyhawk; to clan-temple; surface dirt; description "The Cairn Hills trade road. Passes the ambush site at its midpoint." }
+        road castle-track { from greyhawk; to castle-greyhawk; surface track; description "Overgrown track from the Free City to the ruined castle. Few use it." }
+        road south-coast { from greyhawk; to hardby; surface dirt; description "The south-coast road from the Free City to Hardby. Skirts the southern margin of the Cairn Hills, then the western shore of the Wooly Bay. Watch-patrolled, Watch-marked roadside campsites at intervals. Cart-passable. ~80 miles, four days at cart pace." }
+        road eastern-miners-track { from hardby; to tellach; surface track; description "Eastern miner's track from Hardby into the high Cairns above the Abbor-Alz feet. Watch-swept in Reaping 591. Watch way-houses at half-day, full-day, third-day. The Stair (limestone switchback, mile past third way-house) is the technical bit, dry-only. Track ends a mile before the Stair; final approach on foot. Four days." }
+    }
+
+    views {
+        view world {
+            scope greyhawk-region
+            include kingdoms, cities, roads, rivers, lakes, terrain, poi
+            units miles
+            scale 0.44
+        }
+    }
+}

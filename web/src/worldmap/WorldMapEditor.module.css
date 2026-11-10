@@ -1,0 +1,193 @@
+/* The world-map editor is its own screen, as the dungeon map editor is: the whole viewport, its own header. */
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  font-size: 14px;
+  line-height: 1.5;
+  background: var(--bg);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 10px 20px;
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.crumb {
+  color: var(--fg-muted);
+  font-family: var(--serif);
+}
+.crumb:hover {
+  color: var(--fg);
+}
+
+.title {
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: 600;
+  min-width: 12em;
+}
+
+.dirty {
+  color: var(--accent);
+  font-size: 16px;
+  line-height: 1;
+}
+
+.saveError {
+  color: var(--error);
+  font-size: 13px;
+}
+
+.headerActions {
+  margin-left: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 6px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-elevated);
+}
+
+/* The Picture slider, at the end of the toolbar: how much of the picture shows under the map. */
+.opacity {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  font-size: 0.85rem;
+  color: var(--fg-muted);
+}
+.opacity input {
+  width: 8rem;
+}
+.opacityValue {
+  min-width: 2.6rem;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.tool {
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--fg);
+  cursor: pointer;
+}
+.tool[aria-pressed="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg);
+}
+
+.workspace {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  min-height: 0;
+}
+.workspacePhone {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 3fr) minmax(0, 2fr);
+}
+
+.map {
+  position: relative;
+  min-height: 0;
+}
+.map :global(.world-leaflet) {
+  height: 100%;
+}
+.brushing :global(.leaflet-container) {
+  cursor: crosshair;
+}
+
+.side {
+  border-left: 1px solid var(--border);
+  overflow: auto;
+  padding: 12px 16px;
+  background: var(--bg-elevated);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.formTitle {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 16px;
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.formField input,
+.formField textarea,
+.formField select {
+  font: inherit;
+}
+
+.hint {
+  color: var(--fg-muted);
+  font-size: 12px;
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.list {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+}
+.list button {
+  background: none;
+  border: none;
+  padding: 2px 0;
+  color: var(--fg);
+  cursor: pointer;
+  text-align: left;
+}
+.list button:hover {
+  color: var(--accent);
+}
+
+.listTitle {
+  margin: 8px 0 4px;
+  font-size: 13px;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.problems {
+  color: var(--error);
+  margin: 0;
+  padding-left: 1.2em;
+}
+
+.loading {
+  padding: 40px;
+  color: var(--fg-muted);
+}

@@ -1,0 +1,22 @@
+{
+  "id": "ask_the_dm_rules",
+  "description": "Rules questions to Ask the DM: answered from the rules and the sheet, never from the module, with no tool names.",
+  "module": "crypt-of-saint-vellis",
+  "setup": [
+    {"tool": "create_character", "args": {"name": "Pippa", "sheet": {
+      "race": "Halfling", "gender": "female", "cls": "Thief", "level": 3, "hp_max": 12, "ac": 6, "thac0": 19,
+      "attacks": [{"name": "short sword", "speed": 3, "attacks": 1, "thac0": 19, "damage_sm": "1d6", "damage_l": "1d8"}],
+      "skills": {"open_locks": 47, "find_remove_traps": 35, "move_silently": 40, "hide_in_shadows": 31},
+      "movement_rate": 6, "alignment": "Neutral"}}},
+    {"tool": "move_party", "args": {"to": "entry_hall"}}
+  ],
+  "secrets": [
+    {"text": "Prior Anselm sold the crypt's floor plan to Brother Kael, the ritualist, for 50 gp.",
+     "tags": ["motive"], "related_to": "Prior Anselm", "terms": ["floor plan", "Kael", "ritualist"]}
+  ],
+  "hidden_terms": ["spear", "pressure plate", "magic circle", "sarcophagus", "lever"],
+  "beats": [
+    {"player": "How does Pippa's backstab work, and what does she need to pull one off?", "ask": true},
+    {"player": "If Pippa searches the entry hall for traps, what are her chances, and what happens if she fails?", "ask": true}
+  ]
+}

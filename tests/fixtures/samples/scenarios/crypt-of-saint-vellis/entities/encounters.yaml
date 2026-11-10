@@ -1,0 +1,19 @@
+- id: c2-saint
+  name: The risen saint
+  key: key:C2
+  fixed:
+  - count: 1
+    creature: monster:wight
+    notes: Saint Vellis, bound and furious
+- id: crypt-wandering
+  name: Crypt wandering monsters
+  kind: dungeon
+  table:
+  - roll: 1-3
+    count: 1d6
+    creature: monster:giant-rat
+  - roll: 4-5
+    count: 1d3
+    creature: monster:skeleton
+  - roll: 6
+    result: Distant chanting — the ritual advances one round

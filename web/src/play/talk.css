@@ -1,0 +1,625 @@
+/* Table talk in one place (play/TalkPanel.tsx, DEL-199): a warm panel at the foot of the side column, with the talk
+   scrolling in it and its own box under it. The lines are flat: a face, the name in the speaker's colour, the words;
+   one scrolling area, never one inside another. */
+.talk-panel {
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1 1 auto;
+  background: color-mix(in srgb, var(--notice-bg) 45%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--notice-ink) 22%, var(--rule));
+  border-radius: calc(var(--radius) + 2px);
+  overflow: hidden;
+}
+
+.talk-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.6rem 0.45rem 0.8rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--notice-ink) 15%, transparent);
+}
+
+.play .talk-head h2 {
+  margin: 0;
+  white-space: nowrap;
+  font-family: var(--display);
+  font-size: 1.05rem;
+}
+
+.talk-panel.wide .talk-head h2 {
+  font-size: 1.2rem;
+}
+
+.talk-faces {
+  display: flex;
+  gap: 0.2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.talk-faces .away {
+  opacity: 0.4;
+}
+
+.talk-head-tools {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-left: auto;
+}
+
+.talk-head .icon-button,
+.raise-hand {
+  min-height: 2rem;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  white-space: nowrap;
+}
+
+/* In a narrow column the header keeps to one line: Raise hand is its icon, and the faces give way (a phone's
+   panel, about 22.5rem, wrapped both buttons: DEL-263). */
+@container (max-width: 24rem) {
+  .talk-faces {
+    display: none;
+  }
+
+  .raise-hand .raise-hand-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+.raise-hand.up {
+  background: var(--hand-bg);
+  border-color: var(--hand-edge);
+  color: var(--hand-ink);
+  font-weight: 600;
+}
+
+/* Its popover hangs from the header's tools, at the panel's right edge, as Step away's does, and is never wider than
+   the panel, which clips what overflows it (DEL-257: from the hand button it opened past the panel's left edge). */
+.raise-hand-wrap {
+  position: static;
+}
+
+.raise-hand-form {
+  top: calc(100% + 0.35rem);
+  right: 0;
+  left: auto;
+  width: min(20rem, calc(100cqw - 1.5rem));
+  display: grid;
+  gap: 0.4rem;
+  padding: 0.6rem;
+  z-index: 5;
+}
+
+.raise-hand-form label {
+  font-size: 0.85rem;
+}
+
+/* Step away (DEL-224): its popover hangs from the header's tools, at the panel's right edge, narrow enough to fit
+   the panel, which clips what overflows it; a button for each part the characters may take meanwhile. */
+.step-away-wrap {
+  position: static;
+}
+
+.step-away-form {
+  width: min(15rem, calc(100cqw - 1.5rem));
+  gap: 0.3rem;
+}
+
+.step-away-form p {
+  margin: 0 0 0.1rem;
+  font-size: 0.85rem;
+}
+
+.step-away-part {
+  min-height: 0;
+  padding: 0.35rem 0.55rem;
+  text-align: left;
+  font-size: 0.85rem;
+}
+
+.away-line .link-button {
+  margin-left: 0.25rem;
+}
+
+.talk-list {
+  flex: 1 1 auto;
+  min-height: 0;
+  margin: 0;
+  padding: 0.6rem 0.8rem;
+  list-style: none;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  display: flex;
+  flex-direction: column;
+}
+
+.talk {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  margin-top: 0.7rem;
+}
+
+.talk:first-of-type,
+/* Load earlier, above the talk's first line (DEL-219). */
+.talk-list > .talk-earlier {
+  text-align: center;
+  font-size: 0.85em;
+  padding: 0.25rem 0;
+}
+
+.talk-list > .placeholder + .talk {
+  margin-top: 0;
+}
+
+.talk.run {
+  margin-top: 0.1rem;
+  padding-left: calc(26px + 0.55rem);
+}
+
+.talk-face {
+  flex: none;
+  width: 26px;
+  min-height: 26px;
+  margin-top: 0.1rem;
+}
+
+.talk-body {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.talk-line-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+}
+
+.talk-who {
+  font-size: 0.85rem;
+  font-weight: 650;
+  color: color-mix(in srgb, var(--talk-colour, var(--ink)) 55%, var(--ink));
+}
+
+.talk.mine .talk-who {
+  color: var(--accent);
+}
+
+.talk-time {
+  font-size: 0.75rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.talk-text {
+  margin: 0.05rem 0 0;
+  line-height: 1.45;
+  white-space: pre-line;
+}
+
+.talk-panel.wide .talk-text {
+  font-size: 1.05rem;
+}
+
+/* Quote, and a later line's time, beside the line: on hover or keyboard focus, faintly where nothing hovers. */
+.talk-tools {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding-left: 0.4rem;
+  background: color-mix(in srgb, var(--notice-bg) 45%, var(--surface));
+  opacity: 0;
+  transition: opacity 0.12s ease;
+}
+
+.talk:hover > .talk-tools,
+.talk:focus-within > .talk-tools {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .talk-tools {
+    opacity: 0.7;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .talk-tools {
+    transition: none;
+  }
+}
+
+.talk-quote-button {
+  min-height: 0;
+  padding: 0.05rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+}
+
+.talk-quote {
+  margin: 0.15rem 0 0.25rem;
+  padding: 0.1rem 0 0.1rem 0.55rem;
+  border-left: 2px solid color-mix(in srgb, var(--talk-colour, var(--muted)) 55%, transparent);
+  color: var(--muted);
+  font-size: 0.9em;
+  white-space: pre-line;
+}
+
+/* A shared Ask the DM answer: set in under its question, the DM's Markdown clipped to three lines until Show all. */
+.talk-answer {
+  margin-top: 0.35rem;
+  padding: 0.4rem 0.6rem;
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+  border: 1px solid color-mix(in srgb, var(--notice-ink) 15%, var(--rule));
+  border-radius: var(--radius);
+}
+
+.talk-answer p {
+  margin: 0;
+}
+
+.talk-answer-label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.talk-answer-text.clipped {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+}
+
+.talk-answer-text p + p,
+.talk-answer-text p + ul,
+.talk-answer-text ul {
+  margin-top: 0.25rem;
+}
+
+/* The talk's own box. */
+.talk-box {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.3rem 0.6rem 0.6rem;
+  border-top: 1px solid color-mix(in srgb, var(--notice-ink) 15%, transparent);
+}
+
+.talk-typing {
+  margin: 0;
+  min-height: 1.1em;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.talk-box-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.4rem;
+}
+
+.talk-box textarea {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 2.6rem;
+  resize: none;
+  /* Talk is words, as the story's box is, not the monospace a source's textarea has (DEL-256). */
+  font: 0.95rem/1.5 var(--sans);
+  background: color-mix(in srgb, var(--notice-bg) 25%, var(--surface));
+  border-color: color-mix(in srgb, var(--notice-ink) 25%, var(--rule));
+}
+
+.talk-send {
+  background: var(--notice-ink);
+  border-color: var(--notice-ink);
+  color: var(--notice-bg);
+  font-weight: 600;
+}
+
+.talk-send:disabled {
+  opacity: 0.55;
+}
+
+/* Folded: one line at the foot of the column, with how much is new and the newest words. */
+.talk-panel.folded {
+  flex: none;
+}
+
+.talk-unfold {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  min-height: 2.9rem;
+  padding: 0.4rem 0.8rem;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--ink);
+  text-align: left;
+}
+
+.talk-title {
+  flex: none;
+  font-family: var(--display);
+  font-weight: 700;
+}
+
+.talk-new {
+  flex: none;
+  padding: 0.05rem 0.5rem;
+  border-radius: 999px;
+  background: var(--notice-ink);
+  color: var(--notice-bg);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.talk-newest {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 0.9rem;
+}
+
+/* Raised hands (play/Session.tsx): a strip of their own, above the side column's tabs, in a colour nothing else wears. */
+:root {
+  --hand-bg: #fff1dc;
+  --hand-edge: #c9711f;
+  --hand-ink: #7a3f0e;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --hand-bg: #3d2a14;
+    --hand-edge: #d98a3a;
+    --hand-ink: #f3c48c;
+  }
+}
+
+.raised-hands {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.5rem 0.65rem;
+  background: var(--hand-bg);
+  border: 2px solid var(--hand-edge);
+  border-radius: calc(var(--radius) + 2px);
+  color: var(--ink);
+}
+
+.raised-hands-icon {
+  flex: none;
+  margin-top: 0.1rem;
+  color: var(--hand-ink);
+}
+
+.raised-hands ul {
+  flex: 1 1 10rem;
+  min-width: 0;
+  display: grid;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.raised-hands li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.1rem 0.5rem;
+  font-size: 0.9rem;
+}
+
+.raised-point {
+  flex-basis: 100%;
+  color: var(--hand-ink);
+}
+
+.raised-lower,
+.raised-break {
+  min-height: 0;
+  padding: 0.1rem 0.55rem;
+  font-size: 0.8rem;
+}
+
+.raised-lower {
+  margin-left: auto;
+}
+
+.raised-break {
+  flex: none;
+  margin-left: auto;
+}
+
+/* By the Act box: a hand is up, so someone wants a word before anyone acts. */
+.hands-line {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--hand-ink);
+}
+
+/* The session (play/Session.tsx): the host's buttons in the header, and the story column's note while not playing. */
+.session-controls {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.session-notice {
+  padding: 0.75rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+}
+
+.play .session-notice h2 {
+  margin: 0 0 0.25rem;
+  font-family: var(--display);
+  font-size: 1.15rem;
+}
+
+.session-notice p {
+  margin: 0;
+}
+
+.start-dialog {
+  width: min(34rem, calc(100vw - 2rem));
+}
+
+.start-seats {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.start-seats li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.start-seats li:last-child {
+  border-bottom: 0;
+}
+
+.start-who {
+  flex: 1 1 auto;
+}
+
+.start-here {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.start-seats .away .start-here {
+  color: var(--muted);
+}
+
+.start-away {
+  flex: 1 1 auto;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.start-away fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: grid;
+  gap: 0.2rem;
+}
+
+.start-away legend {
+  padding: 0;
+  margin-bottom: 0.2rem;
+  font-weight: 600;
+}
+
+.start-away label {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 2rem;
+  font-size: 0.92rem;
+}
+
+.start-away input[type="radio"] {
+  flex: none;
+  width: 1.1rem;
+  height: 1.1rem;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.session-controls button {
+  white-space: nowrap;
+}
+
+/* In a narrow column the box takes the whole width, with emoji and Send under it. */
+@container (max-width: 20rem) {
+  .talk-box-row {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .talk-box textarea {
+    flex-basis: 100%;
+  }
+}
+
+/* A picture pasted into table talk (DEL-294): small in its line, enlarged on a click. */
+.talk-picture-line {
+  display: grid;
+  justify-items: start;
+  gap: 0.2rem;
+  margin-top: 0.2rem;
+}
+
+.talk-picture-line img {
+  display: block;
+  max-width: 100%;
+  max-height: 12rem;
+  width: auto;
+  height: auto;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--rule);
+}
+
+.talk-picture-gone {
+  font-style: italic;
+  color: var(--muted);
+}
+
+/* The talk box's picture button: a label around its file input, drawn as the emoji button is. */
+.talk-picture {
+  display: inline-grid;
+  place-items: center;
+  align-self: center;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: var(--surface);
+  cursor: pointer;
+}
+
+.talk-picture:focus-within {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}

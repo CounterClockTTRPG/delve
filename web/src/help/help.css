@@ -1,0 +1,406 @@
+/* The help (DEL-145): the pages at /help and /help/:slug, a reading column like the privacy policy's, and the app's
+   "?" with its panel at the side. The app's own colours, so the help follows the Look and dark mode. */
+
+.help {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.help-head {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  max-width: 46rem;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1.25rem 1rem 0;
+}
+
+.help-home {
+  font-family: "IM Fell English", var(--serif);
+  font-size: 1.5rem;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.help-index-link {
+  color: var(--muted);
+}
+
+.help-main {
+  flex: 1;
+  max-width: 46rem;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
+  line-height: 1.6;
+}
+
+.help-main h1,
+.help-article h1,
+.help-article h2 {
+  font-family: "IM Fell English", var(--serif);
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.help-main h1 {
+  font-size: 2.4rem;
+  margin: 0 0 0.5rem;
+}
+
+.help-lede {
+  font-size: 1.1rem;
+  color: var(--muted);
+  margin: 0 0 2rem;
+}
+
+.help-audience {
+  margin: 2.25rem 0 0;
+}
+
+.help-audience h2 {
+  font-family: "IM Fell English", var(--serif);
+  font-weight: 400;
+  font-size: 1.6rem;
+  margin: 0;
+}
+
+.help-audience-lede {
+  margin: 0.15rem 0 0.75rem;
+  color: var(--muted);
+}
+
+.help-audience-name {
+  margin: 0;
+  color: var(--muted);
+}
+
+/* A list of topics: the title, and a line about it beneath. */
+.help-topic-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-left: 3px solid var(--accent);
+}
+
+.help-topic-list li {
+  display: grid;
+  gap: 0.1rem;
+  padding: 0.45rem 0 0.45rem 1rem;
+}
+
+.help-topic-list a,
+.help-topic-list button {
+  justify-self: start;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.help-topic-list button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--link);
+  text-align: left;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.help-topic-list span {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* A topic's text: headings, steps, screenshots with their captions, and notes. */
+.help-article h1 {
+  font-size: 2.2rem;
+  margin: 0.25rem 0 1rem;
+}
+
+.help-text h2 {
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  margin: 1.75rem 0 0.5rem;
+}
+
+.help-text h3 {
+  font-size: 1.05rem;
+  margin: 1.25rem 0 0.35rem;
+}
+
+.help-text li {
+  margin: 0.3rem 0;
+}
+
+.help-text figure {
+  margin: 1.25rem 0;
+}
+
+.help-text img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow);
+}
+
+.help-text figcaption {
+  margin-top: 0.4rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.help-text kbd,
+.help-text code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+  padding: 0.05rem 0.3rem;
+  background: var(--bg-sunken);
+  border-radius: var(--radius-sm);
+}
+
+.help-text .note {
+  margin: 1rem 0;
+  padding: 0.6rem 0.9rem;
+  background: var(--notice-bg);
+  color: var(--notice-ink);
+  border-radius: var(--radius-sm);
+}
+
+.help-related {
+  margin-top: 2.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule);
+}
+
+.help-related h2,
+.help-related h3 {
+  font-size: 1.1rem;
+  margin: 0 0 0.4rem;
+}
+
+.help-related ul {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+/* In the panel, a topic leads on to the next in the panel itself (DEL-285). */
+.help-related button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--link);
+  font: inherit;
+  text-decoration: underline;
+  text-align: start;
+  cursor: pointer;
+}
+
+.help-foot {
+  display: flex;
+  justify-content: center;
+  gap: 1.25rem;
+  padding: 1.5rem 1rem;
+  font-size: 0.9rem;
+  border-top: 1px solid var(--rule);
+}
+
+/* A seat's "?" (a seat has no nav): low on the right, above the play screen's tabs on a phone. */
+.help-button {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 40;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  color: var(--ink);
+  font: 600 1.15rem var(--serif);
+  box-shadow: var(--shadow);
+  cursor: pointer;
+}
+
+.help-button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+@media (max-width: 899px) {
+  .help-button {
+    bottom: calc(var(--tabbar-height) + 0.75rem);
+  }
+}
+
+.help-panel-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.help-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 51;
+  width: min(28rem, 100vw);
+  overflow-y: auto;
+  padding: 1rem 1.25rem 2rem;
+  background: var(--surface);
+  color: var(--ink);
+  border-left: 1px solid var(--rule);
+  box-shadow: var(--shadow);
+  line-height: 1.55;
+}
+
+.help-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.help-panel-title {
+  margin: 0;
+  font-family: "IM Fell English", var(--serif);
+  font-weight: 400;
+  font-size: 1.6rem;
+}
+
+.help-panel-close {
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.help-panel-back {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--link);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.help-panel .help-article h2 {
+  font-size: 1.6rem;
+  margin: 0.75rem 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .help-panel[data-state="open"] {
+    animation: help-panel-in 160ms ease-out;
+  }
+}
+
+@keyframes help-panel-in {
+  from {
+    transform: translateX(1.5rem);
+    opacity: 0;
+  }
+}
+
+/* The guided tours (help/tour.tsx): the offer, in the top corner, and a running tour's lit part with its card. */
+.tour-offer {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 45;
+  width: min(22rem, calc(100vw - 2rem));
+  padding: 0.85rem 1rem;
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--rule);
+  border-top: 3px solid var(--accent);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow);
+}
+
+.tour-offer p {
+  margin: 0 0 0.6rem;
+}
+
+.tour-offer .tour-offer-hint {
+  margin: 0.5rem 0 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.tour-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tour-spot {
+  position: fixed;
+  z-index: 60;
+  border: 2px solid var(--accent);
+  border-radius: var(--radius);
+  box-shadow: 0 0 0 9999px rgba(10, 16, 18, 0.45);
+  pointer-events: none;
+}
+
+.tour-card {
+  position: fixed;
+  z-index: 61;
+  padding: 0.9rem 1rem;
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow);
+  line-height: 1.5;
+}
+
+.tour-card:focus {
+  outline: none;
+}
+
+.tour-card h2 {
+  margin: 0.1rem 0 0.3rem;
+  font-family: "IM Fell English", var(--serif);
+  font-weight: 400;
+  font-size: 1.4rem;
+}
+
+.tour-card p {
+  margin: 0 0 0.75rem;
+}
+
+.tour-count {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.tour-skip {
+  margin-left: auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--link);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .tour-spot {
+    transition:
+      top 180ms ease,
+      left 180ms ease,
+      width 180ms ease,
+      height 180ms ease;
+  }
+}

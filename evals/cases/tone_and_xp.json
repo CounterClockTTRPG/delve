@@ -1,0 +1,106 @@
+{
+  "id": "tone_and_xp",
+  "description": "DEL-315: the same scene played under different tones and XP awards (--tone, --xp). The party starts at the ritual in the throne chamber, so every run meets the same priest: a parley, a fight, the vestry's purse and a report to the prior give each kind of XP its chance, and the prose shows the tone.",
+  "module": "crypt-of-saint-vellis",
+  "setup": [
+    {
+      "tool": "create_character",
+      "args": {
+        "name": "Bren",
+        "sheet": {
+          "race": "Human",
+          "gender": "male",
+          "cls": "Fighter",
+          "level": 3,
+          "hp_max": 26,
+          "ac": 4,
+          "thac0": 18,
+          "ability_scores": {
+            "str": 16,
+            "dex": 12,
+            "con": 14,
+            "int": 10,
+            "wis": 11,
+            "cha": 12
+          },
+          "attacks": [
+            {
+              "name": "long sword",
+              "speed": 5,
+              "attacks": 1,
+              "thac0": 18,
+              "damage_sm": "1d8+1",
+              "damage_l": "1d12+1"
+            }
+          ],
+          "movement_rate": 12,
+          "alignment": "Lawful Good"
+        }
+      }
+    },
+    {
+      "tool": "create_character",
+      "args": {
+        "name": "Pippa",
+        "sheet": {
+          "race": "Halfling",
+          "gender": "female",
+          "cls": "Thief",
+          "level": 3,
+          "hp_max": 12,
+          "ac": 6,
+          "thac0": 19,
+          "ability_scores": {
+            "str": 9,
+            "dex": 17,
+            "con": 12,
+            "int": 13,
+            "wis": 10,
+            "cha": 11
+          },
+          "attacks": [
+            {
+              "name": "short sword",
+              "speed": 3,
+              "attacks": 1,
+              "thac0": 19,
+              "damage_sm": "1d6",
+              "damage_l": "1d8"
+            }
+          ],
+          "skills": {
+            "open_locks": 47,
+            "find_remove_traps": 35,
+            "move_silently": 40,
+            "hide_in_shadows": 31
+          },
+          "movement_rate": 6,
+          "alignment": "Neutral"
+        }
+      }
+    },
+    {
+      "tool": "move_party",
+      "args": {
+        "to": "throne_chamber"
+      }
+    }
+  ],
+  "beats": [
+    {
+      "player": "Bren and Pippa stand at the threshold of this chamber, Bren with a torch. What do we see?"
+    },
+    {
+      "player": "Bren steps into the light and calls on whoever is there to stop what they are doing and walk away, and they will live."
+    },
+    {
+      "player": "If he won't stop, Bren charges and Pippa circles round to cut off any escape. We fight until it is over."
+    },
+    {
+      "player": "We search this room and anything beyond it and take anything of value."
+    },
+    {
+      "player": "We go back up to the chapel, rest, and tell Prior Anselm what happened."
+    }
+  ]
+}

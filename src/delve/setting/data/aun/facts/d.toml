@@ -1,0 +1,80 @@
+[[fact]]
+text = "In Corvanne anyone in the streets after dark must carry a lit lamp. Anyone 'unlit' may be killed without penalty, and the lamps sold at the gate burn for about two hours."
+category = "customs"
+
+[[fact]]
+text = "In Tessarine the host must taste every dish before a guest does. Great families keep young cousins as 'first mouths' to taste for them."
+category = "customs"
+
+[[fact]]
+text = "In Amaranthe a dead man's debts pass to whoever sits in his chair at the funeral feast, so mourners eat standing and creditors bring beggars to sit down."
+category = "customs"
+
+[[fact]]
+text = "Every one of the seven Lantern princes claims to hold one of the Seven Lanterns, and no prince accepts any other's as genuine."
+category = "history"
+
+[[fact]]
+text = "Three iron chains hang across the Ambre at Corvanne. No barge passes until they are lowered and the toll is paid."
+category = "places"
+
+[[fact]]
+text = "The Ambre has a god at almost every ford, weir and bend. Riverfolk boatmen drop a crust into the water at each without thinking about it."
+category = "gods"
+
+[[fact]]
+text = "The glass of Ishavel still holds whatever was inside the walls when it set: furniture, lamps, and people."
+category = "places"
+
+[[fact]]
+text = "Glass-pickers walk the Waste at dawn and dusk and lie still under a cloth at noon, when the glass throws the sun back into the eyes."
+category = "customs"
+
+[[fact]]
+text = "A glass-picker who dies in the Waste is laid facing Ishavel and left; their finds go to whoever lays them out."
+category = "customs"
+
+[[fact]]
+text = "The Margrave hangs glass-pickers found near his great dig in the Glass Waste on the iron rails he has laid back toward Vaelholt."
+category = "places"
+
+[[fact]]
+text = "Twice a year the spring tides bare the market square of Old Calvey, a Thaumarch town sunk off Gullhaven, for about an hour."
+category = "places"
+
+[[fact]]
+text = "Half of Gullhaven is built from wrecked ships hauled up the shingle; families still live in houses named for them."
+category = "places"
+
+[[fact]]
+text = "On the Drowned Coast, what the sea brings ashore belongs to whoever touches it first, unless the Drowned Bell rang that night."
+category = "customs"
+
+[[fact]]
+text = "Salt Annet leaves a tenth of every prize in the sea for the Drowned Bell, and will not sail the morning after it rings."
+category = "people"
+
+[[fact]]
+text = "The price of a question to the Serpent Oracle of Zhaumal is your name: you leave with a new one, and the tribes will use no other."
+category = "gods"
+
+[[fact]]
+text = "Killing a serpent in sight of a Greenmaw tribe is taken as a declaration of war."
+category = "customs"
+
+[[fact]]
+text = "Free Company contracts are sealed with a hand dipped in red ochre. A company that breaks one is outlawed by every other company."
+category = "customs"
+
+[[fact]]
+text = "The Ember Court's tutors are the best in the Reaches. Their pupils grow up admiring order, efficiency, and a certain lord in the east."
+category = "people"
+
+[[fact]]
+text = "The Hold Moot's Lawspeaker recites a third of the law of the Holds from memory each year. If she misremembers, the law changes."
+category = "customs"
+
+[[fact]]
+text = "The Margrave's diggers found a brass hand the size of a barn under the glass, attached to something much larger still buried."
+category = "history"
+dm_only = true

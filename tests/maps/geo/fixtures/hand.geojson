@@ -1,0 +1,15 @@
+{"type": "FeatureCollection", "name": "A hand-drawn GeoJSON map: x east, y north, in its own units, 100 wide",
+ "features": [
+  {"type": "Feature", "properties": {"type": "settlement", "label": "Oakvale", "description": "A market town."},
+   "geometry": {"type": "Point", "coordinates": [10, 80]}},
+  {"type": "Feature", "properties": {"type": "settlement", "label": "Rivermouth"},
+   "geometry": {"type": "Point", "coordinates": [100, 80]}},
+  {"type": "Feature", "properties": {"type": "highway", "label": "King's Road"},
+   "geometry": {"type": "LineString", "coordinates": [[10, 80], [55, 80], [100, 80]]}},
+  {"type": "Feature", "properties": {"type": "woods", "label": "Old Wood"},
+   "geometry": {"type": "Polygon", "coordinates": [[[0, 0], [50, 0], [50, 40], [0, 40], [0, 0]]]}},
+  {"type": "Feature", "properties": {"type": "mere", "label": "Still Mere"},
+   "geometry": {"type": "Polygon", "coordinates": [[[60, 10], [90, 10], [90, 40], [60, 40], [60, 10]]]}},
+  {"type": "Feature", "properties": {"type": "beacon", "label": "Signal Fire"},
+   "geometry": {"type": "Point", "coordinates": [70, 70]}}
+ ]}

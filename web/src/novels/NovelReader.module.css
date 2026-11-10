@@ -1,0 +1,132 @@
+/* A novel to read: one book-like column, about 66 characters to the line, in the serif text face. */
+
+.book {
+  max-width: 66ch;
+  margin: 0 auto;
+  padding: 24px 16px 96px;
+  font-family: var(--serif);
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: var(--fg);
+}
+
+.loading {
+  padding: 60px;
+  text-align: center;
+  color: var(--fg-muted);
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 32px;
+  font-family: var(--sans);
+  font-size: 13px;
+}
+.toolbar a {
+  color: var(--fg-muted);
+}
+.toolbar a:hover {
+  color: var(--accent);
+}
+
+.header {
+  margin-bottom: 32px;
+  text-align: center;
+}
+.title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px 12px;
+}
+.title h1 {
+  margin: 0;
+  font-size: 2.1rem;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+.title button,
+.title input {
+  font-family: var(--sans);
+  font-size: 13px;
+}
+.titleInput {
+  flex: 1 1 20ch;
+  font-size: 1.25rem !important;
+}
+.rename {
+  background: none;
+  border: none;
+  color: var(--fg-muted);
+  cursor: pointer;
+  text-decoration: underline;
+}
+.byline {
+  margin: 8px 0 0;
+  font-style: italic;
+  color: var(--fg-muted);
+}
+
+.state {
+  margin-bottom: 32px;
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.contents {
+  margin-bottom: 48px;
+}
+.contents h2 {
+  font-size: 1rem;
+  font-variant: small-caps;
+  letter-spacing: 0.06em;
+  color: var(--fg-muted);
+}
+.contents ol {
+  padding-left: 1.6em;
+}
+.planned {
+  color: var(--fg-muted);
+}
+
+.chapter {
+  margin-top: 64px;
+}
+.chapter h2 {
+  margin-bottom: 24px;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.text p {
+  margin: 0;
+  text-indent: 1.5em;
+  hyphens: auto;
+}
+.text p:first-child,
+.text :is(blockquote, hr, ul, ol, h3, h4) + p {
+  text-indent: 0;
+}
+.text blockquote {
+  margin: 1em 2em;
+  font-style: italic;
+}
+.text hr {
+  margin: 1.5em auto;
+  width: 30%;
+  border: none;
+  border-top: 1px solid var(--border);
+}
+
+@media (max-width: 600px) {
+  .book {
+    font-size: 1.0625rem;
+  }
+  .title h1 {
+    font-size: 1.6rem;
+  }
+}

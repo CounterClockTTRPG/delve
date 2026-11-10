@@ -1,0 +1,103 @@
+{
+  "id": "xp_awards",
+  "description": "DEL-315: what earns XP (--xp), with the tone left alone. Three goblins are beaten and searched, a thief disarms the chest's trap and opens it, and the session ends at a natural break, where the DM awards what the campaign gives XP for and nothing else.",
+  "module": "crypt-of-saint-vellis",
+  "setup": [
+    {
+      "tool": "create_character",
+      "args": {
+        "name": "Bren",
+        "sheet": {
+          "race": "Human",
+          "gender": "male",
+          "cls": "Fighter",
+          "level": 3,
+          "hp_max": 26,
+          "ac": 4,
+          "thac0": 18,
+          "ability_scores": {
+            "str": 16,
+            "dex": 12,
+            "con": 14,
+            "int": 10,
+            "wis": 11,
+            "cha": 12
+          },
+          "attacks": [
+            {
+              "name": "long sword",
+              "speed": 5,
+              "attacks": 1,
+              "thac0": 18,
+              "damage_sm": "1d8+1",
+              "damage_l": "1d12+1"
+            }
+          ],
+          "movement_rate": 12,
+          "alignment": "Lawful Good"
+        }
+      }
+    },
+    {
+      "tool": "create_character",
+      "args": {
+        "name": "Pippa",
+        "sheet": {
+          "race": "Halfling",
+          "gender": "female",
+          "cls": "Thief",
+          "level": 3,
+          "hp_max": 12,
+          "ac": 6,
+          "thac0": 19,
+          "ability_scores": {
+            "str": 9,
+            "dex": 17,
+            "con": 12,
+            "int": 13,
+            "wis": 10,
+            "cha": 11
+          },
+          "attacks": [
+            {
+              "name": "short sword",
+              "speed": 3,
+              "attacks": 1,
+              "thac0": 19,
+              "damage_sm": "1d6",
+              "damage_l": "1d8"
+            }
+          ],
+          "skills": {
+            "open_locks": 47,
+            "find_remove_traps": 35,
+            "move_silently": 40,
+            "hide_in_shadows": 31
+          },
+          "movement_rate": 6,
+          "alignment": "Neutral"
+        }
+      }
+    },
+    {
+      "tool": "move_party",
+      "args": {
+        "to": "entry_hall"
+      }
+    }
+  ],
+  "beats": [
+    {
+      "player": "Three goblins block the passage. Bren draws his sword and charges them, and Pippa backs him up with her short sword."
+    },
+    {
+      "player": "We keep fighting until they are all down, then search the bodies and take what they carry."
+    },
+    {
+      "player": "Pippa checks the iron-bound chest and the floor in front of it for traps and disarms any she finds. Then she picks the lock and we take what is inside."
+    },
+    {
+      "player": "That's enough for today: we climb out, rest at the chapel and end the session here."
+    }
+  ]
+}

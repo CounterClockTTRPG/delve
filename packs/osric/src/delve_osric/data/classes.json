@@ -1,0 +1,3883 @@
+{
+ "_source": "OSRIC 3.0 Player Guide, Chapter Three: Character Classes. Verified against PDF (Fighter 1.3.4, Cleric 1.3.2, Magic-User 1.3.6, Thief 1.3.10; Assassin 1.3.1, Druid 1.3.3, Illusionist 1.3.5, Monk 1.3.7, Paladin 1.3.8, Ranger 1.3.9).",
+ "_save_categories": [
+  "aimed_magic_items",
+  "breath_weapons",
+  "death_paralysis_poison",
+  "petrification_polymorph",
+  "spells"
+ ],
+ "_thac0_note": "thac0 = number needed (d20) to hit descending Armour Class 0. Needed roll vs a target = thac0 - target_ac_descending. Natural 20 always hits; natural 1 always misses.",
+ "_hd_note": "hd_count d(hit_die) are rolled; hp_bonus is fixed hp added on top (used past the hit-die cap). Constitution hp_mod applies per die rolled, not to the fixed bonus.",
+ "fighter": {
+  "name": "Fighter",
+  "hit_die": 10,
+  "prime_requisite": "strength",
+  "xp_bonus_threshold": 16,
+  "minimum_scores": {
+   "strength": 9,
+   "dexterity": 6,
+   "constitution": 7,
+   "intelligence": 3,
+   "wisdom": 6,
+   "charisma": 6
+  },
+  "uses_warrior_con_bonus": true,
+  "armour_allowed": "any",
+  "shield_allowed": true,
+  "weapons_allowed": "any",
+  "initial_gold": "5d4*10",
+  "spellcaster": null,
+  "levels": [
+   {
+    "level": 1,
+    "xp": 0,
+    "hd_count": 1,
+    "hp_bonus": 0
+   },
+   {
+    "level": 2,
+    "xp": 2000,
+    "hd_count": 2,
+    "hp_bonus": 0
+   },
+   {
+    "level": 3,
+    "xp": 4000,
+    "hd_count": 3,
+    "hp_bonus": 0
+   },
+   {
+    "level": 4,
+    "xp": 8000,
+    "hd_count": 4,
+    "hp_bonus": 0
+   },
+   {
+    "level": 5,
+    "xp": 17000,
+    "hd_count": 5,
+    "hp_bonus": 0
+   },
+   {
+    "level": 6,
+    "xp": 35000,
+    "hd_count": 6,
+    "hp_bonus": 0
+   },
+   {
+    "level": 7,
+    "xp": 70000,
+    "hd_count": 7,
+    "hp_bonus": 0
+   },
+   {
+    "level": 8,
+    "xp": 125000,
+    "hd_count": 8,
+    "hp_bonus": 0
+   },
+   {
+    "level": 9,
+    "xp": 250000,
+    "hd_count": 9,
+    "hp_bonus": 0
+   },
+   {
+    "level": 10,
+    "xp": 500000,
+    "hd_count": 9,
+    "hp_bonus": 3
+   },
+   {
+    "level": 11,
+    "xp": 750000,
+    "hd_count": 9,
+    "hp_bonus": 6
+   },
+   {
+    "level": 12,
+    "xp": 1000000,
+    "hd_count": 9,
+    "hp_bonus": 9
+   },
+   {
+    "level": 13,
+    "xp": 1250000,
+    "hd_count": 9,
+    "hp_bonus": 12
+   },
+   {
+    "level": 14,
+    "xp": 1500000,
+    "hd_count": 9,
+    "hp_bonus": 15
+   },
+   {
+    "level": 15,
+    "xp": 1750000,
+    "hd_count": 9,
+    "hp_bonus": 18
+   },
+   {
+    "level": 16,
+    "xp": 2000000,
+    "hd_count": 9,
+    "hp_bonus": 21
+   },
+   {
+    "level": 17,
+    "xp": 2250000,
+    "hd_count": 9,
+    "hp_bonus": 24
+   },
+   {
+    "level": 18,
+    "xp": 2500000,
+    "hd_count": 9,
+    "hp_bonus": 27
+   },
+   {
+    "level": 19,
+    "xp": 2750000,
+    "hd_count": 9,
+    "hp_bonus": 30
+   },
+   {
+    "level": 20,
+    "xp": 3000000,
+    "hd_count": 9,
+    "hp_bonus": 33
+   }
+  ],
+  "thac0_by_level": [
+   {
+    "min": 0,
+    "max": 1,
+    "thac0": 20
+   },
+   {
+    "min": 2,
+    "max": 2,
+    "thac0": 19
+   },
+   {
+    "min": 3,
+    "max": 3,
+    "thac0": 18
+   },
+   {
+    "min": 4,
+    "max": 4,
+    "thac0": 17
+   },
+   {
+    "min": 5,
+    "max": 5,
+    "thac0": 16
+   },
+   {
+    "min": 6,
+    "max": 6,
+    "thac0": 15
+   },
+   {
+    "min": 7,
+    "max": 7,
+    "thac0": 14
+   },
+   {
+    "min": 8,
+    "max": 8,
+    "thac0": 13
+   },
+   {
+    "min": 9,
+    "max": 9,
+    "thac0": 12
+   },
+   {
+    "min": 10,
+    "max": 10,
+    "thac0": 11
+   },
+   {
+    "min": 11,
+    "max": 11,
+    "thac0": 10
+   },
+   {
+    "min": 12,
+    "max": 12,
+    "thac0": 9
+   },
+   {
+    "min": 13,
+    "max": 13,
+    "thac0": 8
+   },
+   {
+    "min": 14,
+    "max": 14,
+    "thac0": 7
+   },
+   {
+    "min": 15,
+    "max": 15,
+    "thac0": 6
+   },
+   {
+    "min": 16,
+    "max": 16,
+    "thac0": 5
+   },
+   {
+    "min": 17,
+    "max": 17,
+    "thac0": 4
+   },
+   {
+    "min": 18,
+    "max": 18,
+    "thac0": 3
+   },
+   {
+    "min": 19,
+    "max": 19,
+    "thac0": 2
+   },
+   {
+    "min": 20,
+    "max": 99,
+    "thac0": 1
+   }
+  ],
+  "saving_throws": [
+   {
+    "min": 0,
+    "max": 0,
+    "aimed_magic_items": 18,
+    "breath_weapons": 20,
+    "death_paralysis_poison": 16,
+    "petrification_polymorph": 17,
+    "spells": 19
+   },
+   {
+    "min": 1,
+    "max": 2,
+    "aimed_magic_items": 16,
+    "breath_weapons": 17,
+    "death_paralysis_poison": 14,
+    "petrification_polymorph": 15,
+    "spells": 17
+   },
+   {
+    "min": 3,
+    "max": 4,
+    "aimed_magic_items": 15,
+    "breath_weapons": 16,
+    "death_paralysis_poison": 13,
+    "petrification_polymorph": 14,
+    "spells": 16
+   },
+   {
+    "min": 5,
+    "max": 6,
+    "aimed_magic_items": 13,
+    "breath_weapons": 13,
+    "death_paralysis_poison": 11,
+    "petrification_polymorph": 12,
+    "spells": 14
+   },
+   {
+    "min": 7,
+    "max": 8,
+    "aimed_magic_items": 12,
+    "breath_weapons": 12,
+    "death_paralysis_poison": 10,
+    "petrification_polymorph": 11,
+    "spells": 13
+   },
+   {
+    "min": 9,
+    "max": 10,
+    "aimed_magic_items": 10,
+    "breath_weapons": 9,
+    "death_paralysis_poison": 8,
+    "petrification_polymorph": 9,
+    "spells": 11
+   },
+   {
+    "min": 11,
+    "max": 12,
+    "aimed_magic_items": 9,
+    "breath_weapons": 8,
+    "death_paralysis_poison": 7,
+    "petrification_polymorph": 8,
+    "spells": 10
+   },
+   {
+    "min": 13,
+    "max": 14,
+    "aimed_magic_items": 7,
+    "breath_weapons": 5,
+    "death_paralysis_poison": 5,
+    "petrification_polymorph": 6,
+    "spells": 8
+   },
+   {
+    "min": 15,
+    "max": 16,
+    "aimed_magic_items": 6,
+    "breath_weapons": 4,
+    "death_paralysis_poison": 4,
+    "petrification_polymorph": 5,
+    "spells": 7
+   },
+   {
+    "min": 17,
+    "max": 18,
+    "aimed_magic_items": 5,
+    "breath_weapons": 4,
+    "death_paralysis_poison": 3,
+    "petrification_polymorph": 4,
+    "spells": 6
+   },
+   {
+    "min": 19,
+    "max": 99,
+    "aimed_magic_items": 4,
+    "breath_weapons": 3,
+    "death_paralysis_poison": 2,
+    "petrification_polymorph": 3,
+    "spells": 5
+   }
+  ]
+ },
+ "cleric": {
+  "name": "Cleric",
+  "hit_die": 8,
+  "prime_requisite": "wisdom",
+  "xp_bonus_threshold": 16,
+  "minimum_scores": {
+   "strength": 6,
+   "dexterity": 3,
+   "constitution": 6,
+   "intelligence": 6,
+   "wisdom": 9,
+   "charisma": 6
+  },
+  "uses_warrior_con_bonus": false,
+  "armour_allowed": "any",
+  "shield_allowed": true,
+  "weapons_allowed": "blunt (club, flail, hammer, mace, staff, torch)",
+  "initial_gold": "3d6*10",
+  "spellcaster": {
+   "type": "divine",
+   "ability": "wisdom",
+   "max_spell_level": 7
+  },
+  "spell_slots": {
+   "1": [
+    1
+   ],
+   "2": [
+    2
+   ],
+   "3": [
+    2,
+    1
+   ],
+   "4": [
+    3,
+    2
+   ],
+   "5": [
+    3,
+    3,
+    1
+   ],
+   "6": [
+    3,
+    3,
+    2
+   ],
+   "7": [
+    3,
+    3,
+    2,
+    1
+   ],
+   "8": [
+    3,
+    3,
+    3,
+    2
+   ],
+   "9": [
+    4,
+    4,
+    3,
+    2,
+    1
+   ],
+   "10": [
+    4,
+    4,
+    3,
+    3,
+    2
+   ],
+   "11": [
+    5,
+    4,
+    4,
+    3,
+    2,
+    1
+   ],
+   "12": [
+    6,
+    5,
+    5,
+    3,
+    2,
+    2
+   ],
+   "13": [
+    6,
+    6,
+    6,
+    4,
+    2,
+    2
+   ],
+   "14": [
+    6,
+    6,
+    6,
+    5,
+    3,
+    2
+   ],
+   "15": [
+    7,
+    7,
+    7,
+    5,
+    4,
+    2
+   ],
+   "16": [
+    7,
+    7,
+    7,
+    6,
+    5,
+    3,
+    1
+   ],
+   "17": [
+    8,
+    8,
+    8,
+    6,
+    5,
+    3,
+    1
+   ],
+   "18": [
+    8,
+    8,
+    8,
+    7,
+    6,
+    4,
+    1
+   ],
+   "19": [
+    9,
+    9,
+    9,
+    7,
+    6,
+    4,
+    2
+   ],
+   "20": [
+    9,
+    9,
+    9,
+    8,
+    7,
+    5,
+    2
+   ]
+  },
+  "levels": [
+   {
+    "level": 1,
+    "xp": 0,
+    "hd_count": 1,
+    "hp_bonus": 0
+   },
+   {
+    "level": 2,
+    "xp": 1500,
+    "hd_count": 2,
+    "hp_bonus": 0
+   },
+   {
+    "level": 3,
+    "xp": 3000,
+    "hd_count": 3,
+    "hp_bonus": 0
+   },
+   {
+    "level": 4,
+    "xp": 6000,
+    "hd_count": 4,
+    "hp_bonus": 0
+   },
+   {
+    "level": 5,
+    "xp": 13000,
+    "hd_count": 5,
+    "hp_bonus": 0
+   },
+   {
+    "level": 6,
+    "xp": 27000,
+    "hd_count": 6,
+    "hp_bonus": 0
+   },
+   {
+    "level": 7,
+    "xp": 55000,
+    "hd_count": 7,
+    "hp_bonus": 0
+   },
+   {
+    "level": 8,
+    "xp": 110000,
+    "hd_count": 8,
+    "hp_bonus": 0
+   },
+   {
+    "level": 9,
+    "xp": 220000,
+    "hd_count": 9,
+    "hp_bonus": 0
+   },
+   {
+    "level": 10,
+    "xp": 450000,
+    "hd_count": 9,
+    "hp_bonus": 2
+   },
+   {
+    "level": 11,
+    "xp": 675000,
+    "hd_count": 9,
+    "hp_bonus": 4
+   },
+   {
+    "level": 12,
+    "xp": 900000,
+    "hd_count": 9,
+    "hp_bonus": 6
+   },
+   {
+    "level": 13,
+    "xp": 1125000,
+    "hd_count": 9,
+    "hp_bonus": 8
+   },
+   {
+    "level": 14,
+    "xp": 1350000,
+    "hd_count": 9,
+    "hp_bonus": 10
+   },
+   {
+    "level": 15,
+    "xp": 1575000,
+    "hd_count": 9,
+    "hp_bonus": 12
+   },
+   {
+    "level": 16,
+    "xp": 1800000,
+    "hd_count": 9,
+    "hp_bonus": 14
+   },
+   {
+    "level": 17,
+    "xp": 2050000,
+    "hd_count": 9,
+    "hp_bonus": 16
+   },
+   {
+    "level": 18,
+    "xp": 2300000,
+    "hd_count": 9,
+    "hp_bonus": 18
+   },
+   {
+    "level": 19,
+    "xp": 2550000,
+    "hd_count": 9,
+    "hp_bonus": 20
+   },
+   {
+    "level": 20,
+    "xp": 2700000,
+    "hd_count": 9,
+    "hp_bonus": 22
+   }
+  ],
+  "thac0_by_level": [
+   {
+    "min": 1,
+    "max": 3,
+    "thac0": 20
+   },
+   {
+    "min": 4,
+    "max": 6,
+    "thac0": 18
+   },
+   {
+    "min": 7,
+    "max": 9,
+    "thac0": 16
+   },
+   {
+    "min": 10,
+    "max": 12,
+    "thac0": 14
+   },
+   {
+    "min": 13,
+    "max": 15,
+    "thac0": 12
+   },
+   {
+    "min": 16,
+    "max": 18,
+    "thac0": 10
+   },
+   {
+    "min": 19,
+    "max": 99,
+    "thac0": 9
+   }
+  ],
+  "saving_throws": [
+   {
+    "min": 1,
+    "max": 3,
+    "aimed_magic_items": 14,
+    "breath_weapons": 16,
+    "death_paralysis_poison": 10,
+    "petrification_polymorph": 13,
+    "spells": 15
+   },
+   {
+    "min": 4,
+    "max": 6,
+    "aimed_magic_items": 13,
+    "breath_weapons": 15,
+    "death_paralysis_poison": 9,
+    "petrification_polymorph": 12,
+    "spells": 14
+   },
+   {
+    "min": 7,
+    "max": 9,
+    "aimed_magic_items": 11,
+    "breath_weapons": 13,
+    "death_paralysis_poison": 7,
+    "petrification_polymorph": 10,
+    "spells": 12
+   },
+   {
+    "min": 10,
+    "max": 12,
+    "aimed_magic_items": 10,
+    "breath_weapons": 12,
+    "death_paralysis_poison": 6,
+    "petrification_polymorph": 9,
+    "spells": 11
+   },
+   {
+    "min": 13,
+    "max": 15,
+    "aimed_magic_items": 9,
+    "breath_weapons": 11,
+    "death_paralysis_poison": 5,
+    "petrification_polymorph": 8,
+    "spells": 10
+   },
+   {
+    "min": 16,
+    "max": 18,
+    "aimed_magic_items": 8,
+    "breath_weapons": 10,
+    "death_paralysis_poison": 4,
+    "petrification_polymorph": 7,
+    "spells": 9
+   },
+   {
+    "min": 19,
+    "max": 99,
+    "aimed_magic_items": 6,
+    "breath_weapons": 8,
+    "death_paralysis_poison": 2,
+    "petrification_polymorph": 5,
+    "spells": 7
+   }
+  ]
+ },
+ "magic-user": {
+  "name": "Magic-User",
+  "hit_die": 4,
+  "prime_requisite": "intelligence",
+  "xp_bonus_threshold": 16,
+  "minimum_scores": {
+   "strength": 3,
+   "dexterity": 6,
+   "constitution": 6,
+   "intelligence": 9,
+   "wisdom": 6,
+   "charisma": 6
+  },
+  "uses_warrior_con_bonus": false,
+  "armour_allowed": "none",
+  "shield_allowed": false,
+  "weapons_allowed": "dagger, dart, oil, staff",
+  "initial_gold": "2d4*10",
+  "spellcaster": {
+   "type": "arcane",
+   "ability": "intelligence",
+   "max_spell_level": 9
+  },
+  "spell_slots": {
+   "1": [
+    1
+   ],
+   "2": [
+    2
+   ],
+   "3": [
+    2,
+    1
+   ],
+   "4": [
+    3,
+    2
+   ],
+   "5": [
+    4,
+    2,
+    1
+   ],
+   "6": [
+    4,
+    3,
+    2
+   ],
+   "7": [
+    4,
+    3,
+    2,
+    1
+   ],
+   "8": [
+    4,
+    3,
+    3,
+    2
+   ],
+   "9": [
+    4,
+    4,
+    3,
+    2,
+    1
+   ],
+   "10": [
+    4,
+    4,
+    3,
+    2,
+    2
+   ],
+   "11": [
+    4,
+    4,
+    4,
+    3,
+    3
+   ],
+   "12": [
+    5,
+    4,
+    4,
+    3,
+    3,
+    1
+   ],
+   "13": [
+    5,
+    5,
+    4,
+    3,
+    3,
+    2
+   ],
+   "14": [
+    5,
+    5,
+    5,
+    4,
+    4,
+    2,
+    1
+   ],
+   "15": [
+    5,
+    5,
+    5,
+    4,
+    4,
+    3,
+    2
+   ],
+   "16": [
+    5,
+    5,
+    5,
+    4,
+    4,
+    3,
+    2,
+    1
+   ],
+   "17": [
+    5,
+    5,
+    5,
+    5,
+    5,
+    4,
+    3,
+    2
+   ],
+   "18": [
+    5,
+    5,
+    5,
+    5,
+    5,
+    4,
+    3,
+    2,
+    1
+   ],
+   "19": [
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    4,
+    3,
+    1
+   ],
+   "20": [
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    4,
+    3,
+    2
+   ]
+  },
+  "levels": [
+   {
+    "level": 1,
+    "xp": 0,
+    "hd_count": 1,
+    "hp_bonus": 0
+   },
+   {
+    "level": 2,
+    "xp": 2400,
+    "hd_count": 2,
+    "hp_bonus": 0
+   },
+   {
+    "level": 3,
+    "xp": 4800,
+    "hd_count": 3,
+    "hp_bonus": 0
+   },
+   {
+    "level": 4,
+    "xp": 10250,
+    "hd_count": 4,
+    "hp_bonus": 0
+   },
+   {
+    "level": 5,
+    "xp": 22000,
+    "hd_count": 5,
+    "hp_bonus": 0
+   },
+   {
+    "level": 6,
+    "xp": 40000,
+    "hd_count": 6,
+    "hp_bonus": 0
+   },
+   {
+    "level": 7,
+    "xp": 60000,
+    "hd_count": 7,
+    "hp_bonus": 0
+   },
+   {
+    "level": 8,
+    "xp": 80000,
+    "hd_count": 8,
+    "hp_bonus": 0
+   },
+   {
+    "level": 9,
+    "xp": 140000,
+    "hd_count": 9,
+    "hp_bonus": 0
+   },
+   {
+    "level": 10,
+    "xp": 250000,
+    "hd_count": 10,
+    "hp_bonus": 0
+   },
+   {
+    "level": 11,
+    "xp": 375000,
+    "hd_count": 11,
+    "hp_bonus": 0
+   },
+   {
+    "level": 12,
+    "xp": 750000,
+    "hd_count": 11,
+    "hp_bonus": 1
+   },
+   {
+    "level": 13,
+    "xp": 1125000,
+    "hd_count": 11,
+    "hp_bonus": 2
+   },
+   {
+    "level": 14,
+    "xp": 1500000,
+    "hd_count": 11,
+    "hp_bonus": 3
+   },
+   {
+    "level": 15,
+    "xp": 1875000,
+    "hd_count": 11,
+    "hp_bonus": 4
+   },
+   {
+    "level": 16,
+    "xp": 2250000,
+    "hd_count": 11,
+    "hp_bonus": 5
+   },
+   {
+    "level": 17,
+    "xp": 2625000,
+    "hd_count": 11,
+    "hp_bonus": 6
+   },
+   {
+    "level": 18,
+    "xp": 3000000,
+    "hd_count": 11,
+    "hp_bonus": 7
+   },
+   {
+    "level": 19,
+    "xp": 3375000,
+    "hd_count": 11,
+    "hp_bonus": 8
+   },
+   {
+    "level": 20,
+    "xp": 3750000,
+    "hd_count": 11,
+    "hp_bonus": 9
+   }
+  ],
+  "thac0_by_level": [
+   {
+    "min": 1,
+    "max": 5,
+    "thac0": 20
+   },
+   {
+    "min": 6,
+    "max": 10,
+    "thac0": 19
+   },
+   {
+    "min": 11,
+    "max": 15,
+    "thac0": 16
+   },
+   {
+    "min": 16,
+    "max": 20,
+    "thac0": 14
+   },
+   {
+    "min": 21,
+    "max": 99,
+    "thac0": 14
+   }
+  ],
+  "saving_throws": [
+   {
+    "min": 1,
+    "max": 5,
+    "aimed_magic_items": 11,
+    "breath_weapons": 15,
+    "death_paralysis_poison": 14,
+    "petrification_polymorph": 13,
+    "spells": 12
+   },
+   {
+    "min": 6,
+    "max": 10,
+    "aimed_magic_items": 9,
+    "breath_weapons": 13,
+    "death_paralysis_poison": 13,
+    "petrification_polymorph": 11,
+    "spells": 10
+   },
+   {
+    "min": 11,
+    "max": 15,
+    "aimed_magic_items": 7,
+    "breath_weapons": 11,
+    "death_paralysis_poison": 11,
+    "petrification_polymorph": 9,
+    "spells": 8
+   },
+   {
+    "min": 16,
+    "max": 99,
+    "aimed_magic_items": 5,
+    "breath_weapons": 9,
+    "death_paralysis_poison": 10,
+    "petrification_polymorph": 7,
+    "spells": 6
+   }
+  ]
+ },
+ "thief": {
+  "name": "Thief",
+  "hit_die": 6,
+  "prime_requisite": "dexterity",
+  "xp_bonus_threshold": 16,
+  "minimum_scores": {
+   "strength": 6,
+   "dexterity": 9,
+   "constitution": 6,
+   "intelligence": 6,
+   "wisdom": 3,
+   "charisma": 6
+  },
+  "uses_warrior_con_bonus": false,
+  "armour_allowed": "leather, padded, or studded leather only",
+  "shield_allowed": false,
+  "weapons_allowed": "club, dagger, dart, oil, sling, most swords (not bastard or two-handed), torch",
+  "initial_gold": "2d6*10",
+  "spellcaster": null,
+  "levels": [
+   {
+    "level": 1,
+    "xp": 0,
+    "hd_count": 1,
+    "hp_bonus": 0
+   },
+   {
+    "level": 2,
+    "xp": 1250,
+    "hd_count": 2,
+    "hp_bonus": 0
+   },
+   {
+    "level": 3,
+    "xp": 2500,
+    "hd_count": 3,
+    "hp_bonus": 0
+   },
+   {
+    "level": 4,
+    "xp": 5000,
+    "hd_count": 4,
+    "hp_bonus": 0
+   },
+   {
+    "level": 5,
+    "xp": 10000,
+    "hd_count": 5,
+    "hp_bonus": 0
+   },
+   {
+    "level": 6,
+    "xp": 20000,
+    "hd_count": 6,
+    "hp_bonus": 0
+   },
+   {
+    "level": 7,
+    "xp": 40000,
+    "hd_count": 7,
+    "hp_bonus": 0
+   },
+   {
+    "level": 8,
+    "xp": 70000,
+    "hd_count": 8,
+    "hp_bonus": 0
+   },
+   {
+    "level": 9,
+    "xp": 110000,
+    "hd_count": 9,
+    "hp_bonus": 0
+   },
+   {
+    "level": 10,
+    "xp": 160000,
+    "hd_count": 10,
+    "hp_bonus": 0
+   },
+   {
+    "level": 11,
+    "xp": 220000,
+    "hd_count": 10,
+    "hp_bonus": 2
+   },
+   {
+    "level": 12,
+    "xp": 440000,
+    "hd_count": 10,
+    "hp_bonus": 4
+   },
+   {
+    "level": 13,
+    "xp": 660000,
+    "hd_count": 10,
+    "hp_bonus": 6
+   },
+   {
+    "level": 14,
+    "xp": 880000,
+    "hd_count": 10,
+    "hp_bonus": 8
+   },
+   {
+    "level": 15,
+    "xp": 1100000,
+    "hd_count": 10,
+    "hp_bonus": 10
+   },
+   {
+    "level": 16,
+    "xp": 1320000,
+    "hd_count": 10,
+    "hp_bonus": 12
+   },
+   {
+    "level": 17,
+    "xp": 1540000,
+    "hd_count": 10,
+    "hp_bonus": 14
+   },
+   {
+    "level": 18,
+    "xp": 1760000,
+    "hd_count": 10,
+    "hp_bonus": 16
+   },
+   {
+    "level": 19,
+    "xp": 1980000,
+    "hd_count": 10,
+    "hp_bonus": 18
+   },
+   {
+    "level": 20,
+    "xp": 2200000,
+    "hd_count": 10,
+    "hp_bonus": 20
+   }
+  ],
+  "thac0_by_level": [
+   {
+    "min": 1,
+    "max": 4,
+    "thac0": 20
+   },
+   {
+    "min": 5,
+    "max": 8,
+    "thac0": 19
+   },
+   {
+    "min": 9,
+    "max": 12,
+    "thac0": 16
+   },
+   {
+    "min": 13,
+    "max": 16,
+    "thac0": 14
+   },
+   {
+    "min": 17,
+    "max": 99,
+    "thac0": 12
+   }
+  ],
+  "saving_throws": [
+   {
+    "min": 1,
+    "max": 4,
+    "aimed_magic_items": 14,
+    "breath_weapons": 16,
+    "death_paralysis_poison": 13,
+    "petrification_polymorph": 12,
+    "spells": 15
+   },
+   {
+    "min": 5,
+    "max": 8,
+    "aimed_magic_items": 12,
+    "breath_weapons": 15,
+    "death_paralysis_poison": 12,
+    "petrification_polymorph": 11,
+    "spells": 13
+   },
+   {
+    "min": 9,
+    "max": 12,
+    "aimed_magic_items": 10,
+    "breath_weapons": 14,
+    "death_paralysis_poison": 11,
+    "petrification_polymorph": 10,
+    "spells": 11
+   },
+   {
+    "min": 13,
+    "max": 16,
+    "aimed_magic_items": 8,
+    "breath_weapons": 13,
+    "death_paralysis_poison": 10,
+    "petrification_polymorph": 9,
+    "spells": 9
+   },
+   {
+    "min": 17,
+    "max": 99,
+    "aimed_magic_items": 6,
+    "breath_weapons": 12,
+    "death_paralysis_poison": 9,
+    "petrification_polymorph": 8,
+    "spells": 7
+   }
+  ],
+  "thief_skills": {
+   "_columns": [
+    "climb_walls",
+    "hide_in_shadows",
+    "hear_noise",
+    "pick_locks",
+    "pick_pockets",
+    "read_languages",
+    "move_quietly",
+    "find_remove_traps"
+   ],
+   "_backstab": "damage multiplier by level tier (in addition to +4 to-hit)",
+   "by_level": {
+    "1": {
+     "climb_walls": 85,
+     "hide_in_shadows": 10,
+     "hear_noise": 10,
+     "pick_locks": 25,
+     "pick_pockets": 30,
+     "read_languages": 1,
+     "move_quietly": 15,
+     "find_remove_traps": 20,
+     "backstab": 2
+    },
+    "2": {
+     "climb_walls": 86,
+     "hide_in_shadows": 15,
+     "hear_noise": 10,
+     "pick_locks": 29,
+     "pick_pockets": 35,
+     "read_languages": 5,
+     "move_quietly": 20,
+     "find_remove_traps": 25,
+     "backstab": 2
+    },
+    "3": {
+     "climb_walls": 87,
+     "hide_in_shadows": 20,
+     "hear_noise": 15,
+     "pick_locks": 33,
+     "pick_pockets": 40,
+     "read_languages": 15,
+     "move_quietly": 27,
+     "find_remove_traps": 30,
+     "backstab": 2
+    },
+    "4": {
+     "climb_walls": 88,
+     "hide_in_shadows": 25,
+     "hear_noise": 15,
+     "pick_locks": 37,
+     "pick_pockets": 45,
+     "read_languages": 20,
+     "move_quietly": 33,
+     "find_remove_traps": 35,
+     "backstab": 2
+    },
+    "5": {
+     "climb_walls": 90,
+     "hide_in_shadows": 30,
+     "hear_noise": 20,
+     "pick_locks": 42,
+     "pick_pockets": 50,
+     "read_languages": 25,
+     "move_quietly": 40,
+     "find_remove_traps": 40,
+     "backstab": 3
+    },
+    "6": {
+     "climb_walls": 92,
+     "hide_in_shadows": 35,
+     "hear_noise": 20,
+     "pick_locks": 47,
+     "pick_pockets": 55,
+     "read_languages": 30,
+     "move_quietly": 47,
+     "find_remove_traps": 45,
+     "backstab": 3
+    },
+    "7": {
+     "climb_walls": 94,
+     "hide_in_shadows": 42,
+     "hear_noise": 25,
+     "pick_locks": 52,
+     "pick_pockets": 60,
+     "read_languages": 35,
+     "move_quietly": 55,
+     "find_remove_traps": 50,
+     "backstab": 3
+    },
+    "8": {
+     "climb_walls": 96,
+     "hide_in_shadows": 48,
+     "hear_noise": 25,
+     "pick_locks": 57,
+     "pick_pockets": 65,
+     "read_languages": 40,
+     "move_quietly": 62,
+     "find_remove_traps": 55,
+     "backstab": 3
+    },
+    "9": {
+     "climb_walls": 98,
+     "hide_in_shadows": 55,
+     "hear_noise": 30,
+     "pick_locks": 62,
+     "pick_pockets": 70,
+     "read_languages": 45,
+     "move_quietly": 70,
+     "find_remove_traps": 60,
+     "backstab": 4
+    },
+    "10": {
+     "climb_walls": 99,
+     "hide_in_shadows": 65,
+     "hear_noise": 30,
+     "pick_locks": 67,
+     "pick_pockets": 80,
+     "read_languages": 50,
+     "move_quietly": 78,
+     "find_remove_traps": 65,
+     "backstab": 4
+    },
+    "11": {
+     "climb_walls": 99,
+     "hide_in_shadows": 70,
+     "hear_noise": 35,
+     "pick_locks": 72,
+     "pick_pockets": 90,
+     "read_languages": 55,
+     "move_quietly": 86,
+     "find_remove_traps": 70,
+     "backstab": 4
+    },
+    "12": {
+     "climb_walls": 99,
+     "hide_in_shadows": 75,
+     "hear_noise": 35,
+     "pick_locks": 77,
+     "pick_pockets": 100,
+     "read_languages": 60,
+     "move_quietly": 94,
+     "find_remove_traps": 75,
+     "backstab": 4
+    },
+    "13": {
+     "climb_walls": 99,
+     "hide_in_shadows": 85,
+     "hear_noise": 40,
+     "pick_locks": 82,
+     "pick_pockets": 105,
+     "read_languages": 65,
+     "move_quietly": 99,
+     "find_remove_traps": 80,
+     "backstab": 5
+    },
+    "14": {
+     "climb_walls": 99,
+     "hide_in_shadows": 95,
+     "hear_noise": 40,
+     "pick_locks": 87,
+     "pick_pockets": 110,
+     "read_languages": 70,
+     "move_quietly": 99,
+     "find_remove_traps": 85,
+     "backstab": 5
+    },
+    "15": {
+     "climb_walls": 99,
+     "hide_in_shadows": 99,
+     "hear_noise": 50,
+     "pick_locks": 92,
+     "pick_pockets": 115,
+     "read_languages": 75,
+     "move_quietly": 99,
+     "find_remove_traps": 90,
+     "backstab": 5
+    },
+    "16": {
+     "climb_walls": 99,
+     "hide_in_shadows": 99,
+     "hear_noise": 50,
+     "pick_locks": 97,
+     "pick_pockets": 125,
+     "read_languages": 80,
+     "move_quietly": 99,
+     "find_remove_traps": 95,
+     "backstab": 5
+    },
+    "17": {
+     "climb_walls": 99,
+     "hide_in_shadows": 99,
+     "hear_noise": 55,
+     "pick_locks": 99,
+     "pick_pockets": 125,
+     "read_languages": 80,
+     "move_quietly": 99,
+     "find_remove_traps": 99,
+     "backstab": 6
+    },
+    "18": {
+     "climb_walls": 99,
+     "hide_in_shadows": 99,
+     "hear_noise": 55,
+     "pick_locks": 99,
+     "pick_pockets": 125,
+     "read_languages": 80,
+     "move_quietly": 99,
+     "find_remove_traps": 99,
+     "backstab": 6
+    },
+    "19": {
+     "climb_walls": 99,
+     "hide_in_shadows": 99,
+     "hear_noise": 55,
+     "pick_locks": 99,
+     "pick_pockets": 125,
+     "read_languages": 80,
+     "move_quietly": 99,
+     "find_remove_traps": 99,
+     "backstab": 6
+    },
+    "20": {
+     "climb_walls": 99,
+     "hide_in_shadows": 99,
+     "hear_noise": 55,
+     "pick_locks": 99,
+     "pick_pockets": 125,
+     "read_languages": 80,
+     "move_quietly": 99,
+     "find_remove_traps": 99,
+     "backstab": 6
+    }
+   },
+   "dexterity_adjustments": {
+    "9": {
+     "hide_in_shadows": -10,
+     "pick_locks": -10,
+     "pick_pockets": -15,
+     "move_quietly": -20,
+     "find_remove_traps": -15
+    },
+    "10": {
+     "hide_in_shadows": -5,
+     "pick_locks": -5,
+     "pick_pockets": -10,
+     "move_quietly": -15,
+     "find_remove_traps": -10
+    },
+    "11": {
+     "pick_pockets": -5,
+     "move_quietly": -10,
+     "find_remove_traps": -5
+    },
+    "12": {
+     "move_quietly": -5
+    },
+    "16": {
+     "pick_locks": 5
+    },
+    "17": {
+     "climb_walls": 5,
+     "pick_locks": 10,
+     "pick_pockets": 5,
+     "move_quietly": 5,
+     "find_remove_traps": 5
+    },
+    "18": {
+     "climb_walls": 10,
+     "hide_in_shadows": 15,
+     "pick_locks": 15,
+     "pick_pockets": 10,
+     "move_quietly": 10,
+     "find_remove_traps": 10
+    },
+    "19": {
+     "hide_in_shadows": 15,
+     "pick_locks": 20,
+     "pick_pockets": 15,
+     "move_quietly": 15,
+     "find_remove_traps": 15
+    }
+   }
+  }
+ },
+ "assassin": {
+  "name": "Assassin",
+  "hit_die": 6,
+  "prime_requisite": null,
+  "xp_bonus_threshold": null,
+  "minimum_scores": {
+   "strength": 12,
+   "dexterity": 12,
+   "constitution": 6,
+   "intelligence": 11,
+   "wisdom": 6,
+   "charisma": 3
+  },
+  "uses_warrior_con_bonus": false,
+  "armour_allowed": "leather or studded leather only",
+  "shield_allowed": true,
+  "weapons_allowed": "any",
+  "initial_gold": "2d6*10",
+  "spellcaster": null,
+  "levels": [
+   {
+    "level": 1,
+    "xp": 0,
+    "hd_count": 1,
+    "hp_bonus": 0
+   },
+   {
+    "level": 2,
+    "xp": 1500,
+    "hd_count": 2,
+    "hp_bonus": 0
+   },
+   {
+    "level": 3,
+    "xp": 3000,
+    "hd_count": 3,
+    "hp_bonus": 0
+   },
+   {
+    "level": 4,
+    "xp": 6000,
+    "hd_count": 4,
+    "hp_bonus": 0
+   },
+   {
+    "level": 5,
+    "xp": 12000,
+    "hd_count": 5,
+    "hp_bonus": 0
+   },
+   {
+    "level": 6,
+    "xp": 25000,
+    "hd_count": 6,
+    "hp_bonus": 0
+   },
+   {
+    "level": 7,
+    "xp": 50000,
+    "hd_count": 7,
+    "hp_bonus": 0
+   },
+   {
+    "level": 8,
+    "xp": 100000,
+    "hd_count": 8,
+    "hp_bonus": 0
+   },
+   {
+    "level": 9,
+    "xp": 200000,
+    "hd_count": 9,
+    "hp_bonus": 0
+   },
+   {
+    "level": 10,
+    "xp": 300000,
+    "hd_count": 10,
+    "hp_bonus": 0
+   },
+   {
+    "level": 11,
+    "xp": 450000,
+    "hd_count": 11,
+    "hp_bonus": 0
+   },
+   {
+    "level": 12,
+    "xp": 600000,
+    "hd_count": 12,
+    "hp_bonus": 0
+   },
+   {
+    "level": 13,
+    "xp": 750000,
+    "hd_count": 13,
+    "hp_bonus": 0
+   },
+   {
+    "level": 14,
+    "xp": 1000000,
+    "hd_count": 14,
+    "hp_bonus": 0
+   },
+   {
+    "level": 15,
+    "xp": 1500000,
+    "hd_count": 15,
+    "hp_bonus": 0
+   }
+  ],
+  "thac0_by_level": [
+   {
+    "min": 1,
+    "max": 4,
+    "thac0": 20
+   },
+   {
+    "min": 5,
+    "max": 8,
+    "thac0": 19
+   },
+   {
+    "min": 9,
+    "max": 12,
+    "thac0": 16
+   },
+   {
+    "min": 13,
+    "max": 99,
+    "thac0": 14
+   }
+  ],
+  "saving_throws": [
+   {
+    "min": 1,
+    "max": 4,
+    "aimed_magic_items": 14,
+    "breath_weapons": 16,
+    "death_paralysis_poison": 13,
+    "petrification_polymorph": 12,
+    "spells": 15
+   },
+   {
+    "min": 5,
+    "max": 8,
+    "aimed_magic_items": 12,
+    "breath_weapons": 15,
+    "death_paralysis_poison": 12,
+    "petrification_polymorph": 11,
+    "spells": 13
+   },
+   {
+    "min": 9,
+    "max": 12,
+    "aimed_magic_items": 10,
+    "breath_weapons": 14,
+    "death_paralysis_poison": 11,
+    "petrification_polymorph": 10,
+    "spells": 11
+   },
+   {
+    "min": 13,
+    "max": 99,
+    "aimed_magic_items": 8,
+    "breath_weapons": 13,
+    "death_paralysis_poison": 10,
+    "petrification_polymorph": 9,
+    "spells": 9
+   }
+  ],
+  "thief_skills": {
+   "_columns": [
+    "climb_walls",
+    "hide_in_shadows",
+    "hear_noise",
+    "pick_locks",
+    "pick_pockets",
+    "read_languages",
+    "move_quietly",
+    "find_remove_traps"
+   ],
+   "_backstab": "damage multiplier by level tier (in addition to +4 to-hit); may instead roll extra damage dice (+1 die per tier above x2)",
+   "by_level": {
+    "1": {
+     "climb_walls": 85,
+     "hide_in_shadows": 10,
+     "hear_noise": 10,
+     "pick_locks": 25,
+     "pick_pockets": 30,
+     "read_languages": 1,
+     "move_quietly": 15,
+     "find_remove_traps": 20,
+     "backstab": 2
+    },
+    "2": {
+     "climb_walls": 85,
+     "hide_in_shadows": 10,
+     "hear_noise": 10,
+     "pick_locks": 25,
+     "pick_pockets": 30,
+     "read_languages": 1,
+     "move_quietly": 15,
+     "find_remove_traps": 20,
+     "backstab": 2
+    },
+    "3": {
+     "climb_walls": 85,
+     "hide_in_shadows": 10,
+     "hear_noise": 10,
+     "pick_locks": 25,
+     "pick_pockets": 30,
+     "read_languages": 1,
+     "move_quietly": 15,
+     "find_remove_traps": 20,
+     "backstab": 2
+    },
+    "4": {
+     "climb_walls": 86,
+     "hide_in_shadows": 15,
+     "hear_noise": 10,
+     "pick_locks": 29,
+     "pick_pockets": 35,
+     "read_languages": 5,
+     "move_quietly": 20,
+     "find_remove_traps": 25,
+     "backstab": 2
+    },
+    "5": {
+     "climb_walls": 87,
+     "hide_in_shadows": 20,
+     "hear_noise": 15,
+     "pick_locks": 33,
+     "pick_pockets": 40,
+     "read_languages": 15,
+     "move_quietly": 27,
+     "find_remove_traps": 30,
+     "backstab": 3
+    },
+    "6": {
+     "climb_walls": 88,
+     "hide_in_shadows": 25,
+     "hear_noise": 15,
+     "pick_locks": 37,
+     "pick_pockets": 45,
+     "read_languages": 20,
+     "move_quietly": 33,
+     "find_remove_traps": 35,
+     "backstab": 3
+    },
+    "7": {
+     "climb_walls": 90,
+     "hide_in_shadows": 30,
+     "hear_noise": 20,
+     "pick_locks": 42,
+     "pick_pockets": 50,
+     "read_languages": 25,
+     "move_quietly": 40,
+     "find_remove_traps": 40,
+     "backstab": 3
+    },
+    "8": {
+     "climb_walls": 92,
+     "hide_in_shadows": 35,
+     "hear_noise": 20,
+     "pick_locks": 47,
+     "pick_pockets": 55,
+     "read_languages": 30,
+     "move_quietly": 47,
+     "find_remove_traps": 45,
+     "backstab": 3
+    },
+    "9": {
+     "climb_walls": 94,
+     "hide_in_shadows": 42,
+     "hear_noise": 25,
+     "pick_locks": 52,
+     "pick_pockets": 60,
+     "read_languages": 35,
+     "move_quietly": 55,
+     "find_remove_traps": 50,
+     "backstab": 4
+    },
+    "10": {
+     "climb_walls": 96,
+     "hide_in_shadows": 48,
+     "hear_noise": 25,
+     "pick_locks": 57,
+     "pick_pockets": 65,
+     "read_languages": 40,
+     "move_quietly": 62,
+     "find_remove_traps": 55,
+     "backstab": 4
+    },
+    "11": {
+     "climb_walls": 98,
+     "hide_in_shadows": 55,
+     "hear_noise": 30,
+     "pick_locks": 62,
+     "pick_pockets": 70,
+     "read_languages": 45,
+     "move_quietly": 70,
+     "find_remove_traps": 60,
+     "backstab": 4
+    },
+    "12": {
+     "climb_walls": 99,
+     "hide_in_shadows": 65,
+     "hear_noise": 30,
+     "pick_locks": 67,
+     "pick_pockets": 80,
+     "read_languages": 50,
+     "move_quietly": 78,
+     "find_remove_traps": 65,
+     "backstab": 4
+    },
+    "13": {
+     "climb_walls": 99,
+     "hide_in_shadows": 70,
+     "hear_noise": 35,
+     "pick_locks": 72,
+     "pick_pockets": 90,
+     "read_languages": 55,
+     "move_quietly": 86,
+     "find_remove_traps": 70,
+     "backstab": 5
+    },
+    "14": {
+     "climb_walls": 99,
+     "hide_in_shadows": 75,
+     "hear_noise": 35,
+     "pick_locks": 77,
+     "pick_pockets": 100,
+     "read_languages": 60,
+     "move_quietly": 94,
+     "find_remove_traps": 75,
+     "backstab": 5
+    },
+    "15": {
+     "climb_walls": 99,
+     "hide_in_shadows": 85,
+     "hear_noise": 40,
+     "pick_locks": 82,
+     "pick_pockets": 105,
+     "read_languages": 65,
+     "move_quietly": 99,
+     "find_remove_traps": 80,
+     "backstab": 5
+    }
+   },
+   "dexterity_adjustments": {
+    "9": {
+     "hide_in_shadows": -10,
+     "pick_locks": -10,
+     "pick_pockets": -15,
+     "move_quietly": -20,
+     "find_remove_traps": -15
+    },
+    "10": {
+     "hide_in_shadows": -5,
+     "pick_locks": -5,
+     "pick_pockets": -10,
+     "move_quietly": -15,
+     "find_remove_traps": -10
+    },
+    "11": {
+     "pick_pockets": -5,
+     "move_quietly": -10,
+     "find_remove_traps": -5
+    },
+    "12": {
+     "move_quietly": -5
+    },
+    "16": {
+     "pick_locks": 5
+    },
+    "17": {
+     "climb_walls": 5,
+     "pick_locks": 10,
+     "pick_pockets": 5,
+     "move_quietly": 5,
+     "find_remove_traps": 5
+    },
+    "18": {
+     "climb_walls": 10,
+     "hide_in_shadows": 15,
+     "pick_locks": 15,
+     "pick_pockets": 10,
+     "move_quietly": 10,
+     "find_remove_traps": 10
+    },
+    "19": {
+     "hide_in_shadows": 15,
+     "pick_locks": 20,
+     "pick_pockets": 15,
+     "move_quietly": 15,
+     "find_remove_traps": 15
+    }
+   }
+  }
+ },
+ "druid": {
+  "name": "Druid",
+  "hit_die": 8,
+  "prime_requisite": "wisdom, charisma",
+  "xp_bonus_threshold": 16,
+  "minimum_scores": {
+   "strength": 6,
+   "dexterity": 3,
+   "constitution": 6,
+   "intelligence": 6,
+   "wisdom": 12,
+   "charisma": 15
+  },
+  "uses_warrior_con_bonus": false,
+  "armour_allowed": "leather only",
+  "shield_allowed": true,
+  "weapons_allowed": "club, dagger, dart, hammer, scimitar, sling, spear, staff, torch",
+  "initial_gold": "3d6*10",
+  "spellcaster": {
+   "type": "divine",
+   "ability": "wisdom",
+   "max_spell_level": 7
+  },
+  "spell_slots": {
+   "1": [
+    2
+   ],
+   "2": [
+    2,
+    1
+   ],
+   "3": [
+    3,
+    2,
+    1
+   ],
+   "4": [
+    4,
+    2,
+    2
+   ],
+   "5": [
+    4,
+    3,
+    2
+   ],
+   "6": [
+    4,
+    3,
+    2,
+    1
+   ],
+   "7": [
+    4,
+    4,
+    3,
+    1
+   ],
+   "8": [
+    4,
+    4,
+    3,
+    2
+   ],
+   "9": [
+    5,
+    4,
+    3,
+    2,
+    1
+   ],
+   "10": [
+    5,
+    4,
+    3,
+    3,
+    2
+   ],
+   "11": [
+    5,
+    5,
+    3,
+    3,
+    2,
+    1
+   ],
+   "12": [
+    5,
+    5,
+    4,
+    4,
+    3,
+    2,
+    1
+   ],
+   "13": [
+    6,
+    5,
+    5,
+    5,
+    4,
+    3,
+    2
+   ],
+   "14": [
+    6,
+    6,
+    6,
+    6,
+    5,
+    4,
+    3
+   ]
+  },
+  "levels": [
+   {
+    "level": 1,
+    "xp": 0,
+    "hd_count": 1,
+    "hp_bonus": 0
+   },
+   {
+    "level": 2,
+    "xp": 2000,
+    "hd_count": 2,
+    "hp_bonus": 0
+   },
+   {
+    "level": 3,
+    "xp": 4000,
+    "hd_count": 3,
+    "hp_bonus": 0
+   },
+   {
+    "level": 4,
+    "xp": 8000,
+    "hd_count": 4,
+    "hp_bonus": 0
+   },
+   {
+    "level": 5,
+    "xp": 12000,
+    "hd_count": 5,
+    "hp_bonus": 0
+   },
+   {
+    "level": 6,
+    "xp": 20000,
+    "hd_count": 6,
+    "hp_bonus": 0
+   },
+   {
+    "level": 7,
+    "xp": 35000,
+    "hd_count": 7,
+    "hp_bonus": 0
+   },
+   {
+    "level": 8,
+    "xp": 60000,
+    "hd_count": 8,
+    "hp_bonus": 0
+   },
+   {
+    "level": 9,
+    "xp": 90000,
+    "hd_count": 9,
+    "hp_bonus": 0
+   },
+   {
+    "level": 10,
+    "xp": 125000,
+    "hd_count": 10,
+    "hp_bonus": 0
+   },
+   {
+    "level": 11,
+    "xp": 200000,
+    "hd_count": 11,
+    "hp_bonus": 0
+   },
+   {
+    "level": 12,
+    "xp": 300000,
+    "hd_count": 12,
+    "hp_bonus": 0
+   },
+   {
+    "level": 13,
+    "xp": 750000,
+    "hd_count": 13,
+    "hp_bonus": 0
+   },
+   {
+    "level": 14,
+    "xp": 1500000,
+    "hd_count": 14,
+    "hp_bonus": 0
+   }
+  ],
+  "thac0_by_level": [
+   {
+    "min": 1,
+    "max": 3,
+    "thac0": 20
+   },
+   {
+    "min": 4,
+    "max": 6,
+    "thac0": 18
+   },
+   {
+    "min": 7,
+    "max": 9,
+    "thac0": 16
+   },
+   {
+    "min": 10,
+    "max": 12,
+    "thac0": 14
+   },
+   {
+    "min": 13,
+    "max": 99,
+    "thac0": 12
+   }
+  ],
+  "saving_throws": [
+   {
+    "min": 1,
+    "max": 3,
+    "aimed_magic_items": 14,
+    "breath_weapons": 16,
+    "death_paralysis_poison": 10,
+    "petrification_polymorph": 13,
+    "spells": 15
+   },
+   {
+    "min": 4,
+    "max": 6,
+    "aimed_magic_items": 13,
+    "breath_weapons": 15,
+    "death_paralysis_poison": 9,
+    "petrification_polymorph": 12,
+    "spells": 14
+   },
+   {
+    "min": 7,
+    "max": 9,
+    "aimed_magic_items": 11,
+    "breath_weapons": 13,
+    "death_paralysis_poison": 7,
+    "petrification_polymorph": 10,
+    "spells": 12
+   },
+   {
+    "min": 10,
+    "max": 12,
+    "aimed_magic_items": 10,
+    "breath_weapons": 12,
+    "death_paralysis_poison": 6,
+    "petrification_polymorph": 9,
+    "spells": 11
+   },
+   {
+    "min": 13,
+    "max": 99,
+    "aimed_magic_items": 9,
+    "breath_weapons": 11,
+    "death_paralysis_poison": 5,
+    "petrification_polymorph": 8,
+    "spells": 10
+   }
+  ]
+ },
+ "illusionist": {
+  "name": "Illusionist",
+  "hit_die": 4,
+  "prime_requisite": null,
+  "xp_bonus_threshold": null,
+  "minimum_scores": {
+   "strength": 6,
+   "dexterity": 16,
+   "constitution": 3,
+   "intelligence": 15,
+   "wisdom": 6,
+   "charisma": 6
+  },
+  "uses_warrior_con_bonus": false,
+  "armour_allowed": "none",
+  "shield_allowed": false,
+  "weapons_allowed": "dagger, dart, oil, staff",
+  "initial_gold": "2d4*10",
+  "spellcaster": {
+   "type": "arcane",
+   "ability": "intelligence",
+   "max_spell_level": 7
+  },
+  "spell_slots": {
+   "1": [
+    1
+   ],
+   "2": [
+    2
+   ],
+   "3": [
+    2,
+    1
+   ],
+   "4": [
+    3,
+    2
+   ],
+   "5": [
+    4,
+    3,
+    1
+   ],
+   "6": [
+    4,
+    3,
+    2
+   ],
+   "7": [
+    4,
+    3,
+    2,
+    1
+   ],
+   "8": [
+    4,
+    3,
+    2,
+    2
+   ],
+   "9": [
+    5,
+    3,
+    3,
+    2
+   ],
+   "10": [
+    5,
+    4,
+    3,
+    2,
+    1
+   ],
+   "11": [
+    5,
+    4,
+    3,
+    3,
+    2
+   ],
+   "12": [
+    5,
+    5,
+    4,
+    3,
+    2,
+    1
+   ],
+   "13": [
+    5,
+    5,
+    4,
+    3,
+    2,
+    2
+   ],
+   "14": [
+    5,
+    5,
+    4,
+    3,
+    2,
+    2,
+    1
+   ],
+   "15": [
+    5,
+    5,
+    4,
+    4,
+    2,
+    2,
+    2
+   ],
+   "16": [
+    5,
+    5,
+    5,
+    4,
+    3,
+    2,
+    2
+   ],
+   "17": [
+    6,
+    5,
+    5,
+    4,
+    3,
+    3,
+    2
+   ],
+   "18": [
+    6,
+    6,
+    5,
+    4,
+    4,
+    3,
+    2
+   ],
+   "19": [
+    6,
+    6,
+    5,
+    5,
+    5,
+    3,
+    2
+   ],
+   "20": [
+    6,
+    6,
+    6,
+    5,
+    5,
+    4,
+    2
+   ]
+  },
+  "levels": [
+   {
+    "level": 1,
+    "xp": 0,
+    "hd_count": 1,
+    "hp_bonus": 0
+   },
+   {
+    "level": 2,
+    "xp": 2500,
+    "hd_count": 2,
+    "hp_bonus": 0
+   },
+   {
+    "level": 3,
+    "xp": 4750,
+    "hd_count": 3,
+    "hp_bonus": 0
+   },
+   {
+    "level": 4,
+    "xp": 9000,
+    "hd_count": 4,
+    "hp_bonus": 0
+   },
+   {
+    "level": 5,
+    "xp": 18000,
+    "hd_count": 5,
+    "hp_bonus": 0
+   },
+   {
+    "level": 6,
+    "xp": 35000,
+    "hd_count": 6,
+    "hp_bonus": 0
+   },
+   {
+    "level": 7,
+    "xp": 60000,
+    "hd_count": 7,
+    "hp_bonus": 0
+   },
+   {
+    "level": 8,
+    "xp": 95000,
+    "hd_count": 8,
+    "hp_bonus": 0
+   },
+   {
+    "level": 9,
+    "xp": 145000,
+    "hd_count": 9,
+    "hp_bonus": 0
+   },
+   {
+    "level": 10,
+    "xp": 220000,
+    "hd_count": 10,
+    "hp_bonus": 0
+   },
+   {
+    "level": 11,
+    "xp": 440000,
+    "hd_count": 10,
+    "hp_bonus": 1
+   },
+   {
+    "level": 12,
+    "xp": 660000,
+    "hd_count": 10,
+    "hp_bonus": 2
+   },
+   {
+    "level": 13,
+    "xp": 880000,
+    "hd_count": 10,
+    "hp_bonus": 3
+   },
+   {
+    "level": 14,
+    "xp": 1100000,
+    "hd_count": 10,
+    "hp_bonus": 4
+   },
+   {
+    "level": 15,
+    "xp": 1320000,
+    "hd_count": 10,
+    "hp_bonus": 5
+   },
+   {
+    "level": 16,
+    "xp": 1540000,
+    "hd_count": 10,
+    "hp_bonus": 6
+   },
+   {
+    "level": 17,
+    "xp": 1760000,
+    "hd_count": 10,
+    "hp_bonus": 7
+   },
+   {
+    "level": 18,
+    "xp": 1980000,
+    "hd_count": 10,
+    "hp_bonus": 8
+   },
+   {
+    "level": 19,
+    "xp": 2200000,
+    "hd_count": 10,
+    "hp_bonus": 9
+   },
+   {
+    "level": 20,
+    "xp": 2420000,
+    "hd_count": 10,
+    "hp_bonus": 10
+   }
+  ],
+  "thac0_by_level": [
+   {
+    "min": 1,
+    "max": 5,
+    "thac0": 20
+   },
+   {
+    "min": 6,
+    "max": 10,
+    "thac0": 19
+   },
+   {
+    "min": 11,
+    "max": 15,
+    "thac0": 16
+   },
+   {
+    "min": 16,
+    "max": 99,
+    "thac0": 14
+   }
+  ],
+  "saving_throws": [
+   {
+    "min": 1,
+    "max": 5,
+    "aimed_magic_items": 11,
+    "breath_weapons": 15,
+    "death_paralysis_poison": 14,
+    "petrification_polymorph": 13,
+    "spells": 12
+   },
+   {
+    "min": 6,
+    "max": 10,
+    "aimed_magic_items": 9,
+    "breath_weapons": 13,
+    "death_paralysis_poison": 13,
+    "petrification_polymorph": 11,
+    "spells": 10
+   },
+   {
+    "min": 11,
+    "max": 15,
+    "aimed_magic_items": 7,
+    "breath_weapons": 11,
+    "death_paralysis_poison": 11,
+    "petrification_polymorph": 9,
+    "spells": 8
+   },
+   {
+    "min": 16,
+    "max": 99,
+    "aimed_magic_items": 5,
+    "breath_weapons": 9,
+    "death_paralysis_poison": 10,
+    "petrification_polymorph": 7,
+    "spells": 6
+   }
+  ]
+ },
+ "monk": {
+  "name": "Monk",
+  "hit_die": 4,
+  "prime_requisite": null,
+  "xp_bonus_threshold": null,
+  "minimum_scores": {
+   "strength": 10,
+   "dexterity": 15,
+   "constitution": 3,
+   "intelligence": 3,
+   "wisdom": 10,
+   "charisma": 3
+  },
+  "uses_warrior_con_bonus": false,
+  "armour_allowed": "none",
+  "shield_allowed": false,
+  "weapons_allowed": "club, crossbow, dagger, hand axe, javelin, pole arm, spear, staff (no oil or poison)",
+  "initial_gold": "5d4",
+  "spellcaster": null,
+  "levels": [
+   {
+    "level": 1,
+    "xp": 0,
+    "hd_count": 2,
+    "hp_bonus": 0
+   },
+   {
+    "level": 2,
+    "xp": 2000,
+    "hd_count": 3,
+    "hp_bonus": 0
+   },
+   {
+    "level": 3,
+    "xp": 5000,
+    "hd_count": 4,
+    "hp_bonus": 0
+   },
+   {
+    "level": 4,
+    "xp": 10000,
+    "hd_count": 5,
+    "hp_bonus": 0
+   },
+   {
+    "level": 5,
+    "xp": 21250,
+    "hd_count": 6,
+    "hp_bonus": 0
+   },
+   {
+    "level": 6,
+    "xp": 45000,
+    "hd_count": 7,
+    "hp_bonus": 0
+   },
+   {
+    "level": 7,
+    "xp": 100000,
+    "hd_count": 8,
+    "hp_bonus": 0
+   },
+   {
+    "level": 8,
+    "xp": 200000,
+    "hd_count": 9,
+    "hp_bonus": 0
+   },
+   {
+    "level": 9,
+    "xp": 350000,
+    "hd_count": 10,
+    "hp_bonus": 0
+   },
+   {
+    "level": 10,
+    "xp": 500000,
+    "hd_count": 11,
+    "hp_bonus": 0
+   },
+   {
+    "level": 11,
+    "xp": 700000,
+    "hd_count": 12,
+    "hp_bonus": 0
+   },
+   {
+    "level": 12,
+    "xp": 950000,
+    "hd_count": 13,
+    "hp_bonus": 0
+   },
+   {
+    "level": 13,
+    "xp": 1250000,
+    "hd_count": 14,
+    "hp_bonus": 0
+   },
+   {
+    "level": 14,
+    "xp": 1750000,
+    "hd_count": 15,
+    "hp_bonus": 0
+   },
+   {
+    "level": 15,
+    "xp": 2250000,
+    "hd_count": 16,
+    "hp_bonus": 0
+   },
+   {
+    "level": 16,
+    "xp": 2750000,
+    "hd_count": 17,
+    "hp_bonus": 0
+   },
+   {
+    "level": 17,
+    "xp": 3250000,
+    "hd_count": 18,
+    "hp_bonus": 0
+   }
+  ],
+  "thac0_by_level": [
+   {
+    "min": 1,
+    "max": 3,
+    "thac0": 20
+   },
+   {
+    "min": 4,
+    "max": 6,
+    "thac0": 18
+   },
+   {
+    "min": 7,
+    "max": 9,
+    "thac0": 16
+   },
+   {
+    "min": 10,
+    "max": 12,
+    "thac0": 14
+   },
+   {
+    "min": 13,
+    "max": 15,
+    "thac0": 12
+   },
+   {
+    "min": 16,
+    "max": 99,
+    "thac0": 10
+   }
+  ],
+  "saving_throws": [
+   {
+    "min": 1,
+    "max": 4,
+    "aimed_magic_items": 14,
+    "breath_weapons": 16,
+    "death_paralysis_poison": 13,
+    "petrification_polymorph": 12,
+    "spells": 15
+   },
+   {
+    "min": 5,
+    "max": 8,
+    "aimed_magic_items": 12,
+    "breath_weapons": 15,
+    "death_paralysis_poison": 12,
+    "petrification_polymorph": 11,
+    "spells": 13
+   },
+   {
+    "min": 9,
+    "max": 12,
+    "aimed_magic_items": 10,
+    "breath_weapons": 14,
+    "death_paralysis_poison": 11,
+    "petrification_polymorph": 10,
+    "spells": 11
+   },
+   {
+    "min": 13,
+    "max": 16,
+    "aimed_magic_items": 8,
+    "breath_weapons": 13,
+    "death_paralysis_poison": 10,
+    "petrification_polymorph": 9,
+    "spells": 9
+   },
+   {
+    "min": 17,
+    "max": 99,
+    "aimed_magic_items": 6,
+    "breath_weapons": 12,
+    "death_paralysis_poison": 9,
+    "petrification_polymorph": 8,
+    "spells": 7
+   }
+  ],
+  "thief_skills": {
+   "_columns": [
+    "climb_walls",
+    "hide_in_shadows",
+    "hear_noise",
+    "pick_locks",
+    "move_quietly",
+    "find_remove_traps"
+   ],
+   "_note": "Monks have no backstab, pick-pockets or read-languages skills; these thief-style skills may be modified by Dexterity (Table 1.3.10.4c).",
+   "by_level": {
+    "1": {
+     "climb_walls": 85,
+     "hide_in_shadows": 10,
+     "hear_noise": 10,
+     "pick_locks": 25,
+     "move_quietly": 15,
+     "find_remove_traps": 20
+    },
+    "2": {
+     "climb_walls": 86,
+     "hide_in_shadows": 15,
+     "hear_noise": 10,
+     "pick_locks": 29,
+     "move_quietly": 20,
+     "find_remove_traps": 25
+    },
+    "3": {
+     "climb_walls": 87,
+     "hide_in_shadows": 20,
+     "hear_noise": 15,
+     "pick_locks": 33,
+     "move_quietly": 27,
+     "find_remove_traps": 30
+    },
+    "4": {
+     "climb_walls": 88,
+     "hide_in_shadows": 25,
+     "hear_noise": 15,
+     "pick_locks": 37,
+     "move_quietly": 33,
+     "find_remove_traps": 35
+    },
+    "5": {
+     "climb_walls": 90,
+     "hide_in_shadows": 30,
+     "hear_noise": 20,
+     "pick_locks": 42,
+     "move_quietly": 40,
+     "find_remove_traps": 40
+    },
+    "6": {
+     "climb_walls": 92,
+     "hide_in_shadows": 35,
+     "hear_noise": 20,
+     "pick_locks": 47,
+     "move_quietly": 47,
+     "find_remove_traps": 45
+    },
+    "7": {
+     "climb_walls": 94,
+     "hide_in_shadows": 42,
+     "hear_noise": 25,
+     "pick_locks": 52,
+     "move_quietly": 55,
+     "find_remove_traps": 50
+    },
+    "8": {
+     "climb_walls": 96,
+     "hide_in_shadows": 48,
+     "hear_noise": 25,
+     "pick_locks": 57,
+     "move_quietly": 62,
+     "find_remove_traps": 55
+    },
+    "9": {
+     "climb_walls": 98,
+     "hide_in_shadows": 55,
+     "hear_noise": 30,
+     "pick_locks": 62,
+     "move_quietly": 70,
+     "find_remove_traps": 60
+    },
+    "10": {
+     "climb_walls": 99,
+     "hide_in_shadows": 65,
+     "hear_noise": 30,
+     "pick_locks": 67,
+     "move_quietly": 78,
+     "find_remove_traps": 65
+    },
+    "11": {
+     "climb_walls": 99,
+     "hide_in_shadows": 70,
+     "hear_noise": 35,
+     "pick_locks": 72,
+     "move_quietly": 86,
+     "find_remove_traps": 70
+    },
+    "12": {
+     "climb_walls": 99,
+     "hide_in_shadows": 75,
+     "hear_noise": 35,
+     "pick_locks": 77,
+     "move_quietly": 94,
+     "find_remove_traps": 75
+    },
+    "13": {
+     "climb_walls": 99,
+     "hide_in_shadows": 85,
+     "hear_noise": 40,
+     "pick_locks": 82,
+     "move_quietly": 99,
+     "find_remove_traps": 80
+    },
+    "14": {
+     "climb_walls": 99,
+     "hide_in_shadows": 95,
+     "hear_noise": 40,
+     "pick_locks": 87,
+     "move_quietly": 99,
+     "find_remove_traps": 85
+    },
+    "15": {
+     "climb_walls": 99,
+     "hide_in_shadows": 99,
+     "hear_noise": 50,
+     "pick_locks": 92,
+     "move_quietly": 99,
+     "find_remove_traps": 90
+    },
+    "16": {
+     "climb_walls": 99,
+     "hide_in_shadows": 99,
+     "hear_noise": 50,
+     "pick_locks": 97,
+     "move_quietly": 99,
+     "find_remove_traps": 95
+    },
+    "17": {
+     "climb_walls": 99,
+     "hide_in_shadows": 99,
+     "hear_noise": 55,
+     "pick_locks": 99,
+     "move_quietly": 99,
+     "find_remove_traps": 99
+    }
+   },
+   "dexterity_adjustments": {
+    "9": {
+     "hide_in_shadows": -10,
+     "pick_locks": -10,
+     "move_quietly": -20,
+     "find_remove_traps": -15
+    },
+    "10": {
+     "hide_in_shadows": -5,
+     "pick_locks": -5,
+     "move_quietly": -15,
+     "find_remove_traps": -10
+    },
+    "11": {
+     "move_quietly": -10,
+     "find_remove_traps": -5
+    },
+    "12": {
+     "move_quietly": -5
+    },
+    "16": {
+     "pick_locks": 5
+    },
+    "17": {
+     "climb_walls": 5,
+     "pick_locks": 10,
+     "move_quietly": 5,
+     "find_remove_traps": 5
+    },
+    "18": {
+     "climb_walls": 10,
+     "hide_in_shadows": 15,
+     "pick_locks": 15,
+     "move_quietly": 10,
+     "find_remove_traps": 10
+    },
+    "19": {
+     "hide_in_shadows": 15,
+     "pick_locks": 20,
+     "move_quietly": 15,
+     "find_remove_traps": 15
+    }
+   }
+  }
+ },
+ "paladin": {
+  "name": "Paladin",
+  "hit_die": 10,
+  "prime_requisite": "strength, wisdom",
+  "xp_bonus_threshold": 16,
+  "minimum_scores": {
+   "strength": 12,
+   "dexterity": 6,
+   "constitution": 9,
+   "intelligence": 9,
+   "wisdom": 13,
+   "charisma": 17
+  },
+  "uses_warrior_con_bonus": true,
+  "armour_allowed": "any",
+  "shield_allowed": true,
+  "weapons_allowed": "any",
+  "initial_gold": "5d4*10",
+  "spellcaster": {
+   "type": "divine_limited",
+   "ability": "wisdom",
+   "max_spell_level": 4,
+   "_note": "Cleric spells from 9th level (casting level = paladin level - 8, capped at cleric level 8); no high-Wisdom bonus slots. Type deliberately kept out of 'divine' so the engine does not add cleric bonus slots."
+  },
+  "spell_slots": {
+   "1": [],
+   "2": [],
+   "3": [],
+   "4": [],
+   "5": [],
+   "6": [],
+   "7": [],
+   "8": [],
+   "9": [
+    1
+   ],
+   "10": [
+    2
+   ],
+   "11": [
+    2,
+    1
+   ],
+   "12": [
+    2,
+    2
+   ],
+   "13": [
+    2,
+    2,
+    1
+   ],
+   "14": [
+    3,
+    2,
+    1
+   ],
+   "15": [
+    3,
+    2,
+    1,
+    1
+   ],
+   "16": [
+    3,
+    3,
+    1,
+    1
+   ],
+   "17": [
+    3,
+    3,
+    2,
+    1
+   ],
+   "18": [
+    3,
+    3,
+    3,
+    1
+   ],
+   "19": [
+    3,
+    3,
+    3,
+    2
+   ],
+   "20": [
+    3,
+    3,
+    3,
+    3
+   ]
+  },
+  "levels": [
+   {
+    "level": 1,
+    "xp": 0,
+    "hd_count": 1,
+    "hp_bonus": 0
+   },
+   {
+    "level": 2,
+    "xp": 2550,
+    "hd_count": 2,
+    "hp_bonus": 0
+   },
+   {
+    "level": 3,
+    "xp": 5500,
+    "hd_count": 3,
+    "hp_bonus": 0
+   },
+   {
+    "level": 4,
+    "xp": 12500,
+    "hd_count": 4,
+    "hp_bonus": 0
+   },
+   {
+    "level": 5,
+    "xp": 25000,
+    "hd_count": 5,
+    "hp_bonus": 0
+   },
+   {
+    "level": 6,
+    "xp": 45000,
+    "hd_count": 6,
+    "hp_bonus": 0
+   },
+   {
+    "level": 7,
+    "xp": 95000,
+    "hd_count": 7,
+    "hp_bonus": 0
+   },
+   {
+    "level": 8,
+    "xp": 175000,
+    "hd_count": 8,
+    "hp_bonus": 0
+   },
+   {
+    "level": 9,
+    "xp": 325000,
+    "hd_count": 9,
+    "hp_bonus": 0
+   },
+   {
+    "level": 10,
+    "xp": 600000,
+    "hd_count": 9,
+    "hp_bonus": 3
+   },
+   {
+    "level": 11,
+    "xp": 1000000,
+    "hd_count": 9,
+    "hp_bonus": 6
+   },
+   {
+    "level": 12,
+    "xp": 1350000,
+    "hd_count": 9,
+    "hp_bonus": 9
+   },
+   {
+    "level": 13,
+    "xp": 1700000,
+    "hd_count": 9,
+    "hp_bonus": 12
+   },
+   {
+    "level": 14,
+    "xp": 2050000,
+    "hd_count": 9,
+    "hp_bonus": 15
+   },
+   {
+    "level": 15,
+    "xp": 2400000,
+    "hd_count": 9,
+    "hp_bonus": 18
+   },
+   {
+    "level": 16,
+    "xp": 2750000,
+    "hd_count": 9,
+    "hp_bonus": 21
+   },
+   {
+    "level": 17,
+    "xp": 3100000,
+    "hd_count": 9,
+    "hp_bonus": 24
+   },
+   {
+    "level": 18,
+    "xp": 3450000,
+    "hd_count": 9,
+    "hp_bonus": 27
+   },
+   {
+    "level": 19,
+    "xp": 3800000,
+    "hd_count": 9,
+    "hp_bonus": 30
+   },
+   {
+    "level": 20,
+    "xp": 4150000,
+    "hd_count": 9,
+    "hp_bonus": 33
+   }
+  ],
+  "thac0_by_level": [
+   {
+    "min": 1,
+    "max": 1,
+    "thac0": 20
+   },
+   {
+    "min": 2,
+    "max": 2,
+    "thac0": 19
+   },
+   {
+    "min": 3,
+    "max": 3,
+    "thac0": 18
+   },
+   {
+    "min": 4,
+    "max": 4,
+    "thac0": 17
+   },
+   {
+    "min": 5,
+    "max": 5,
+    "thac0": 16
+   },
+   {
+    "min": 6,
+    "max": 6,
+    "thac0": 15
+   },
+   {
+    "min": 7,
+    "max": 7,
+    "thac0": 14
+   },
+   {
+    "min": 8,
+    "max": 8,
+    "thac0": 13
+   },
+   {
+    "min": 9,
+    "max": 9,
+    "thac0": 12
+   },
+   {
+    "min": 10,
+    "max": 10,
+    "thac0": 11
+   },
+   {
+    "min": 11,
+    "max": 11,
+    "thac0": 10
+   },
+   {
+    "min": 12,
+    "max": 12,
+    "thac0": 9
+   },
+   {
+    "min": 13,
+    "max": 13,
+    "thac0": 8
+   },
+   {
+    "min": 14,
+    "max": 14,
+    "thac0": 7
+   },
+   {
+    "min": 15,
+    "max": 15,
+    "thac0": 6
+   },
+   {
+    "min": 16,
+    "max": 16,
+    "thac0": 5
+   },
+   {
+    "min": 17,
+    "max": 17,
+    "thac0": 4
+   },
+   {
+    "min": 18,
+    "max": 18,
+    "thac0": 3
+   },
+   {
+    "min": 19,
+    "max": 19,
+    "thac0": 2
+   },
+   {
+    "min": 20,
+    "max": 99,
+    "thac0": 1
+   }
+  ],
+  "saving_throws": [
+   {
+    "min": 1,
+    "max": 2,
+    "aimed_magic_items": 14,
+    "breath_weapons": 15,
+    "death_paralysis_poison": 12,
+    "petrification_polymorph": 13,
+    "spells": 15
+   },
+   {
+    "min": 3,
+    "max": 4,
+    "aimed_magic_items": 13,
+    "breath_weapons": 14,
+    "death_paralysis_poison": 11,
+    "petrification_polymorph": 12,
+    "spells": 14
+   },
+   {
+    "min": 5,
+    "max": 6,
+    "aimed_magic_items": 11,
+    "breath_weapons": 11,
+    "death_paralysis_poison": 9,
+    "petrification_polymorph": 10,
+    "spells": 12
+   },
+   {
+    "min": 7,
+    "max": 8,
+    "aimed_magic_items": 10,
+    "breath_weapons": 10,
+    "death_paralysis_poison": 8,
+    "petrification_polymorph": 9,
+    "spells": 11
+   },
+   {
+    "min": 9,
+    "max": 10,
+    "aimed_magic_items": 8,
+    "breath_weapons": 7,
+    "death_paralysis_poison": 6,
+    "petrification_polymorph": 7,
+    "spells": 9
+   },
+   {
+    "min": 11,
+    "max": 12,
+    "aimed_magic_items": 7,
+    "breath_weapons": 6,
+    "death_paralysis_poison": 5,
+    "petrification_polymorph": 6,
+    "spells": 8
+   },
+   {
+    "min": 13,
+    "max": 14,
+    "aimed_magic_items": 5,
+    "breath_weapons": 3,
+    "death_paralysis_poison": 3,
+    "petrification_polymorph": 4,
+    "spells": 6
+   },
+   {
+    "min": 15,
+    "max": 16,
+    "aimed_magic_items": 4,
+    "breath_weapons": 2,
+    "death_paralysis_poison": 2,
+    "petrification_polymorph": 3,
+    "spells": 5
+   },
+   {
+    "min": 17,
+    "max": 18,
+    "aimed_magic_items": 3,
+    "breath_weapons": 2,
+    "death_paralysis_poison": 2,
+    "petrification_polymorph": 2,
+    "spells": 4
+   },
+   {
+    "min": 19,
+    "max": 99,
+    "aimed_magic_items": 2,
+    "breath_weapons": 2,
+    "death_paralysis_poison": 2,
+    "petrification_polymorph": 2,
+    "spells": 3
+   }
+  ]
+ },
+ "ranger": {
+  "name": "Ranger",
+  "hit_die": 8,
+  "prime_requisite": "strength, intelligence, wisdom",
+  "xp_bonus_threshold": 16,
+  "minimum_scores": {
+   "strength": 13,
+   "dexterity": 6,
+   "constitution": 14,
+   "intelligence": 13,
+   "wisdom": 14,
+   "charisma": 6
+  },
+  "uses_warrior_con_bonus": true,
+  "armour_allowed": "any",
+  "shield_allowed": true,
+  "weapons_allowed": "any",
+  "initial_gold": "5d4*10",
+  "spellcaster": {
+   "type": "divine_limited",
+   "ability": "wisdom",
+   "max_spell_level": 3,
+   "_arcane_slots": "spell_slots_arcane",
+   "_arcane_max_level": 2,
+   "_note": "Druidic spells from 8th level (in spell_slots) and arcane/magic-user spells from 9th level (in spell_slots_arcane); no high-Wisdom bonus slots. Type deliberately kept out of 'divine' so the engine does not add cleric bonus slots. The engine's spell_slots() surfaces only the druidic list."
+  },
+  "spell_slots": {
+   "1": [],
+   "2": [],
+   "3": [],
+   "4": [],
+   "5": [],
+   "6": [],
+   "7": [],
+   "8": [
+    1
+   ],
+   "9": [
+    1
+   ],
+   "10": [
+    2
+   ],
+   "11": [
+    2
+   ],
+   "12": [
+    2,
+    1
+   ],
+   "13": [
+    2,
+    1
+   ],
+   "14": [
+    2,
+    2
+   ],
+   "15": [
+    2,
+    2
+   ],
+   "16": [
+    2,
+    2,
+    1
+   ],
+   "17": [
+    2,
+    2,
+    2
+   ],
+   "18": [
+    3,
+    2,
+    2
+   ],
+   "19": [
+    3,
+    2,
+    2
+   ],
+   "20": [
+    3,
+    3,
+    2
+   ]
+  },
+  "spell_slots_arcane": {
+   "1": [],
+   "2": [],
+   "3": [],
+   "4": [],
+   "5": [],
+   "6": [],
+   "7": [],
+   "8": [],
+   "9": [
+    1
+   ],
+   "10": [
+    1
+   ],
+   "11": [
+    2
+   ],
+   "12": [
+    2
+   ],
+   "13": [
+    2,
+    1
+   ],
+   "14": [
+    2,
+    1
+   ],
+   "15": [
+    2,
+    2
+   ],
+   "16": [
+    2,
+    2
+   ],
+   "17": [
+    2,
+    2
+   ],
+   "18": [
+    2,
+    2
+   ],
+   "19": [
+    3,
+    2
+   ],
+   "20": [
+    3,
+    2
+   ]
+  },
+  "levels": [
+   {
+    "level": 1,
+    "xp": 0,
+    "hd_count": 2,
+    "hp_bonus": 0
+   },
+   {
+    "level": 2,
+    "xp": 2250,
+    "hd_count": 3,
+    "hp_bonus": 0
+   },
+   {
+    "level": 3,
+    "xp": 4500,
+    "hd_count": 4,
+    "hp_bonus": 0
+   },
+   {
+    "level": 4,
+    "xp": 9500,
+    "hd_count": 5,
+    "hp_bonus": 0
+   },
+   {
+    "level": 5,
+    "xp": 20000,
+    "hd_count": 6,
+    "hp_bonus": 0
+   },
+   {
+    "level": 6,
+    "xp": 40000,
+    "hd_count": 7,
+    "hp_bonus": 0
+   },
+   {
+    "level": 7,
+    "xp": 90000,
+    "hd_count": 8,
+    "hp_bonus": 0
+   },
+   {
+    "level": 8,
+    "xp": 150000,
+    "hd_count": 9,
+    "hp_bonus": 0
+   },
+   {
+    "level": 9,
+    "xp": 225000,
+    "hd_count": 10,
+    "hp_bonus": 0
+   },
+   {
+    "level": 10,
+    "xp": 325000,
+    "hd_count": 11,
+    "hp_bonus": 0
+   },
+   {
+    "level": 11,
+    "xp": 650000,
+    "hd_count": 11,
+    "hp_bonus": 2
+   },
+   {
+    "level": 12,
+    "xp": 975000,
+    "hd_count": 11,
+    "hp_bonus": 4
+   },
+   {
+    "level": 13,
+    "xp": 1300000,
+    "hd_count": 11,
+    "hp_bonus": 6
+   },
+   {
+    "level": 14,
+    "xp": 1625000,
+    "hd_count": 11,
+    "hp_bonus": 8
+   },
+   {
+    "level": 15,
+    "xp": 1950000,
+    "hd_count": 11,
+    "hp_bonus": 10
+   },
+   {
+    "level": 16,
+    "xp": 2275000,
+    "hd_count": 11,
+    "hp_bonus": 12
+   },
+   {
+    "level": 17,
+    "xp": 2600000,
+    "hd_count": 11,
+    "hp_bonus": 14
+   },
+   {
+    "level": 18,
+    "xp": 2925000,
+    "hd_count": 11,
+    "hp_bonus": 16
+   },
+   {
+    "level": 19,
+    "xp": 3250000,
+    "hd_count": 11,
+    "hp_bonus": 18
+   },
+   {
+    "level": 20,
+    "xp": 3575000,
+    "hd_count": 11,
+    "hp_bonus": 20
+   }
+  ],
+  "thac0_by_level": [
+   {
+    "min": 1,
+    "max": 1,
+    "thac0": 20
+   },
+   {
+    "min": 2,
+    "max": 2,
+    "thac0": 19
+   },
+   {
+    "min": 3,
+    "max": 3,
+    "thac0": 18
+   },
+   {
+    "min": 4,
+    "max": 4,
+    "thac0": 17
+   },
+   {
+    "min": 5,
+    "max": 5,
+    "thac0": 16
+   },
+   {
+    "min": 6,
+    "max": 6,
+    "thac0": 15
+   },
+   {
+    "min": 7,
+    "max": 7,
+    "thac0": 14
+   },
+   {
+    "min": 8,
+    "max": 8,
+    "thac0": 13
+   },
+   {
+    "min": 9,
+    "max": 9,
+    "thac0": 12
+   },
+   {
+    "min": 10,
+    "max": 10,
+    "thac0": 11
+   },
+   {
+    "min": 11,
+    "max": 11,
+    "thac0": 10
+   },
+   {
+    "min": 12,
+    "max": 12,
+    "thac0": 9
+   },
+   {
+    "min": 13,
+    "max": 13,
+    "thac0": 8
+   },
+   {
+    "min": 14,
+    "max": 14,
+    "thac0": 7
+   },
+   {
+    "min": 15,
+    "max": 15,
+    "thac0": 6
+   },
+   {
+    "min": 16,
+    "max": 16,
+    "thac0": 5
+   },
+   {
+    "min": 17,
+    "max": 17,
+    "thac0": 4
+   },
+   {
+    "min": 18,
+    "max": 18,
+    "thac0": 3
+   },
+   {
+    "min": 19,
+    "max": 19,
+    "thac0": 2
+   },
+   {
+    "min": 20,
+    "max": 99,
+    "thac0": 1
+   }
+  ],
+  "saving_throws": [
+   {
+    "min": 1,
+    "max": 2,
+    "aimed_magic_items": 16,
+    "breath_weapons": 17,
+    "death_paralysis_poison": 14,
+    "petrification_polymorph": 15,
+    "spells": 17
+   },
+   {
+    "min": 3,
+    "max": 4,
+    "aimed_magic_items": 15,
+    "breath_weapons": 16,
+    "death_paralysis_poison": 13,
+    "petrification_polymorph": 14,
+    "spells": 16
+   },
+   {
+    "min": 5,
+    "max": 6,
+    "aimed_magic_items": 13,
+    "breath_weapons": 13,
+    "death_paralysis_poison": 11,
+    "petrification_polymorph": 12,
+    "spells": 14
+   },
+   {
+    "min": 7,
+    "max": 8,
+    "aimed_magic_items": 12,
+    "breath_weapons": 12,
+    "death_paralysis_poison": 10,
+    "petrification_polymorph": 11,
+    "spells": 13
+   },
+   {
+    "min": 9,
+    "max": 10,
+    "aimed_magic_items": 10,
+    "breath_weapons": 9,
+    "death_paralysis_poison": 8,
+    "petrification_polymorph": 9,
+    "spells": 11
+   },
+   {
+    "min": 11,
+    "max": 12,
+    "aimed_magic_items": 9,
+    "breath_weapons": 8,
+    "death_paralysis_poison": 7,
+    "petrification_polymorph": 8,
+    "spells": 10
+   },
+   {
+    "min": 13,
+    "max": 14,
+    "aimed_magic_items": 7,
+    "breath_weapons": 5,
+    "death_paralysis_poison": 5,
+    "petrification_polymorph": 6,
+    "spells": 8
+   },
+   {
+    "min": 15,
+    "max": 16,
+    "aimed_magic_items": 6,
+    "breath_weapons": 4,
+    "death_paralysis_poison": 4,
+    "petrification_polymorph": 5,
+    "spells": 7
+   },
+   {
+    "min": 17,
+    "max": 18,
+    "aimed_magic_items": 5,
+    "breath_weapons": 4,
+    "death_paralysis_poison": 3,
+    "petrification_polymorph": 4,
+    "spells": 6
+   },
+   {
+    "min": 19,
+    "max": 99,
+    "aimed_magic_items": 4,
+    "breath_weapons": 3,
+    "death_paralysis_poison": 2,
+    "petrification_polymorph": 3,
+    "spells": 5
+   }
+  ]
+ }
+}

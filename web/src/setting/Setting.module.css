@@ -1,0 +1,145 @@
+/* The Settings area (plan Settings, Tasks 11–13): one column under 900 px, the tabs scrolling sideways on a phone. */
+
+.tabs {
+  margin: 1.5rem 0 1rem;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.tabs > * {
+  flex: 0 0 auto;
+}
+
+.lore {
+  display: grid;
+  gap: 1rem;
+}
+
+.search {
+  flex: 1 1 16rem;
+}
+
+.browse {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.page {
+  display: grid;
+  gap: 1rem;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.redirected {
+  margin: 0;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.fieldList {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 0.25rem 1rem;
+  margin: 0;
+}
+
+.fieldList dt {
+  font-weight: 600;
+}
+
+.fieldList dd {
+  margin: 0;
+}
+
+.form {
+  display: grid;
+  gap: 1rem;
+  max-width: 48rem;
+}
+
+.fields {
+  display: grid;
+  gap: 0.5rem;
+  justify-items: start;
+}
+
+.fieldRow {
+  display: grid;
+  grid-template-columns: minmax(0, 12rem) minmax(0, 1fr) auto;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.facts,
+.proposals {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.factForm {
+  display: grid;
+  gap: 0.5rem;
+  max-width: 48rem;
+  margin-top: 1rem;
+}
+
+.proposal {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.calendar {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.calendar th,
+.calendar td {
+  padding: 0.35rem 0.5rem;
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+}
+
+.festival td {
+  background: var(--notice-bg);
+}
+
+.text :global(aside.dm-only) {
+  margin: 0.75rem 0;
+  padding: 0.5rem 0.75rem;
+  border-left: 4px dashed var(--dm-view);
+  background: var(--surface);
+}
+
+@media (min-width: 900px) {
+  .page {
+    grid-template-columns: minmax(0, 1fr) 18rem;
+    align-items: start;
+  }
+
+  .page > .main {
+    grid-column: 1;
+  }
+
+  .page > .side {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+}
+
+@media (max-width: 599px) {
+  .fieldRow {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .fieldRow > button {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+}

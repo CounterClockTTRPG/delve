@@ -1,0 +1,249 @@
+# Cantona — world map for WC1: The Salt Wrack
+#
+#   region view (miles): the western shore of Woolly Bay — Safeton (Greyhawk-held)
+#                        to the north, Fax to the south, the Orcish Empire of the
+#                        Pomarj pressing up from the south-east, and Cantona on the
+#                        coast road between them.
+#   city view   (local): the ruined city itself, district by district, coloured by
+#                        the faction that holds each block. The Quayhold (reclaimed)
+#                        sits on the harbour mole; the Wrack spreads inland to the
+#                        Pomarj-held Keep on the high ground and the landward Bloodgate.
+#
+# District colours (city view): green = Reclamation · teal = Brine Cabal ·
+# blue = drowned/flooded · olive = the Restless Dead · purple = monstrous squatters ·
+# scarlet = the Scarlet Sign · gold = the Pilgrim's Rest holdout · red = the Pomarj.
+
+workspace cantona-reclamation {
+
+    # ── Style overrides ──────────────────────────────────────────────────────
+    styles {
+        # District fills, selected by faction tag (works on any kind).
+        [reclamation] { color #3a7a4a; fill-opacity 0.55 }
+        [cabal]       { color #2a7a8a; fill-opacity 0.50 }
+        [drowned]     { color #2f6f9a; fill-opacity 0.55 }
+        [undead]      { color #5d6b55; fill-opacity 0.55 }
+        [monstrous]   { color #6a4a7a; fill-opacity 0.50 }
+        [scarlet]     { color #a82a44; fill-opacity 0.55 }
+        [refugee]     { color #c8a040; fill-opacity 0.50 }
+        [pomarj]      { color #a83a2a; fill-opacity 0.55 }
+
+        # Water.
+        lake          { color #2d5f8f; fill-opacity 0.6; stroke #16406a; stroke-width 1 }
+
+        # Landmark buildings read as parchment blocks over the district colour.
+        building              { color #e4d6ad; fill-opacity 0.9; stroke #4a3a1a; stroke-width 1 }
+        building.type=keep    { color #7a2a2a; fill-opacity 0.95; stroke #3a1010; stroke-width 2 }
+        building.type=temple  { color #b08a40; fill-opacity 0.95 }
+        building.type=civic   { color #4a6a8a; fill-opacity 0.9 }
+        building.type=market  { color #b8a060; fill-opacity 0.85 }
+        building.type=warehouse { color #8a6a3a; fill-opacity 0.9 }
+
+        # Markers.
+        poi.kind=gate  { marker pin;    color #e0c060; marker-size 9; stroke #3a2a18; stroke-width 2 }
+        poi.kind=stair { marker pin;    color #b02038; marker-size 9; stroke #3a1010; stroke-width 2 }
+        poi.kind=omen  { marker circle; color #d8d8d8; marker-size 6 }
+        poi.kind=well  { marker circle; color #3a8aa0; marker-size 6 }
+        street         { stroke #caa86a; stroke-width 2 }
+        road.surface=dirt { stroke #a08050; stroke-width 3 }
+        city.pop>1000  { marker circle; color #3a2a18; marker-size 9; stroke #c8a96e; stroke-width 2 }
+        [ruined]       { stroke #aa3030; stroke-width 2 }
+    }
+
+    model {
+
+        # ══ REGIONAL CONTEXT (units: miles) ══════════════════════════════════
+        kingdom wild-coast {
+            description "The Wild Coast — a chain of free city-states down the western shore of Woolly Bay. The southern half fell to Turrosh Mak's Orcish Empire of the Pomarj in 584 CY."
+        }
+
+        lake woolly-bay {
+            polygon 92,28 130,30 160,55 168,100 160,150 130,168 96,165 100,120 96,80 92,55
+            description "Woolly Bay — the shallow western reach of the Sea of Gearnat. The only safe road into ruined Cantona is across this water, from Safeton. Pomarj pirates raid the lanes."
+        }
+
+        terrain pomarj-marches {
+            polygon 40,8 130,8 150,30 120,52 80,48 44,40 30,24
+            biome hills
+            tags [ruined]
+            description "The northern marches of the Orcish Empire of the Pomarj. Turrosh Mak's writ runs here. The garrison holding Cantona is supplied — barely — from the south."
+        }
+
+        terrain gnarley-marches {
+            polygon 0,60 38,58 44,100 40,150 4,152
+            biome forest
+            description "The forest hinterland west of the coast road; lawless, lightly settled."
+        }
+
+        city safeton {
+            at 64,150
+            pop 6100
+            in wild-coast
+            tags [walled, port, held]
+            description "Northernmost surviving Wild Coast city, held by the Domain of Greyhawk under Governor Turin Deathstalker. Staging point and chief backer of the Reclamation."
+        }
+
+        city cantona {
+            at 70,96
+            pop 300
+            in wild-coast
+            tags [ruined, port, contested]
+            description "The drowned city. Sacked by the Pomarj horde in 584 CY; a chartered coalition began reclaiming it block by block in Planting 596 CY. See the city view for districts."
+            doc reference/WC1-module.md
+
+            # ══ THE CITY (units: local feet; origin SW, +x east, +y north) ════
+            contains {
+
+                # ── Water: the bay, and the inlet the broken sea-wall let in ──
+                lake woolly-bay-shore {
+                    polygon 0,0 100,0 100,15 86,17 70,14 56,16 40,14 22,16 6,15 0,14
+                    description "Woolly Bay laps the city's south edge. The harbour mole shelters the one safe anchorage."
+                }
+                lake flood-inlet {
+                    polygon 42,15 62,15 60,30 54,40 46,34 42,24
+                    description "When the defenders broke the sea-gate in 584, the bay came in over the lower city and never left. The Drownmarket has stood in salt water for twelve years."
+                }
+
+                # ── Districts (terrain polygons, coloured by holding faction) ──
+                terrain quayhold {
+                    polygon 62,11 84,11 86,28 66,28 62,20
+                    tags [reclamation]
+                    description "BLOCK 0 — the reclaimed harbour mole behind its yellow-pine palisade. Charter Hall, Tide-Shrine, the Gull & Gibbet, Thorne's Yard. The party's base. Safe."
+                }
+                terrain netquarter {
+                    polygon 3,15 22,15 24,33 5,34
+                    tags [cabal]
+                    description "BLOCK 1 — the fishers' slum at the broken sea-wall. Wererat nest in the tide-tunnels; Suel masonry in the deepest cellar (Stage-1 clue). L1-2."
+                }
+                terrain saltworks {
+                    polygon 84,12 99,14 99,34 84,32
+                    tags [cabal]
+                    description "BLOCK 2 — the brine-pans and the stone Pan-House: a Brine Cabal smuggling and slaving depot. L2-3."
+                }
+                terrain pilgrims-rest {
+                    polygon 5,37 24,36 26,53 7,54
+                    tags [refugee]
+                    description "BLOCK 3 — a walled almshouse around the only clean well. Reported 'infested'; actually forty survivors in hiding. The surprise block — a choice, not a fight. L2-3."
+                }
+                terrain drownmarket {
+                    polygon 38,30 62,30 64,44 40,46
+                    tags [drowned]
+                    description "BLOCK 7 — the great market plaza, drowned. The Sump-Thing fouls the only deep-water berth; clearing it opens the sea-lane and the endgame. Suel pavement on the floor. L5-6."
+                }
+                terrain bonehouse {
+                    polygon 26,40 44,40 46,60 28,60
+                    tags [undead]
+                    description "BLOCK 4 — the temple quarter. The dead won't rest; ash-touched undead (Stage-2). A cracked Suel binding-glyph under Procan's temple, and a bricked stair going down. L4-5."
+                }
+                terrain coopers-tangle {
+                    polygon 66,30 88,30 90,52 68,52
+                    tags [monstrous]
+                    description "BLOCK 5 — the collapsed cooperage maze. Ogres fronted by a green hag, Mother Sallow, who sells true intel at false prices. L4-6."
+                }
+                terrain counting-house-district {
+                    polygon 46,44 66,44 68,58 48,58
+                    tags [scarlet]
+                    description "BLOCK 8 — the merchants' guild and civic archive. Secretly the Scarlet Sign's forward dig toward Sael Vahar. Where the party learns their patron is the enemy. L6-7."
+                }
+                terrain keep-ward {
+                    polygon 40,58 66,58 68,75 42,75
+                    tags [pomarj]
+                    description "BLOCK 9 — the citadel on the high ground, held by Warlord Khurl Bonechewer for Turrosh Mak. Above the Sealed Stair he is too afraid to descend. L7-8."
+                }
+                terrain bloodgate {
+                    polygon 28,75 72,75 72,90 28,90
+                    tags [pomarj]
+                    description "BLOCK 6 — the landward gatehouse, the one road in or out that isn't the sea. Cut it and the occupation withers. L5-6."
+                }
+
+                # ── Landmark buildings ────────────────────────────────────────
+                building charter-hall   { at 70,16; size 5,3; type civic; tags [reclamation]; description "The Reclamation Council; the mission board hangs on the door." }
+                building gull-gibbet    { at 64,19; size 3,2; type inn;    tags [reclamation]; description "The Quayhold's inn, in a beached hulk. Every rumour in the Wrack." }
+                building thornes-yard   { at 78,20; size 4,2; type market; tags [reclamation]; description "Cassia Thorne's outfitter and smithy." }
+                building tide-shrine    { at 66,23; size 3,2; type temple; tags [reclamation]; description "Lean-to shrine to Procan and Pelor; limited healing until the Bonehouse is purified." }
+                building pan-house      { at 89,21; size 5,4; type warehouse; tags [cabal]; description "Stone evaporation-house; the Cabal's smuggling depot and slave-pen." }
+                building customs-house  { at 49,34; size 5,4; type civic; tags [drowned]; description "Half-submerged hall on the deep-water quay; Suel spiral-glyph on its drowned floor." }
+                building temple-procan  { at 32,48; size 6,5; type temple; tags [undead]; description "The caved sea-temple of Procan. Cracked Suel ward-glyph beneath the altar; the crypt stair descends to Sael Vahar." }
+                building long-cooperage { at 74,39; size 7,5; type warehouse; tags [monstrous]; description "Vast warehouse; the ogres' den and the hag's hoard. A prime deed once cleared." }
+                building counting-house { at 53,49; size 6,4; type civic; tags [scarlet]; description "Merchants' guild over a hidden Brotherhood dig-shaft toward the undercity." }
+                building cantona-keep   { at 48,63; size 9,8; type keep; tags [pomarj]; description "The Despot's seat in Cantona. Warlord Khurl Bonechewer. The Sealed Stair lies in its sub-vault." }
+
+                # ── Streets ───────────────────────────────────────────────────
+                street harbour-road  { points 73,14 64,30 58,46 54,60; description "The processional way from the harbour mole up to the citadel." }
+                street coast-road    { points 6,19 30,17 60,13 90,18; description "The shore street linking the lower districts." }
+                street market-street { points 40,37 66,37; description "East-west market street, now half under water at the Drownmarket." }
+
+                # ── Points of interest ────────────────────────────────────────
+                poi sea-gate {
+                    at 33,15
+                    kind gate
+                    tags [ruined]
+                    description "The breached sea-gate the defenders broke in 584 to flood the lower city. Open to the bay ever since."
+                }
+                poi land-gate {
+                    at 50,88
+                    kind gate
+                    description "The Bloodgate barbican — Cantona's only landward gate, held by the Pomarj garrison."
+                }
+                poi sealed-stair {
+                    at 54,60
+                    kind stair
+                    tags [ruined]
+                    description "Beneath the Keep: the Suel undercity stair, which the orcs found and bricked back up themselves. Cold bleeds through the mortar. The descent to Sael Vahar."
+                }
+                poi the-bell {
+                    at 52,52
+                    kind omen
+                    description "A slow bell tolls across the Wrack with no hand on it. Its source is never found above ground — and is louder below. A seep-omen."
+                }
+                poi pilgrim-well {
+                    at 15,45
+                    kind well
+                    description "The freshwater well at the heart of Pilgrim's Rest — the one clean water in the ruin."
+                }
+            }
+        }
+
+        city fax {
+            at 78,52
+            pop 2000
+            in wild-coast
+            tags [walled, port, contested]
+            description "Wild Coast city to the south, much reduced; a frontier against the Pomarj."
+        }
+
+        # ── Regional roads ────────────────────────────────────────────────────
+        road coast-road-north {
+            from safeton
+            to cantona
+            via 66,124
+            surface dirt
+            description "The coast road from Safeton down to Cantona. Watch-patrolled near Safeton, dangerous nearer the ruin."
+        }
+        road coast-road-south {
+            from cantona
+            to fax
+            via 74,72
+            surface dirt
+            description "South toward Fax and, beyond it, the Pomarj border. Raided."
+        }
+    }
+
+    # ── Views ──────────────────────────────────────────────────────────────────
+    views {
+        view region {
+            scope cantona-reclamation
+            include kingdoms, cities, roads, lakes, terrain
+            units miles
+            styles {
+                city.pop>3000 { marker circle; color #3a2a18; marker-size 11; stroke #c8a96e; stroke-width 2 }
+                [ruined]      { color #aa3030; stroke #5a1010; stroke-width 2 }
+            }
+        }
+
+        view city {
+            scope cantona
+            include terrain, lakes, buildings, streets, poi
+            units feet
+        }
+    }
+}

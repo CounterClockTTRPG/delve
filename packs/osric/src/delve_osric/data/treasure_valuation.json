@@ -1,0 +1,1748 @@
+{
+ "_source": "OSRIC 3.0 Gamemaster Guide, Part Three (Treasure), Chapter 12: §2.12.4 Gemstones (Table 2.12.4A Gemstone Value + §2.12.4.2 Gem Types by Value) and §2.12.5 Jewellery (Table 2.12.5A Jewellery Type and Value). Transcribed verbatim from the PDF (extracted/gm_guide.txt ~L17389-17516, cross-checked against docs/OSRIC_Gamemaster_Guide.md L7614-7730) and parsed by scripts/build_treasure.py. Values are NOT adjusted for the owning monster's difficulty. Dice kept as strings (e.g. '2d4×100'); d100/d10 ranges parsed to [min,max] with a d100 '00' = 100. Verify edge cases against docs/ or reference/.",
+ "gems": {
+  "_roll": "Roll d100 on Table 2.12.4A for the value class, then roll that class's value_roll for the gp value; pick the stone type from the class's examples (§2.12.4.2). base_value_gp is the table's printed AVERAGE VALUE (GP). Gems may be further increased in value by a gemcutter (Table 2.2.2g).",
+  "classes": [
+   {
+    "class": "Ornamental Stone",
+    "d100_range": "01–30",
+    "d100": [
+     1,
+     30
+    ],
+    "value_roll": "4d4",
+    "value_dice": {
+     "count": 4,
+     "sides": 4,
+     "multiplier": 1
+    },
+    "base_value_gp": 10,
+    "examples": [
+     "Banded, eye, or moss agate",
+     "azurite",
+     "blue quartz",
+     "hematite",
+     "lapis lazuli",
+     "malachite",
+     "obsidian",
+     "rhodochrosite",
+     "tiger eye",
+     "turquoise",
+     "freshwater pearl"
+    ],
+    "examples_raw": "Banded, eye, or moss agate; azurite; blue quartz; hematite; lapis lazuli; malachite; obsidian; rhodochrosite; tiger eye; turquoise; freshwater pearl.",
+    "raw": "01–30  4d4       10     Ornamental Stone"
+   },
+   {
+    "class": "Semi-Precious Stone",
+    "d100_range": "31–55",
+    "d100": [
+     31,
+     55
+    ],
+    "value_roll": "2d4×10",
+    "value_dice": {
+     "count": 2,
+     "sides": 4,
+     "multiplier": 10
+    },
+    "base_value_gp": 50,
+    "examples": [
+     "Bloodstone",
+     "carnelian",
+     "chalcedony",
+     "chrysoprase",
+     "citrine",
+     "iolite",
+     "jasper",
+     "moonstone",
+     "onyx",
+     "peridot",
+     "rock crystal (clear quartz)",
+     "sard",
+     "sardonyx",
+     "rose, smoky, or star rose quartz",
+     "zircon"
+    ],
+    "examples_raw": "Bloodstone; carnelian; chalcedony; chrysoprase; citrine; iolite, jasper; moonstone; onyx; peridot; rock crystal (clear quartz); sard; sardonyx; rose, smoky, or star rose quartz; zircon.",
+    "raw": "31–55  2d4×10    50     Semi-Precious Stone"
+   },
+   {
+    "class": "Fancy Stone",
+    "d100_range": "56–75",
+    "d100": [
+     56,
+     75
+    ],
+    "value_roll": "4d4×10",
+    "value_dice": {
+     "count": 4,
+     "sides": 4,
+     "multiplier": 10
+    },
+    "base_value_gp": 100,
+    "examples": [
+     "Amber",
+     "amethyst",
+     "chrysoberyl",
+     "coral",
+     "red or brown–green garnet",
+     "jade",
+     "jet",
+     "white, golden, pink, or silver pearl",
+     "red spinel, red–brown or deep green spinel",
+     "tourmaline"
+    ],
+    "examples_raw": "Amber; amethyst; chrysoberyl; coral; red or brown–green garnet; jade; jet; white, golden, pink, or silver pearl; red spinel, red–brown or deep green spinel; tourmaline.",
+    "raw": "56–75  4d4×10    100    Fancy Stone"
+   },
+   {
+    "class": "Precious Stone",
+    "d100_range": "76–90",
+    "d100": [
+     76,
+     90
+    ],
+    "value_roll": "2d4×100",
+    "value_dice": {
+     "count": 2,
+     "sides": 4,
+     "multiplier": 100
+    },
+    "base_value_gp": 500,
+    "examples": [
+     "Alexandrite",
+     "aquamarine",
+     "violet garnet",
+     "black pearl",
+     "deep blue spinel",
+     "golden yellow topaz"
+    ],
+    "examples_raw": "Alexandrite; aquamarine; violet garnet; black pearl; deep blue spinel; golden yellow topaz.",
+    "raw": "76–90  2d4×100   500    Precious Stone"
+   },
+   {
+    "class": "Gem",
+    "d100_range": "91–99",
+    "d100": [
+     91,
+     99
+    ],
+    "value_roll": "4d4×100",
+    "value_dice": {
+     "count": 4,
+     "sides": 4,
+     "multiplier": 100
+    },
+    "base_value_gp": 1000,
+    "examples": [
+     "Emerald",
+     "white, black, or fire opal",
+     "blue sapphire",
+     "fiery yellow or rich purple corundum",
+     "blue or black star sapphire",
+     "star ruby"
+    ],
+    "examples_raw": "Emerald; white, black, or fire opal; blue sapphire; fiery yellow or rich purple corundum; blue or black star sapphire; star ruby.",
+    "raw": "91–99  4d4×100   1,000  Gem"
+   },
+   {
+    "class": "Jewel",
+    "d100_range": "00",
+    "d100": [
+     100,
+     100
+    ],
+    "value_roll": "2d4×1000",
+    "value_dice": {
+     "count": 2,
+     "sides": 4,
+     "multiplier": 1000
+    },
+    "base_value_gp": 5000,
+    "examples": [
+     "Clearest bright green emerald",
+     "blue–white, canary, pink, brown, or blue diamond",
+     "jacinth"
+    ],
+    "examples_raw": "Clearest bright green emerald; blue–white, canary, pink, brown, or blue diamond; jacinth.",
+    "raw": "00     2d4×1,000 5,000  Jewel"
+   }
+  ]
+ },
+ "jewellery": {
+  "_roll": "Roll d100 on Table 2.12.5A for the item form and a d10 for the material band; roll that material's value_roll for the gp value. A blank cell means that material is unattainable for that item. The material label is a guideline for a broad value category, not literal composition (see Note).",
+  "materials": [
+   {
+    "key": "silver",
+    "label": "Silver",
+    "value_roll": "1d10×100 gp",
+    "value_dice": {
+     "count": 1,
+     "sides": 10,
+     "multiplier": 100
+    }
+   },
+   {
+    "key": "silver_gold",
+    "label": "Silver & Gold",
+    "value_roll": "2d6×100 gp",
+    "value_dice": {
+     "count": 2,
+     "sides": 6,
+     "multiplier": 100
+    }
+   },
+   {
+    "key": "gold",
+    "label": "Gold",
+    "value_roll": "3d6×100 gp",
+    "value_dice": {
+     "count": 3,
+     "sides": 6,
+     "multiplier": 100
+    }
+   },
+   {
+    "key": "silver_gems",
+    "label": "Silver & Gems",
+    "value_roll": "5d6×100 gp",
+    "value_dice": {
+     "count": 5,
+     "sides": 6,
+     "multiplier": 100
+    }
+   },
+   {
+    "key": "gold_gems",
+    "label": "Gold & Gems",
+    "value_roll": "2d4×1000 gp",
+    "value_dice": {
+     "count": 2,
+     "sides": 4,
+     "multiplier": 1000
+    }
+   },
+   {
+    "key": "exceptional",
+    "label": "Exceptional",
+    "value_roll": "2d6×1000 gp",
+    "value_dice": {
+     "count": 2,
+     "sides": 6,
+     "multiplier": 1000
+    }
+   }
+  ],
+  "items": [
+   {
+    "item": "Amulet",
+    "d100_range": "01–03",
+    "d100": [
+     1,
+     3
+    ],
+    "material_bands": {
+     "silver": {
+      "d10_range": "1–4",
+      "d10": [
+       1,
+       4
+      ]
+     },
+     "silver_gold": {
+      "d10_range": "5–7",
+      "d10": [
+       5,
+       7
+      ]
+     },
+     "gold": {
+      "d10_range": "8–9",
+      "d10": [
+       8,
+       9
+      ]
+     },
+     "silver_gems": {
+      "d10_range": "10",
+      "d10": [
+       10,
+       10
+      ]
+     }
+    },
+    "raw": "01–03  Amulet       1–4  5–7  8–9  10  —  —"
+   },
+   {
+    "item": "Anklet",
+    "d100_range": "04",
+    "d100": [
+     4,
+     4
+    ],
+    "material_bands": {
+     "silver": {
+      "d10_range": "1–3",
+      "d10": [
+       1,
+       3
+      ]
+     },
+     "silver_gold": {
+      "d10_range": "4–6",
+      "d10": [
+       4,
+       6
+      ]
+     },
+     "gold": {
+      "d10_range": "7–8",
+      "d10": [
+       7,
+       8
+      ]
+     },
+     "silver_gems": {
+      "d10_range": "9",
+      "d10": [
+       9,
+       9
+      ]
+     },
+     "gold_gems": {
+      "d10_range": "10",
+      "d10": [
+       10,
+       10
+      ]
+     }
+    },
+    "raw": "04     Anklet       1–3  4–6  7–8  9  10  —"
+   },
+   {
+    "item": "Arm–ring",
+    "d100_range": "05–07",
+    "d100": [
+     5,
+     7
+    ],
+    "material_bands": {
+     "silver": {
+      "d10_range": "1–4",
+      "d10": [
+       1,
+       4
+      ]
+     },
+     "silver_gold": {
+      "d10_range": "5–6",
+      "d10": [
+       5,
+       6
+      ]
+     },
+     "gold": {
+      "d10_range": "7–8",
+      "d10": [
+       7,
+       8
+      ]
+     },
+     "silver_gems": {
+      "d10_range": "9",
+      "d10": [
+       9,
+       9
+      ]
+     },
+     "gold_gems": {
+      "d10_range": "10",
+      "d10": [
+       10,
+       10
+      ]
+     }
+    },
+    "raw": "05–07  Arm–ring     1–4  5–6  7–8  9  10  —"
+   },
+   {
+    "item": "Belt",
+    "d100_range": "08–10",
+    "d100": [
+     8,
+     10
+    ],
+    "material_bands": {
+     "silver": {
+      "d10_range": "1–4",
+      "d10": [
+       1,
+       4
+      ]
+     },
+     "silver_gold": {
+      "d10_range": "5–6",
+      "d10": [
+       5,
+       6
+      ]
+     },
+     "gold": {
+      "d10_range": "7–8",
+      "d10": [
+       7,
+       8
+      ]
+     },
+     "silver_gems": {
+      "d10_range": "9–10",
+      "d10": [
+       9,
+       10
+      ]
+     }
+    },
+    "raw": "08–10  Belt         1–4  5–6  7–8  9–10  —  —"
+   },
+   {
+    "item": "Box",
+    "d100_range": "11–12",
+    "d100": [
+     11,
+     12
+    ],
+    "material_bands": {
+     "silver": {
+      "d10_range": "1–4",
+      "d10": [
+       1,
+       4
+      ]
+     },
+     "silver_gold": {
+      "d10_range": "5–7",
+      "d10": [
+       5,
+       7
+      ]
+     },
+     "gold": {
+      "d10_range": "8–9",
+      "d10": [
+       8,
+       9
+      ]
+     },
+     "silver_gems": {
+      "d10_range": "10",
+      "d10": [
+       10,
+       10
+      ]
+     }
+    },
+    "raw": "11–12  Box          1–4  5–7  8–9  10  —  —"
+   },
+   {
+    "item": "Bracelet",
+    "d100_range": "13–17",
+    "d100": [
+     13,
+     17
+    ],
+    "material_bands": {
+     "silver": {
+      "d10_range": "1–3",
+      "d10": [
+       1,
+       3
+      ]
+     },
+     "silver_gold": {
+      "d10_range": "4–6",
+      "d10": [
+       4,
+       6
+      ]
+     },
+     "gold": {
+      "d10_range": "7–8",
+      "d10": [
+       7,
+       8
+      ]
+     },
+     "silver_gems": {
+      "d10_range": "9",
+      "d10": [
+       9,
+       9
+      ]
+     },
+     "gold_gems": {
+      "d10_range": "10",
+      "d10": [
+       10,
+       10
+      ]
+     }
+    },
+    "raw": "13–17  Bracelet     1–3  4–6  7–8  9  10  —"
+   },
+   {
+    "item": "Brooch",
+    "d100_range": "18–20",
+    "d100": [
+     18,
+     20
+    ],
+    "material_bands": {
+     "silver": {
+      "d10_range": "1–3",
+      "d10": [
+       1,
+       3
+      ]
+     },
+     "silver_gold": {
+      "d10_range": "4–6",
+      "d10": [
+       4,
+       6
+      ]
+     },
+     "gold": {
+      "d10_range": "7–8",
+      "d10": [
+       7,
+       8
+      ]
+     },
+     "silver_gems": {
+      "d10_range": "9",
+      "d10": [
+       9,
+       9
+      ]
+     },
+     "gold_gems": {
+      "d10_range": "10",
+      "d10": [
+       10,
+       10
+      ]
+     }
+    },
+    "raw": "18–20  Brooch       1–3  4–6  7–8  9  10  —"
+   },
+   {
+    "item": "Buckle",
+    "d100_range": "21–23",
+    "d100": [
+     21,
+     23
+    ],
+    "material_bands": {
+     "silver": {
+      "d10_range": "1–4",
+      "d10": [
+       1,
+       4
+      ]
+     },
+     "silver_gold": {
+      "d10_range": "5–7",
+      "d10": [
+       5,
+       7
+      ]
+     },
+     "gold": {
+      "d10_range": "8–9",
+      "d10": [
+       8,
+       9
+      ]
+     },
+     "silver_gems": {
+      "d10_range": "10",
+      "d10": [
+       10,
+       10
+      ]
+     }
+    },
+    "raw": "21–23  Buckle       1–4  5–7  8–9  10  —  —"
+   },
+   {
+    "item": "Chain",
+    "d100_range": "24–25",
+    "d100": [
+     24,
+     25
+    ],
+    "material_bands": {
+     "silver": {
+      "d10_range": "1–4",
+      "d10": [
+       1,
+       4
+      ]
+     },
+     "silver_gold": {
+      "d10_range": "5–7",
+      "d10": [
+       5,
+       7
+      ]
+     },
+     "gold": {
+      "d10_range": "8–9",
+      "d10": [
+       8,
+       9
+      ]
+     },
+     "silver_gems": {
+      "d10_range": "10",
+      "d10": [
+       10,
+       10
+      ]
+     }
+    },
+    "raw": "24–25  Chain        1–4  5–7  8–9  10  —  —"
+   },
+   {
+    "item": "Chalice",
+    "d100_range": "26–27",
+    "d100": [
+     26,
+     27
+    ],
+    "material_bands": {
+     "silver": {
+      "d10_range": "1–3",
+      "d10": [
+       1,
+       3
+      ]
+     },
+     "silver_gold": {
+      "d10_range": "4–6",
+      "d10": [
+       4,
+       6
+      ]
+     },
+     "gold": {
+      "d10_range": "7–8",
+      "d10": [
+       7,
+       8
+      ]
+     },
+     "silver_gems": {
+      "d10_range": "9",
+      "d10": [
+       9,
+       9
+      ]
+     },
+     "gold_gems": {
+      "d10_range": "10",
+      "d10": [
+       10,
+       10
+      ]
+     }
+    },
+    "raw": "26–27  Chalice      1–3  4–6  7–8  9  10  —"
+   },
+   {
+    "item": "Choker",
+    "d100_range": "28–30",
+    "d100": [
+     28,
+     30
+    ],
+    "material_bands": {
+     "silver": {
+      "d10_range": "1–4",
+      "d10": [
+       1,
+       4
+      ]
+     },
+     "silver_gold": {
+      "d10_range": "5–7",
+      "d10": [
+       5,
+       7
+      ]
+     },
+     "gold": {
+      "d10_range": "8–9",
+      "d10": [
+       8,
+       9
+      ]
+     },
+     "silver_gems": {
+      "d10_range": "10",
+      "d10": [
+       10,
+       10
+      ]
+     }
+    },
+    "raw": "28–30  Choker       1–4  5–7  8–9  10  —  —"
+   },
+   {
+    "item": "Clasp",
+    "d100_range": "31–32",
+    "d100": [
+     31,
+     32
+    ],
+    "material_bands": {
+     "silver": {
+      "d10_range": "1–4",
+      "d10": [
+       1,
+       4
+      ]
+     },
+     "silver_gold": {
+      "d10_range": "5–6",
+      "d10": [
+       5,
+       6
+      ]
+     },
+     "gold": {
+      "d10_range": "7–8",
+      "d10": [
+       7,
+       8
+      ]
+     },
+     "silver_gems": {
+      "d10_range": "9–10",
+      "d10": [
+       9,
+       10
+      ]
+     }
+    },
+    "raw": "31–32  Clasp        1–4  5–6  7–8  9–10  —  —"
+   },
+   {
+    "item": "Comb",
+    "d100_range": "33–35",
+    "d100": [
+     33,
+     35
+    ],
+    "material_bands": {
+     "silver": {
+      "d10_range": "1–3",
+      "d10": [
+       1,
+       3
+      ]
+     },
+     "silver_gold": {
+      "d10_range": "4–6",
+      "d10": [
+       4,
+       6
+      ]
+     },
+     "gold": {
+      "d10_range": "7–8",
+      "d10": [
+       7,
+       8
+      ]
+     },
+     "silver_gems": {
+      "d10_range": "9",
+      "d10": [
+       9,
+       9
+      ]
+     },
+     "gold_gems": {
+      "d10_range": "10",
+      "d10": [
+       10,
+       10
+      ]
+     }
+    },
+    "raw": "33–35  Comb         1–3  4–6  7–8  9  10  —"
+   },
+   {
+    "item": "Coronet",
+    "d100_range": "36–37",
+    "d100": [
+     36,
+     37
+    ],
+    "material_bands": {
+     "silver": {
+      "d10_range": "1",
+      "d10": [
+       1,
+       1
+      ]
+     },
+     "silver_gold": {
+      "d10_range": "2",
+      "d10": [
+       2,
+       2
+      ]
+     },
+     "gold": {
+      "d10_range": "3–4",
+      "d10": [
+       3,
+       4
+      ]
+     },
+     "silver_gems": {
+      "d10_range": "5–8",
+      "d10": [
+       5,
+       8
+      ]
+     },
+     "gold_gems": {
+      "d10_range": "9",
+      "d10": [
+       9,
+       9
+      ]
+     },
+     "exceptional": {
+      "d10_range": "10",
+      "d10": [
+       10,
+       10
+      ]
+     }
+    },
+    "raw": "36–37  Coronet      1  2  3–4  5–8  9  10"
+   },
+   {
+    "item": "Crown",
+    "d100_range": "38",
+    "d100": [
+     38,
+     38
+    ],
+    "material_bands": {
+     "silver": {
+      "d10_range": "1",
+      "d10": [
+       1,
+       1
+      ]
+     },
+     "silver_gold": {
+      "d10_range": "2",
+      "d10": [
+       2,
+       2
+      ]
+     },
+     "gold": {
+      "d10_range": "3",
+      "d10": [
+       3,
+       3
+      ]
+     },
+     "silver_gems": {
+      "d10_range": "4",
+      "d10": [
+       4,
+       4
+      ]
+     },
+     "gold_gems": {
+      "d10_range": "5–7",
+      "d10": [
+       5,
+       7
+      ]
+     },
+     "exceptional": {
+      "d10_range": "8–10",
+      "d10": [
+       8,
+       10
+      ]
+     }
+    },
+    "raw": "38     Crown        1  2  3  4  5–7  8–10"
+   },
+   {
+    "item": "Diadem",
+    "d100_range": "39–40",
+    "d100": [
+     39,
+     40
+    ],
+    "material_bands": {
+     "silver": {
+      "d10_range": "1–3",
+      "d10": [
+       1,
+       3
+      ]
+     },
+     "silver_gold": {
+      "d10_range": "4–6",
+      "d10": [
+       4,
+       6
+      ]
+     },
+     "gold": {
+      "d10_range": "7–8",
+      "d10": [
+       7,
+       8
+      ]
+     },
+     "silver_gems": {
+      "d10_range": "9",
+      "d10": [
+       9,
+       9
+      ]
+     },
+     "gold_gems": {
+      "d10_range": "10",
+      "d10": [
+       10,
+       10
+      ]
+     }
+    },
+    "raw": "39–40  Diadem       1–3  4–6  7–8  9  10  —"
+   },
+   {
+    "item": "Earring",
+    "d100_range": "41–46",
+    "d100": [
+     41,
+     46
+    ],
+    "material_bands": {
+     "silver": {
+      "d10_range": "1–3",
+      "d10": [
+       1,
+       3
+      ]
+     },
+     "silver_gold": {
+      "d10_range": "4–6",
+      "d10": [
+       4,
+       6
+      ]
+     },
+     "gold": {
+      "d10_range": "7–8",
+      "d10": [
+       7,
+       8
+      ]
+     },
+     "silver_gems": {
+      "d10_range": "9",
+      "d10": [
+       9,
+       9
+      ]
+     },
+     "gold_gems": {
+      "d10_range": "10",
+      "d10": [
+       10,
+       10
+      ]
+     }
+    },
+    "raw": "41–46  Earring      1–3  4–6  7–8  9  10  —"
+   },
+   {
+    "item": "Goblet",
+    "d100_range": "47–49",
+    "d100": [
+     47,
+     49
+    ],
+    "material_bands": {
+     "silver": {
+      "d10_range": "1–3",
+      "d10": [
+       1,
+       3
+      ]
+     },
+     "silver_gold": {
+      "d10_range": "4–6",
+      "d10": [
+       4,
+       6
+      ]
+     },
+     "gold": {
+      "d10_range": "7–8",
+      "d10": [
+       7,
+       8
+      ]
+     },
+     "silver_gems": {
+      "d10_range": "9",
+      "d10": [
+       9,
+       9
+      ]
+     },
+     "gold_gems": {
+      "d10_range": "10",
+      "d10": [
+       10,
+       10
+      ]
+     }
+    },
+    "raw": "47–49  Goblet       1–3  4–6  7–8  9  10  —"
+   },
+   {
+    "item": "Idol",
+    "d100_range": "50–51",
+    "d100": [
+     50,
+     51
+    ],
+    "material_bands": {
+     "silver": {
+      "d10_range": "1–2",
+      "d10": [
+       1,
+       2
+      ]
+     },
+     "silver_gold": {
+      "d10_range": "3–4",
+      "d10": [
+       3,
+       4
+      ]
+     },
+     "gold": {
+      "d10_range": "5–7",
+      "d10": [
+       5,
+       7
+      ]
+     },
+     "silver_gems": {
+      "d10_range": "8–9",
+      "d10": [
+       8,
+       9
+      ]
+     },
+     "gold_gems": {
+      "d10_range": "10",
+      "d10": [
+       10,
+       10
+      ]
+     }
+    },
+    "raw": "50–51  Idol         1–2  3–4  5–7  8–9  10  —"
+   },
+   {
+    "item": "Knife",
+    "d100_range": "52–54",
+    "d100": [
+     52,
+     54
+    ],
+    "material_bands": {
+     "silver": {
+      "d10_range": "1–4",
+      "d10": [
+       1,
+       4
+      ]
+     },
+     "silver_gold": {
+      "d10_range": "5–7",
+      "d10": [
+       5,
+       7
+      ]
+     },
+     "gold": {
+      "d10_range": "8–9",
+      "d10": [
+       8,
+       9
+      ]
+     },
+     "silver_gems": {
+      "d10_range": "10",
+      "d10": [
+       10,
+       10
+      ]
+     }
+    },
+    "raw": "52–54  Knife        1–4  5–7  8–9  10  —  —"
+   },
+   {
+    "item": "Locket",
+    "d100_range": "55–58",
+    "d100": [
+     55,
+     58
+    ],
+    "material_bands": {
+     "silver": {
+      "d10_range": "1–3",
+      "d10": [
+       1,
+       3
+      ]
+     },
+     "silver_gold": {
+      "d10_range": "4–5",
+      "d10": [
+       4,
+       5
+      ]
+     },
+     "gold": {
+      "d10_range": "6–7",
+      "d10": [
+       6,
+       7
+      ]
+     },
+     "silver_gems": {
+      "d10_range": "8–9",
+      "d10": [
+       8,
+       9
+      ]
+     },
+     "gold_gems": {
+      "d10_range": "10",
+      "d10": [
+       10,
+       10
+      ]
+     }
+    },
+    "raw": "55–58  Locket       1–3  4–5  6–7  8–9  10  —"
+   },
+   {
+    "item": "Medal",
+    "d100_range": "59–60",
+    "d100": [
+     59,
+     60
+    ],
+    "material_bands": {
+     "silver": {
+      "d10_range": "1–4",
+      "d10": [
+       1,
+       4
+      ]
+     },
+     "silver_gold": {
+      "d10_range": "5–7",
+      "d10": [
+       5,
+       7
+      ]
+     },
+     "gold": {
+      "d10_range": "8–10",
+      "d10": [
+       8,
+       10
+      ]
+     }
+    },
+    "raw": "59–60  Medal        1–4  5–7  8–10  —  —  —"
+   },
+   {
+    "item": "Medallion",
+    "d100_range": "61–64",
+    "d100": [
+     61,
+     64
+    ],
+    "material_bands": {
+     "silver": {
+      "d10_range": "1–3",
+      "d10": [
+       1,
+       3
+      ]
+     },
+     "silver_gold": {
+      "d10_range": "4–6",
+      "d10": [
+       4,
+       6
+      ]
+     },
+     "gold": {
+      "d10_range": "7–9",
+      "d10": [
+       7,
+       9
+      ]
+     },
+     "silver_gems": {
+      "d10_range": "10",
+      "d10": [
+       10,
+       10
+      ]
+     }
+    },
+    "raw": "61–64  Medallion    1–3  4–6  7–9  10  —  —"
+   },
+   {
+    "item": "Necklace",
+    "d100_range": "65–69",
+    "d100": [
+     65,
+     69
+    ],
+    "material_bands": {
+     "silver": {
+      "d10_range": "1–3",
+      "d10": [
+       1,
+       3
+      ]
+     },
+     "silver_gold": {
+      "d10_range": "4–6",
+      "d10": [
+       4,
+       6
+      ]
+     },
+     "gold": {
+      "d10_range": "7–8",
+      "d10": [
+       7,
+       8
+      ]
+     },
+     "silver_gems": {
+      "d10_range": "9",
+      "d10": [
+       9,
+       9
+      ]
+     },
+     "gold_gems": {
+      "d10_range": "10",
+      "d10": [
+       10,
+       10
+      ]
+     }
+    },
+    "raw": "65–69  Necklace     1–3  4–6  7–8  9  10  —"
+   },
+   {
+    "item": "Pendant",
+    "d100_range": "70–73",
+    "d100": [
+     70,
+     73
+    ],
+    "material_bands": {
+     "silver": {
+      "d10_range": "1–3",
+      "d10": [
+       1,
+       3
+      ]
+     },
+     "silver_gold": {
+      "d10_range": "4–6",
+      "d10": [
+       4,
+       6
+      ]
+     },
+     "gold": {
+      "d10_range": "7–8",
+      "d10": [
+       7,
+       8
+      ]
+     },
+     "silver_gems": {
+      "d10_range": "9",
+      "d10": [
+       9,
+       9
+      ]
+     },
+     "gold_gems": {
+      "d10_range": "10",
+      "d10": [
+       10,
+       10
+      ]
+     }
+    },
+    "raw": "70–73  Pendant      1–3  4–6  7–8  9  10  —"
+   },
+   {
+    "item": "Pin",
+    "d100_range": "74–77",
+    "d100": [
+     74,
+     77
+    ],
+    "material_bands": {
+     "silver": {
+      "d10_range": "1–3",
+      "d10": [
+       1,
+       3
+      ]
+     },
+     "silver_gold": {
+      "d10_range": "4–6",
+      "d10": [
+       4,
+       6
+      ]
+     },
+     "gold": {
+      "d10_range": "7–8",
+      "d10": [
+       7,
+       8
+      ]
+     },
+     "silver_gems": {
+      "d10_range": "9",
+      "d10": [
+       9,
+       9
+      ]
+     },
+     "gold_gems": {
+      "d10_range": "10",
+      "d10": [
+       10,
+       10
+      ]
+     }
+    },
+    "raw": "74–77  Pin          1–3  4–6  7–8  9  10  —"
+   },
+   {
+    "item": "Orb",
+    "d100_range": "78",
+    "d100": [
+     78,
+     78
+    ],
+    "material_bands": {
+     "silver": {
+      "d10_range": "1",
+      "d10": [
+       1,
+       1
+      ]
+     },
+     "silver_gold": {
+      "d10_range": "2",
+      "d10": [
+       2,
+       2
+      ]
+     },
+     "gold": {
+      "d10_range": "3",
+      "d10": [
+       3,
+       3
+      ]
+     },
+     "silver_gems": {
+      "d10_range": "4–5",
+      "d10": [
+       4,
+       5
+      ]
+     },
+     "gold_gems": {
+      "d10_range": "6–8",
+      "d10": [
+       6,
+       8
+      ]
+     },
+     "exceptional": {
+      "d10_range": "9–10",
+      "d10": [
+       9,
+       10
+      ]
+     }
+    },
+    "raw": "78     Orb          1  2  3  4–5  6–8  9–10"
+   },
+   {
+    "item": "Ring",
+    "d100_range": "79–87",
+    "d100": [
+     79,
+     87
+    ],
+    "material_bands": {
+     "silver": {
+      "d10_range": "1–3",
+      "d10": [
+       1,
+       3
+      ]
+     },
+     "silver_gold": {
+      "d10_range": "4–6",
+      "d10": [
+       4,
+       6
+      ]
+     },
+     "gold": {
+      "d10_range": "7–8",
+      "d10": [
+       7,
+       8
+      ]
+     },
+     "silver_gems": {
+      "d10_range": "9",
+      "d10": [
+       9,
+       9
+      ]
+     },
+     "gold_gems": {
+      "d10_range": "10",
+      "d10": [
+       10,
+       10
+      ]
+     }
+    },
+    "raw": "79–87  Ring         1–3  4–6  7–8  9  10  —"
+   },
+   {
+    "item": "Sceptre",
+    "d100_range": "88",
+    "d100": [
+     88,
+     88
+    ],
+    "material_bands": {
+     "silver": {
+      "d10_range": "1",
+      "d10": [
+       1,
+       1
+      ]
+     },
+     "silver_gold": {
+      "d10_range": "2",
+      "d10": [
+       2,
+       2
+      ]
+     },
+     "gold": {
+      "d10_range": "3",
+      "d10": [
+       3,
+       3
+      ]
+     },
+     "silver_gems": {
+      "d10_range": "4–5",
+      "d10": [
+       4,
+       5
+      ]
+     },
+     "gold_gems": {
+      "d10_range": "6–8",
+      "d10": [
+       6,
+       8
+      ]
+     },
+     "exceptional": {
+      "d10_range": "9–10",
+      "d10": [
+       9,
+       10
+      ]
+     }
+    },
+    "raw": "88     Sceptre      1  2  3  4–5  6–8  9–10"
+   },
+   {
+    "item": "Seal",
+    "d100_range": "89–92",
+    "d100": [
+     89,
+     92
+    ],
+    "material_bands": {
+     "silver": {
+      "d10_range": "1–4",
+      "d10": [
+       1,
+       4
+      ]
+     },
+     "silver_gold": {
+      "d10_range": "5–7",
+      "d10": [
+       5,
+       7
+      ]
+     },
+     "gold": {
+      "d10_range": "8–9",
+      "d10": [
+       8,
+       9
+      ]
+     },
+     "silver_gems": {
+      "d10_range": "10",
+      "d10": [
+       10,
+       10
+      ]
+     }
+    },
+    "raw": "89–92  Seal         1–4  5–7  8–9  10  —  —"
+   },
+   {
+    "item": "Statuette",
+    "d100_range": "93–94",
+    "d100": [
+     93,
+     94
+    ],
+    "material_bands": {
+     "silver": {
+      "d10_range": "1–3",
+      "d10": [
+       1,
+       3
+      ]
+     },
+     "silver_gold": {
+      "d10_range": "4–6",
+      "d10": [
+       4,
+       6
+      ]
+     },
+     "gold": {
+      "d10_range": "7–8",
+      "d10": [
+       7,
+       8
+      ]
+     },
+     "silver_gems": {
+      "d10_range": "9",
+      "d10": [
+       9,
+       9
+      ]
+     },
+     "gold_gems": {
+      "d10_range": "10",
+      "d10": [
+       10,
+       10
+      ]
+     }
+    },
+    "raw": "93–94  Statuette    1–3  4–6  7–8  9  10  —"
+   },
+   {
+    "item": "Tiara",
+    "d100_range": "95",
+    "d100": [
+     95,
+     95
+    ],
+    "material_bands": {
+     "silver": {
+      "d10_range": "1–3",
+      "d10": [
+       1,
+       3
+      ]
+     },
+     "silver_gold": {
+      "d10_range": "4–6",
+      "d10": [
+       4,
+       6
+      ]
+     },
+     "gold": {
+      "d10_range": "7–8",
+      "d10": [
+       7,
+       8
+      ]
+     },
+     "silver_gems": {
+      "d10_range": "9",
+      "d10": [
+       9,
+       9
+      ]
+     },
+     "gold_gems": {
+      "d10_range": "10",
+      "d10": [
+       10,
+       10
+      ]
+     }
+    },
+    "raw": "95     Tiara        1–3  4–6  7–8  9  10  —"
+   },
+   {
+    "item": "Toe–ring",
+    "d100_range": "96–97",
+    "d100": [
+     96,
+     97
+    ],
+    "material_bands": {
+     "silver": {
+      "d10_range": "1–3",
+      "d10": [
+       1,
+       3
+      ]
+     },
+     "silver_gold": {
+      "d10_range": "4–6",
+      "d10": [
+       4,
+       6
+      ]
+     },
+     "gold": {
+      "d10_range": "7–8",
+      "d10": [
+       7,
+       8
+      ]
+     },
+     "silver_gems": {
+      "d10_range": "9",
+      "d10": [
+       9,
+       9
+      ]
+     },
+     "gold_gems": {
+      "d10_range": "10",
+      "d10": [
+       10,
+       10
+      ]
+     }
+    },
+    "raw": "96–97  Toe–ring     1–3  4–6  7–8  9  10  —"
+   },
+   {
+    "item": "Weapon–hilt",
+    "d100_range": "98–00",
+    "d100": [
+     98,
+     100
+    ],
+    "material_bands": {
+     "silver": {
+      "d10_range": "1–3",
+      "d10": [
+       1,
+       3
+      ]
+     },
+     "silver_gold": {
+      "d10_range": "4–6",
+      "d10": [
+       4,
+       6
+      ]
+     },
+     "gold": {
+      "d10_range": "7–8",
+      "d10": [
+       7,
+       8
+      ]
+     },
+     "silver_gems": {
+      "d10_range": "9",
+      "d10": [
+       9,
+       9
+      ]
+     },
+     "gold_gems": {
+      "d10_range": "10",
+      "d10": [
+       10,
+       10
+      ]
+     }
+    },
+    "raw": "98–00  Weapon–hilt  1–3  4–6  7–8  9  10  —"
+   }
+  ]
+ }
+}

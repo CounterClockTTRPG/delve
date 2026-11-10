@@ -1,0 +1,82 @@
+[[fact]]
+text = "Calder's kings are crowned holding a shepherd's crook, not a sceptre, in memory of Aldric the Shepherd-King."
+category = "customs"
+
+[[fact]]
+text = "By ancient right the King of Calder's sheep graze the outer bailey of Shepherd's Keep, so envoys to Aldmoor pick their way through a flock to reach the throne."
+category = "places"
+
+[[fact]]
+text = "In the Sunward Theocracy every house must be whitewashed before the Sun's Judgement; a grey house is a fine, and a grey house two years running is a visit from an inquisitor."
+category = "customs"
+
+[[fact]]
+text = "In the Theocracy a bargain struck after sunset is void. Contracts are sworn at noon, under the sun, on a brass scale."
+category = "customs"
+
+[[fact]]
+text = "In Candor a case at law is heard on the hour-line of the great sundial where the shadow falls when it begins, and it must end before the shadow leaves the line."
+category = "places"
+
+[[fact]]
+text = "Every subject of the Margravate carries an iron tally stamped with name, district and work. Being found without one is a hanging matter."
+category = "customs"
+
+[[fact]]
+text = "The Margravate's roads are the safest in the Reaches. The gallows that line them are known as the Margrave's orchards."
+category = "places"
+
+[[fact]]
+text = "Teodric Vael took the Ember Crown from a Thaumarch tomb in 887 RY and has looked about fifty years old ever since."
+category = "history"
+
+[[fact]]
+text = "When the Ember Crown is off his head, the Margrave ages a day for every hour. He has perhaps five years left."
+category = "history"
+dm_only = true
+
+[[fact]]
+text = "In the Northern Holds a stranger at the door is owed three nights of food and fire. After the third night he is no longer a guest."
+category = "customs"
+
+[[fact]]
+text = "Whoever stands on the Moot-Stone at Skarnholm may speak without being interrupted; the Hold-folk say whoever lies on it drowns within the year."
+category = "places"
+
+[[fact]]
+text = "Skalds tell three stories of how Sigrun Halfhand lost her fingers, and she encourages all of them."
+category = "people"
+
+[[fact]]
+text = "Sigrun Halfhand lost her fingers to frostbite, crossing the ice drunk on a bet at nineteen."
+category = "people"
+dm_only = true
+
+[[fact]]
+text = "The steppe clans lay their dead on high platforms for the birds and find the Calderish habit of burying bodies whole disgusting."
+category = "customs"
+
+[[fact]]
+text = "For the month of the Thousand Fires no blood may be shed on the grass of the Bowl; quarrels are settled by races, archery and the khan's judgement."
+category = "customs"
+
+[[fact]]
+text = "No one counts the fires at the Thousand Fires gathering. Counting them is bad luck."
+category = "customs"
+
+[[fact]]
+text = "The toll on the Thornway through the elves' forest is a true story, told aloud, that the teller has never told before."
+category = "places"
+
+[[fact]]
+text = "Deephorn's Long Book records every debt, oath and insult done to the hold since its founding. Grudges are written in red, and debts are inherited."
+category = "places"
+
+[[fact]]
+text = "The border between Calder and the Margravate runs through the middle of Redmere, marked by a line of tarred posts across the water."
+category = "places"
+
+[[fact]]
+text = "King Bertil III has a secret heir: Wat, a shepherd boy of seventeen in the downs, grandson of the king's dead son Hal."
+category = "people"
+dm_only = true

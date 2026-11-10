@@ -1,0 +1,26 @@
+{
+  "id": "locked_door",
+  "description": "A thief picks the lock of a warded iron door. Die-first on skill_check; the ward, the seal and what lies beyond stay out of the choices.",
+  "module": "crypt-of-saint-vellis",
+  "setup": [
+    {"tool": "create_character", "args": {"name": "Pippa", "sheet": {
+      "race": "Halfling", "gender": "female", "cls": "Thief", "level": 3, "hp_max": 12, "ac": 6, "thac0": 19,
+      "ability_scores": {"str": 10, "dex": 17, "con": 13, "int": 12, "wis": 9, "cha": 14},
+      "attacks": [{"name": "short sword", "speed": 3, "attacks": 1, "thac0": 19, "damage_sm": "1d6", "damage_l": "1d8"}],
+      "skills": {"open_locks": 47, "find_remove_traps": 35, "move_silently": 40},
+      "movement_rate": 6, "alignment": "Neutral"}}},
+    {"tool": "move_party", "args": {"to": "main_hall"}}
+  ],
+  "secrets": [
+    {"text": "The throne-room door is warded: whoever opens it without the saint's seal takes 2d6 radiant damage. Brother Kael, the ritualist, is binding the south sarcophagus beyond it.",
+     "tags": ["trap", "plot"], "related_to": "the throne room", "terms": ["seal", "radiant", "ritualist", "Kael", "sarcophagus"]}
+  ],
+  "beats": [
+    {"player": "Pippa kneels at the iron door and picks the lock.",
+     "expect": {"roll": {"tools": ["skill_check"],
+                         "outcome": ["\\b(?:lock|door)\\b[^.]*\\b(?:clicks|gives|opens|swings|yields|unlocks)\\b",
+                                     "\\bpicks the lock\\b",
+                                     "\\b(?:fails?|jams|won't budge)\\b"]}}},
+    {"player": "(ooc: what did I roll?)"}
+  ]
+}

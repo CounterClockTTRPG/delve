@@ -1,0 +1,6515 @@
+/* Delve: worn stone and verdigris. System fonts only (the CSP allows nothing remote). */
+
+:root {
+  --bg: #e6eae7;
+  --surface: #f5f7f4;
+  --ink: #1e2b2f;
+  --muted: #5c6b68;
+  --rule: #c3ccc7;
+  --accent: #2c7a6b;
+  --accent-ink: #ffffff;
+  /* Links: darker than the accent, which is too light for text on the page. */
+  --link: #1e6b5d;
+  --link-visited: #6c4a8a;
+  --notice-bg: #f1e6c8;
+  --notice-ink: #5e450c;
+  --error: #9c2f2f;
+  --error-bg: #f5dcd8;
+  --focus: #2c7a6b;
+  --dm-view: #8a3fa0;
+
+  --serif: "Palatino Linotype", Palatino, "Book Antiqua", "URW Palladio L", "P052", Georgia, serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif;
+
+  --nav-width: 13.5rem;
+  --tabbar-height: 4rem;
+
+  /* The ported map editor's names (dungml), on Delve's palette. */
+  --bg-elevated: var(--surface);
+  --bg-sunken: #dbe1dd;
+  --fg: var(--ink);
+  --fg-muted: var(--muted);
+  --fg-faint: #85938f;
+  --border: var(--rule);
+  --accent-fg: var(--accent-ink);
+  --warning: #9a6a00;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.04);
+  --radius: 6px;
+  --radius-sm: 3px;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* A look's own tokens (web/src/looks/). Delve today leaves them at its own values. */
+  --display: var(--serif);
+  --page-texture: none;
+  --page-wash: none;
+  --nav-bg: var(--surface);
+  --nav-texture: none;
+  --nav-edge: var(--rule);
+  --nav-current-bg: var(--bg);
+  --nav-current-ink: var(--accent);
+  --button-bg: var(--accent);
+  --card-edge: none;
+
+  /* The semantic colours (docs/style-guide.md): what a colour means, on tokens every look already sets. */
+  --tone-danger: var(--error);
+  --tone-chance: var(--warning);
+  --tone-magic: var(--dm-view);
+  --tone-wealth: var(--notice-ink);
+  --tone-world: var(--accent);
+  --tone-people: var(--link);
+  --tone-knowledge: var(--muted);
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #141c1f;
+    --surface: #1c272b;
+    --ink: #dce4e0;
+    --muted: #93a39e;
+    --rule: #2f3e43;
+    --accent: #62b9a5;
+    --accent-ink: #0e1a17;
+    --link: #62b9a5;
+    --link-visited: #b9a0d8;
+    --notice-bg: #3a3220;
+    --notice-ink: #e9d29a;
+    --error: #e58a80;
+    --error-bg: #3b2224;
+    --focus: #62b9a5;
+    --dm-view: #d39ae6;
+    --bg-sunken: #10171a;
+    --fg-faint: #6c7b77;
+    --warning: #e0b050;
+
+    color-scheme: dark;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 1rem/1.5 var(--sans);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-image: var(--page-wash), var(--page-texture);
+}
+
+/* Every link takes the look's colours. :where() keeps these weaker than any class's own colour. */
+:where(a) {
+  color: var(--link);
+}
+
+:where(a:visited) {
+  color: var(--link-visited);
+}
+
+/* The first thing a Tab reaches: hidden until it has the focus. */
+.skip-link {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 100;
+  padding: 0.5rem 0.75rem;
+  background: var(--surface);
+  color: var(--link);
+  border: 2px solid var(--focus);
+  border-radius: var(--radius);
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+main.content:focus {
+  outline: none;
+}
+
+h1,
+h2 {
+  font-family: var(--display);
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0 0 0.75rem;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+h2 {
+  font-size: 1.35rem;
+  margin-top: 2rem;
+}
+
+p {
+  margin: 0 0 1rem;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* The one loud thing: the name, set in an old-manual serif. */
+.wordmark {
+  font-family: var(--display);
+  font-size: 1.9rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  margin: 0;
+  color: var(--ink);
+}
+
+/* Shell and nav. Below 900 px the nav is a tab bar at the bottom. */
+
+.shell {
+  min-height: 100vh;
+}
+
+.content {
+  padding: 1.5rem 1rem calc(var(--tabbar-height) + 1.5rem);
+}
+
+.nav {
+  position: fixed;
+  inset: auto 0 0 0;
+  height: var(--tabbar-height);
+  background: var(--nav-bg);
+  background-image: var(--nav-texture);
+  border-top: 1px solid var(--nav-edge);
+  z-index: 10;
+}
+
+.nav .wordmark {
+  display: none;
+}
+
+/* One row of every area. More than fit a phone: the row scrolls sideways inside the bar (the next tab shows cut at the
+   edge), and the page doesn't. */
+.nav ul {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(4.5rem, 1fr);
+  height: 100%;
+  margin: 0;
+  padding: 0 0 env(safe-area-inset-bottom);
+  list-style: none;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+
+.nav a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  height: 100%;
+  padding: 0 0.15rem;
+  color: var(--muted);
+  font-size: 0.7rem;
+  line-height: 1.1;
+  text-align: center;
+  text-decoration: none;
+  border-top: 3px solid transparent;
+}
+
+.nav a.active {
+  color: var(--nav-current-ink);
+  border-top-color: var(--accent);
+}
+
+.nav svg {
+  width: 1.4rem;
+  height: 1.4rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* The phone's bar (DEL-188): the first areas and More, which opens the whole nav as a sheet from the bottom, every
+   area, Help and Log out in rows of four, and the language under them. */
+@media (max-width: 899px) {
+  .nav li.nav-extra {
+    display: none;
+  }
+
+  .nav .nav-more {
+    position: relative;
+  }
+
+  .nav.menu-open {
+    height: auto;
+    max-height: calc(100dvh - 3rem);
+    overflow-y: auto;
+    padding: 0.5rem 0 calc(0.75rem + env(safe-area-inset-bottom));
+    border-radius: var(--radius) var(--radius) 0 0;
+    box-shadow: 0 -4px 24px rgb(0 0 0 / 25%);
+    z-index: 31;
+  }
+
+  .nav.menu-open ul {
+    grid-auto-flow: row;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-rows: 4rem;
+    height: auto;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .nav.menu-open li.nav-extra {
+    display: block;
+  }
+
+  /* Close, last in the sheet. */
+  .nav.menu-open .nav-more-item {
+    order: 1;
+  }
+
+  .nav.menu-open .nav-footer {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.75rem 1rem 0;
+    color: var(--muted);
+  }
+
+  .nav.menu-open .nav-footer select {
+    width: auto;
+    min-height: 2.5rem;
+  }
+
+  .nav-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    background: rgb(0 0 0 / 40%);
+  }
+}
+
+@media (min-width: 900px) {
+  .nav .nav-more-item {
+    display: none;
+  }
+}
+
+@media (min-width: 900px) {
+  .nav {
+    inset: 0 auto 0 0;
+    width: var(--nav-width);
+    height: auto;
+    border-top: 0;
+    border-right: 1px solid var(--nav-edge);
+    padding: 1.5rem 0;
+  }
+
+  .nav .wordmark {
+    display: block;
+    padding: 0 1.25rem 1.5rem;
+  }
+
+  .nav ul {
+    display: block;
+    height: auto;
+    padding: 0;
+    overflow-x: visible;
+  }
+
+  .nav a {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 0.75rem;
+    padding: 0.6rem 1.25rem;
+    font-size: 0.95rem;
+    color: var(--ink);
+    border-top: 0;
+    border-left: 3px solid transparent;
+  }
+
+  .nav a:hover {
+    background: var(--bg);
+  }
+
+  .nav a.active {
+    color: var(--nav-current-ink);
+    border-left-color: var(--accent);
+    background: var(--nav-current-bg);
+    font-weight: 600;
+  }
+
+  .nav svg {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+
+  .content {
+    margin-left: var(--nav-width);
+    padding: 2.5rem 3rem;
+  }
+}
+
+/* Pages */
+
+.page {
+  max-width: 60rem;
+}
+
+.placeholder,
+.lede,
+.hint,
+.job-hint {
+  color: var(--muted);
+}
+
+.lede {
+  max-width: 38rem;
+}
+
+.notice {
+  max-width: 44rem;
+  padding: 0.75rem 1rem;
+  margin: 0 0 1.5rem;
+  background: var(--notice-bg);
+  color: var(--notice-ink);
+  border-left: 4px solid currentColor;
+}
+
+/* A notice with an X to put it away (the module's levels, DEL-345). */
+.notice.dismissible-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.notice.dismissible-notice > span {
+  flex: 1;
+}
+
+.notice.dismissible-notice > button {
+  flex: none;
+  margin: -0.25rem -0.5rem -0.25rem 0;
+}
+
+.notice.error {
+  background: var(--error-bg);
+  color: var(--error);
+}
+
+.notice p:last-child,
+.notice ul:last-child {
+  margin-bottom: 0;
+}
+
+.notice ul,
+.job-warnings {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+/* Controls */
+
+label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+select,
+input,
+button {
+  font: inherit;
+  color: inherit;
+}
+
+select,
+input {
+  width: 100%;
+  min-height: 2.5rem;
+  padding: 0.4rem 0.6rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+}
+
+select:disabled {
+  color: var(--muted);
+  opacity: 0.8;
+}
+
+button {
+  min-height: 2.5rem;
+  padding: 0.4rem 1.1rem;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: var(--surface);
+  cursor: pointer;
+}
+
+button.primary {
+  background: var(--button-bg);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+
+button:disabled {
+  cursor: progress;
+  opacity: 0.7;
+}
+
+button.danger {
+  color: var(--error);
+  border-color: currentColor;
+}
+
+/* A link or label that looks like a button (file inputs, downloads). */
+.button-like {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.5rem;
+  margin: 0;
+  padding: 0.4rem 1.1rem;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: var(--surface);
+  color: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  min-height: 0;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Lists of modules, maps and campaigns */
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 1rem 2rem;
+  margin: 0 0 1.5rem;
+}
+
+.inline-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 0.5rem;
+  margin: 0 0 1rem;
+}
+
+.inline-form .field {
+  flex: 1 1 12rem;
+  /* The row aligns on the bottom edge, so a field's own margin would lift its input above the button. */
+  margin-bottom: 0;
+}
+
+.upload .hint {
+  display: block;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+.button-like.primary {
+  background: var(--button-bg);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+
+/* New module: the four ways to get one, and the conversion that runs. */
+
+.choices {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: 1.25rem;
+  max-width: 64rem;
+}
+
+.choice {
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--rule);
+  box-shadow: var(--card-edge);
+  border-radius: 4px;
+  background: var(--surface);
+}
+
+.choice h2 {
+  margin-top: 0;
+}
+
+.choices:is(ul) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* A way to get a module, as a card that opens its form. */
+.choice-pick {
+  display: grid;
+  align-content: start;
+  gap: 0.5rem;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  text-align: left;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.choice-pick:hover,
+.choice-pick:focus-visible {
+  border-color: var(--accent);
+}
+
+.choice-title {
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.choice .field {
+  margin-bottom: 0.75rem;
+}
+
+.choice fieldset {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  padding: 0;
+  border: 0;
+}
+
+.choice legend {
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+}
+
+.choice textarea {
+  width: 100%;
+}
+
+.conversion progress {
+  width: 100%;
+  max-width: 32rem;
+}
+
+/* Thorough or Quick (thorough conversion Task 8): one option a line, its hint under it. */
+.choice fieldset.depth {
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.depth-option .hint {
+  margin: 0 0 0.25rem 1.6rem;
+}
+
+/* A thorough conversion's doubts, under the making questions, the job's cost beside the heading. */
+.doubts h2 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-top: 0;
+}
+
+.doubts-cost {
+  font-family: var(--sans);
+  font-weight: 400;
+}
+
+.doubts-list {
+  padding-left: 1.25rem;
+}
+
+.doubts-list li {
+  margin-bottom: 0.5rem;
+}
+
+.doubts-list p {
+  margin: 0.1rem 0 0;
+}
+
+.conversion .notice {
+  margin: 0.5rem 0 0;
+}
+
+/* The conversion queue on New module (owner addition 2026-10-23): its switch, then its jobs in the order they run. */
+.conversions-panel {
+  margin-top: 2rem;
+}
+
+.queue-switch {
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+}
+
+.queue-switch p {
+  margin: 0;
+}
+
+.queue-switch[data-paused="true"] p {
+  font-weight: 600;
+}
+
+.conversion-queue {
+  padding-left: 1.5rem;
+}
+
+.queued-job {
+  margin-bottom: 0.75rem;
+}
+
+.queued-job p {
+  margin: 0.1rem 0;
+}
+
+.queued-job[data-status="paused"] .conversion-title,
+.queued-job[data-status="queued"] .conversion-title {
+  opacity: 0.85;
+}
+
+/* The conversion seen from anywhere: its row on Modules, the dot on the nav's Modules, the notice when it ends. */
+
+.conversion-row {
+  flex-wrap: wrap;
+  gap: 0.25rem 0.75rem;
+}
+
+.conversion-row .error {
+  color: var(--error);
+}
+
+.nav a {
+  position: relative;
+}
+
+.nav-dot {
+  position: absolute;
+  top: 0.6rem;
+  right: calc(50% - 1.1rem);
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+/* How many sign-ups wait for approval (DEL-156), on Preferences. */
+.nav-count {
+  position: absolute;
+  top: 0.35rem;
+  right: calc(50% - 1.4rem);
+  min-width: 1.15rem;
+  padding: 0 0.3rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1.15rem;
+  text-align: center;
+}
+
+@media (min-width: 900px) {
+  .nav-dot,
+  .nav-count {
+    position: static;
+    margin-left: auto;
+  }
+}
+
+/* The side bar's footer: EN / NL. Below 900 px it is in the sheet More opens (DEL-188). */
+.nav-footer {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  /* The interface language (DEL-122): a menu under its icon's lead. */
+  .nav-footer {
+    position: absolute;
+    bottom: 1.25rem;
+    left: 1.25rem;
+    right: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--muted);
+  }
+
+  .nav-footer select {
+    width: auto;
+    min-height: 2rem;
+    padding: 0.2rem 0.5rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* A notification (components/Toasts.tsx): a card in the look's colours, its edge and icon by its kind (teal when
+   something is done, red when it failed). The selectors outweigh sonner's own `[data-sonner-toast][data-styled]`. */
+[data-sonner-toaster] [data-sonner-toast].toast {
+  gap: 0.65rem;
+  padding: 0.85rem 1.1rem;
+  border: 1px solid var(--rule);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--card-edge), var(--shadow), 0 10px 28px rgba(0, 0, 0, 0.18);
+  font-family: inherit;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+[data-sonner-toaster] [data-sonner-toast].toast[data-type="error"] {
+  border-left-color: var(--error);
+}
+
+.toast [data-icon] {
+  align-self: flex-start;
+  margin-top: 0.1rem;
+  color: var(--accent);
+}
+
+.toast[data-type="error"] [data-icon] {
+  color: var(--error);
+}
+
+.toast p {
+  margin: 0;
+}
+
+.toast a {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* sonner's close button is a 20 px circle; Delve's buttons are at least 2.5rem tall, which made it an ellipse. */
+[data-sonner-toaster] [data-sonner-toast].toast [data-close-button] {
+  min-height: 0;
+  border-color: var(--rule);
+  background: var(--surface);
+  color: var(--muted);
+}
+
+/* A module's warnings: one line, opened on demand, grouped by code. */
+
+.module-warnings summary {
+  cursor: pointer;
+}
+
+.module-warnings ul {
+  margin: 0.5rem 0 0;
+}
+
+.draft-notice {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.rows {
+  list-style: none;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.row .inline-form {
+  margin: 0;
+}
+
+.row select,
+.row input {
+  width: auto;
+}
+
+.row-title {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-right: auto;
+}
+
+.row-meta {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* Previous / Next under a long table (usePages). */
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin: 0.5rem 0 1rem;
+}
+
+.pager button {
+  min-height: 0;
+  padding: 0.2rem 0.8rem;
+  font-size: 0.85rem;
+}
+
+.pager-range {
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* A map the conversion sketched from a room key: its layout is invented (SketchNotice). In a row, a line of its own. */
+.sketch-notice {
+  flex-basis: 100%;
+  margin: 0;
+  padding: 0.4rem 0.75rem;
+  background: var(--notice-bg);
+  color: var(--notice-ink);
+  border-left: 4px solid currentColor;
+  font-size: 0.9rem;
+}
+
+.tag {
+  padding: 0.1rem 0.5rem;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+/* The map-state panel. The DM view has its own colour, so it is never mistaken
+   for what the characters see. */
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0 1rem 0.25rem 0;
+  font-weight: 400;
+  font-size: 1rem;
+}
+
+.check input {
+  width: auto;
+  min-height: 0;
+}
+
+.picture-limit {
+  white-space: nowrap;
+}
+
+.picture-limit select {
+  width: auto;
+}
+
+.map-state-characters {
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+}
+
+.map-state-characters legend {
+  padding: 0 0.25rem;
+  font-weight: 600;
+}
+
+.map-state-controls > button {
+  margin-bottom: 1rem;
+}
+
+.candidates {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.positions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.position-name {
+  font-weight: 600;
+  margin-right: 0.4rem;
+}
+
+.position-where {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.9rem;
+}
+
+.view-tabs {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.view-tab {
+  border-bottom: 0;
+  border-radius: 4px 4px 0 0;
+  border-top: 3px solid var(--rule);
+}
+
+.view-tab[aria-selected="true"] {
+  border-top-color: var(--accent);
+  font-weight: 600;
+}
+
+.view-tab.dm[aria-selected="true"] {
+  border-top-color: var(--dm-view);
+  color: var(--dm-view);
+}
+
+.view-frame {
+  padding: 0.75rem;
+  border: 3px solid var(--accent);
+  border-radius: 0 4px 4px 4px;
+  background: var(--surface);
+}
+
+.view-frame.dm-view {
+  border-color: var(--dm-view);
+  border-style: dashed;
+}
+
+.view-warning {
+  color: var(--dm-view);
+  font-weight: 600;
+}
+
+.view-svg {
+  height: min(70vh, 40rem);
+}
+
+.offline {
+  padding: 2rem;
+  text-align: center;
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  color: var(--muted);
+}
+
+.map-picker {
+  max-width: 20rem;
+  margin-bottom: 1rem;
+}
+
+/* The ported map editor styles its own controls (CSS modules, as in dungml): inside
+   .editor-scope the control rules above are rolled back, while its module classes,
+   being more specific, still apply. */
+
+:where(.editor-scope) label {
+  display: revert;
+  font-size: revert;
+  font-weight: revert;
+  margin-bottom: revert;
+}
+
+:where(.editor-scope) select,
+:where(.editor-scope) input,
+:where(.editor-scope) button {
+  width: revert;
+  min-height: revert;
+  padding: revert;
+  background: revert;
+  border: revert;
+  border-radius: revert;
+  color: revert;
+  font-family: inherit;
+}
+
+:where(.editor-scope) button {
+  font: inherit;
+  cursor: pointer;
+}
+
+:where(.editor-scope) p {
+  margin: revert;
+}
+
+/* Settings: one row per job */
+
+.jobs {
+  border-top: 1px solid var(--rule);
+}
+
+.job {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem 1rem;
+  margin: 0;
+  padding: 1rem 0;
+  border: 0;
+  border-bottom: 1px solid var(--rule);
+  min-width: 0;
+}
+
+.job-name {
+  grid-column: 1 / -1;
+}
+
+.job-title {
+  display: block;
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.job-hint {
+  display: block;
+  font-size: 0.85rem;
+}
+
+.job .provider {
+  grid-column: 1 / -1;
+}
+
+.job-warnings {
+  grid-column: 1 / -1;
+  color: var(--error);
+  font-size: 0.9rem;
+}
+
+@media (min-width: 900px) {
+  .job {
+    grid-template-columns: 14rem 1.4fr 1fr 1fr;
+    align-items: end;
+  }
+
+  .job-name,
+  .job .provider {
+    grid-column: auto;
+  }
+
+  .job-name {
+    align-self: center;
+  }
+
+  .job-warnings {
+    grid-column: 2 / -1;
+  }
+}
+
+/* Preferences' Connections: one row per connection, owner only */
+
+.connections {
+  margin-bottom: 2.5rem;
+}
+
+.connection {
+  grid-template-columns: 1fr;
+}
+
+.connection-body {
+  display: grid;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.connection-body > * {
+  margin: 0;
+}
+
+.connection .actions {
+  margin: 0;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* The redirect URIs to register for Google login (DEL-206): long, so they wrap. */
+.connection-redirects {
+  margin: 0.25rem 0;
+  padding-left: 1.1rem;
+}
+
+.connection-redirects code {
+  overflow-wrap: anywhere;
+}
+
+.connection-outcome {
+  min-height: 1.25rem;
+  font-size: 0.9rem;
+}
+
+.connection-outcome.failed {
+  color: var(--error);
+}
+
+@media (min-width: 900px) {
+  .connection {
+    grid-template-columns: 14rem 1fr;
+    align-items: start;
+  }
+
+  .connection .job-name {
+    align-self: start;
+  }
+}
+
+/* Preferences' Owner token: a new one, and its links shown once (DEL-154). A link is long: it breaks anywhere. */
+
+.owner-token {
+  margin-bottom: 2.5rem;
+}
+
+.owner-token-links {
+  margin-top: 1rem;
+}
+
+.owner-token-links ul {
+  padding-left: 1.25rem;
+}
+
+.owner-token-links code {
+  overflow-wrap: anywhere;
+}
+
+/* Preferences' Storage: the backup store and the library's, the backup time and its last run, and Restore. An Azure
+   SAS's expiry is amber within 14 days and red once past, with an icon and words that say so too. */
+
+.storage {
+  margin-bottom: 2.5rem;
+}
+
+.store-state {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.store-state > p {
+  margin: 0;
+}
+
+.store-label {
+  overflow-wrap: anywhere;
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.store-expiry,
+.run-status {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.store-expiry svg,
+.run-status svg {
+  flex: none;
+}
+
+.store-expiry.expiry-soon svg,
+.run-partial .run-status svg {
+  color: var(--warning);
+}
+
+.store-expiry.expiry-soon {
+  padding-left: 0.5rem;
+  border-left: 3px solid var(--warning);
+}
+
+.store-expiry.expiry-past svg,
+.run-failed .run-status svg {
+  color: var(--error);
+}
+
+.store-expiry.expiry-past {
+  padding-left: 0.5rem;
+  border-left: 3px solid var(--error);
+}
+
+.storage-backups {
+  display: grid;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.storage-schedule .field {
+  max-width: 20rem;
+}
+
+.storage-schedule .actions {
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.last-run h3,
+.restore h3 {
+  margin: 0 0 0.5rem;
+}
+
+.last-run p {
+  margin: 0 0 0.25rem;
+}
+
+.last-run.run-partial,
+.last-run.run-failed {
+  padding-left: 0.75rem;
+  border-left: 3px solid var(--warning);
+}
+
+.last-run.run-failed {
+  border-left-color: var(--error);
+}
+
+.run-failures {
+  margin: 0.25rem 0 0;
+  padding-left: 1.25rem;
+}
+
+.restore {
+  margin-top: 1.5rem;
+}
+
+.restore .field {
+  max-width: 24rem;
+}
+
+.restore-scroll {
+  overflow-x: auto;
+}
+
+.restore-items .check {
+  margin: 0;
+}
+
+.restore-items .hint {
+  display: block;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.restore-results {
+  padding-left: 1.25rem;
+}
+
+/* The module library: the Modules page's Library tab, the entry a first publish will make, and a module's bar. */
+
+.library-entries .row-meta {
+  margin: 0.25rem 0 0;
+}
+
+.library-entries .actions {
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+}
+
+.library-entry {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.25rem 1rem;
+}
+
+.library-entry dt {
+  color: var(--muted);
+}
+
+.library-entry dd {
+  margin: 0;
+}
+
+.library-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.library-bar p {
+  margin: 0;
+}
+
+.restore-results .failed {
+  color: var(--error);
+}
+
+.language {
+  max-width: 20rem;
+  margin: 2rem 0 0;
+}
+
+.language .hint {
+  display: block;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+/* The install's image style (DEL-202): the choice, a preset's sample picture and words, or the owner's own words. */
+.image-style {
+  max-width: 32rem;
+  margin: 2rem 0 0;
+}
+
+.image-style .hint {
+  display: block;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+.image-style-preview {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  margin-top: 0.75rem;
+}
+
+.image-style-preview img {
+  width: 6rem;
+  height: 6rem;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  flex: none;
+}
+
+.image-style-preview .hint {
+  margin-top: 0;
+}
+
+.image-style textarea {
+  width: 100%;
+  margin-top: 0.75rem;
+}
+
+/* The look picker (web/src/looks/): in Preferences under the language, and compact in the play screen's head. */
+.look-picker.field {
+  max-width: 20rem;
+  margin: 1.25rem 0 0;
+}
+
+.look-control {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.look-swatch {
+  flex: none;
+  width: 0.8rem;
+  height: 0.8rem;
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  background: var(--accent);
+}
+
+/* On the play screen the picker is its swatch, the size of an icon button, with the select laid over it: the header
+   keeps the one line it had before the picker (Delve today unchanged). The select still opens the looks by name. */
+.look-picker.compact .look-control {
+  position: relative;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+}
+
+.look-picker.compact .look-control:focus-within {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.look-picker.compact .look-swatch {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* The play header's tools say what they are where the header has room (DEL-259); narrower, the icon and its
+   tooltip, so the session's line keeps its weather. */
+.head-tool-label {
+  display: none;
+  font-size: 0.9rem;
+}
+
+/* On a phone the play header's buttons are their icons alone, named on hover and for screen readers (DEL-317). */
+@media (max-width: 599px) {
+  .play-head .phone-hidden-label {
+    display: none;
+  }
+}
+
+@media (min-width: 1400px) {
+  .head-tool-label {
+    display: inline;
+  }
+
+  .play-head .rulesets-link {
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .look-picker.compact .look-control {
+    width: auto;
+    padding: 0 0.6rem;
+    gap: 0.4rem;
+  }
+}
+
+.look-picker.compact select {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  min-height: 0;
+  height: 100%;
+  padding: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem 0 1rem;
+}
+
+.status {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* The token gate */
+
+.gate {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+}
+
+.gate-card {
+  width: 100%;
+  max-width: 30rem;
+  padding: 2rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  box-shadow: var(--card-edge);
+  border-top: 4px solid var(--accent);
+  border-radius: 4px;
+}
+
+.gate-card h1 {
+  font-size: 1.5rem;
+}
+
+.gate-card p {
+  color: var(--muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* House rules: the library on the left, the editor of the one picked on the right (desktop). */
+
+.house-rules-page {
+  max-width: 76rem;
+}
+
+.house-rules {
+  display: grid;
+  gap: 2rem;
+}
+
+@media (min-width: 900px) {
+  .house-rules {
+    grid-template-columns: minmax(16rem, 22rem) 1fr;
+    align-items: start;
+  }
+}
+
+.house-rules-library .toolbar {
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.house-rules-library h2 {
+  margin: 0;
+}
+
+.house-rules-library section + section {
+  margin-top: 2rem;
+}
+
+.rule-group h3 {
+  margin: 1.25rem 0 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.rule-group ul,
+.bundle-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.rule-pick {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  min-height: 0;
+  padding: 0.5rem 0.6rem;
+  border: 0;
+  border-bottom: 1px solid var(--rule);
+  border-left: 3px solid transparent;
+  border-radius: 0;
+  background: none;
+  text-align: left;
+}
+
+.rule-pick[aria-current="true"] {
+  border-left-color: var(--accent);
+  background: var(--surface);
+}
+
+.rule-pick-title {
+  font-family: var(--serif);
+  font-weight: 600;
+}
+
+.rule-pick-meta {
+  display: flex;
+  gap: 0.5rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.rule-pick.off .rule-pick-title {
+  color: var(--muted);
+}
+
+.house-rules-editor {
+  min-width: 0;
+}
+
+.editor-form > .field,
+.editor-form > .field-row,
+.editor-form > .chips {
+  margin-bottom: 1.25rem;
+}
+
+.field-row {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+}
+
+.field-row .hint {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.85rem;
+}
+
+textarea {
+  width: 100%;
+  padding: 0.5rem 0.6rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  font: 0.95rem/1.5 var(--mono);
+  color: inherit;
+  resize: vertical;
+}
+
+.text-head {
+  display: flex;
+  align-items: end;
+  gap: 1rem;
+}
+
+.text-head label {
+  margin-right: auto;
+}
+
+.text-tabs {
+  display: flex;
+}
+
+.text-tab {
+  min-height: 2rem;
+  padding: 0.2rem 0.9rem;
+  border-bottom: 0;
+  border-radius: 4px 4px 0 0;
+  background: none;
+  color: var(--muted);
+}
+
+.text-tab[aria-selected="true"] {
+  background: var(--surface);
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.markdown-preview {
+  min-height: 12rem;
+  max-height: 32rem;
+  overflow: auto;
+  padding: 0.75rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+}
+
+.markdown {
+  max-width: 42rem;
+  font-family: var(--serif);
+  line-height: 1.6;
+}
+
+.markdown h3,
+.markdown h4,
+.markdown h5,
+.markdown h6 {
+  font-family: var(--serif);
+  margin: 1.25rem 0 0.5rem;
+}
+
+.markdown table,
+.sheet-table {
+  border-collapse: collapse;
+  margin: 0 0 1rem;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+}
+
+/* Tables in the DM's text (the story, recaps, answers): compact, in the interface font, scrolling if wide. */
+.dm-text table,
+.recap table,
+.asked-answer table,
+.talk-answer-text table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  margin: 0 0 0.75rem;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+}
+
+.dm-text th,
+.dm-text td,
+.recap th,
+.recap td,
+.asked-answer th,
+.asked-answer td,
+.talk-answer-text th,
+.talk-answer-text td,
+.markdown th,
+.markdown td,
+.sheet-table th,
+.sheet-table td {
+  padding: 0.25rem 0.75rem 0.25rem 0;
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+  vertical-align: top;
+}
+
+.markdown code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.chips legend {
+  width: 100%;
+  margin-bottom: 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.chip {
+  min-height: 2rem;
+  padding: 0.2rem 0.9rem;
+  border-radius: 999px;
+  color: var(--muted);
+}
+
+.chip[aria-pressed="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+
+.bundle-rules {
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+  counter-reset: bundle-rule;
+}
+
+/* A grid row per rule, its place in the order first, so the arrows line up. */
+.bundle-rule {
+  display: grid;
+  grid-template-columns: 2.25rem minmax(0, 1fr) 6rem auto auto auto;
+  align-items: center;
+  padding: 0.1rem 0;
+  border-bottom: 1px solid var(--rule);
+  counter-increment: bundle-rule;
+}
+
+.bundle-rule::before {
+  content: counter(bundle-rule) ".";
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  padding-right: 0.6rem;
+}
+
+.bundle-rule-title {
+  font-family: var(--serif);
+}
+
+.bundle-rule-kind {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+button.icon {
+  min-height: 2rem;
+  padding: 0.2rem 0.45rem;
+  border-color: transparent;
+  background: none;
+  line-height: 0;
+}
+
+button.icon:hover:not(:disabled) {
+  border-color: var(--rule);
+}
+
+button.icon:disabled {
+  cursor: default;
+  opacity: 0.3;
+}
+
+/* The house-rule picker in New campaign and on the campaign page. */
+
+.new-campaign {
+  margin: 0 0 1.5rem;
+}
+
+.picker {
+  max-width: 44rem;
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+}
+
+.picker legend {
+  padding: 0 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.picker h3,
+.picker h4,
+.picker summary {
+  margin: 0.5rem 0 0.25rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.picker h4 {
+  color: var(--muted);
+}
+
+.picker summary {
+  cursor: pointer;
+}
+
+.picker .check {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: 0;
+}
+
+.campaign-house-rules {
+  margin-bottom: 1rem;
+}
+
+/* A read-only character sheet. Its stat block is the one loud thing: the numbers players look for, in the serif. */
+
+.sheets {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 26rem), 1fr));
+  margin-bottom: 1.5rem;
+}
+
+.sheet {
+  padding: 1rem 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  box-shadow: var(--card-edge);
+  border-top: 4px solid var(--accent);
+  border-radius: 4px;
+}
+
+.sheet-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.75rem;
+}
+
+.sheet-head h3 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.35rem;
+}
+
+.sheet-who {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.75rem;
+  width: 100%;
+  margin: 0;
+  color: var(--muted);
+}
+
+.sheet-class {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.sheet-stats {
+  display: grid;
+  /* As many columns as fit: five on a wide sheet, fewer on a phone (walkthrough P5). */
+  grid-template-columns: repeat(auto-fit, minmax(4.5rem, 1fr));
+  gap: 0 1.5rem;
+  margin: 0.75rem 0;
+  padding: 0.5rem 0;
+  border-block: 1px solid var(--rule);
+}
+
+.sheet-stats dt {
+  font-size: 0.8rem;
+  overflow-wrap: anywhere;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.sheet-stats dd {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.6rem;
+  font-variant-numeric: lining-nums tabular-nums;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+/* Move's unloaded rate, on its own line in small type so a loaded rate stays inside the column. */
+.sheet-stat-note {
+  display: block;
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  color: var(--muted);
+  white-space: normal;
+}
+
+/* Under the stats: each class's XP against its next level (backlog 25). */
+.sheet-xp-progress {
+  margin: -0.4rem 0 0.75rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.sheet-abilities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.25rem;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sheet-abilities li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sheet-abilities .ability {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.sheet-abilities .score {
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.sheet-weapon,
+.sheet-background {
+  margin: 0.25rem 0 0.75rem;
+  font-style: italic;
+}
+
+.sheet-dm {
+  margin-top: 1rem;
+  padding: 0.25rem 0.75rem;
+  border-left: 3px solid var(--accent);
+}
+
+/* An item's DM note (DEL-181), in the organiser's view only. */
+.sheet-items .for-the-dm {
+  padding-left: 0.4rem;
+  border-left: 3px solid var(--accent);
+}
+
+.dm-log {
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+}
+
+.sheet-conditions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.sheet h4 {
+  margin: 1rem 0 0.4rem;
+  font-family: var(--serif);
+  font-size: 1.05rem;
+}
+
+.sheet h5 {
+  margin: 0.5rem 0 0.25rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.sheet-columns {
+  display: grid;
+  gap: 0 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+}
+
+.sheet-columns > section {
+  min-width: 0;
+  overflow-x: auto;
+}
+
+.sheet-table td.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.sheet-items,
+.sheet-spells {
+  margin: 0 0 0.75rem;
+  padding-left: 1.25rem;
+}
+
+.sheet-items li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.75rem;
+}
+
+.sheet-spells li.cast {
+  color: var(--muted);
+}
+
+.encumbrance {
+  display: inline-block;
+  margin: 0 0 0.5rem;
+  padding: 0.1rem 0.6rem;
+  border-left: 3px solid var(--accent);
+  font-size: 0.9rem;
+}
+
+.encumbrance.band-moderate,
+.encumbrance.band-heavy {
+  border-left-color: var(--warning);
+  background: var(--notice-bg);
+  color: var(--notice-ink);
+}
+
+.encumbrance.band-severe,
+.encumbrance.band-overloaded {
+  border-left-color: var(--error);
+  background: var(--error-bg);
+  color: var(--error);
+}
+
+/* The play screen: the story and the input box in the middle; beside it the party, the map, the table panel and the
+   host's controls, in that order, so the party and the map are in view. Below 900 px the panels stack, the story
+   first. */
+
+.play {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-areas: "head" "main" "aside";
+}
+
+.play-aside {
+  grid-area: aside;
+  display: grid;
+  gap: 1.25rem;
+  align-content: start;
+  min-width: 0;
+}
+
+.play-head {
+  grid-area: head;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem 1rem;
+}
+
+.play-head h1 {
+  margin: 0;
+}
+
+.play-error {
+  grid-column: 1 / -1;
+}
+
+.play-main {
+  grid-area: main;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.play-side {
+  display: grid;
+  gap: 1.25rem;
+  align-content: start;
+  min-width: 0;
+}
+
+.play-party,
+.play-table,
+.play-host {
+  min-width: 0;
+}
+
+.play h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
+}
+
+/* From 900 px the play screen fits the window: the story takes the height the head and the input box leave, the input
+   box sits at the bottom, and the party, the map and the panels beside it scroll on their own. The heights take off
+   the content's padding (2.5rem above; 2.5rem below, 1.5rem for a seat). */
+@media (min-width: 900px) {
+  .play {
+    grid-template-columns: minmax(0, 1fr) minmax(16rem, 20rem);
+    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-areas: "head head" "main aside";
+    height: calc(100dvh - 5rem);
+  }
+
+  .shell.seated .play {
+    height: calc(100dvh - 4rem);
+  }
+
+  .play-main,
+  .play-aside {
+    min-height: 0;
+  }
+
+  /* The side column: the raised hands and the tabs on top, the open tab's panel scrolling under them, and the talk at
+     the foot (DEL-199). */
+  .play-aside {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    /* Where the raised hands and the talk need more than the window has, the column scrolls rather than cut. */
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-right: 0.25rem;
+  }
+
+  /* In play the open tab's panel (the party, the map, the setting) has two thirds of the column, the talk the rest
+     (DEL-256): at half, a laptop's map was a strip and the setting's list cut short. */
+  .play-aside > [role="tabpanel"] {
+    flex: 2 1 0;
+    min-height: 4rem;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .play-aside > .play-talk {
+    flex: 1 1 0;
+    min-height: min(13rem, 38%);
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* While the table gathers or takes a break the talk has most of the column. */
+  .play-aside.talk-wide > [role="tabpanel"] {
+    flex: 0 1 30%;
+  }
+
+  .play-aside.talk-wide > .play-talk {
+    flex: 1 1 70%;
+  }
+
+  /* Folded, the talk is its one line, and the open tab's panel has the rest of the column, wide or not. */
+  .play-aside > .play-talk:has(> .folded) {
+    flex: none;
+    min-height: 0;
+  }
+
+  .play-aside:has(> .play-talk > .folded) > [role="tabpanel"] {
+    flex: 1 1 0;
+  }
+}
+
+/* From 900 px the story and the panels are the two panes of a split (desktop/Split.tsx), whose divider the reader
+   drags; each pane scrolls on its own. */
+@media (min-width: 900px) {
+  .play-body {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    min-height: 0;
+  }
+
+
+  .play-body .play-main {
+    padding-right: 0.5rem;
+  }
+
+  .play-body .play-aside {
+    padding-left: 0.5rem;
+  }
+}
+
+/* A split's pane (desktop/Split.tsx) hands its height down to what it holds, so a story, an editor or a list can
+   fill the pane and scroll inside it. */
+.split-pane {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+
+.split-pane > * {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* A split's divider: a thin rule that thickens under the pointer and shows the focus ring from the keyboard. */
+.split-handle {
+  flex: 0 0 0.6rem;
+  display: flex;
+  justify-content: center;
+  cursor: col-resize;
+  outline: none;
+}
+
+.split-handle::before {
+  content: "";
+  width: 1px;
+  background: var(--rule);
+  transition: width 0.1s, background 0.1s;
+}
+
+.split-handle:hover::before,
+.split-handle[data-separator="active"]::before,
+.split-handle:focus-visible::before {
+  width: 3px;
+  background: var(--accent);
+}
+
+.split-handle:focus-visible {
+  box-shadow: 0 0 0 2px var(--focus);
+  border-radius: 2px;
+}
+
+.play-head .table-options {
+  margin-left: auto;
+  position: relative;
+}
+
+/* The pictures shown so far sit in the header beside the title, so they take no height from the story. */
+.play-head .gallery {
+  align-self: center;
+  min-width: 0;
+  max-width: 40%;
+}
+
+.play-head .gallery img {
+  height: 2.25rem;
+  max-width: 3.5rem;
+}
+
+/* The host's Claude usage (DEL-143): a gauge, then each window's share and time to its reset, amber from 80 %, red
+   from 95 %; on a phone the shares alone. */
+.play-head .account-usage {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+  white-space: nowrap;
+  cursor: help;
+}
+
+.usage-window + .usage-window {
+  padding-left: 0.5rem;
+  border-left: 1px solid var(--border);
+}
+
+.usage-window .usage-percent {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.usage-window.warn .usage-percent {
+  color: var(--warning);
+}
+
+.usage-window.bad .usage-percent {
+  color: var(--error);
+}
+
+@media (max-width: 599px) {
+  .usage-window .usage-reset {
+    display: none;
+  }
+}
+
+.play-head .look-picker {
+  margin-left: auto;
+  align-self: center;
+}
+
+/* The rules to look up, for those whose side bar has no Rulesets: a book icon, named for screen readers and on hover. */
+.play-head .rulesets-link {
+  margin-left: auto;
+  align-self: center;
+  flex: none;
+  display: inline-flex;
+  padding: 0.35rem;
+  color: var(--link);
+  border-radius: var(--radius-sm);
+}
+
+.play-head .rulesets-link:hover {
+  background: var(--bg-sunken);
+}
+
+.play-head .rulesets-link + .look-picker {
+  margin-left: 0;
+}
+
+/* Wide enough for one line: it stays one line in every look, the session line giving way first. */
+@media (min-width: 1200px) {
+  .play-head {
+    flex-wrap: nowrap;
+  }
+
+  .play-head h1,
+  .play-head .look-picker,
+  .play-head .table-options {
+    flex: none;
+  }
+
+  /* The padding keeps the last glyph's edge, which overflow would clip. */
+  .play-head .row-meta {
+    min-width: 0;
+    padding-right: 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.play-head .look-picker + .table-options {
+  margin-left: 0;
+}
+
+.table-options > button,
+.session-controls > button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.popover {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.4rem);
+  z-index: 15;
+  width: 16rem;
+  display: grid;
+  gap: 0.25rem;
+  padding: 1rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.popover label {
+  margin: 0.5rem 0 0;
+}
+
+/* What earns XP: a box per award, under its legend. */
+.popover .xp-awards {
+  display: grid;
+  gap: 0.25rem;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  border: 0;
+}
+
+/* A label wraps in the narrow popover: its box stays by the first line. */
+.popover .xp-awards label {
+  align-items: flex-start;
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.35;
+}
+
+.popover .xp-awards input {
+  margin: 0.15rem 0 0;
+}
+
+/* The story */
+
+.story {
+  flex: 1 1 auto;
+  min-height: 10rem;
+  max-height: 65vh;
+  overflow-y: auto;
+  padding: 1rem 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  box-shadow: var(--card-edge);
+  border-radius: var(--radius);
+}
+
+@media (min-width: 900px) {
+  .story {
+    max-height: none;
+  }
+}
+
+/* A story entry's slot (play/Story.tsx) only names it for the right-click menu. */
+.entry-slot {
+  display: contents;
+}
+
+.load-earlier {
+  display: block;
+  margin: 0 auto 1rem;
+}
+
+.story-top {
+  height: 1px;
+}
+
+.story-start {
+  margin: 0 0 1rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+/* The empty story (DEL-146): the campaign's banner, else an ink drawing of a blank journal, a quill and a candle, drawn
+   in the look's muted ink through a mask (play/empty-story.webp is the ink's alpha), so it suits every look and dark
+   mode without a picture of its own colours. Then a heading in the look's display face and what to do first, centred
+   in the story's middle. */
+.story-empty {
+  display: grid;
+  justify-items: center;
+  /* Safe: in a short pane (the table gathering, a character to choose) the drawing scrolls rather than is cut at the
+     top (DEL-262). */
+  align-content: safe center;
+  gap: 0.35rem;
+  min-height: 100%;
+  padding: 1.5rem 1rem 2rem;
+  text-align: center;
+}
+
+.story-empty-art {
+  display: block;
+  width: min(17rem, 62%, 32dvh);
+  aspect-ratio: 640 / 458;
+  margin-bottom: 0.9rem;
+  background: var(--muted);
+  opacity: 0.75;
+  -webkit-mask: url("./play/empty-story.webp") center / contain no-repeat;
+  mask: url("./play/empty-story.webp") center / contain no-repeat;
+}
+
+.story-empty-title {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--heading, var(--ink));
+}
+
+.story-empty-text {
+  max-width: 30rem;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* In the high-contrast forced colours, a mask has no colour to show: the words say it all. */
+@media (forced-colors: active) {
+  .story-empty-art {
+    display: none;
+  }
+}
+
+.back-to-latest {
+  position: sticky;
+  bottom: 0.5rem;
+  z-index: 1;
+  display: block;
+  margin: 0.5rem 0 0 auto;
+}
+
+.entry {
+  margin: 0 0 1rem;
+}
+
+.entry-who {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.player-act {
+  padding-left: 0.75rem;
+  border-left: 3px solid var(--accent);
+}
+
+.player-act p {
+  margin: 0;
+}
+
+.dm-text,
+.recap {
+  font-family: var(--serif);
+  font-size: 1.08rem;
+  line-height: 1.6;
+}
+
+.dm-text p,
+.recap p {
+  margin: 0 0 0.75rem;
+}
+
+.recap {
+  padding: 0.75rem 1rem;
+  background: var(--bg);
+  border-radius: var(--radius-sm);
+}
+
+/* An NPC's line, beside the speaker's portrait. */
+.said {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.said .portrait {
+  flex: none;
+}
+
+.said-line {
+  min-width: 0;
+}
+
+.said-text {
+  margin: 0.15rem 0 0;
+  font-family: var(--serif);
+  font-size: 1.08rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+/* Read-aloud text and speech, apart from the narration. */
+.story blockquote.read-aloud {
+  margin: 0.75rem 0 0.75rem 0.25rem;
+  padding: 0.4rem 1rem;
+  border-left: 3px solid var(--warning);
+  background: var(--notice-bg);
+  color: var(--notice-ink);
+  font-style: italic;
+}
+
+.story blockquote.read-aloud em {
+  font-style: normal;
+}
+
+.tool-chip {
+  margin: 0 0 1rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.tool-chip summary {
+  cursor: pointer;
+  width: fit-content;
+  padding: 0.1rem 0.6rem;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+}
+
+.tool-chip .tool-row {
+  margin: 0.25rem 0 0 1rem;
+}
+
+.tool-row {
+  margin: 0 0 0.5rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.tool-row summary {
+  cursor: pointer;
+  list-style-position: inside;
+}
+
+.tool-row summary span:last-child,
+.tool-row.failed span:last-child {
+  margin-left: 0.5rem;
+}
+
+.tool-name {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+}
+
+.tool-row pre {
+  max-height: 16rem;
+  overflow: auto;
+  margin: 0.25rem 0 0;
+  padding: 0.5rem;
+  background: var(--bg-sunken);
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+}
+
+.tool-row.failed {
+  color: var(--error);
+}
+
+/* A tool row's dice (DEL-270), under its name: small and muted, as the row is. */
+.tool-dice {
+  margin: -0.4rem 0 0.5rem 1.3rem;
+  padding: 0;
+  list-style: none;
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.tool-chip .tool-dice {
+  margin: 0.1rem 0 0 2.3rem;
+}
+
+.tool-dice svg {
+  vertical-align: -0.1em;
+}
+
+/* A tool's kind (DEL-117, docs/style-guide.md): a fixed icon, in its meaning's colour. The text stays muted. */
+.tool-kind {
+  flex: none;
+  margin-right: 0.3rem;
+  vertical-align: -0.15em;
+}
+
+.tool-chip summary .tool-kind {
+  margin-right: 0.15rem;
+}
+
+.tool-chip summary .tool-kind:last-of-type {
+  margin-right: 0.4rem;
+}
+
+.tone-danger {
+  color: var(--tone-danger);
+}
+
+.tone-chance {
+  color: var(--tone-chance);
+}
+
+.tone-magic {
+  color: var(--tone-magic);
+}
+
+.tone-wealth {
+  color: var(--tone-wealth);
+}
+
+.tone-world {
+  color: var(--tone-world);
+}
+
+.tone-people {
+  color: var(--tone-people);
+}
+
+.tone-knowledge,
+.tone-plain {
+  color: var(--tone-knowledge);
+}
+
+/* An image the DM shows, with its caption. */
+.story figure.image,
+.story figure.scene {
+  margin: 0.25rem 0 1rem;
+}
+
+.story figure.image img,
+.story figure.scene img {
+  display: block;
+  max-width: 100%;
+  max-height: 32rem;
+  border-radius: var(--radius-sm);
+}
+
+.story figure.image figcaption,
+.story figure.scene figcaption {
+  margin-top: 0.4rem;
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--muted);
+}
+
+/* A scene still painting: a placeholder the picture's size, a light passing over it, till the picture lands. */
+.story figure.scene.painting .scene-skeleton {
+  width: min(100%, 36rem);
+  aspect-ratio: 16 / 9;
+  max-height: 32rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-sm);
+  background: linear-gradient(
+      100deg,
+      transparent 30%,
+      color-mix(in srgb, var(--muted) 18%, transparent) 50%,
+      transparent 70%
+    )
+    0 0 / 250% 100% no-repeat,
+    color-mix(in srgb, var(--muted) 10%, transparent);
+  animation: scene-skeleton 1.6s ease-in-out infinite;
+}
+
+@keyframes scene-skeleton {
+  from {
+    background-position: 100% 0, 0 0;
+  }
+  to {
+    background-position: -150% 0, 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .story figure.scene.painting .scene-skeleton {
+    animation: none;
+  }
+}
+
+/* A campaign's banner: the picture covers its frame, and the look's card edge is drawn over it. */
+.banner {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-sm);
+}
+
+.banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: var(--card-edge);
+  pointer-events: none;
+}
+
+.banner img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.banner-campaign {
+  margin: 0.5rem 0 0.75rem;
+  aspect-ratio: 21 / 9;
+}
+
+/* The campaign page's banner is a button that enlarges it (DEL-234): no button look, the whole frame. */
+.banner-enlarge {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  cursor: zoom-in;
+}
+
+.banner-thumb {
+  width: 12rem;
+  aspect-ratio: 21 / 9;
+}
+
+.banner-thumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.banner-thumbs a {
+  display: block;
+  width: 12rem;
+}
+
+.banner-name {
+  display: block;
+  margin-top: 0.3rem;
+}
+
+.dm-error {
+  padding: 0.5rem 0.75rem;
+  background: var(--error-bg);
+  color: var(--error);
+  border-left: 4px solid currentColor;
+}
+
+/* Retry on a failed beat: a round arrow button beside the error, which turns while the beat is tried again. */
+.dm-error .retry-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  min-height: 0;
+  padding: 0;
+  margin-left: 0.4rem;
+  vertical-align: middle;
+  border-radius: 50%;
+}
+
+.retry-turning {
+  animation: retry-turn 1s linear infinite;
+}
+
+@keyframes retry-turn {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .retry-turning {
+    animation: none;
+  }
+}
+
+/* The thinking indicator */
+
+.thinking {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.75rem;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.thinking-meta {
+  font-variant-numeric: tabular-nums;
+}
+
+.thinking-big {
+  font-style: italic;
+}
+
+.thinking-dots {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: thinking 1.2s ease-in-out infinite;
+}
+
+@keyframes thinking {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+/* The input box */
+
+.composer {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.composer textarea {
+  font: 1rem/1.5 var(--sans);
+  resize: none;
+}
+
+.composer .notice {
+  margin: 0;
+}
+
+.composer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.composer-hint {
+  margin-right: auto;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+/* Near its channel's length, the words count down (DEL-154); past it, nothing is sent. */
+.composer-count {
+  align-self: flex-end;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.composer-count.over {
+  color: var(--error);
+  font-weight: 600;
+}
+
+/* A player who plays no character yet. */
+.choose-character {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin: 0;
+}
+
+/* The join page's picker, over the play screen. */
+.play-pick {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  overflow-y: auto;
+  background: var(--bg);
+}
+
+/* The party */
+
+/* The module's pregens, offered to the host while the party is empty (faithful modules Task 19). */
+.pregen-picker {
+  margin: 0.5rem 0 0;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.pregen-picker ul {
+  margin: 0 0 0.5rem;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.party-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.party-member {
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr) auto;
+  gap: 0.6rem;
+  align-items: center;
+  padding: 0.5rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  box-shadow: var(--card-edge);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.party-member:hover {
+  border-color: var(--accent);
+}
+
+.portrait-repaint {
+  width: 100%;
+  font-size: 0.85rem;
+}
+
+.portrait-repaint .notice {
+  margin: 0 0 0.15rem;
+}
+
+.portrait {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: var(--bg-sunken);
+  color: var(--muted);
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  flex: none;
+  overflow: hidden;
+}
+
+/* A portraitgen drawing or a painted portrait fills the circle. */
+/* A portrait enlarges on a click (components/Portrait.tsx): the button is the portrait, and the dialog shows it at up
+   to 80% of the screen's shorter side. */
+.portrait-zoom {
+  display: inline-grid;
+  flex: none;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  cursor: zoom-in;
+}
+
+/* Over `.dialog`'s fixed width (a form's), which comes later: the lightbox is as big as its picture, which fits the
+   window, so it never scrolls. */
+.dialog.lightbox {
+  width: auto;
+  max-width: calc(100vw - 2rem);
+  max-height: calc(100vh - 2rem);
+  overflow: hidden;
+  padding: 0.5rem;
+  cursor: zoom-out;
+}
+
+/* Edit portrait (DEL-238): portraitgen's own editor in a frame, as big as the window allows; it scrolls inside. */
+.dialog.portrait-editor {
+  display: flex;
+  flex-direction: column;
+  width: min(80rem, calc(100vw - 2rem));
+  height: calc(100vh - 2rem);
+  padding: 1rem;
+}
+
+.portrait-editor-frame {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.dialog.portrait-editor .dialog-actions {
+  margin-top: 0.75rem;
+}
+
+/* A story's picture (play/Story.tsx): the button is the picture; enlarged, it fits the window. */
+.image-zoom {
+  display: block;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+}
+
+.lightbox-image {
+  display: block;
+  max-width: calc(100vw - 3rem);
+  max-height: calc(100vh - 3rem);
+  object-fit: contain;
+}
+
+.portrait.big {
+  width: min(480px, 80vmin);
+  height: min(480px, 80vmin);
+  border-radius: 8px;
+}
+
+.portrait.drawn svg,
+img.portrait {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.party-body {
+  display: grid;
+  gap: 0.15rem;
+}
+
+button.party-name {
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  font-weight: 600;
+  text-decoration: underline transparent;
+}
+
+button.party-name:hover {
+  text-decoration-color: currentColor;
+}
+
+.hp-bar {
+  height: 0.4rem;
+  background: var(--bg-sunken);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.hp-bar span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+}
+
+.hp-bar.low span {
+  background: var(--error);
+}
+
+.party-conditions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin: 0.15rem 0 0;
+}
+
+.party-arrows {
+  display: grid;
+}
+
+/* Where a pointer can aim, the cards are compact: the up and down arrows no taller than the name, the bar and the
+   stats beside them, and less padding above and below. A phone keeps the larger targets. */
+@media (hover: hover) and (pointer: fine) {
+  .party-member {
+    padding: 0.3rem 0.5rem;
+  }
+
+  .party-arrows button.icon {
+    min-height: 1.5rem;
+    padding: 0.05rem 0.35rem;
+  }
+}
+
+/* The map and the questions */
+
+.map-groups {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.map-groups button[aria-pressed="true"] {
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.view-svg.play-map {
+  height: min(45vh, 22rem);
+}
+
+.ask-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.ask-list p {
+  margin: 0;
+}
+
+.ask-question {
+  font-weight: 600;
+}
+
+/* An answer is the DM's Markdown, in the story (Story.tsx) and the talk (TalkPanel.tsx): its own lists keep their
+   bullets. The talk's spacing is talk.css's. */
+.asked-answer p + p,
+.asked-answer p + ul,
+.asked-answer p + ol {
+  margin-top: 0.5rem;
+}
+
+.asked-answer ul,
+.asked-answer ol,
+.talk-answer-text ul,
+.talk-answer-text ol {
+  margin: 0.25rem 0 0;
+  padding-left: 1.25rem;
+}
+
+.asked-answer ul,
+.talk-answer-text ul {
+  list-style: disc;
+}
+
+.asked-answer ol,
+.talk-answer-text ol {
+  list-style: decimal;
+}
+
+/* The sheet drawer */
+
+.sheet-drawer {
+  position: fixed;
+  inset: 0 0 0 auto;
+  z-index: 20;
+  width: min(40rem, 100%);
+  overflow-y: auto;
+  padding: 1.5rem;
+  background: var(--surface);
+  border-left: 1px solid var(--rule);
+  box-shadow: var(--shadow);
+}
+
+.sheet-drawer-close {
+  float: right;
+}
+
+/* The module page: tabs, and the text editor (plateau 3). Desktop only. */
+
+.page:has(.module-tabs) {
+  max-width: 78rem;
+}
+
+/* The module's head (DEL-183): its category and actions on one row, so the tabs follow at once. */
+.module-head-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  margin: 0.5rem 0 0;
+}
+
+.module-head-actions > * {
+  margin: 0;
+}
+
+.module-tabs,
+.modules-tabs,
+.campaign-tabs,
+.preferences-tabs {
+  margin: 1.5rem 0 1rem;
+}
+
+/* Eleven tabs don't fit 1280 px in one row: they wrap rather than run off the page (DEL-183). */
+.module-tabs {
+  flex-wrap: wrap;
+}
+
+/* How many sign-ups wait (DEL-156), on Preferences' Players tab. */
+.tab-count {
+  display: inline-block;
+  min-width: 1.15rem;
+  margin-left: 0.4rem;
+  padding: 0 0.3rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1.15rem;
+  text-align: center;
+}
+
+.module-texts {
+  display: grid;
+  grid-template-columns: 14rem minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.text-list h2 {
+  margin-top: 0;
+}
+
+.text-list ul {
+  margin: 0 0 0.75rem;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.text-pick {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: left;
+  border-color: transparent;
+  background: none;
+}
+
+.text-pick[aria-current="true"] {
+  background: var(--surface);
+  border-color: var(--rule);
+  font-weight: 600;
+}
+
+/* A long list (desktop/PickList.tsx) scrolls in its own box, drawing only the rows in view. */
+.pick-list-scroll {
+  max-height: calc(100dvh - 18rem);
+  min-height: 12rem;
+  overflow-y: auto;
+  margin: 0 0 0.75rem;
+}
+
+.text-list .pick-list-scroll ul {
+  display: block;
+  margin: 0;
+}
+
+.pick-list-scroll li {
+  padding-bottom: 0.25rem;
+}
+
+/* From 900 px a list and its editor are a split's panes (desktop/ListAndEditor.tsx). */
+.list-and-editor {
+  gap: 0;
+}
+
+.list-and-editor .list-pane {
+  padding-right: 0.75rem;
+}
+
+.list-and-editor .editor-pane {
+  padding-left: 0.75rem;
+  min-width: 0;
+}
+
+.text-list .actions {
+  flex-wrap: wrap;
+}
+
+.text-editor {
+  display: grid;
+  /* One column no wider than the pane, whatever its toolbar's selects hold (DEL-183). */
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.75rem;
+}
+
+.text-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 0.75rem;
+}
+
+.text-meta .field:first-child {
+  flex: 1 1 14rem;
+}
+
+/* A select of long headings or titles sized the whole editor to them: 2,700 px on Thracia (DEL-183). */
+.text-meta .field {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.text-meta select,
+.text-toolbar select {
+  max-width: 100%;
+  text-overflow: ellipsis;
+}
+
+.text-meta .field:first-child input {
+  width: 100%;
+}
+
+.text-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem;
+  padding: 0.25rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+}
+
+.text-toolbar button.icon[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.text-toolbar select {
+  width: auto;
+  min-height: 2rem;
+  margin-left: auto;
+  padding: 0.15rem 0.4rem;
+  font-size: 0.85rem;
+}
+
+/* The page being written: it looks like the finished text. */
+.text-page.markdown {
+  max-width: none;
+}
+
+.text-page .ProseMirror {
+  min-height: 24rem;
+  padding: 1.5rem 2rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  outline: none;
+}
+
+.text-page .ProseMirror:focus-visible {
+  border-color: var(--focus);
+}
+
+.text-page .ProseMirror > * {
+  max-width: 44rem;
+}
+
+.text-page blockquote {
+  margin: 0.75rem 0;
+  padding: 0.1rem 1rem;
+  border-left: 3px solid var(--rule);
+  color: var(--muted);
+}
+
+/* Read-aloud: the box the DM reads out, as in the story. */
+.text-page blockquote.read-aloud {
+  border-left-color: var(--warning);
+  background: var(--notice-bg);
+  color: var(--notice-ink);
+  font-style: italic;
+}
+
+.text-page img {
+  display: block;
+  max-width: 100%;
+  max-height: 24rem;
+  margin: 0.5rem 0;
+  border-radius: var(--radius-sm);
+}
+
+.text-page img.ProseMirror-separator {
+  display: inline;
+}
+
+.text-page img.ProseMirror-selectednode {
+  outline: 2px solid var(--focus);
+}
+
+.text-page table {
+  width: 100%;
+}
+
+.text-page th,
+.text-page td {
+  border: 1px solid var(--rule);
+  padding: 0.25rem 0.5rem;
+}
+
+.text-page td p,
+.text-page th p {
+  margin: 0;
+}
+
+.text-page .selectedCell {
+  background: var(--bg-sunken);
+}
+
+.keyed-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+
+.key-chip,
+.ref-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.05rem 0.5rem;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  color: var(--accent);
+  font: 600 0.75rem/1.4 var(--sans);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.key-chip.warning,
+.ref-chip.missing {
+  border-color: var(--warning);
+  color: var(--warning);
+}
+
+.ref-chip {
+  padding: 0 0.4rem;
+  border-color: var(--rule);
+  color: var(--ink);
+  font-weight: 500;
+  font-size: 0.85em;
+}
+
+.raw-block,
+.raw-inline {
+  font-family: var(--mono);
+  font-size: 0.85em;
+  color: var(--muted);
+  background: var(--bg-sunken);
+}
+
+.raw-block {
+  padding: 0.5rem 0.75rem;
+  white-space: pre-wrap;
+  border-radius: var(--radius-sm);
+}
+
+.text-pick .tag {
+  white-space: nowrap;
+}
+
+/* The entity forms, the attachments and the details. */
+
+.module-entities {
+  display: grid;
+  grid-template-columns: 14rem minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.entity-form,
+.details-form {
+  display: grid;
+  gap: 1rem;
+  max-width: 48rem;
+}
+
+.entity-form textarea,
+.details-form textarea {
+  font-family: var(--sans);
+}
+
+.field-grid {
+  display: grid;
+  gap: 0.75rem 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+}
+
+.field .hint {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.85rem;
+}
+
+.field-error {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--error);
+  font-size: 0.85rem;
+}
+
+.field.invalid input,
+.field.invalid select,
+.field.invalid textarea,
+fieldset.invalid {
+  border-color: var(--error);
+}
+
+.entity-form fieldset,
+.details-form fieldset {
+  margin: 0;
+  padding: 0.75rem 1rem 1rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+}
+
+.entity-form legend,
+.details-form legend {
+  padding: 0 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.monster-row,
+.author-row {
+  display: grid;
+  gap: 0.5rem 0.75rem;
+  align-items: end;
+  margin-bottom: 0.75rem;
+}
+
+.monster-row {
+  grid-template-columns: minmax(8rem, 2fr) minmax(8rem, 2fr) 6rem minmax(8rem, 2fr) auto;
+}
+
+.author-row {
+  grid-template-columns: minmax(10rem, 3fr) minmax(8rem, 2fr) auto;
+}
+
+.monster-row .field-error {
+  grid-column: 1 / -1;
+}
+
+.range {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(7rem, 1fr));
+  gap: 0.75rem;
+}
+
+.range legend,
+.range .field-error {
+  grid-column: 1 / -1;
+}
+
+.attachments .upload {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.attachments .upload .hint {
+  margin: 0;
+}
+
+.attachments .upload label {
+  margin: 0;
+  cursor: pointer;
+}
+
+.attachment-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.attachment-card {
+  display: grid;
+  gap: 0.6rem;
+  align-content: start;
+  padding: 0.75rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  box-shadow: var(--card-edge);
+  border-radius: var(--radius);
+}
+
+.attachment-card textarea {
+  font-family: var(--sans);
+}
+
+.attachment-card .actions {
+  margin: 0;
+  flex-wrap: wrap;
+}
+
+.attachment-thumb {
+  display: grid;
+  place-items: center;
+  height: 9rem;
+  background: var(--bg-sunken);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+/* The thumbnail opens the picture enlarged (DEL-295): the button fills the frame, the picture fits inside it. */
+.attachment-thumb .image-zoom {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.attachment-thumb img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  image-rendering: auto;
+}
+
+/* A conversion's proposed crop (DEL-40), until the organiser says it looks right. */
+.crop-proposed {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+}
+
+.crop-proposed .badge {
+  padding: 0.1rem 0.5rem;
+  border-radius: var(--radius-sm);
+  background: var(--notice-bg);
+  color: var(--notice-ink);
+  font-size: 0.85rem;
+}
+
+/* Crop, turn or split a picture (DEL-40): the stage is the turned picture, its boxes in fractions of it. */
+.dialog.crop-dialog {
+  width: min(56rem, calc(100vw - 2rem));
+}
+
+.crop-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.crop-tools button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* Its width (at most 50vh tall, by its aspect ratio) is set where it is drawn. */
+.crop-stage {
+  position: relative;
+  margin: 0 auto;
+  overflow: hidden;
+  background: var(--bg-sunken);
+  cursor: crosshair;
+  touch-action: none;
+  user-select: none;
+}
+
+.crop-stage img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  max-width: none;
+  pointer-events: none;
+}
+
+.crop-box {
+  position: absolute;
+  box-sizing: border-box;
+  border: 2px dashed var(--surface);
+  outline: 1px solid var(--ink);
+  background: rgba(255, 255, 255, 0.08);
+  cursor: move;
+}
+
+.crop-box[data-chosen] {
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 0 9999px rgba(10, 16, 18, 0.35);
+}
+
+.crop-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0 0.35rem;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-size: 0.8rem;
+}
+
+.crop-corner {
+  position: absolute;
+  width: 0.9rem;
+  height: 0.9rem;
+  margin: -0.45rem;
+  background: var(--accent);
+  border: 1px solid var(--accent-ink);
+}
+
+.crop-corner[data-x="0"] {
+  left: 0;
+}
+
+.crop-corner[data-x="1"] {
+  left: 100%;
+}
+
+.crop-corner[data-y="0"] {
+  top: 0;
+}
+
+.crop-corner[data-y="1"] {
+  top: 100%;
+}
+
+.crop-corner[data-x="0"][data-y="0"],
+.crop-corner[data-x="1"][data-y="1"] {
+  cursor: nwse-resize;
+}
+
+.crop-corner[data-x="1"][data-y="0"],
+.crop-corner[data-x="0"][data-y="1"] {
+  cursor: nesw-resize;
+}
+
+.crop-pieces {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.crop-pieces li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 0.5rem;
+}
+
+.crop-pieces button[aria-pressed="true"] {
+  outline: 2px solid var(--accent);
+}
+
+.attachment-file {
+  display: grid;
+  justify-items: center;
+  gap: 0.4rem;
+  color: var(--muted);
+  font: 0.85rem var(--mono);
+}
+
+/* The organiser's screens on a phone (under 600 px): every two-column layout stacks, rows of fields become one
+   column, and the module's tabs wrap, so no screen scrolls sideways. */
+
+.house-rules-back {
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 599px) {
+  .module-tabs,
+  .modules-tabs,
+  .campaign-tabs,
+  .preferences-tabs {
+    flex-wrap: wrap;
+  }
+
+  .module-texts,
+  .module-entities {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .monster-row,
+  .author-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .range {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .attachment-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* A module's text, in the editor and in print: a book's long words break, and its wide tables scroll inside. */
+  .text-page {
+    overflow-wrap: anywhere;
+  }
+
+  .text-page table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  .text-page img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* Menus (Radix): a row's actions (components/RowMenu.tsx) and the story's right-click menu (play/Story.tsx). */
+.menu {
+  z-index: 60;
+  min-width: 11rem;
+  padding: 0.3rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow), 0 8px 24px rgba(0, 0, 0, 0.16);
+}
+
+.menu-item {
+  display: block;
+  padding: 0.4rem 0.65rem;
+  border-radius: calc(var(--radius) - 2px);
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.menu-item[data-highlighted] {
+  background: var(--bg);
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+.menu-item.danger {
+  color: var(--error);
+}
+
+.menu-item[data-disabled] {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.row-menu {
+  margin-left: auto;
+}
+
+/* A tip (components/Tip.tsx): a small dark label beside an icon button. */
+.tip {
+  z-index: 70;
+  max-width: 18rem;
+  padding: 0.3rem 0.55rem;
+  border-radius: 4px;
+  background: var(--ink);
+  color: var(--surface);
+  font-size: 0.8rem;
+  line-height: 1.3;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* The command palette (desktop/Desktop.tsx, cmdk): a search box over Delve's areas, campaigns, modules, settings and
+   actions, near the top of the window. */
+.palette {
+  position: fixed;
+  top: 12vh;
+  left: 50%;
+  z-index: 51;
+  width: min(36rem, calc(100vw - 2rem));
+  transform: translateX(-50%);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow), 0 12px 32px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+}
+
+.palette [cmdk-input] {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: none;
+  border-bottom: 1px solid var(--rule);
+  border-radius: 0;
+  background: transparent;
+  font-size: 1.05rem;
+}
+
+.palette [cmdk-input]:focus {
+  outline: none;
+}
+
+.palette [cmdk-list] {
+  max-height: min(60vh, 26rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0.35rem;
+}
+
+.palette [cmdk-group-heading] {
+  padding: 0.5rem 0.65rem 0.25rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.palette [cmdk-item] {
+  padding: 0.45rem 0.65rem;
+  border-radius: calc(var(--radius) - 2px);
+  cursor: pointer;
+}
+
+.palette [cmdk-item][data-selected="true"] {
+  background: var(--bg);
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+.palette [cmdk-empty] {
+  padding: 1rem;
+  color: var(--muted);
+}
+
+/* The keyboard shortcuts' help. */
+.shortcuts {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0 0 1rem;
+}
+
+.shortcuts > div {
+  display: grid;
+  grid-template-columns: 7rem 1fr;
+  gap: 0.75rem;
+  align-items: baseline;
+}
+
+.shortcuts dd {
+  margin: 0;
+}
+
+.shortcuts-help h3 {
+  margin: 0.5rem 0;
+  font-size: 0.95rem;
+}
+
+kbd {
+  display: inline-block;
+  padding: 0.05rem 0.4rem;
+  border: 1px solid var(--rule);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  background: var(--bg);
+  font-family: ui-monospace, monospace;
+  font-size: 0.85em;
+}
+
+/* Delve's own dialogs (components/dialogs.tsx): confirm and prompt. */
+
+.dialog-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgba(10, 16, 18, 0.45);
+}
+
+.dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 51;
+  width: min(28rem, calc(100vw - 2rem));
+  max-height: calc(100vh - 2rem);
+  overflow: auto;
+  padding: 1.25rem 1.5rem;
+  transform: translate(-50%, -50%);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow), 0 12px 32px rgba(0, 0, 0, 0.18);
+}
+
+.dialog:focus {
+  outline: none;
+}
+
+.dialog-title {
+  margin: 0 0 0.75rem;
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.dialog-body {
+  margin: 0 0 0.75rem;
+  color: var(--muted);
+}
+
+.dialog .field input {
+  width: 100%;
+}
+
+.dialog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+}
+
+/* Write to the table (DEL-314): the message fills the dialog's width; who it goes to, one choice a line. */
+.dialog .field textarea {
+  width: 100%;
+}
+
+.write-who {
+  margin: 0.75rem 0;
+  padding: 0;
+  border: 0;
+}
+
+.write-who > label,
+.write-reply {
+  display: flex;
+}
+
+.write-seats {
+  margin: 0.25rem 0 0;
+  padding-left: 1.5rem;
+  list-style: none;
+}
+
+/* The confirm of a delete: a red button. */
+button.danger.solid {
+  background: var(--error);
+  border-color: var(--error);
+  color: var(--surface);
+  font-weight: 600;
+}
+
+/* The table (plateau 4): the seats' indicators and the beat timer by the input box, the table panel beside the
+   story from 900 px, and on a phone (under 600 px) the story and the input box alone, with a bottom bar that opens
+   Map, Party and Table as full screens. */
+
+.shell.seated .content {
+  padding-bottom: 1.5rem;
+}
+
+@media (min-width: 900px) {
+  .shell.seated .content {
+    margin-left: 0;
+  }
+}
+
+/* Three ways to speak, and Pass: the hint goes under the buttons, and on a phone (no Ctrl key) away. */
+.composer-actions .composer-hint {
+  order: 1;
+  flex-basis: 100%;
+  margin-right: 0;
+  text-align: right;
+}
+
+.play.phone .composer-hint {
+  display: none;
+}
+
+.play.phone .composer-actions {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 0.35rem;
+}
+
+.play.phone .composer-actions button {
+  padding-inline: 0.3rem;
+  font-size: 0.9rem;
+}
+
+.host-fold > summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.host-fold[open] > summary {
+  margin-bottom: 0.5rem;
+}
+
+.beat-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+}
+
+.seat-indicators {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.85rem;
+}
+
+.seat-indicators li,
+.table-seats li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.seat-dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  border: 1.5px solid var(--muted);
+  flex: none;
+}
+
+.seat-indicators [data-state="typing"] .seat-dot {
+  border-color: var(--accent);
+  animation: thinking 1.2s ease-in-out infinite;
+}
+
+.seat-indicators [data-state="submitted"] .seat-dot,
+.table-seats .present .seat-dot {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.seat-state,
+.seat-role {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.seat-indicators .away,
+.table-seats .away {
+  opacity: 0.6;
+}
+
+.beat-timer {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin: 0 0 0 auto;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.beat-timer.ending {
+  color: var(--error);
+}
+
+.my-act {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.75rem;
+  padding: 0.4rem 0.75rem;
+  border-left: 3px solid var(--accent);
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+}
+
+button.link-button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Marks on an entry: addressed to some characters only, and where its translation is. */
+
+.entry.addressed {
+  padding-left: 0.75rem;
+  border-left: 3px dashed var(--dm-view);
+}
+
+.entry-marks {
+  display: flex;
+  gap: 0.5rem;
+  font-family: var(--sans);
+}
+
+.only-you,
+.translating,
+.not-translated {
+  display: inline-block;
+  margin-right: 0.5rem;
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.only-you {
+  color: var(--dm-view);
+}
+
+.translating {
+  color: var(--muted);
+  font-style: italic;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.not-translated {
+  color: var(--warning);
+}
+
+/* The images the DM has shown */
+
+.gallery ul {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0 0 0.25rem;
+  overflow-x: auto;
+  list-style: none;
+}
+
+.gallery img {
+  display: block;
+  height: 4rem;
+  width: auto;
+  max-width: 8rem;
+  object-fit: cover;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-sm);
+}
+
+/* The table panel */
+
+.table-panel {
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+}
+
+.table-panel h3 {
+  margin: 0.5rem 0 0.25rem;
+  font-size: 0.95rem;
+}
+
+.table-seats,
+.host-seats,
+.host-characters {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.host-controls {
+  display: grid;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+/* Each label above its select, which takes the whole width: "Hold back" and "Afwachten" fit. */
+.host-beat {
+  display: grid;
+  gap: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.host-beat select {
+  width: 100%;
+  min-width: 0;
+}
+
+.host-go {
+  justify-self: start;
+}
+
+.host-seats li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.5rem;
+}
+
+.seat-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin-left: auto;
+}
+
+.seat-actions button {
+  padding: 0.15rem 0.5rem;
+  font-size: 0.8rem;
+}
+
+.host-characters li {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* A character's part while its player is away (DEL-224): the choices are long, so the name goes above. */
+.host-parts li {
+  grid-template-columns: 1fr;
+  gap: 0.2rem;
+}
+
+.invite-panel {
+  display: grid;
+  gap: 0.35rem;
+  justify-items: start;
+}
+
+.invite-link {
+  display: flex;
+  gap: 0.4rem;
+  width: 100%;
+}
+
+.invite-link input {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+}
+
+.invite-qr {
+  background: #ffffff;
+  border-radius: var(--radius-sm);
+}
+
+.leave-table {
+  justify-self: start;
+}
+
+/* Joining */
+
+.join .gate-card {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.join-campaign {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.join-role {
+  display: flex;
+  gap: 1rem;
+  margin: 0.5rem 0;
+  padding: 0;
+  border: 0;
+}
+
+.join-role legend {
+  margin-bottom: 0.25rem;
+}
+
+.join-role label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+}
+
+/* The names in one column, the race and class in the next: the rows line up (T7). */
+.join-characters label {
+  display: grid;
+  grid-template-columns: minmax(8rem, max-content) 1fr auto;
+  align-items: baseline;
+  gap: 0.4rem;
+  margin: 0;
+}
+
+/* A fallen PC shows, marked, and can't be picked (DEL-190). */
+.join-characters li.fallen {
+  color: var(--muted);
+}
+
+.join-characters {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0 0 0.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.join-characters li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.join-characters input {
+  width: auto;
+  min-height: 0;
+  margin: 0;
+}
+
+.join-character-name {
+  font-weight: 600;
+}
+
+/* The phone */
+
+/* The phone's play screen fits the window too, as from 900 px: the head stays on top, the story scrolls in its own box
+   between it and the input box, and the play tabs sit under them, so the top is in reach without scrolling back
+   through the story (DEL-311). The height takes off the content's padding (DEL-323, below); the padding at the foot is
+   the play tabs'. */
+.play.phone {
+  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-areas: "head" "main";
+  gap: 0.75rem;
+  padding-bottom: 3.5rem;
+}
+
+.play.phone .play-main {
+  min-height: 0;
+}
+
+.play.phone .story {
+  max-height: none;
+  min-height: 6rem;
+}
+
+/* More of the story on a phone (DEL-323): less padding round the screen, the head in two short lines (the title on
+   one line beside its buttons, the session's line under it), and the input box beside its buttons. */
+/* One bar at the foot (DEL-188): the play tabs, whose Menu opens the app's nav as a sheet; the app's own bar is hidden
+   until then. */
+.shell:has(.play.phone) .nav:not(.menu-open) {
+  display: none;
+}
+
+.content:has(.play.phone) {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.play.phone {
+  height: calc(100dvh - 1rem);
+  gap: 0.5rem;
+}
+
+.play.phone .play-head {
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.15rem 0.5rem;
+}
+
+.play.phone .play-head h1 {
+  flex: 1 1 0;
+  min-width: 0;
+  font-size: 1.2rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.play.phone .play-head .row-meta {
+  order: 1;
+  flex-basis: 100%;
+  margin: 0;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.play.phone .play-main {
+  gap: 0.5rem;
+}
+
+.play.phone .composer {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 0.4rem;
+}
+
+.play.phone .composer > * {
+  grid-column: 1 / -1;
+}
+
+.play.phone .composer > textarea {
+  grid-column: 1;
+  min-height: 2.75rem;
+  max-height: 7.5rem;
+  field-sizing: content;
+}
+
+.play.phone .composer > .composer-actions {
+  grid-column: 2;
+  display: flex;
+  flex-direction: column-reverse;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: 0.25rem;
+}
+
+.play.phone .composer-top {
+  flex-wrap: nowrap;
+  min-width: 0;
+}
+
+.composer-modes button {
+  white-space: nowrap;
+}
+
+.composer-paint {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* On a phone Paint this scene is its icon alone, named on hover and for screen readers, as the head's buttons are. */
+.play.phone .composer-paint {
+  flex: none;
+  padding: 0.3rem;
+}
+
+.play.phone .composer-paint .composer-paint-label {
+  display: none;
+}
+
+.play.phone .act-for {
+  min-width: 0;
+}
+
+.play.phone .act-for > button {
+  max-width: 100%;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Which way the words go is the box's own edge and placeholder; the label stays for screen readers. */
+.play.phone .composer-channel {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.play.phone .only-dm {
+  font-size: 0.75rem;
+  justify-content: center;
+}
+
+/* The map's screen: the map takes the height there is. */
+.phone-screen:has(> .map-panel) {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+}
+
+.phone-screen > .map-panel {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.phone-screen > .map-panel .panel-title {
+  margin: 0 0 0.25rem;
+}
+
+.phone-screen > .map-panel .view-svg.play-map {
+  flex: 1;
+  min-height: 12rem;
+  height: auto;
+}
+
+.play-tabs {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 11;
+  display: flex;
+  /* Five screens, or six with a carried party's History: each an equal share, and the Menu its icon's. */
+  height: calc(3rem + env(safe-area-inset-bottom));
+  padding-bottom: env(safe-area-inset-bottom);
+  background: var(--surface);
+  border-top: 1px solid var(--rule);
+}
+
+.play-tabs button {
+  flex: 1 1 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--muted);
+  font-weight: 600;
+  min-width: 0;
+  padding: 0 0.25rem;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.play-tabs .play-menu {
+  flex: 0 0 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Six screens: a smaller label, so each still fits a phone's width. */
+.play-tabs:has(> :nth-child(7)) button {
+  padding: 0 0.125rem;
+  font-size: 0.8rem;
+}
+
+.play-tabs button[aria-pressed="true"] {
+  color: var(--accent);
+  box-shadow: inset 0 3px 0 var(--accent);
+}
+
+.phone-screen {
+  position: fixed;
+  inset: 0 0 3rem 0;
+  z-index: 12;
+  overflow-y: auto;
+  padding: 1rem;
+  background: var(--bg);
+}
+
+.phone-back {
+  margin-bottom: 1rem;
+}
+
+.phone-table {
+  display: grid;
+  gap: 1.25rem;
+  align-content: start;
+}
+
+/* The world on the play screen (plan 6): the map panel's tabs, the World panel, Did you know */
+
+.side-tabs {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.side-tabs button {
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--muted);
+  font-weight: 600;
+  padding: 0.35rem 0.75rem;
+}
+
+.side-tabs button[aria-selected="true"] {
+  color: var(--accent);
+  box-shadow: inset 0 -3px 0 var(--accent);
+}
+
+/* The sidebar's own tabs, Party, Maps and Table (routes/Play.tsx): they stay at the top while the sidebar scrolls. A
+   tab out of sight whose panel changed carries a dot, as do the phone's bottom-bar tabs. */
+.aside-tabs {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  gap: 0.25rem;
+  border-bottom: 1px solid var(--rule);
+  background: var(--bg);
+}
+
+.aside-tabs button {
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--muted);
+  font-weight: 600;
+  padding: 0.45rem 0.85rem;
+}
+
+.aside-tabs button[aria-selected="true"] {
+  color: var(--accent);
+  box-shadow: inset 0 -3px 0 var(--accent);
+}
+
+/* Beside the story the tab names the panel, so the Party, Map and World panels' own titles are for screen readers
+   only (they still name each region). */
+.play-aside .panel-title {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* The sidebar's scrollbar: thin and quiet, like the story's pane beside it. */
+.play-aside {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--muted) 35%, transparent) transparent;
+}
+
+/* The panels keep their own display (grid); the tabs that aren't chosen stay out of sight. */
+.play-aside > [hidden] {
+  display: none;
+}
+
+.tab-dot {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-left: 0.35rem;
+  border-radius: 50%;
+  background: var(--accent);
+  vertical-align: middle;
+}
+
+.world-panel {
+  display: grid;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.world-panel h3 {
+  margin: 0.5rem 0 0;
+  font-size: 0.95rem;
+}
+
+.world-map {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.world-map {
+  height: min(60vh, 28rem);
+}
+
+/* The seat's world map in Leaflet (plan 7): its CSS is Leaflet's own, bundled; the fog is the container's colour. */
+
+.world-leaflet {
+  height: 100%;
+  min-height: 16rem;
+  font-family: var(--sans);
+}
+
+/* Maps never follow a look: under one, the world map restates Delve today's tokens, in light and in dark (:root
+   above). src/looks/maps.test.ts checks this. */
+:root[data-look] .world-leaflet {
+  --ink: #1e2b2f;
+  --surface: #f5f7f4;
+  --serif: "Palatino Linotype", Palatino, "Book Antiqua", "URW Palladio L", "P052", Georgia, serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-look] .world-leaflet {
+    --ink: #dce4e0;
+    --surface: #1c272b;
+  }
+}
+
+.world-map-full {
+  height: calc(100dvh - 11rem);
+  min-height: 18rem;
+}
+
+.world-terrain {
+  shape-rendering: crispEdges;
+}
+
+/* Leaflet's own .leaflet-marker-icon sets display: block; the place's marker is a dot and its label in a row. */
+.leaflet-marker-icon.world-place {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  width: max-content;
+  cursor: pointer;
+}
+
+.world-place-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  flex: none;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  background: var(--surface);
+}
+
+.world-place-city .world-place-dot,
+.world-place-town .world-place-dot,
+.world-place-port .world-place-dot {
+  background: var(--ink);
+}
+
+.world-place-castle .world-place-dot,
+.world-place-ruin .world-place-dot,
+.world-place-dungeon .world-place-dot {
+  border-radius: 1px;
+}
+
+.world-place-label {
+  padding: 0 0.2rem;
+  border-radius: var(--radius-sm);
+  background: rgba(245, 247, 244, 0.8);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.world-party {
+  border: 3px solid #fff;
+  border-radius: 50%;
+  background: #a3261b;
+  box-shadow: 0 0 0 2px #a3261b, var(--shadow);
+}
+
+.world-party > span {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.world-scale {
+  box-sizing: border-box;
+  margin: 0.5rem 0 0 0.5rem;
+  padding: 0 0.25rem;
+  border: 2px solid var(--ink);
+  border-top: none;
+  background: rgba(245, 247, 244, 0.75);
+  color: var(--ink);
+  font-size: 0.75rem;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.world-journey-line {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.known-places {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.known-place {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 0.5rem;
+  padding: 0.25rem 0.4rem;
+  border-radius: var(--radius-sm);
+}
+
+.known-place.selected {
+  background: var(--bg-sunken);
+}
+
+.known-place-pick {
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.known-place-name {
+  font-family: var(--serif);
+  font-weight: 600;
+}
+
+.known-place-here {
+  font-size: 0.75rem;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.known-place-description {
+  flex-basis: 100%;
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+/* On a phone the World screen is the map; the known places and the rest come up in a sheet from the bottom. */
+
+.world-phone {
+  gap: 0.5rem;
+}
+
+.world-sheet-wrap {
+  position: sticky;
+  bottom: 0;
+  z-index: 1000;
+  display: grid;
+  gap: 0.5rem;
+  margin: 0 -1rem -1rem;
+  padding: 0.5rem 1rem 1rem;
+  border-top: 1px solid var(--rule);
+  border-radius: var(--radius) var(--radius) 0 0;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.world-sheet {
+  display: grid;
+  gap: 0.5rem;
+  max-height: 55dvh;
+  overflow-y: auto;
+}
+
+.world-here {
+  margin: 0;
+  font-family: var(--serif);
+}
+
+.world-quests,
+.world-factions,
+.world-possessions {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.world-quest-title {
+  font-weight: 600;
+}
+
+.world-quest-status,
+.standing {
+  font-size: 0.8rem;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.world-quest p {
+  margin: 0.15rem 0 0;
+}
+
+.world-quest-log {
+  margin: 0.25rem 0 0;
+  padding-left: 1.1rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.world-factions li {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.world-possessions li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 0.5rem;
+  align-items: center;
+}
+
+.world-possessions li > :first-child {
+  grid-row: 1 / span 2;
+}
+
+.world-possession-name {
+  font-weight: 600;
+}
+
+.thinking-wrap {
+  display: grid;
+  gap: 0.25rem;
+}
+
+/* From 900 px the DM's progress and the "Did you know" fact sit side by side; a long fact wraps beside it. */
+@media (min-width: 900px) {
+  .thinking-wrap {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    min-width: 0;
+  }
+
+  .thinking {
+    flex: none;
+  }
+
+  .thinking-wrap .did-you-know {
+    min-width: 0;
+  }
+}
+
+.did-you-know {
+  margin: 0;
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* On a phone the DM's progress keeps the room for the story: no "Did you know". */
+@media (max-width: 599px) {
+  .did-you-know {
+    display: none;
+  }
+}
+
+.did-you-know-label {
+  font-style: normal;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.host-paid {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* The host's hotseat (DEL-365): each player at this screen, their name, the characters they play, and Remove. */
+.hotseat-setup h3 {
+  margin-top: 1rem;
+}
+
+.hotseat-switch,
+.hotseat-characters label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.hotseat-setup input[type="checkbox"] {
+  width: auto;
+  min-height: 0;
+  margin: 0;
+}
+
+.hotseat-players {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0.5rem 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hotseat-players li {
+  display: grid;
+  gap: 0.3rem;
+  padding: 0.4rem 0.6rem;
+  border-left: 3px solid var(--rule);
+}
+
+.hotseat-characters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 0.9rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.hotseat-players .link-button {
+  justify-self: start;
+}
+
+.hotseat-add {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.hotseat-add input {
+  flex: 1 1 10rem;
+  min-width: 0;
+}
+
+/* Whose turn at the hotseat, above the Act box: one round button each, the current one filled. */
+.hotseat-turns {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.hotseat-turn-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.hotseat-turn-buttons button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-height: 0;
+  padding: 0.15rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+}
+
+.hotseat-turn-buttons button[aria-pressed="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+
+.hotseat-now {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+/* The campaign page's world (plan 6) */
+
+.dm-only-mark {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--dm-view);
+  white-space: nowrap;
+}
+
+.world-tables {
+  display: grid;
+  gap: 0.5rem;
+  justify-items: start;
+}
+
+.world-tables h3 {
+  margin: 0.75rem 0 0;
+}
+
+.world-table {
+  width: 100%;
+}
+
+.row-actions {
+  display: inline-flex;
+  gap: 0.35rem;
+}
+
+.world-form {
+  display: grid;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+}
+
+.world-form-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  gap: 0.5rem 1rem;
+  align-items: end;
+}
+
+.check-field {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.quest-notes {
+  grid-column: 1 / -1;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+}
+
+.quest-note {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem;
+  align-items: end;
+}
+
+.possession-name {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.world-maps-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 1rem;
+}
+
+/* The open beat's acts so far (plan 7 Task 17): the seat's own, then the others' drafts. */
+.pending-acts {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.pending-list {
+  display: grid;
+  gap: 0.2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.9rem;
+}
+
+.pending-act {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.6rem;
+  padding: 0.25rem 0.75rem;
+  border-left: 3px dashed var(--rule);
+  color: var(--muted);
+}
+
+.pending-draft {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.only-dm {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+.only-dm input {
+  width: auto;
+  min-height: 0;
+  margin: 0;
+}
+
+/* Ask the DM in the story (plan 7 Task 18): a question and its answer, folded, for who asked. */
+.entry.asked {
+  padding: 0.4rem 0.75rem;
+  border-left: 3px dotted var(--accent);
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+}
+
+.entry.asked summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.6rem;
+  cursor: pointer;
+}
+
+.asked-question {
+  font-style: italic;
+}
+
+.asked-toggle {
+  margin-left: auto;
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  color: var(--link);
+}
+
+.asked-toggle::before {
+  content: "▸ ";
+}
+
+.entry.asked[open] .asked-toggle::before {
+  content: "▾ ";
+}
+
+.entry.asked:not([open]) .asked-toggle .when-open,
+.entry.asked[open] .asked-toggle .when-closed {
+  display: none;
+}
+
+.asked-answer {
+  margin-top: 0.4rem;
+}
+
+/* The Composer's two modes: what Enter does; at the end of their row, who the seat acts for. */
+.composer-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.composer-modes {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.act-for {
+  position: relative;
+  margin-left: auto;
+}
+
+.act-for > button {
+  min-height: 0;
+  padding: 0.15rem 0.7rem;
+  border-radius: 999px;
+  border-color: var(--accent);
+  color: var(--accent);
+  font-size: 0.85rem;
+}
+
+/* The menu opens upwards: the input box is at the bottom of the screen. */
+.act-for .popover {
+  top: auto;
+  bottom: calc(100% + 0.4rem);
+  width: 15rem;
+  max-height: 60vh;
+  overflow-y: auto;
+  gap: 0.1rem;
+  padding: 0.4rem;
+}
+
+.act-for-menu button {
+  min-height: 0;
+  justify-content: flex-start;
+  text-align: left;
+  border: 0;
+  background: none;
+  padding: 0.3rem 0.5rem;
+}
+
+.act-for-menu button[aria-checked="true"] {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.act-for-menu hr {
+  width: 100%;
+  margin: 0.2rem 0;
+  border: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.act-for-several {
+  margin: 0;
+}
+
+.act-for-several legend {
+  padding: 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.act-for-several label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0.2rem 0.3rem;
+}
+
+.act-for-several input {
+  width: auto;
+  min-height: 0;
+  margin: 0;
+}
+
+/* Paint this scene sits beside the modes, as small as they are. */
+.composer-modes button,
+.composer-paint {
+  min-height: 0;
+  padding: 0.15rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+}
+
+.composer-modes button[aria-pressed="true"] {
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* The table talk's emoji: a small round button beside its box, its grid opening upwards as Acting for's menu does. */
+.emoji-picker {
+  position: relative;
+}
+
+.emoji-picker > button {
+  min-height: 0;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.95rem;
+}
+
+.emoji-grid {
+  top: auto;
+  right: auto;
+  left: 0;
+  width: auto;
+  bottom: calc(100% + 0.4rem);
+  display: grid;
+  grid-template-columns: repeat(6, 2.1rem);
+  gap: 0.15rem;
+  padding: 0.4rem;
+}
+
+.emoji-grid button {
+  min-height: 0;
+  width: 2.1rem;
+  height: 2.1rem;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: none;
+  font-size: 1.2rem;
+}
+
+.emoji-grid button:hover,
+.emoji-grid button:focus-visible {
+  background: var(--bg-sunken);
+}
+
+/* Who hears what is typed (the owner's report: lines went to the wrong box): the box wears its channel. Acting keeps
+   the accent; Ask the DM is the DM's violet (table talk has a box of its own, play/talk.css).
+   The line above the box says it in words, so colour is never the only sign. */
+.composer {
+  --channel: var(--accent);
+}
+
+.composer[data-channel="ask"] {
+  --channel: var(--dm-view);
+}
+
+.composer-channel {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--channel);
+}
+
+.composer-channel::before {
+  content: "";
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--channel);
+  flex: none;
+}
+
+.composer textarea {
+  border-left: 4px solid var(--channel);
+}
+
+.composer[data-channel="ask"] textarea {
+  background: color-mix(in srgb, var(--dm-view) 8%, var(--surface));
+}
+
+.composer[data-channel="ask"] button.primary {
+  background: var(--dm-view);
+  border-color: var(--dm-view);
+  color: var(--surface);
+}
+
+/* System alerts (components/alerts.tsx, docs/style-guide.md): Delve's own messages, a stack at the top of every page,
+   in the tone's colours. */
+.system-alerts {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: grid;
+  gap: 1px;
+}
+
+/* A warning, by default; an error and an info below. */
+.system-alert {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  padding: 0.6rem 1rem;
+  border-left: 4px solid currentColor;
+  background: var(--notice-bg);
+  color: var(--notice-ink);
+}
+
+.system-alert.error {
+  background: var(--error-bg);
+  color: var(--error);
+}
+
+.system-alert.info {
+  background: var(--surface);
+  color: var(--ink);
+  border-left-color: var(--accent);
+}
+
+/* In a page's content, beside the side bar: a card above the screen, at the top while it scrolls. */
+.content > .system-alerts {
+  margin: 0 0 1rem;
+}
+
+.content > .system-alerts .system-alert {
+  border-radius: var(--radius);
+}
+
+.system-alert-icon {
+  flex: none;
+}
+
+.system-alert-text {
+  flex: 1 1 16rem;
+}
+
+.system-alert-dismiss {
+  margin-left: auto;
+  min-height: 2rem;
+  padding: 0.2rem 0.4rem;
+  color: inherit;
+  background: transparent;
+  border-color: transparent;
+}
+
+/* The first screen */
+
+.first-run {
+  max-width: 32rem;
+  margin: 1rem 0 2rem;
+  padding: 1rem 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  box-shadow: var(--card-edge);
+  border-radius: 6px;
+}
+
+.first-run h2 {
+  margin-top: 0;
+}
+
+.first-run ol {
+  margin: 0;
+  padding-left: 1.5rem;
+  line-height: 2;
+}
+
+/* The text editor's outline of its keys */
+
+/* A text without keys has no outline: then the page takes the whole width, not the outline's column. */
+.text-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+@media (min-width: 901px) {
+  .text-body:has(> .text-outline) {
+    grid-template-columns: minmax(10rem, 14rem) minmax(0, 1fr);
+  }
+}
+
+.text-outline {
+  position: sticky;
+  top: 0.5rem;
+  max-height: 80vh;
+  overflow-y: auto;
+  font-size: 0.85rem;
+}
+
+.text-outline ul {
+  margin: 0.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.text-outline button {
+  display: block;
+  width: 100%;
+  padding: 0.15rem 0.25rem;
+  text-align: left;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.text-outline button:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+  .text-outline {
+    position: static;
+    max-height: 12rem;
+  }
+}
+
+/* Novelize (the owner's, on a campaign's and a module's page). */
+.novelize {
+  max-width: 40rem;
+  margin-top: 1rem;
+}
+
+.novelize input[type="number"] {
+  width: 5rem;
+}
+
+.novel-progress {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* A file dragged over New module (desktop/useFileDrop.ts): the whole window says what a drop does. */
+.drop-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  background: rgba(10, 16, 18, 0.35);
+  pointer-events: none;
+}
+
+.drop-overlay p {
+  margin: 0;
+  padding: 1.5rem 2rem;
+  border: 2px dashed var(--accent);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 1.1rem;
+}
+
+/* An organiser drags a party card to its place in the marching order (play/PartySidebar.tsx). */
+.party-member.movable {
+  cursor: grab;
+}
+
+.party-member.dragging {
+  position: relative;
+  z-index: 5;
+  cursor: grabbing;
+  box-shadow: var(--shadow), 0 8px 20px rgba(0, 0, 0, 0.18);
+  background: var(--surface);
+}
+
+/* Carry the party on (campaign/CarryForm.tsx): the new campaign's fields, who goes, and the house rules. */
+.carry-form {
+  max-width: 52rem;
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+}
+
+.carry-form h2 {
+  margin-top: 0;
+}
+
+.carry-party {
+  margin: 0.5rem 0 1rem;
+  border: 0;
+  padding: 0;
+}
+
+.carry-party legend {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.carry-party .check.dead {
+  color: var(--muted);
+}
+
+/* The History (campaign/HistorySection.tsx, play/HistoryPanel.tsx): the party's history as Markdown. */
+.history {
+  max-width: 44rem;
+}
+
+.history-status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.history-progress {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.history-text {
+  max-width: 44rem;
+  overflow-wrap: anywhere;
+}
+
+.history-text h3,
+.history-text h4 {
+  margin: 1rem 0 0.25rem;
+}
+
+.history-text h3:first-child,
+.history-text h4:first-child {
+  margin-top: 0;
+}
+
+.history-edit textarea {
+  width: 100%;
+  font-family: inherit;
+}
+
+.history-panel {
+  padding: 0.25rem 0;
+}
+
+/* The host's tool rows open to their call and reply (play/Story.tsx), read from the DM log; `.tool-row pre` above
+   draws the call's parts. */
+.tool-call h4 {
+  margin: 0.5rem 0 0.25rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.tool-call pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: var(--ink);
+}
+
+.tool-steps {
+  margin: 0.35rem 0 0;
+  padding-left: 1.5rem;
+}
+
+.tool-steps summary {
+  cursor: pointer;
+}
+
+.tool-steps summary span + span {
+  margin-left: 0.5rem;
+}
+
+/* The party's purse under the party's heading (play/PartySidebar.tsx). */
+.party-purse {
+  margin: -0.25rem 0 0.6rem;
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.party-purse-label {
+  color: var(--muted);
+}
+
+.party-purse .coin {
+  white-space: nowrap;
+}
+
+/* The module filter (backlog 37): Title wide, then Setting, Starting level and Tag, wrapping on a phone. */
+/* The Modules list's head (DEL-123): the filter, and Table | Cards beside it. */
+.module-list-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.75rem 1rem;
+  margin: 0 0 1.25rem;
+}
+
+/* The Campaigns list's Table | Cards switch (DEL-207), at the end of the line above its groups. */
+.campaign-list-head {
+  display: flex;
+  justify-content: flex-end;
+  margin: 1.25rem 0 0;
+}
+
+.module-list-head .module-filter {
+  flex: 1 1 32rem;
+  margin: 0;
+}
+
+/* Sort by (DEL-243), between the filter and the layout switch. */
+.module-list-head .module-sort {
+  flex: 0 1 11rem;
+  margin: 0;
+}
+
+.segmented {
+  display: inline-flex;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.segmented button {
+  min-height: 0;
+  padding: 0.3rem 0.9rem;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.segmented button + button {
+  border-left: 1px solid var(--rule);
+}
+
+.segmented button[aria-pressed="true"] {
+  background: var(--bg-sunken);
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* Modules as cards (DEL-123): each its banner across the top, or its title's first letter on the sunken surface,
+   then its title and facets; three or four across on a desktop, one on a phone. */
+.module-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(15rem, 100%), 1fr));
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.module-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--card-edge);
+  overflow: hidden;
+}
+
+.module-card-link {
+  display: flex;
+  flex-direction: column;
+  color: inherit;
+  text-decoration: none;
+}
+
+.module-card-link:hover .module-card-title,
+.module-card-link:focus-visible .module-card-title {
+  text-decoration: underline;
+}
+
+.module-card-banner {
+  display: block;
+  width: 100%;
+  aspect-ratio: 21 / 9;
+  object-fit: cover;
+  border-bottom: 1px solid var(--rule);
+}
+
+.module-card-blank {
+  display: grid;
+  place-items: center;
+  background: var(--bg-sunken);
+  color: var(--muted);
+  font-family: var(--display);
+  font-size: 2.2rem;
+}
+
+.module-card-title {
+  padding: 0.6rem 0.8rem 0.2rem;
+  font-family: var(--display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+/* The one-line summary under the title (DEL-360), kept to two lines so the cards in a row stay alike; one cut off
+   opens in place with More (CardSummary), or a click on it. */
+.module-card-summary-box {
+  padding: 0 0.8rem 0.45rem;
+}
+
+.module-card-summary {
+  display: -webkit-box;
+  margin: 0;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.35;
+}
+
+.module-card-summary.is-open {
+  display: block;
+  overflow: visible;
+}
+
+.module-card-summary.is-cut {
+  cursor: pointer;
+}
+
+.module-card-summary-more {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.module-card-summary-more:hover,
+.module-card-summary-more:focus-visible {
+  text-decoration: underline;
+}
+
+.module-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem 0.5rem;
+  padding: 0 0.8rem 0.7rem;
+  font-size: 0.85rem;
+}
+
+/* A module's banner on its page (DEL-123): the picture, the ways to set it, and the crop: a 21:9 frame showing
+   exactly the band the server will keep (object-position, at the slider's percentage). */
+.module-banner {
+  margin: 1rem 0 1.5rem;
+}
+
+.module-banner .banner-campaign {
+  max-width: 42rem;
+}
+
+.banner-actions {
+  display: grid;
+  gap: 0.5rem;
+  max-width: 42rem;
+}
+
+.banner-crop {
+  display: grid;
+  gap: 0.6rem;
+  max-width: 42rem;
+}
+
+.banner-crop-frame {
+  aspect-ratio: 21 / 9;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-sm);
+  background: var(--bg-sunken);
+}
+
+.banner-crop-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.banner-crop-slider {
+  display: grid;
+  gap: 0.2rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.banner-picture-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
+  gap: 0.6rem;
+  margin: 0.5rem 0 0.75rem;
+  padding: 0;
+  list-style: none;
+}
+
+.banner-picture-grid button {
+  display: grid;
+  gap: 0.25rem;
+  width: 100%;
+  min-height: 0;
+  padding: 0.3rem;
+  text-align: left;
+  font-size: 0.75rem;
+}
+
+.banner-picture-grid img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+}
+
+.banner-picture-grid span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Module categories (DEL-114): the list's headings, each with its count; the module page's menu; and the dialog
+   that keeps them, a row a category with its name, Up, Down and Delete. */
+.module-group + .module-group {
+  margin-top: 1.5rem;
+}
+
+.module-group-title {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin: 0 0 0.5rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--display);
+  font-size: 1.1rem;
+}
+
+.module-group-count {
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.module-category {
+  max-width: 18rem;
+  margin: 0.25rem 0 1rem;
+}
+
+.category-list {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0.75rem 0;
+  padding: 0;
+  list-style: none;
+}
+
+.category-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.category-row input {
+  min-width: 0;
+}
+
+.category-add {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.category-add input {
+  flex: 1;
+  min-width: 0;
+}
+
+.module-filter {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(9rem, 100%), 1fr));
+  align-items: end;
+  gap: 0.75rem 1rem;
+  margin: 0 0 1.25rem;
+}
+
+.module-filter > * {
+  min-width: 0;
+  margin: 0;
+}
+
+.module-filter-title {
+  grid-column: 1 / -1;
+}
+
+.module-filter-clear {
+  justify-self: start;
+  white-space: nowrap;
+}
+
+/* A module row's setting, levels and tags: their own line, last, so the row menu stays beside the title. */
+.module-facets {
+  display: flex;
+  flex: 1 0 100%;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 1rem;
+  order: 1;
+}
+
+.module-tags {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+/* A tag that filters the list on it. */
+.tag-button {
+  background: none;
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.tag-button:hover,
+.tag-button:focus-visible {
+  border-color: var(--accent);
+  color: var(--ink);
+}
+
+.module-filter-fold {
+  margin: 0 0 1rem;
+}
+
+.module-filter-fold > summary {
+  margin: 0 0 0.75rem;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+/* What a table tells its players (play/TableAbout.tsx, DEL-204): the places taken, the host's description and the
+   house rules, each folded under its title; on the join page and in the Table tab. */
+.table-about {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.table-about h3 {
+  margin: 0.25rem 0 0;
+  font-size: 0.95rem;
+}
+
+.table-places {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.table-places.full {
+  color: var(--notice-ink);
+  font-weight: 600;
+}
+
+.table-description {
+  overflow-wrap: anywhere;
+}
+
+.table-description > :first-child {
+  margin-top: 0;
+}
+
+.table-rules {
+  display: grid;
+  gap: 0.3rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.table-rules-all > summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.table-rules-all > .table-rules {
+  margin: 0.4rem 0 0 1rem;
+}
+
+.table-rules summary {
+  cursor: pointer;
+}
+
+.table-rules .markdown {
+  margin: 0.3rem 0 0.4rem 1rem;
+  font-size: 0.92rem;
+}
+
+.join .table-about {
+  margin: 0.75rem 0;
+  text-align: left;
+}
+
+/* The host's requests to join (play/JoinRequests.tsx, DEL-204): each account waiting, with its thread. */
+.join-requests {
+  display: grid;
+  gap: 0.5rem;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--notice-ink);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--notice-bg) 50%, var(--surface));
+}
+
+.join-requests h3 {
+  margin: 0;
+}
+
+.join-requests > ul {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.join-request-who {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.request-decline {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.request-decline input {
+  width: auto;
+  min-width: 12rem;
+}
+
+/* When the table plays next (play/NextSession.tsx, DEL-204 part C): the session in the viewer's own time, its rule. */
+.next-session {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.1rem 0.75rem;
+  margin: 0;
+}
+
+.next-session-when {
+  font-weight: 600;
+}
+
+.next-session-moved {
+  font-weight: 400;
+  color: var(--notice-ink);
+}
+
+.next-session-rule {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.next-session-controls {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.next-session-controls h3,
+.next-session-controls p {
+  margin: 0;
+}
+
+.next-session-controls input[type="datetime-local"] {
+  width: auto;
+}
+
+.schedule-preview ul {
+  margin: 0.25rem 0 0;
+  padding-left: 1.2rem;
+}
+
+/* A screen that failed to render (AppError). */
+.app-error-detail {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* The time zone picker (DEL-239): the region and the city side by side, the city below on a narrow screen. */
+.time-zone-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.time-zone-picker select {
+  flex: 1 1 10rem;
+  min-width: 0;
+}
+
+.unused-files {
+  margin: 1.5rem 0;
+}
+
+.unused-files h3 {
+  margin: 0 0 0.5rem;
+}
+
+.unused-files p {
+  margin: 0 0 0.5rem;
+}
+
+.unused-kinds {
+  margin: 0 0 0.5rem;
+  padding-left: 1.25rem;
+}
+
+/* Preferences' Packs (DEL-366): the installed rulesets and settings, the owner's upload and the restart. */
+.packs-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.75rem 0;
+}
+
+.packs-table th,
+.packs-table td {
+  padding: 0.4rem 0.5rem;
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+  vertical-align: baseline;
+}
+
+.packs-table code {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.packs-table .tag {
+  margin-left: 0.4rem;
+}
+
+.packs-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.9rem;
+  justify-content: flex-end;
+}
+
+.packs-actions .link-button {
+  min-height: 0;
+  padding: 0;
+}
+
+.packs-restart {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+}
+
+.packs-restart p {
+  margin: 0;
+}
+
+.packs-upload input[type="file"],
+.setting-transfer input[type="file"] {
+  min-height: 0;
+  padding: 0.3rem;
+}
+
+/* A setting's Export and import (DEL-366). */
+.setting-transfer {
+  display: grid;
+  gap: 1.5rem;
+  max-width: 48rem;
+}
+
+.transfer-keep {
+  display: grid;
+  gap: 0.3rem;
+  margin: 0.5rem 0 0.75rem;
+  padding: 0;
+  border: 0;
+}
+
+.transfer-keep label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: normal;
+}
+
+.transfer-keep input {
+  width: auto;
+  min-height: 0;
+  margin: 0;
+}

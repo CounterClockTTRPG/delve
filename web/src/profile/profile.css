@@ -1,0 +1,474 @@
+/* A player's face (Avatar.tsx): a disc of their colour with the emblem on it, like a charge on its field. The ink of
+   the emblem follows heraldry's rule of tincture: on the dark teal a light metal (argent), on the light colours a dark
+   one (sable), so it reads in every look. The ring sits off the disc by a hair of the page's surface. */
+.avatar {
+  --avatar-colour: var(--accent);
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  box-sizing: border-box;
+  border-radius: 50%;
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+  background: var(--avatar-colour);
+  box-shadow:
+    0 0 0 1.5px var(--surface),
+    0 0 0 3px var(--avatar-colour);
+  color: #1e2b2f;
+  vertical-align: middle;
+}
+
+.avatar[data-colour="teal"] {
+  color: #f5f7f4;
+}
+
+.avatar .emblem {
+  width: 78%;
+  height: 78%;
+  margin-top: 4%;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+button.avatar {
+  cursor: pointer;
+  min-height: 0;
+  min-width: 0;
+}
+
+button.avatar:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 4px;
+}
+
+/* A seat without a profile: a plain dot of the ink colour. */
+/* A seat without a profile, in the talk: its name's first letter in a ring of the ink colour. */
+.avatar-initial {
+  display: inline-grid;
+  place-items: center;
+  border: 2px solid var(--muted);
+  color: var(--ink);
+  background: var(--bg-sunken);
+  font-weight: 600;
+  line-height: 1;
+}
+
+.avatar-none {
+  background: transparent;
+  box-shadow: none;
+  position: relative;
+}
+
+.avatar-none::after {
+  content: "";
+  width: 30%;
+  height: 30%;
+  border-radius: 50%;
+  background: var(--ink);
+  opacity: 0.55;
+}
+
+/* Preferences' Profile section (ProfileSection.tsx): the face the table shows on the left, like an entry in a roll of
+   arms, the form beside it. On a narrow screen the face goes on top. */
+.profile-layout {
+  display: grid;
+  grid-template-columns: 10rem minmax(0, 36rem);
+  gap: 1.5rem 2rem;
+  align-items: start;
+}
+
+.profile-preview {
+  margin: 0;
+  display: grid;
+  justify-items: center;
+  gap: 0.75rem;
+  padding-top: 0.5rem;
+  position: sticky;
+  top: 1rem;
+  text-align: center;
+}
+
+.profile-preview figcaption {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.profile-preview-name {
+  font-family: var(--display);
+  font-size: 1.25rem;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.profile-preview-pronouns {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.profile-form {
+  display: grid;
+  gap: 1rem;
+}
+
+.profile-form .field {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.profile-names {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1rem;
+}
+
+.profile-form fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+
+.profile-form legend {
+  padding: 0;
+  margin-bottom: 0.5rem;
+}
+
+/* The twelve emblems as a 6 × 2 board: each a shield in the ink; the chosen one on a disc of the colour. */
+.profile-emblem-grid {
+  --pick-colour: var(--accent);
+  display: grid;
+  grid-template-columns: repeat(6, 3.25rem);
+  gap: 0.5rem;
+}
+
+.profile-emblem {
+  position: relative;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.profile-emblem input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.profile-emblem-face {
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 50%;
+  color: var(--muted);
+  background: var(--bg);
+  transition:
+    background-color 120ms ease,
+    color 120ms ease;
+}
+
+.profile-emblem-face .emblem {
+  width: 72%;
+  height: 72%;
+  margin-top: 4%;
+}
+
+.profile-emblem:hover .profile-emblem-face {
+  color: var(--ink);
+}
+
+.profile-emblem input:checked + .profile-emblem-face {
+  background: var(--pick-colour);
+  box-shadow:
+    0 0 0 2px var(--surface),
+    0 0 0 4px var(--pick-colour);
+}
+
+.profile-emblem input:checked + .profile-emblem-face .emblem {
+  color: #1e2b2f;
+}
+
+.profile-emblem[data-colour="teal"] input:checked + .profile-emblem-face .emblem {
+  color: #f5f7f4;
+}
+
+.profile-emblem input:focus-visible + .profile-emblem-face {
+  outline: 2px solid var(--focus);
+  outline-offset: 5px;
+}
+
+.profile-picture {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.profile-picture .hint {
+  flex-basis: 100%;
+}
+
+.profile-upload:focus-within {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.profile-colours {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+}
+
+.profile-colours legend {
+  width: 100%;
+}
+
+/* A colour is its swatch: the radio itself is out of sight, and the chosen swatch wears the avatar's ring. */
+.profile-colour {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.profile-colour input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+}
+
+.profile-swatch {
+  flex: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
+}
+
+.profile-colour input:checked + .profile-swatch {
+  box-shadow:
+    0 0 0 2px var(--surface),
+    0 0 0 4px var(--ink);
+}
+
+.profile-colour input:focus-visible + .profile-swatch {
+  outline: 2px solid var(--focus);
+  outline-offset: 5px;
+}
+
+.profile-count {
+  justify-self: end;
+}
+
+@media (max-width: 720px) {
+  .profile-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .profile-preview {
+    position: static;
+  }
+
+  .profile-names {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .profile-emblem-grid {
+    grid-template-columns: repeat(auto-fill, 3.25rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .profile-emblem-face {
+    transition: none;
+  }
+}
+
+/* Faces at the table (players and tavern Task G3). In the seat indicators and the table's seats the avatar sits
+   between the state's dot and the name; the ring needs a little room of its own. */
+.seat-indicators li .avatar,
+.table-seats li .avatar {
+  margin: 0 0.15rem;
+}
+
+/* Their state's dot is already there: a seat without a profile needs no second one. */
+.seat-indicators li .avatar-none,
+.table-seats li .avatar-none {
+  display: none;
+}
+
+/* The party card's player: the one who plays the character, small, under the character's name. Never the portrait. */
+.party-player {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0.1rem 0 0.15rem 0.15rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+  cursor: default;
+}
+
+/* The join page's "You are Ana", with Not you? Log out under the name. */
+.join-you {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin: 0.75rem 0 1rem;
+  padding: 0.6rem 0.75rem 0.6rem 0.9rem;
+  border-radius: var(--radius);
+  background: var(--bg);
+}
+
+.join-you p {
+  display: grid;
+  gap: 0.1rem;
+  margin: 0;
+}
+
+.join-you-name {
+  font-family: var(--display);
+  font-size: 1.1rem;
+}
+
+.join-you .link-button {
+  justify-self: start;
+  font-size: 0.85rem;
+}
+
+/* The campaign page's seats: the avatar, the name, then the role. */
+.campaign-seats .row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.campaign-seats .seat-role {
+  margin-left: auto;
+}
+
+/* The profile card: the face large beside the name, like the head of a herald's page; the note for the host set off
+   by a rule of the player's colour. */
+.dialog.profile-card {
+  --avatar-colour: var(--accent);
+  width: min(26rem, calc(100vw - 2rem));
+  border-top: 4px solid var(--avatar-colour);
+}
+
+.profile-card-head {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.9rem;
+}
+
+.profile-card-head .dialog-title {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 1.4rem;
+  overflow-wrap: anywhere;
+}
+
+.profile-card-pronouns {
+  margin: 0.15rem 0 0;
+  color: var(--muted);
+}
+
+.profile-card-about {
+  margin: 0;
+  white-space: pre-line;
+  line-height: 1.5;
+}
+
+.profile-card-note {
+  margin-top: 1rem;
+  padding-left: 0.75rem;
+  border-left: 3px solid var(--avatar-colour);
+}
+
+.profile-card-note h3 {
+  margin: 0 0 0.2rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.profile-card-note p {
+  margin: 0;
+  white-space: pre-line;
+}
+
+.profile-card-time {
+  margin: 0.9rem 0 0;
+  font-variant-numeric: tabular-nums;
+}
+
+/* A person's face and name as a button to their card (DEL-218): looks like the text it stands in. */
+.person {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+button.person {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+button.person:hover .person-name {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+button.person:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 999px;
+}
+
+/* Who sits at a table (DEL-217): the faces in a row, the open places as grey blanks, the count after them. */
+.table-faces {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.6rem;
+}
+
+.table-faces ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.table-faces li {
+  display: flex;
+}
+
+.face-open {
+  display: block;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--muted) 18%, transparent);
+  border: 1px dashed color-mix(in srgb, var(--muted) 60%, transparent);
+  box-sizing: border-box;
+}

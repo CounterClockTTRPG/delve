@@ -1,0 +1,37 @@
+<svg data-party-node="room.entry_hall" xmlns="http://www.w3.org/2000/svg" class="dm-741b4f3165" viewBox="0 0 60 44" width="1920" height="1408" data-name="Crypt of Saint Vellis" data-map-w="60" data-map-h="40" data-origin="top-left">
+<style>.dm-741b4f3165 .wall{fill:none;stroke:#111;stroke-width:0.18;stroke-linecap:square;stroke-linejoin:miter}.dm-741b4f3165 .ruined .wall{stroke-dasharray:0.54,0.324,0.01,0.324;stroke-linecap:round;stroke-linejoin:round}.dm-741b4f3165 .dotted .wall{stroke-dasharray:0.01,0.288;stroke-linecap:round;stroke-linejoin:round}.dm-741b4f3165 .dashed .wall{stroke-dasharray:0.54,0.36;stroke-linecap:butt}.dm-741b4f3165 .tick{fill:none;stroke:#111;stroke-width:0.06;stroke-linecap:butt}.dm-741b4f3165 .trail-x{fill:none;stroke:#111;stroke-width:0.05;stroke-linecap:round}.dm-741b4f3165 .line-feature{fill:none;stroke:#111;stroke-width:0.07;stroke-linecap:round;stroke-linejoin:round}.dm-741b4f3165 .floor{fill:#fafafa;stroke:none}.dm-741b4f3165 .corridor-wall{fill:none}.dm-741b4f3165 .door{fill:none;stroke:#111;stroke-width:0.1;stroke-linecap:butt}.dm-741b4f3165 .window{fill:none;stroke:#111;stroke-width:0.06}.dm-741b4f3165 .feature{fill:#fff;stroke:#111;stroke-width:0.06}.dm-741b4f3165 .feature-fill{fill:#111;stroke:none}.dm-741b4f3165 .label{font-family:Georgia,serif;font-style:italic;fill:#111;paint-order:stroke;stroke:#fafafa;stroke-width:0.18;stroke-linejoin:round}.dm-741b4f3165 .room-grid{stroke:#b8b3a3}.dm-741b4f3165 .room-grid line{stroke-width:0.04;fill:none}.dm-741b4f3165 .map-grid{stroke:#9a937f}.dm-741b4f3165 .map-grid line{stroke-width:0.035;fill:none;opacity:0.55}</style>
+<rect class="bg" x="0" y="0" width="60" height="44" fill="#1a1a1a"/>
+<g class="rooms">
+<path class="floor" data-room="entry_hall" data-number="1" data-label="Entry Hall" data-description="A drafty antechamber. Bones crunch underfoot." d="M 5,5 L 15,5 L 15,13 L 5,13 L 5,5 Z"/>
+</g>
+<g class="walls">
+<g data-room="entry_hall"><line class="wall" x1="5" y1="5" x2="15" y2="5"/><line class="wall" x1="15" y1="5" x2="15" y2="9.5"/><line class="wall" x1="15" y1="10.5" x2="15" y2="13"/><line class="wall" x1="15" y1="13" x2="5" y2="13"/><line class="wall" x1="5" y1="13" x2="5" y2="5"/></g>
+</g>
+<g class="corridors">
+<path class="corridor-floor" data-corridor="main_hall" data-label="main_hall" d="M 15,9 L 15,11 L 17,11 L 17,9 Z" fill="#fafafa" fill-rule="evenodd" stroke="none"/><g class="corridor-walls" data-corridor="main_hall"><path class="wall" d="M 17,9.5 L 17,9 L 15,9 L 15,9.5"/><path class="wall" d="M 15,10.5 L 15,11 L 17,11 L 17,10.5"/></g>
+</g>
+<g class="doors">
+<g class="door-instance" data-door="wooden"><line class="door" x1="15.18" y1="9.5" x2="14.82" y2="9.5"/><line class="door" x1="15.18" y1="10.5" x2="14.82" y2="10.5"/><polygon class="door-leaf" points="15.16,9.64 15.16,10.36 14.84,10.36 14.84,9.64" fill="#111" stroke="none"/></g>
+<g class="door-instance" data-door="iron" data-label="Locked iron door" data-description="Three hand-spans thick. The frame is warded."><line class="door" x1="16.82" y1="10.5" x2="17.18" y2="10.5"/><line class="door" x1="16.82" y1="9.5" x2="17.18" y2="9.5"/><polygon class="door-leaf" points="16.84,10.36 16.84,9.64 17.16,9.64 17.16,10.36" fill="#111" stroke="none"/><circle class="door-lock" cx="17" cy="10" r="0.07" fill="#fafafa" stroke="none"/></g>
+</g>
+<g class="features">
+<g class="feature-instance" data-ref="pillar" data-label="Pillar" transform="translate(7,7) scale(1,1) rotate(0)"><circle class="feature-fill" cx="0" cy="0" r="0.13"/></g>
+<g class="feature-instance" data-ref="pillar" data-label="Pillar" transform="translate(13,7) scale(1,1) rotate(0)"><circle class="feature-fill" cx="0" cy="0" r="0.13"/></g>
+<g class="feature-instance" data-ref="pillar" data-label="Pillar" transform="translate(7,11) scale(1,1) rotate(0)"><circle class="feature-fill" cx="0" cy="0" r="0.13"/></g>
+<g class="feature-instance" data-ref="pillar" data-label="Pillar" transform="translate(13,11) scale(1,1) rotate(0)"><circle class="feature-fill" cx="0" cy="0" r="0.13"/></g>
+<g class="feature-instance" data-ref="chest" data-label="Chest" transform="translate(10,11) scale(1,1) rotate(45)" data-description="Iron-bound. The lock is freshly oiled."><rect class="feature" x="-0.5" y="-0.35" width="1" height="0.7"/><line class="feature" x1="-0.5" y1="-0.05" x2="0.5" y2="-0.05"/></g>
+<g class="feature-instance" data-ref="rubble" data-label="Rubble" transform="translate(6,12) scale(0.8,0.8) rotate(15)"><polygon class="feature" points="-0.3,-0.1 -0.1,-0.25 0.05,-0.1 -0.15,0"/><polygon class="feature" points="0.05,-0.05 0.25,-0.15 0.3,0.05 0.15,0.1"/><polygon class="feature" points="-0.2,0.05 0,0.05 0.05,0.22 -0.15,0.22"/></g>
+</g>
+<g class="party-start" data-label="Party start" data-description="Starting position"><circle cx="10" cy="9" r="0.42" fill="#2aa05a" stroke="#0f3d22" stroke-width="0.1"/><text x="10" y="9" font-family="Georgia,serif" font-size="0.6" fill="#fff" text-anchor="middle" dominant-baseline="central">S</text></g>
+<g class="labels">
+<text class="label" transform="translate(10,5.5) rotate(0)" text-anchor="middle" dominant-baseline="hanging" font-size="0.9">1. Entry Hall</text>
+<text class="label text-annotation" transform="translate(26,3.4) rotate(-5)" text-anchor="middle" dominant-baseline="central" font-size="0.81">REQVIESCAT</text>
+</g>
+<g class="legend">
+<line x1="0" y1="40.05" x2="60" y2="40.05" stroke="#999" stroke-width="0.05"/>
+<line class="wall" x1="12.43" y1="41.6" x2="14.1" y2="41.6"/><line class="wall" x1="15.9" y1="41.6" x2="17.57" y2="41.6"/><line class="door" x1="14.1" y1="41.42" x2="14.1" y2="41.78"/><line class="door" x1="15.9" y1="41.42" x2="15.9" y2="41.78"/><rect class="door-leaf" x="14.24" y="41.44" width="1.52" height="0.32" fill="#111" stroke="none"/>
+<text x="15" y="42.95" font-family="Georgia,serif" font-style="italic" font-size="0.65" fill="#111" text-anchor="middle" dominant-baseline="central">Door</text>
+<line class="wall" x1="42.43" y1="41.6" x2="44.1" y2="41.6"/><line class="wall" x1="45.9" y1="41.6" x2="47.57" y2="41.6"/><line class="door" x1="44.1" y1="41.42" x2="44.1" y2="41.78"/><line class="door" x1="45.9" y1="41.42" x2="45.9" y2="41.78"/><rect class="door-leaf" x="44.24" y="41.44" width="1.52" height="0.32" fill="#111" stroke="none"/><circle cx="45" cy="41.6" r="0.07" fill="#fafafa" stroke="none"/>
+<text x="45" y="42.95" font-family="Georgia,serif" font-style="italic" font-size="0.65" fill="#111" text-anchor="middle" dominant-baseline="central">Locked</text>
+</g>
+</svg>

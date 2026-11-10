@@ -1,0 +1,20 @@
+- id: prior-anselm
+  name: Prior Anselm
+  audience: player
+  role: quest giver
+  summary: Elderly prior of the chapel; frightened, honest.
+  disposition: 40
+- id: ritualist
+  name: Brother Kael
+  role: cult priest
+  summary: Ritualist binding the saint's bones to the cult's will.
+  location: key:C2
+  description: Fanatic, but no fool — flees through [C3](text:crypt-key#c3) when bloodied.
+  stats:
+    adnd2e:
+      ac: 6
+      hd: 3
+      hp: 18
+      thac0: 18
+      attacks: 1d6+1 (mace)
+      morale: 11

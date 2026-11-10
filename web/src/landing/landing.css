@@ -1,0 +1,282 @@
+/* The public front page (DEL-144): Delve's stone and verdigris taken underground, with one warm light, the lantern's.
+   Its own tokens, under .landing, so the app's looks (data-look on <html>) leave it alone. IM Fell English (already
+   bundled for the Dark dungeon look) for the display type only; the system sans for reading. */
+
+.landing {
+  --deep: #102421; /* the dungeon: verdigris-black */
+  --deeper: #0b1a18;
+  --stone: #dfe3dd; /* weathered stone: the words */
+  --stone-muted: #b9c5bf;
+  --verdigris: #2c7a6b; /* Delve's accent */
+  --patina: #9cc8b9;
+  --lantern: #e3a63f; /* the one warm light: the way in */
+  --lantern-ink: #1d1607;
+  --fell: "IM Fell English", "Palatino Linotype", Palatino, Georgia, serif;
+  /* One left edge for the hero's words, the sections and the foot. */
+  --edge: clamp(1.25rem, 6vw, 6rem);
+  --read: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif;
+
+  min-height: 100vh;
+  background: linear-gradient(180deg, var(--deep) 0%, var(--deeper) 100%);
+  color: var(--stone);
+  font-family: var(--read);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+}
+
+.landing a {
+  color: var(--patina);
+}
+
+.landing a:focus-visible {
+  outline: 3px solid var(--patina);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ----- the hero: the painting, its left third the words' ----- */
+
+.landing-hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  /* The whole first screen: what's below starts on the next one. */
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: 3rem var(--edge);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.landing-hero-picture {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 68% center;
+}
+
+/* The painting's own dark left side, deepened where the words are, and run out into the page below. It stays dark
+   across the words' column before it fades: at 38% the lit stairs and their lantern showed through the lede (DEL-269). */
+.landing-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgb(16 36 33 / 0.86) 0%, rgb(16 36 33 / 0.72) 40%, rgb(16 36 33 / 0.3) 55%, transparent 68%),
+    linear-gradient(180deg, transparent 70%, var(--deep) 100%);
+}
+
+.landing-hero-words {
+  max-width: 34rem;
+  animation: landing-rise 1.2s ease-out both;
+}
+
+.landing-wordmark {
+  margin: 0;
+  font-family: var(--fell);
+  font-weight: 400;
+  font-size: clamp(4.5rem, 11vw, 9.5rem);
+  line-height: 0.9;
+  letter-spacing: -0.01em;
+  color: var(--stone);
+  text-shadow: 0 0 48px rgb(227 166 63 / 0.16);
+}
+
+.landing-lede {
+  margin: 1.25rem 0 2rem;
+  max-width: 38ch;
+  font-size: clamp(1.15rem, 1.6vw, 1.35rem);
+  line-height: 1.5;
+  color: var(--stone-muted);
+  text-shadow: 0 1px 3px rgb(10 22 20 / 0.9);
+}
+
+.landing-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+}
+
+.landing .landing-primary {
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
+  border-radius: 3px;
+  background: var(--lantern);
+  color: var(--lantern-ink);
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 0 28px rgb(227 166 63 / 0.25);
+}
+
+.landing .landing-primary:hover {
+  background: #edb752;
+}
+
+.landing .landing-secondary {
+  font-weight: 600;
+  text-underline-offset: 0.2em;
+}
+
+.landing-who {
+  color: var(--stone-muted);
+  font-size: 0.95rem;
+  max-width: 24ch;
+  text-shadow: 0 1px 3px rgb(10 22 20 / 0.9);
+}
+
+/* The one moment of motion: the words come up out of the dark as the page opens. */
+@keyframes landing-rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-hero-words {
+    animation: none;
+  }
+}
+
+/* ----- below the stair ----- */
+
+.landing-body {
+  max-width: 72rem;
+  padding: 4.5rem var(--edge) 4rem;
+}
+
+.landing-body h2 {
+  margin: 0 0 1.75rem;
+  font-family: var(--fell);
+  font-weight: 400;
+  font-size: clamp(2rem, 3.4vw, 2.75rem);
+  line-height: 1.1;
+  color: var(--stone);
+}
+
+.landing-body h3 {
+  margin: 0 0 0.35rem;
+  font-family: var(--fell);
+  font-weight: 400;
+  font-size: 1.6rem;
+  line-height: 1.2;
+  color: var(--stone);
+}
+
+/* How you get to a table: three steps, each a tread lower and further in, like the stair in the painting. */
+.landing-steps ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: step;
+}
+
+.landing-steps li {
+  counter-increment: step;
+  position: relative;
+  max-width: 36rem;
+  padding: 1rem 0 1.25rem 3.25rem;
+  border-top: 1px solid rgb(156 200 185 / 0.3);
+}
+
+.landing-steps li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 0.55rem;
+  font-family: var(--fell);
+  font-style: italic;
+  font-size: 2.4rem;
+  line-height: 1;
+  color: var(--patina);
+}
+
+.landing-steps p {
+  margin: 0;
+  color: var(--stone-muted);
+}
+
+@media (min-width: 760px) {
+  .landing-steps li:nth-child(2) {
+    margin-left: 5rem;
+  }
+
+  .landing-steps li:nth-child(3) {
+    margin-left: 10rem;
+  }
+}
+
+/* What's down there: a plain key, as an old module keys its rooms. */
+.landing-finds {
+  margin-top: 4.5rem;
+}
+
+.landing-finds dl {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
+  gap: 1.75rem 3rem;
+  margin: 0;
+}
+
+.landing-finds dl > div {
+  padding-left: 1rem;
+  border-left: 2px solid var(--verdigris);
+}
+
+.landing-finds dt {
+  font-family: var(--fell);
+  font-size: 1.45rem;
+  line-height: 1.2;
+  color: var(--patina);
+}
+
+.landing-finds dd {
+  margin: 0.3rem 0 0;
+  max-width: 34ch;
+  color: var(--stone-muted);
+}
+
+/* ----- the foot ----- */
+
+.landing-foot {
+  max-width: 72rem;
+  margin: 0 var(--edge);
+  padding: 1.5rem 0 3rem;
+  border-top: 1px solid rgb(156 200 185 / 0.2);
+  color: var(--stone-muted);
+  font-size: 0.92rem;
+}
+
+.landing-foot p {
+  margin: 0 0 0.75rem;
+  max-width: 60ch;
+}
+
+.landing-foot nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+}
+
+/* ----- a phone: the painting above, the words over its dark foot ----- */
+
+@media (max-width: 700px) {
+  .landing-hero {
+    align-items: flex-end;
+    min-height: 100svh;
+    padding-bottom: 2.5rem;
+  }
+
+  .landing-hero-picture {
+    object-position: 62% center;
+  }
+
+  .landing-hero::after {
+    background: linear-gradient(180deg, transparent 20%, rgb(16 36 33 / 0.7) 55%, var(--deep) 100%);
+  }
+}

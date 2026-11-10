@@ -1,0 +1,58 @@
+/* The chosen items' audience: a row of its count and two buttons, under a list. */
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+}
+
+.bar p {
+  flex-basis: 100%;
+  margin: 0;
+}
+
+.count {
+  font-weight: 600;
+  margin-right: auto;
+}
+
+/* A row's tick sits before its button, which keeps its width. */
+.row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* A tick is its own size, not a text field's full width (styles.css's `input`). */
+.box,
+.all input {
+  width: auto;
+  min-height: 0;
+  padding: 0;
+}
+
+.box {
+  flex-shrink: 0;
+  justify-self: start;
+  margin: 0;
+}
+
+/* Beside the tick the button fills the rest of the list's width, its tag wrapping under the name when it must. */
+.row > button {
+  flex: 1;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.all {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0 0 0.5rem;
+  font-size: 0.9em;
+}

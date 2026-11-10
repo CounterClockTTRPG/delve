@@ -1,0 +1,364 @@
+{
+ "_source": "OSRIC 3.0 Player Guide, Chapter Two: Ancestry (Table 1.2.0A required scores; per-ancestry ability modifiers and features). Thief-skill ancestry adjustments from Table 1.3.10.4D.",
+ "_notes": {
+  "ability_modifiers": "Applied to rolled scores at creation, then results must fall within 'ability_ranges' (scores over max are lowered to fit).",
+  "allowed_classes": "Limited to the four classes implemented in this engine and follows standard OSRIC availability. The GM may override.",
+  "infravision_ft": "Ability to see in the dark, in feet."
+ },
+ "dwarf": {
+  "name": "Dwarf",
+  "ability_modifiers": {
+   "constitution": 1,
+   "charisma": -1
+  },
+  "ability_ranges": {
+   "strength": [
+    8,
+    18
+   ],
+   "dexterity": [
+    3,
+    17
+   ],
+   "constitution": [
+    12,
+    19
+   ],
+   "intelligence": [
+    3,
+    18
+   ],
+   "wisdom": [
+    3,
+    18
+   ],
+   "charisma": [
+    3,
+    16
+   ]
+  },
+  "size": "Small",
+  "base_movement_ft": 90,
+  "infravision_ft": 60,
+  "allowed_classes": [
+   "fighter",
+   "cleric",
+   "thief"
+  ],
+  "features": [
+   "Giant-Slayers: large humanoids classed as giants attack at -4 to hit against you.",
+   "Grudge-Bearers: +1 to hit vs goblins, half-orcs, hobgoblins, orcs.",
+   "Stalwart: saving-throw bonus (by Constitution) vs poison, spells and magical effects.",
+   "Stone-Kenning: chance to detect stonework features."
+  ],
+  "thief_skill_adjustments": {
+   "climb_walls": -10,
+   "pick_locks": 15,
+   "move_quietly": -5,
+   "find_remove_traps": 15,
+   "read_languages": -5
+  }
+ },
+ "elf": {
+  "name": "Elf",
+  "ability_modifiers": {
+   "dexterity": 1,
+   "constitution": -1
+  },
+  "ability_ranges": {
+   "strength": [
+    3,
+    18
+   ],
+   "dexterity": [
+    7,
+    19
+   ],
+   "constitution": [
+    6,
+    18
+   ],
+   "intelligence": [
+    8,
+    18
+   ],
+   "wisdom": [
+    3,
+    18
+   ],
+   "charisma": [
+    8,
+    18
+   ]
+  },
+  "size": "Medium",
+  "base_movement_ft": 120,
+  "infravision_ft": 60,
+  "allowed_classes": [
+   "fighter",
+   "magic-user",
+   "thief",
+   "cleric"
+  ],
+  "features": [
+   "Resistance to sleep and charm effects (90%).",
+   "Secret door detection (increased chance).",
+   "Bonus to hit with bow and sword (long/short)."
+  ],
+  "thief_skill_adjustments": {
+   "climb_walls": -5,
+   "hide_in_shadows": 10,
+   "hear_noise": 5,
+   "pick_locks": -5,
+   "pick_pockets": 5,
+   "move_quietly": 5,
+   "find_remove_traps": 5,
+   "read_languages": 10
+  }
+ },
+ "gnome": {
+  "name": "Gnome",
+  "ability_modifiers": {},
+  "ability_ranges": {
+   "strength": [
+    6,
+    18
+   ],
+   "dexterity": [
+    3,
+    18
+   ],
+   "constitution": [
+    8,
+    18
+   ],
+   "intelligence": [
+    7,
+    18
+   ],
+   "wisdom": [
+    3,
+    18
+   ],
+   "charisma": [
+    3,
+    18
+   ]
+  },
+  "size": "Small",
+  "base_movement_ft": 90,
+  "infravision_ft": 60,
+  "allowed_classes": [
+   "fighter",
+   "cleric",
+   "thief"
+  ],
+  "features": [
+   "Saving-throw and combat bonuses vs certain burrowing/large humanoids.",
+   "Stone-based detection abilities."
+  ],
+  "thief_skill_adjustments": {
+   "climb_walls": -15,
+   "hear_noise": 5,
+   "pick_locks": 10
+  }
+ },
+ "half-elf": {
+  "name": "Half-Elf",
+  "ability_modifiers": {},
+  "ability_ranges": {
+   "strength": [
+    3,
+    18
+   ],
+   "dexterity": [
+    6,
+    18
+   ],
+   "constitution": [
+    6,
+    18
+   ],
+   "intelligence": [
+    4,
+    18
+   ],
+   "wisdom": [
+    3,
+    18
+   ],
+   "charisma": [
+    3,
+    18
+   ]
+  },
+  "size": "Medium",
+  "base_movement_ft": 120,
+  "infravision_ft": 60,
+  "allowed_classes": [
+   "fighter",
+   "cleric",
+   "magic-user",
+   "thief"
+  ],
+  "features": [
+   "Partial resistance to sleep and charm.",
+   "Some secret-door detection."
+  ],
+  "thief_skill_adjustments": {
+   "hide_in_shadows": 5,
+   "pick_pockets": 10
+  }
+ },
+ "halfling": {
+  "name": "Halfling",
+  "ability_modifiers": {
+   "dexterity": 1,
+   "strength": -1
+  },
+  "ability_ranges": {
+   "strength": [
+    6,
+    17
+   ],
+   "dexterity": [
+    8,
+    18
+   ],
+   "constitution": [
+    10,
+    19
+   ],
+   "intelligence": [
+    6,
+    18
+   ],
+   "wisdom": [
+    3,
+    17
+   ],
+   "charisma": [
+    3,
+    18
+   ]
+  },
+  "size": "Small",
+  "base_movement_ft": 90,
+  "infravision_ft": 30,
+  "allowed_classes": [
+   "fighter",
+   "thief"
+  ],
+  "features": [
+   "Saving-throw bonus (by Constitution) vs poison, spells and magical effects.",
+   "Bonus to hit with thrown weapons and slings."
+  ],
+  "thief_skill_adjustments": {
+   "climb_walls": -15,
+   "hide_in_shadows": 15,
+   "hear_noise": 5,
+   "pick_pockets": 5,
+   "move_quietly": 15,
+   "read_languages": -5
+  }
+ },
+ "half-orc": {
+  "name": "Half-Orc",
+  "ability_modifiers": {
+   "strength": 1,
+   "constitution": 1,
+   "charisma": -2
+  },
+  "ability_ranges": {
+   "strength": [
+    6,
+    18
+   ],
+   "dexterity": [
+    3,
+    17
+   ],
+   "constitution": [
+    13,
+    19
+   ],
+   "intelligence": [
+    3,
+    17
+   ],
+   "wisdom": [
+    3,
+    14
+   ],
+   "charisma": [
+    3,
+    12
+   ]
+  },
+  "size": "Medium",
+  "base_movement_ft": 120,
+  "infravision_ft": 60,
+  "allowed_classes": [
+   "fighter",
+   "cleric",
+   "thief"
+  ],
+  "features": [
+   "Hardy and strong; favoured toward martial roles."
+  ],
+  "thief_skill_adjustments": {
+   "climb_walls": 5,
+   "hear_noise": 5,
+   "pick_locks": 5,
+   "pick_pockets": -5,
+   "find_remove_traps": 5,
+   "read_languages": -10
+  }
+ },
+ "human": {
+  "name": "Human",
+  "ability_modifiers": {},
+  "ability_ranges": {
+   "strength": [
+    3,
+    18
+   ],
+   "dexterity": [
+    3,
+    18
+   ],
+   "constitution": [
+    3,
+    18
+   ],
+   "intelligence": [
+    3,
+    18
+   ],
+   "wisdom": [
+    3,
+    18
+   ],
+   "charisma": [
+    3,
+    18
+   ]
+  },
+  "size": "Medium",
+  "base_movement_ft": 120,
+  "infravision_ft": 0,
+  "allowed_classes": [
+   "fighter",
+   "cleric",
+   "magic-user",
+   "thief"
+  ],
+  "features": [
+   "No ability modifiers; unlimited level advancement; may dual-class."
+  ],
+  "thief_skill_adjustments": {
+   "climb_walls": 5,
+   "pick_locks": 5
+  }
+ }
+}

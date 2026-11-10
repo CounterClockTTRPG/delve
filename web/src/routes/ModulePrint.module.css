@@ -1,0 +1,149 @@
+/* The whole module for print. The map pages and keys keep MapPrint's own styles. */
+
+.titlePage {
+  padding: 48px 0 24px;
+  text-align: center;
+}
+.titlePage h1 {
+  font-size: 34px;
+  letter-spacing: -0.01em;
+  margin-bottom: 24px;
+}
+
+.facts {
+  display: inline-grid;
+  grid-template-columns: auto auto;
+  gap: 4px 16px;
+  margin: 0 0 24px;
+  text-align: left;
+}
+.facts > div {
+  display: contents;
+}
+.facts dt {
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--fg-muted);
+}
+.facts dd {
+  margin: 0;
+}
+
+.cover {
+  display: block;
+  max-width: 100%;
+  max-height: 60vh;
+  margin: 0 auto;
+}
+
+.note {
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--fg-muted);
+  margin: 24px 0 0;
+}
+
+/* The texts flow on from one another; a map and each section after the texts start a new page (`pageBreak`). */
+.part {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.partTitle {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: 24px;
+  margin-bottom: 16px;
+}
+
+.block {
+  break-inside: avoid;
+  page-break-inside: avoid;
+  margin: 0 0 18px;
+}
+.blockTitle {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.block p {
+  margin: 0 0 4px;
+}
+
+.stats {
+  font-family: var(--sans);
+  font-size: 10.5pt;
+}
+
+.description {
+  white-space: pre-wrap;
+}
+
+.monsters {
+  margin: 0 0 4px;
+  padding-left: 20px;
+}
+
+.pregens {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--sans);
+  font-size: 10pt;
+}
+.pregens th,
+.pregens td {
+  border-bottom: 1px solid #bbb;
+  padding: 3px 6px;
+  text-align: left;
+  vertical-align: top;
+}
+.pregens tr {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.image {
+  break-inside: avoid;
+  page-break-inside: avoid;
+  margin: 0 0 24px;
+  text-align: center;
+}
+.image img {
+  max-width: 100%;
+  max-height: 70vh;
+}
+.image figcaption {
+  margin-top: 6px;
+  font-style: italic;
+}
+
+@media print {
+  .titlePage {
+    padding-top: 30mm;
+  }
+  .part {
+    margin-top: 8mm;
+    padding-top: 0;
+    border-top: none;
+  }
+  .pageBreak {
+    break-before: page;
+    page-break-before: always;
+    margin-top: 0;
+  }
+  .partTitle {
+    font-size: 18pt;
+  }
+  /* The editor's look on paper: the read-aloud box keeps its colour. */
+  .part :global(blockquote.read-aloud) {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .part :global(.ref-chip) {
+    border: none;
+    padding: 0;
+    font: inherit;
+  }
+}

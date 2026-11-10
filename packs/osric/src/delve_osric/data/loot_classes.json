@@ -1,0 +1,1099 @@
+{
+ "_source": "OSRIC 3.0 Gamemaster Guide, Chapter Twelve — Treasure and Loot. Loot classes §2.12.1 (Hoards 1–9 = §2.12.1.A–I; Individuals 1–5 = §2.12.1.J–N; Caches 1–12 = §2.12.1.O–Z); Unowned Treasure Table 2.12A (§2.12A); Magic-item type Table 2.13.1A (§2.13.1). Gem values Table 2.12.4A and jewellery Table 2.12.5A are held in treasure_valuation.json and rolled from there. Transcribed and verified against docs/OSRIC_Gamemaster_Guide.md.",
+ "_note": "Each loot class is a list of 'lines'. A coin/gems/jewellery line with a non-null pct is gated by a d100 roll (present if d100<=pct, per §2.12.1); Individual classes have pct=null (always carried, per creature). 'dice'×'mult' gives the amount (dice module has no × operator, so the multiplier is a separate field). Magic lines list item slots by type; type 'any' is rolled on the §2.13.1A table (respecting any 'exclude'). Coin values in copper: pp=500, gp=100, ep=50, sp=10, cp=1 (Player Guide §1.4.2; 1 ep = ½ gp).",
+ "coin_cp": {
+  "pp": 500,
+  "gp": 100,
+  "ep": 50,
+  "sp": 10,
+  "cp": 1
+ },
+ "coin_order": [
+  "pp",
+  "gp",
+  "ep",
+  "sp",
+  "cp"
+ ],
+ "classes": {
+  "hoard 1": {
+   "family": "hoard",
+   "section": "2.12.1.A",
+   "lines": [
+    {
+     "t": "coin",
+     "coin": "cp",
+     "pct": 25,
+     "dice": "1d6",
+     "mult": 1000
+    },
+    {
+     "t": "coin",
+     "coin": "sp",
+     "pct": 30,
+     "dice": "1d6",
+     "mult": 1000
+    },
+    {
+     "t": "coin",
+     "coin": "ep",
+     "pct": 35,
+     "dice": "1d6",
+     "mult": 1000
+    },
+    {
+     "t": "coin",
+     "coin": "gp",
+     "pct": 40,
+     "dice": "1d10",
+     "mult": 1000
+    },
+    {
+     "t": "coin",
+     "coin": "pp",
+     "pct": 25,
+     "dice": "1d4",
+     "mult": 100
+    },
+    {
+     "t": "gems",
+     "pct": 60,
+     "dice": "4d10",
+     "mult": 1
+    },
+    {
+     "t": "jewellery",
+     "pct": 60,
+     "dice": "3d10",
+     "mult": 1
+    },
+    {
+     "t": "magic",
+     "pct": 30,
+     "items": [
+      {
+       "type": "any",
+       "n": 3
+      }
+     ]
+    }
+   ]
+  },
+  "hoard 2": {
+   "family": "hoard",
+   "section": "2.12.1.B",
+   "lines": [
+    {
+     "t": "coin",
+     "coin": "cp",
+     "pct": 50,
+     "dice": "1d8",
+     "mult": 1000
+    },
+    {
+     "t": "coin",
+     "coin": "sp",
+     "pct": 25,
+     "dice": "1d6",
+     "mult": 1000
+    },
+    {
+     "t": "coin",
+     "coin": "ep",
+     "pct": 25,
+     "dice": "1d4",
+     "mult": 1000
+    },
+    {
+     "t": "coin",
+     "coin": "gp",
+     "pct": 25,
+     "dice": "1d3",
+     "mult": 1000
+    },
+    {
+     "t": "gems",
+     "pct": 30,
+     "dice": "1d8",
+     "mult": 1
+    },
+    {
+     "t": "jewellery",
+     "pct": 20,
+     "dice": "1d4",
+     "mult": 1
+    },
+    {
+     "t": "magic",
+     "pct": 10,
+     "items": [
+      {
+       "type": "any",
+       "n": 1,
+       "restrict": [
+        "sword",
+        "armour_shield",
+        "misc_weapon"
+       ],
+       "label": "sword, armour, or weapon"
+      }
+     ]
+    }
+   ]
+  },
+  "hoard 3": {
+   "family": "hoard",
+   "section": "2.12.1.C",
+   "lines": [
+    {
+     "t": "coin",
+     "coin": "cp",
+     "pct": 20,
+     "dice": "1d12",
+     "mult": 1000
+    },
+    {
+     "t": "coin",
+     "coin": "sp",
+     "pct": 30,
+     "dice": "1d6",
+     "mult": 1000
+    },
+    {
+     "t": "coin",
+     "coin": "ep",
+     "pct": 10,
+     "dice": "1d4",
+     "mult": 1000
+    },
+    {
+     "t": "gems",
+     "pct": 25,
+     "dice": "1d6",
+     "mult": 1
+    },
+    {
+     "t": "jewellery",
+     "pct": 20,
+     "dice": "1d3",
+     "mult": 1
+    },
+    {
+     "t": "magic",
+     "pct": 10,
+     "items": [
+      {
+       "type": "any",
+       "n": 2
+      }
+     ]
+    }
+   ]
+  },
+  "hoard 4": {
+   "family": "hoard",
+   "section": "2.12.1.D",
+   "lines": [
+    {
+     "t": "coin",
+     "coin": "cp",
+     "pct": 10,
+     "dice": "1d8",
+     "mult": 1000
+    },
+    {
+     "t": "coin",
+     "coin": "sp",
+     "pct": 15,
+     "dice": "1d12",
+     "mult": 1000
+    },
+    {
+     "t": "coin",
+     "coin": "ep",
+     "pct": 15,
+     "dice": "1d8",
+     "mult": 1000
+    },
+    {
+     "t": "coin",
+     "coin": "gp",
+     "pct": 50,
+     "dice": "1d6",
+     "mult": 1000
+    },
+    {
+     "t": "gems",
+     "pct": 30,
+     "dice": "1d10",
+     "mult": 1
+    },
+    {
+     "t": "jewellery",
+     "pct": 25,
+     "dice": "1d6",
+     "mult": 1
+    },
+    {
+     "t": "magic",
+     "pct": 15,
+     "items": [
+      {
+       "type": "potion",
+       "n": 1
+      },
+      {
+       "type": "any",
+       "n": 2
+      }
+     ]
+    }
+   ]
+  },
+  "hoard 5": {
+   "family": "hoard",
+   "section": "2.12.1.E",
+   "lines": [
+    {
+     "t": "coin",
+     "coin": "cp",
+     "pct": 5,
+     "dice": "1d10",
+     "mult": 1000
+    },
+    {
+     "t": "coin",
+     "coin": "sp",
+     "pct": 25,
+     "dice": "1d12",
+     "mult": 1000
+    },
+    {
+     "t": "coin",
+     "coin": "ep",
+     "pct": 25,
+     "dice": "1d6",
+     "mult": 1000
+    },
+    {
+     "t": "coin",
+     "coin": "gp",
+     "pct": 25,
+     "dice": "1d8",
+     "mult": 1000
+    },
+    {
+     "t": "gems",
+     "pct": 15,
+     "dice": "1d12",
+     "mult": 1
+    },
+    {
+     "t": "jewellery",
+     "pct": 10,
+     "dice": "1d8",
+     "mult": 1
+    },
+    {
+     "t": "magic",
+     "pct": 25,
+     "items": [
+      {
+       "type": "scroll",
+       "n": 1
+      },
+      {
+       "type": "any",
+       "n": 3
+      }
+     ]
+    }
+   ]
+  },
+  "hoard 6": {
+   "family": "hoard",
+   "section": "2.12.1.F",
+   "lines": [
+    {
+     "t": "coin",
+     "coin": "sp",
+     "pct": 10,
+     "dice": "1d20",
+     "mult": 1000
+    },
+    {
+     "t": "coin",
+     "coin": "ep",
+     "pct": 15,
+     "dice": "1d12",
+     "mult": 1000
+    },
+    {
+     "t": "coin",
+     "coin": "gp",
+     "pct": 40,
+     "dice": "1d10",
+     "mult": 1000
+    },
+    {
+     "t": "coin",
+     "coin": "pp",
+     "pct": 35,
+     "dice": "1d8",
+     "mult": 100
+    },
+    {
+     "t": "gems",
+     "pct": 20,
+     "dice": "3d10",
+     "mult": 1
+    },
+    {
+     "t": "jewellery",
+     "pct": 10,
+     "dice": "1d10",
+     "mult": 1
+    },
+    {
+     "t": "magic",
+     "pct": 30,
+     "items": [
+      {
+       "type": "potion",
+       "n": 1
+      },
+      {
+       "type": "scroll",
+       "n": 1
+      },
+      {
+       "type": "any",
+       "n": 3,
+       "exclude": [
+        "sword",
+        "misc_magic"
+       ],
+       "label": "any type other than sword or miscellaneous item"
+      }
+     ]
+    }
+   ]
+  },
+  "hoard 7": {
+   "family": "hoard",
+   "section": "2.12.1.G",
+   "lines": [
+    {
+     "t": "coin",
+     "coin": "gp",
+     "pct": 50,
+     "dice": "10d4",
+     "mult": 1000
+    },
+    {
+     "t": "coin",
+     "coin": "pp",
+     "pct": 50,
+     "dice": "1d20",
+     "mult": 100
+    },
+    {
+     "t": "gems",
+     "pct": 30,
+     "dice": "5d4",
+     "mult": 1
+    },
+    {
+     "t": "jewellery",
+     "pct": 25,
+     "dice": "1d10",
+     "mult": 1
+    },
+    {
+     "t": "magic",
+     "pct": 35,
+     "items": [
+      {
+       "type": "scroll",
+       "n": 1
+      },
+      {
+       "type": "any",
+       "n": 4
+      }
+     ]
+    }
+   ]
+  },
+  "hoard 8": {
+   "family": "hoard",
+   "section": "2.12.1.H",
+   "lines": [
+    {
+     "t": "coin",
+     "coin": "cp",
+     "pct": 25,
+     "dice": "5d6",
+     "mult": 1000
+    },
+    {
+     "t": "coin",
+     "coin": "sp",
+     "pct": 40,
+     "dice": "1d100",
+     "mult": 1000
+    },
+    {
+     "t": "coin",
+     "coin": "ep",
+     "pct": 40,
+     "dice": "10d4",
+     "mult": 1000
+    },
+    {
+     "t": "coin",
+     "coin": "gp",
+     "pct": 55,
+     "dice": "10d6",
+     "mult": 1000
+    },
+    {
+     "t": "coin",
+     "coin": "pp",
+     "pct": 25,
+     "dice": "5d10",
+     "mult": 100
+    },
+    {
+     "t": "gems",
+     "pct": 50,
+     "dice": "1d100",
+     "mult": 1
+    },
+    {
+     "t": "jewellery",
+     "pct": 50,
+     "dice": "10d4",
+     "mult": 1
+    },
+    {
+     "t": "magic",
+     "pct": 15,
+     "items": [
+      {
+       "type": "potion",
+       "n": 1
+      },
+      {
+       "type": "scroll",
+       "n": 1
+      },
+      {
+       "type": "any",
+       "n": 4
+      }
+     ]
+    }
+   ]
+  },
+  "hoard 9": {
+   "family": "hoard",
+   "section": "2.12.1.I",
+   "lines": [
+    {
+     "t": "coin",
+     "coin": "pp",
+     "pct": 30,
+     "dice": "3d6",
+     "mult": 100
+    },
+    {
+     "t": "gems",
+     "pct": 55,
+     "dice": "2d10",
+     "mult": 1
+    },
+    {
+     "t": "jewellery",
+     "pct": 50,
+     "dice": "1d12",
+     "mult": 1
+    },
+    {
+     "t": "magic",
+     "pct": 15,
+     "items": [
+      {
+       "type": "any",
+       "n": 1
+      }
+     ]
+    }
+   ]
+  },
+  "individual 1": {
+   "family": "individual",
+   "section": "2.12.1.J",
+   "lines": [
+    {
+     "t": "coin",
+     "coin": "cp",
+     "pct": null,
+     "dice": "3d8",
+     "mult": 1
+    }
+   ]
+  },
+  "individual 2": {
+   "family": "individual",
+   "section": "2.12.1.K",
+   "lines": [
+    {
+     "t": "coin",
+     "coin": "sp",
+     "pct": null,
+     "dice": "3d6",
+     "mult": 1
+    }
+   ]
+  },
+  "individual 3": {
+   "family": "individual",
+   "section": "2.12.1.L",
+   "lines": [
+    {
+     "t": "coin",
+     "coin": "ep",
+     "pct": null,
+     "dice": "2d6",
+     "mult": 1
+    }
+   ]
+  },
+  "individual 4": {
+   "family": "individual",
+   "section": "2.12.1.M",
+   "lines": [
+    {
+     "t": "coin",
+     "coin": "gp",
+     "pct": null,
+     "dice": "2d4",
+     "mult": 1
+    }
+   ]
+  },
+  "individual 5": {
+   "family": "individual",
+   "section": "2.12.1.N",
+   "lines": [
+    {
+     "t": "coin",
+     "coin": "pp",
+     "pct": null,
+     "dice": "1d6",
+     "mult": 1
+    }
+   ]
+  },
+  "cache 1": {
+   "family": "cache",
+   "section": "2.12.1.O",
+   "lines": [
+    {
+     "t": "coin",
+     "coin": "cp",
+     "pct": 25,
+     "dice": "1d4",
+     "mult": 1000
+    },
+    {
+     "t": "coin",
+     "coin": "sp",
+     "pct": 20,
+     "dice": "1d3",
+     "mult": 1000
+    }
+   ]
+  },
+  "cache 2": {
+   "family": "cache",
+   "section": "2.12.1.P",
+   "lines": [
+    {
+     "t": "coin",
+     "coin": "sp",
+     "pct": 30,
+     "dice": "1d6",
+     "mult": 1000
+    },
+    {
+     "t": "coin",
+     "coin": "ep",
+     "pct": 25,
+     "dice": "1d2",
+     "mult": 1000
+    }
+   ]
+  },
+  "cache 3": {
+   "family": "cache",
+   "section": "2.12.1.Q",
+   "lines": [
+    {
+     "t": "gems",
+     "pct": 50,
+     "dice": "1d4",
+     "mult": 1
+    }
+   ]
+  },
+  "cache 4": {
+   "family": "cache",
+   "section": "2.12.1.R",
+   "lines": [
+    {
+     "t": "coin",
+     "coin": "gp",
+     "pct": 40,
+     "dice": "2d4",
+     "mult": 1000
+    },
+    {
+     "t": "coin",
+     "coin": "pp",
+     "pct": 50,
+     "dice": "10d6",
+     "mult": 100
+    },
+    {
+     "t": "gems",
+     "pct": 55,
+     "dice": "4d8",
+     "mult": 1
+    },
+    {
+     "t": "jewellery",
+     "pct": 45,
+     "dice": "1d12",
+     "mult": 1
+    }
+   ]
+  },
+  "cache 5": {
+   "family": "cache",
+   "section": "2.12.1.S",
+   "lines": [
+    {
+     "t": "magic",
+     "pct": 40,
+     "items": [
+      {
+       "type": "potion",
+       "dice": "2d4"
+      }
+     ]
+    }
+   ]
+  },
+  "cache 6": {
+   "family": "cache",
+   "section": "2.12.1.T",
+   "lines": [
+    {
+     "t": "magic",
+     "pct": 50,
+     "items": [
+      {
+       "type": "scroll",
+       "dice": "1d4"
+      }
+     ]
+    }
+   ]
+  },
+  "cache 7": {
+   "family": "cache",
+   "section": "2.12.1.U",
+   "lines": [
+    {
+     "t": "gems",
+     "pct": 90,
+     "dice": "1d8",
+     "mult": 10
+    },
+    {
+     "t": "jewellery",
+     "pct": 80,
+     "dice": "5d6",
+     "mult": 1
+    },
+    {
+     "t": "magic",
+     "pct": 70,
+     "items": [
+      {
+       "type": "ring",
+       "n": 1
+      },
+      {
+       "type": "rod_staff_wand",
+       "n": 1,
+       "label": "wand"
+      },
+      {
+       "type": "misc_magic",
+       "n": 1
+      },
+      {
+       "type": "armour_shield",
+       "n": 1,
+       "label": "magic armour"
+      },
+      {
+       "type": "sword",
+       "n": 1,
+       "label": "magic sword"
+      },
+      {
+       "type": "misc_weapon",
+       "n": 1
+      }
+     ]
+    }
+   ]
+  },
+  "cache 8": {
+   "family": "cache",
+   "section": "2.12.1.V",
+   "lines": [
+    {
+     "t": "magic",
+     "pct": 85,
+     "items": [
+      {
+       "type": "ring",
+       "n": 2
+      },
+      {
+       "type": "rod_staff_wand",
+       "n": 2,
+       "label": "wands"
+      },
+      {
+       "type": "misc_magic",
+       "n": 2
+      },
+      {
+       "type": "armour_shield",
+       "n": 2,
+       "label": "magic armour"
+      },
+      {
+       "type": "sword",
+       "n": 2,
+       "label": "magic swords"
+      },
+      {
+       "type": "misc_weapon",
+       "n": 2
+      }
+     ]
+    }
+   ]
+  },
+  "cache 9": {
+   "family": "cache",
+   "section": "2.12.1.W",
+   "lines": [
+    {
+     "t": "coin",
+     "coin": "gp",
+     "pct": 60,
+     "dice": "5d6",
+     "mult": 1000
+    },
+    {
+     "t": "coin",
+     "coin": "pp",
+     "pct": 15,
+     "dice": "1d8",
+     "mult": 100
+    },
+    {
+     "t": "gems",
+     "pct": 60,
+     "dice": "1d8",
+     "mult": 10
+    },
+    {
+     "t": "jewellery",
+     "pct": 50,
+     "dice": "5d8",
+     "mult": 1
+    },
+    {
+     "t": "special",
+     "pct": 55,
+     "item": "map",
+     "n": 1
+    }
+   ]
+  },
+  "cache 10": {
+   "family": "cache",
+   "section": "2.12.1.X",
+   "lines": [
+    {
+     "t": "magic",
+     "pct": 60,
+     "items": [
+      {
+       "type": "potion",
+       "n": 1
+      },
+      {
+       "type": "misc_magic",
+       "n": 1
+      }
+     ]
+    }
+   ]
+  },
+  "cache 11": {
+   "family": "cache",
+   "section": "2.12.1.Y",
+   "lines": [
+    {
+     "t": "coin",
+     "coin": "gp",
+     "pct": 70,
+     "dice": "2d6",
+     "mult": 1000
+    }
+   ]
+  },
+  "cache 12": {
+   "family": "cache",
+   "section": "2.12.1.Z",
+   "lines": [
+    {
+     "t": "coin",
+     "coin": "cp",
+     "pct": 20,
+     "dice": "1d3",
+     "mult": 1000
+    },
+    {
+     "t": "coin",
+     "coin": "sp",
+     "pct": 25,
+     "dice": "1d4",
+     "mult": 1000
+    },
+    {
+     "t": "coin",
+     "coin": "ep",
+     "pct": 25,
+     "dice": "1d4",
+     "mult": 1000
+    },
+    {
+     "t": "coin",
+     "coin": "gp",
+     "pct": 30,
+     "dice": "1d4",
+     "mult": 1000
+    },
+    {
+     "t": "coin",
+     "coin": "pp",
+     "pct": 30,
+     "dice": "1d6",
+     "mult": 100
+    },
+    {
+     "t": "gems",
+     "pct": 55,
+     "dice": "1d6",
+     "mult": 10
+    },
+    {
+     "t": "jewellery",
+     "pct": 50,
+     "dice": "5d6",
+     "mult": 1
+    },
+    {
+     "t": "magic",
+     "pct": 50,
+     "items": [
+      {
+       "type": "any",
+       "n": 3
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "unowned": {
+  "_source": "Table 2.12A: Unowned Treasure (§2.12A). Roll d100; amounts are per dungeon level.",
+  "die": "d100",
+  "rows": [
+   {
+    "d100": [
+     1,
+     35
+    ],
+    "t": "coin",
+    "coin": "cp",
+    "per_level": 1500,
+    "result": "1,500 cp per dungeon level"
+   },
+   {
+    "d100": [
+     36,
+     65
+    ],
+    "t": "coin",
+    "coin": "sp",
+    "per_level": 750,
+    "result": "750 sp per dungeon level"
+   },
+   {
+    "d100": [
+     66,
+     80
+    ],
+    "t": "coin",
+    "coin": "gp",
+    "per_level": 250,
+    "result": "250 gp per dungeon level"
+   },
+   {
+    "d100": [
+     81,
+     90
+    ],
+    "t": "coin",
+    "coin": "pp",
+    "per_level": 100,
+    "result": "100 pp per dungeon level"
+   },
+   {
+    "d100": [
+     91,
+     95
+    ],
+    "t": "gems",
+    "dice": "1d3",
+    "per_level": true,
+    "result": "1d3 gems per dungeon level"
+   },
+   {
+    "d100": [
+     96,
+     97
+    ],
+    "t": "jewellery",
+    "count": 1,
+    "per_level": true,
+    "result": "1 piece of jewellery per dungeon level"
+   },
+   {
+    "d100": [
+     98,
+     100
+    ],
+    "t": "magic",
+    "items": [
+     {
+      "type": "any",
+      "n": 1
+     }
+    ],
+    "note": "1d2 items below dungeon level 6",
+    "result": "1 magic item (1d2 items below dungeon level 6)"
+   }
+  ]
+ },
+ "magic_item_types": {
+  "_source": "Table 2.13.1A: Determining Type of Magic Item (§2.13.1). Roll d20.",
+  "die": "d20",
+  "rows": [
+   {
+    "d20": [
+     1,
+     3
+    ],
+    "type": "armour_shield",
+    "label": "Armour or Shield",
+    "table": "2.13.1B"
+   },
+   {
+    "d20": [
+     4,
+     6
+    ],
+    "type": "misc_magic",
+    "label": "Miscellaneous Magic",
+    "table": "2.13.1P"
+   },
+   {
+    "d20": [
+     7,
+     9
+    ],
+    "type": "misc_weapon",
+    "label": "Miscellaneous Weapon",
+    "table": "2.13.1D"
+   },
+   {
+    "d20": [
+     10,
+     13
+    ],
+    "type": "potion",
+    "label": "Potion",
+    "table": "2.13.1F"
+   },
+   {
+    "d20": [
+     14,
+     14
+    ],
+    "type": "ring",
+    "label": "Ring",
+    "table": "2.13.1G"
+   },
+   {
+    "d20": [
+     15,
+     15
+    ],
+    "type": "rod_staff_wand",
+    "label": "Rod, Staff or Wand",
+    "table": "2.13.1H"
+   },
+   {
+    "d20": [
+     16,
+     18
+    ],
+    "type": "scroll",
+    "label": "Scroll",
+    "table": "2.13.1I"
+   },
+   {
+    "d20": [
+     19,
+     20
+    ],
+    "type": "sword",
+    "label": "Sword",
+    "table": "2.13.1L/M"
+   }
+  ]
+ }
+}

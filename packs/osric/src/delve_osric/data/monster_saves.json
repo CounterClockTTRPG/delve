@@ -1,0 +1,213 @@
+{
+ "_source": "OSRIC 3.0 Gamemaster Guide, Section 2.1.3 Monster Saving Throws: Table 2.1.3A (Normal Monster Saving Throws, except INT 0) and Table 2.1.3B (Non-Intelligent INT 0 Monster Saving Throws). Verified against the PDF.",
+ "_note": "OSRIC monsters roll saving throws by HIT DICE, not by 'save as class' (that is a Basic/Expert-D&D convention). Hit-die numbers are 'up to' the band maximum: a monster with a plus modifier (e.g. 1+1) is bumped into the next band (treated as 2 HD); a monster with less than a full hit die (e.g. 1-1, 1d4 hp) uses the '<1' band. Non-intelligent creatures (Intelligence 'Non-'/0) use table_non_intelligent; all others use table_intelligent. Column order matches the engine's SAVE_CATEGORIES.",
+ "categories": [
+  "aimed_magic_items",
+  "breath_weapons",
+  "death_paralysis_poison",
+  "petrification_polymorph",
+  "spells"
+ ],
+ "table_intelligent": [
+  {
+   "band": "<1",
+   "hd_max": 0.99,
+   "aimed_magic_items": 18,
+   "breath_weapons": 20,
+   "death_paralysis_poison": 16,
+   "petrification_polymorph": 17,
+   "spells": 19
+  },
+  {
+   "band": "1-2",
+   "hd_max": 2,
+   "aimed_magic_items": 16,
+   "breath_weapons": 17,
+   "death_paralysis_poison": 14,
+   "petrification_polymorph": 15,
+   "spells": 17
+  },
+  {
+   "band": "3-4",
+   "hd_max": 4,
+   "aimed_magic_items": 15,
+   "breath_weapons": 16,
+   "death_paralysis_poison": 13,
+   "petrification_polymorph": 14,
+   "spells": 16
+  },
+  {
+   "band": "5-6",
+   "hd_max": 6,
+   "aimed_magic_items": 13,
+   "breath_weapons": 13,
+   "death_paralysis_poison": 11,
+   "petrification_polymorph": 12,
+   "spells": 14
+  },
+  {
+   "band": "7-8",
+   "hd_max": 8,
+   "aimed_magic_items": 12,
+   "breath_weapons": 12,
+   "death_paralysis_poison": 10,
+   "petrification_polymorph": 11,
+   "spells": 13
+  },
+  {
+   "band": "9-10",
+   "hd_max": 10,
+   "aimed_magic_items": 10,
+   "breath_weapons": 9,
+   "death_paralysis_poison": 8,
+   "petrification_polymorph": 9,
+   "spells": 11
+  },
+  {
+   "band": "11-12",
+   "hd_max": 12,
+   "aimed_magic_items": 9,
+   "breath_weapons": 8,
+   "death_paralysis_poison": 7,
+   "petrification_polymorph": 8,
+   "spells": 10
+  },
+  {
+   "band": "13-14",
+   "hd_max": 14,
+   "aimed_magic_items": 7,
+   "breath_weapons": 5,
+   "death_paralysis_poison": 5,
+   "petrification_polymorph": 6,
+   "spells": 8
+  },
+  {
+   "band": "15-16",
+   "hd_max": 16,
+   "aimed_magic_items": 6,
+   "breath_weapons": 4,
+   "death_paralysis_poison": 4,
+   "petrification_polymorph": 5,
+   "spells": 7
+  },
+  {
+   "band": "17-18",
+   "hd_max": 18,
+   "aimed_magic_items": 5,
+   "breath_weapons": 4,
+   "death_paralysis_poison": 3,
+   "petrification_polymorph": 4,
+   "spells": 6
+  },
+  {
+   "band": "19+",
+   "hd_max": 999,
+   "aimed_magic_items": 4,
+   "breath_weapons": 3,
+   "death_paralysis_poison": 2,
+   "petrification_polymorph": 3,
+   "spells": 5
+  }
+ ],
+ "table_non_intelligent": [
+  {
+   "band": "<1",
+   "hd_max": 0.99,
+   "aimed_magic_items": 18,
+   "breath_weapons": 20,
+   "death_paralysis_poison": 16,
+   "petrification_polymorph": 17,
+   "spells": 19
+  },
+  {
+   "band": "1-2",
+   "hd_max": 2,
+   "aimed_magic_items": 16,
+   "breath_weapons": 17,
+   "death_paralysis_poison": 14,
+   "petrification_polymorph": 15,
+   "spells": 17
+  },
+  {
+   "band": "3-4",
+   "hd_max": 4,
+   "aimed_magic_items": 16,
+   "breath_weapons": 17,
+   "death_paralysis_poison": 13,
+   "petrification_polymorph": 15,
+   "spells": 17
+  },
+  {
+   "band": "5-6",
+   "hd_max": 6,
+   "aimed_magic_items": 15,
+   "breath_weapons": 16,
+   "death_paralysis_poison": 11,
+   "petrification_polymorph": 14,
+   "spells": 16
+  },
+  {
+   "band": "7-8",
+   "hd_max": 8,
+   "aimed_magic_items": 15,
+   "breath_weapons": 16,
+   "death_paralysis_poison": 10,
+   "petrification_polymorph": 14,
+   "spells": 16
+  },
+  {
+   "band": "9-10",
+   "hd_max": 10,
+   "aimed_magic_items": 13,
+   "breath_weapons": 13,
+   "death_paralysis_poison": 8,
+   "petrification_polymorph": 12,
+   "spells": 14
+  },
+  {
+   "band": "11-12",
+   "hd_max": 12,
+   "aimed_magic_items": 13,
+   "breath_weapons": 13,
+   "death_paralysis_poison": 7,
+   "petrification_polymorph": 12,
+   "spells": 14
+  },
+  {
+   "band": "13-14",
+   "hd_max": 14,
+   "aimed_magic_items": 12,
+   "breath_weapons": 12,
+   "death_paralysis_poison": 5,
+   "petrification_polymorph": 11,
+   "spells": 13
+  },
+  {
+   "band": "15-16",
+   "hd_max": 16,
+   "aimed_magic_items": 12,
+   "breath_weapons": 12,
+   "death_paralysis_poison": 4,
+   "petrification_polymorph": 11,
+   "spells": 13
+  },
+  {
+   "band": "17-18",
+   "hd_max": 18,
+   "aimed_magic_items": 10,
+   "breath_weapons": 9,
+   "death_paralysis_poison": 3,
+   "petrification_polymorph": 9,
+   "spells": 11
+  },
+  {
+   "band": "19+",
+   "hd_max": 999,
+   "aimed_magic_items": 10,
+   "breath_weapons": 9,
+   "death_paralysis_poison": 2,
+   "petrification_polymorph": 9,
+   "spells": 11
+  }
+ ]
+}

@@ -1,0 +1,8 @@
+id = "test-setting"
+kind = "setting"
+title = "Test setting"
+version = "1.0.0"
+delve_api = 1
+package = "test_setting_pack"
+entry = "test_setting_pack.pack:PACK"
+fact_categories = ["place"]

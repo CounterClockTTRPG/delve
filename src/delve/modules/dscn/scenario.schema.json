@@ -1,0 +1,1036 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dungml.local/schema/scenario/v2.json",
+  "title": "dungml-scenario manifest (scenario.json), v2 (reads v1)",
+  "description": "See docs/scenario-format.md. Entity files (entities/*.yaml) validate against the $defs named <kind>File.",
+  "type": "object",
+  "required": [
+    "format",
+    "version",
+    "id",
+    "title",
+    "maps"
+  ],
+  "properties": {
+    "format": {
+      "const": "dungml-scenario"
+    },
+    "version": {
+      "enum": [
+        1,
+        2,
+        3
+      ]
+    },
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "subtitle": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "summary": {
+      "type": "string",
+      "maxLength": 300,
+      "description": "One line, player-safe — for lists and cards."
+    },
+    "description": {
+      "type": "string",
+      "description": "Markdown blurb, player-safe (the back-of-the-box text). GM background belongs in a `text` entry."
+    },
+    "authors": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/person"
+      }
+    },
+    "publisher": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "url": {
+          "$ref": "#/$defs/url"
+        }
+      },
+      "additionalProperties": false
+    },
+    "release": {
+      "type": "object",
+      "required": [
+        "version"
+      ],
+      "properties": {
+        "version": {
+          "$ref": "#/$defs/semver"
+        },
+        "date": {
+          "$ref": "#/$defs/date"
+        },
+        "notes": {
+          "type": "string",
+          "description": "Markdown changelog for this version."
+        }
+      },
+      "additionalProperties": false
+    },
+    "created": {
+      "$ref": "#/$defs/timestamp"
+    },
+    "updated": {
+      "$ref": "#/$defs/timestamp"
+    },
+    "system": {
+      "$ref": "#/$defs/slug"
+    },
+    "system_name": {
+      "type": "string",
+      "description": "Display name, e.g. \"AD&D 2nd Edition\"."
+    },
+    "setting": {
+      "type": "string"
+    },
+    "language": {
+      "type": "string",
+      "pattern": "^[A-Za-z]{2,3}(-[A-Za-z0-9]{2,8})*$",
+      "description": "BCP 47 tag of the text, e.g. en, en-GB, nl-BE."
+    },
+    "party": {
+      "type": "object",
+      "properties": {
+        "size": {
+          "$ref": "#/$defs/intRange",
+          "description": "Number of player characters."
+        },
+        "levels": {
+          "$ref": "#/$defs/intRange",
+          "description": "Character levels."
+        },
+        "notes": {
+          "type": "string",
+          "description": "e.g. \"needs a cleric\""
+        }
+      },
+      "additionalProperties": false
+    },
+    "duration": {
+      "type": "object",
+      "properties": {
+        "sessions": {
+          "$ref": "#/$defs/intRange"
+        },
+        "hours": {
+          "$ref": "#/$defs/numRange"
+        }
+      },
+      "additionalProperties": false
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "content_warnings": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "license": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "object",
+          "properties": {
+            "spdx": {
+              "type": "string",
+              "description": "SPDX id, e.g. CC-BY-4.0"
+            },
+            "name": {
+              "type": "string"
+            },
+            "url": {
+              "$ref": "#/$defs/url"
+            },
+            "attribution": {
+              "type": "string"
+            }
+          },
+          "anyOf": [
+            {
+              "required": [
+                "spdx"
+              ]
+            },
+            {
+              "required": [
+                "name"
+              ]
+            }
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "homepage": {
+      "$ref": "#/$defs/url"
+    },
+    "cover": {
+      "type": "string",
+      "pattern": "^asset:[^#\\s]+$",
+      "description": "Player-facing cover image (an image asset)."
+    },
+    "requires": {
+      "type": "object",
+      "properties": {
+        "dungml": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "maps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "file"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "file": {
+            "$ref": "#/$defs/path"
+          },
+          "role": {
+            "enum": [
+              "map",
+              "library"
+            ],
+            "default": "map"
+          },
+          "default": {
+            "type": "boolean"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "patternProperties": {
+          "^x-": true
+        },
+        "additionalProperties": false
+      }
+    },
+    "worldmaps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "file",
+          "type"
+        ],
+        "properties": {
+          "name": {
+            "$ref": "#/$defs/slug"
+          },
+          "file": {
+            "$ref": "#/$defs/path"
+          },
+          "type": {
+            "type": "string",
+            "examples": [
+              "ttrpg2-worldmap"
+            ]
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "patternProperties": {
+          "^x-": true
+        },
+        "additionalProperties": false
+      }
+    },
+    "text": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "file"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/slug"
+          },
+          "file": {
+            "$ref": "#/$defs/path"
+          },
+          "title": {
+            "type": "string"
+          },
+          "audience": {
+            "$ref": "#/$defs/audience"
+          },
+          "map": {
+            "type": "string",
+            "description": "maps[].name this keyed text describes"
+          }
+        },
+        "patternProperties": {
+          "^x-": true
+        },
+        "additionalProperties": false
+      }
+    },
+    "entities": {
+      "type": "object",
+      "properties": {
+        "npcs": {
+          "$ref": "#/$defs/path"
+        },
+        "factions": {
+          "$ref": "#/$defs/path"
+        },
+        "quests": {
+          "$ref": "#/$defs/path"
+        },
+        "rumors": {
+          "$ref": "#/$defs/path"
+        },
+        "secrets": {
+          "$ref": "#/$defs/path"
+        },
+        "encounters": {
+          "$ref": "#/$defs/path"
+        },
+        "pregens": {
+          "$ref": "#/$defs/path"
+        }
+      },
+      "patternProperties": {
+        "^x-": true
+      },
+      "additionalProperties": false
+    },
+    "assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "file",
+          "type",
+          "sha256",
+          "size"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/slug"
+          },
+          "file": {
+            "$ref": "#/$defs/path"
+          },
+          "type": {
+            "enum": [
+              "image/png",
+              "image/jpeg",
+              "image/webp",
+              "image/gif",
+              "image/svg+xml",
+              "application/pdf",
+              "text/plain",
+              "text/markdown",
+              "audio/mpeg",
+              "audio/ogg"
+            ]
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "audience": {
+            "$ref": "#/$defs/audience"
+          },
+          "role": {
+            "enum": [
+              "attachment",
+              "source"
+            ],
+            "default": "attachment"
+          },
+          "caption": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "description": "What the asset shows and when it fits (v2; required on an attachment)."
+          }
+        },
+        "patternProperties": {
+          "^x-": true
+        },
+        "additionalProperties": false
+      }
+    },
+    "keys": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "key"
+        ],
+        "properties": {
+          "key": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 32
+          },
+          "title": {
+            "type": "string"
+          },
+          "node": {
+            "$ref": "#/$defs/mapRef"
+          },
+          "text": {
+            "$ref": "#/$defs/ref"
+          },
+          "assets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/ref"
+            }
+          },
+          "npcs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/ref"
+            }
+          },
+          "encounter": {
+            "$ref": "#/$defs/ref"
+          }
+        },
+        "patternProperties": {
+          "^x-": true
+        },
+        "additionalProperties": false
+      }
+    },
+    "start": {
+      "type": "object",
+      "properties": {
+        "map": {
+          "type": "string"
+        },
+        "node": {
+          "type": "string",
+          "pattern": "^(room|corridor)\\..+$"
+        },
+        "text": {
+          "$ref": "#/$defs/ref"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "patternProperties": {
+    "^x-": true
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]*$"
+    },
+    "path": {
+      "type": "string",
+      "pattern": "^(?!/)(?!.*(^|/)\\.\\.(/|$))(?!.*\\\\)(?![A-Za-z]:)[^\\u0000]+$",
+      "description": "Relative, '/'-separated, no '..', no leading '/', no backslashes, no drive letters."
+    },
+    "audience": {
+      "enum": [
+        "gm",
+        "player"
+      ],
+      "default": "gm"
+    },
+    "ref": {
+      "type": "string",
+      "pattern": "^(map|text|key|asset|npc|faction|quest|rumor|secret|encounter|pregen|worldmap|monster|item|spell):[^#\\s]+(#\\S+)?$"
+    },
+    "mapRef": {
+      "type": "string",
+      "pattern": "^map:[^#\\s]+#(room|corridor)\\.\\S+$"
+    },
+    "dice": {
+      "type": [
+        "string",
+        "integer"
+      ],
+      "pattern": "^\\d*d?\\d+([+-]\\d+)?$"
+    },
+    "stats": {
+      "type": "object",
+      "description": "Keyed by system tag (e.g. adnd2e); values are free-form in v1. 'ref' points at the consumer's reference DB.",
+      "properties": {
+        "ref": {
+          "$ref": "#/$defs/ref"
+        }
+      },
+      "additionalProperties": {
+        "type": "object"
+      }
+    },
+    "entityCore": {
+      "type": "object",
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/slug"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "audience": {
+          "$ref": "#/$defs/audience"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "portrait": {
+          "$ref": "#/$defs/ref"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "npc": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entityCore"
+        }
+      ],
+      "properties": {
+        "role": {
+          "type": "string"
+        },
+        "faction": {
+          "$ref": "#/$defs/ref"
+        },
+        "location": {
+          "$ref": "#/$defs/ref"
+        },
+        "disposition": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "description": "initial disposition; ttrpg2 uses -100..100"
+        },
+        "stats": {
+          "$ref": "#/$defs/stats"
+        }
+      }
+    },
+    "faction": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entityCore"
+        }
+      ],
+      "properties": {
+        "goals": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "members": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ref"
+          }
+        },
+        "clocks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "name"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "segments": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "filled": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "days": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "countdown in days (ttrpg2 style)"
+              },
+              "on_complete": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "alignment": {
+          "type": "string"
+        },
+        "scope": {
+          "type": "string"
+        }
+      }
+    },
+    "quest": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entityCore"
+        }
+      ],
+      "properties": {
+        "giver": {
+          "$ref": "#/$defs/ref"
+        },
+        "scope": {
+          "type": "string"
+        },
+        "stakes": {
+          "type": "string"
+        },
+        "related": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ref"
+          }
+        }
+      }
+    },
+    "rumor": {
+      "type": "object",
+      "required": [
+        "id",
+        "text",
+        "truth"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/slug"
+        },
+        "name": {
+          "type": "string"
+        },
+        "audience": {
+          "$ref": "#/$defs/audience"
+        },
+        "text": {
+          "type": "string"
+        },
+        "truth": {
+          "enum": [
+            "true",
+            "partly_true",
+            "false",
+            "fabrication"
+          ]
+        },
+        "source": {
+          "$ref": "#/$defs/ref"
+        },
+        "location": {
+          "$ref": "#/$defs/ref"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "secret": {
+      "type": "object",
+      "required": [
+        "id",
+        "text"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/slug"
+        },
+        "name": {
+          "type": "string"
+        },
+        "audience": {
+          "const": "gm"
+        },
+        "text": {
+          "type": "string"
+        },
+        "related": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ref"
+          }
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "encounter": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entityCore"
+        }
+      ],
+      "properties": {
+        "key": {
+          "$ref": "#/$defs/ref"
+        },
+        "table": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "roll"
+            ],
+            "anyOf": [
+              {
+                "required": [
+                  "creature"
+                ]
+              },
+              {
+                "required": [
+                  "result"
+                ]
+              }
+            ],
+            "properties": {
+              "roll": {
+                "type": [
+                  "string",
+                  "integer"
+                ]
+              },
+              "count": {
+                "$ref": "#/$defs/dice"
+              },
+              "creature": {
+                "$ref": "#/$defs/ref"
+              },
+              "result": {
+                "type": "string",
+                "description": "free-text result when there is no single creature"
+              },
+              "category": {
+                "type": "string"
+              },
+              "notes": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "fixed": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "creature"
+            ],
+            "properties": {
+              "count": {
+                "$ref": "#/$defs/dice"
+              },
+              "creature": {
+                "$ref": "#/$defs/ref"
+              },
+              "notes": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "kind": {
+          "type": "string",
+          "description": "e.g. dungeon, road, wilderness, urban"
+        },
+        "wandering": {
+          "type": "boolean",
+          "description": "a wandering-monster table: a wandering check rolls on it (false: it is not one, whatever its name)"
+        },
+        "where": {
+          "type": "array",
+          "description": "where a wandering table applies: a map (map:upper), a room of one (map:upper#hall), a keyed room (key:C2), a text (text:upper-key) or a section of one; none for anywhere its kind allows",
+          "items": {
+            "$ref": "#/$defs/ref"
+          }
+        }
+      }
+    },
+    "pregen": {
+      "description": "A pregenerated character the players may take (Delve faithful modules). stats.adnd2e holds the sheet fields create_character takes: ability_scores, hp_max, ac, cls, levels, race, alignment, weapon_profs, nwps, skills, spell_slots.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/entityCore"
+        }
+      ],
+      "properties": {
+        "race": {
+          "type": "string"
+        },
+        "class": {
+          "type": "string"
+        },
+        "level": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "description": "e.g. 3, or \"3/3\" for a multi-class character"
+        },
+        "alignment": {
+          "type": "string"
+        },
+        "gear": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "background": {
+          "type": "string"
+        },
+        "stats": {
+          "$ref": "#/$defs/stats"
+        }
+      }
+    },
+    "npcsFile": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/npc"
+      }
+    },
+    "factionsFile": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/faction"
+      }
+    },
+    "questsFile": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/quest"
+      }
+    },
+    "rumorsFile": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/rumor"
+      }
+    },
+    "secretsFile": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/secret"
+      }
+    },
+    "encountersFile": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/encounter"
+      }
+    },
+    "pregensFile": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/pregen"
+      }
+    },
+    "timestamp": {
+      "description": "RFC 3339 date-time with an explicit offset (2026-10-17T14:30:00Z), or a plain calendar date (2026-10-17).",
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}([Tt ]\\d{2}:\\d{2}(:\\d{2}(\\.\\d+)?)?([Zz]|[+-]\\d{2}:\\d{2}))?$"
+    },
+    "date": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "semver": {
+      "description": "Semantic version of the scenario's content (not of this format).",
+      "type": "string",
+      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(-[0-9A-Za-z.-]+)?(\\+[0-9A-Za-z.-]+)?$"
+    },
+    "url": {
+      "type": "string",
+      "pattern": "^https?://\\S+$"
+    },
+    "intRange": {
+      "description": "A single value, or {min, max, recommended?}. min ≤ recommended ≤ max is checked by the validator (JSON Schema can't compare fields).",
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 1
+        },
+        {
+          "type": "object",
+          "required": [
+            "min",
+            "max"
+          ],
+          "properties": {
+            "min": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "max": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "recommended": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "numRange": {
+      "anyOf": [
+        {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        {
+          "type": "object",
+          "required": [
+            "min",
+            "max"
+          ],
+          "properties": {
+            "min": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "max": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "recommended": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "person": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1
+            },
+            "role": {
+              "enum": [
+                "author",
+                "editor",
+                "cartographer",
+                "artist",
+                "playtester",
+                "translator",
+                "contributor"
+              ]
+            },
+            "email": {
+              "type": "string",
+              "pattern": "^[^@\\s]+@[^@\\s]+$"
+            },
+            "url": {
+              "$ref": "#/$defs/url"
+            }
+          },
+          "patternProperties": {
+            "^x-": true
+          },
+          "additionalProperties": false
+        }
+      ]
+    }
+  }
+}

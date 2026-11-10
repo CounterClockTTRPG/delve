@@ -1,0 +1,152 @@
+// Wrapper around @monaco-editor/react that registers the .dmap language
+// once, exposes a marker setter for diagnostics, and forwards Cmd+S.
+// Monaco is bundled, not fetched from a CDN (monacoSetup.ts).
+import "./monacoSetup";
+import Editor, { OnMount, type Monaco } from "@monaco-editor/react";
+import { useCallback, useEffect, useRef } from "react";
+import type * as monaco from "monaco-editor";
+import {
+  LANGUAGE_ID,
+  defineNightTheme,
+  defineTheme,
+  languageConfig,
+  makeLanguage,
+} from "./lib/dmapLanguage";
+import type { Diagnostic } from "./types";
+import { editorTheme, useLook } from "../looks/looks";
+
+let registered = false;
+
+function registerOnce(monacoNs: Monaco) {
+  if (registered) return;
+  registered = true;
+  monacoNs.languages.register({ id: LANGUAGE_ID, extensions: [".dmap"] });
+  monacoNs.languages.setMonarchTokensProvider(LANGUAGE_ID, makeLanguage());
+  monacoNs.languages.setLanguageConfiguration(LANGUAGE_ID, languageConfig);
+}
+
+export interface MonacoEditorProps {
+  value: string;
+  onChange: (v: string) => void;
+  diagnostics?: Diagnostic[];
+  onSave?: () => void;
+  /** Reveal a position when this changes — `nonce` forces re-trigger. */
+  goto?: { line: number; column?: number; nonce: number } | null;
+  /** Called with the 1-based cursor position whenever it moves. */
+  onCursor?: (pos: { line: number; column: number }) => void;
+  /** Soft-wrap long lines at the pane edge; line numbers stay per source line. */
+  wordWrap?: boolean;
+}
+
+export function MonacoEditor({
+  value,
+  onChange,
+  diagnostics = [],
+  onSave,
+  goto = null,
+  onCursor,
+  wordWrap = false,
+}: MonacoEditorProps) {
+  const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
+  const monacoRef = useRef<Monaco | null>(null);
+  // Latest callback, read from the listener registered once on mount.
+  const onCursorRef = useRef(onCursor);
+  onCursorRef.current = onCursor;
+  // The browser's look picks the editor's theme; another tab's choice switches it live.
+  const [look] = useLook();
+  const lookRef = useRef(look);
+  lookRef.current = look;
+  useEffect(() => {
+    monacoRef.current?.editor.setTheme(editorTheme(look));
+  }, [look]);
+
+  // Reveal + place the cursor whenever `goto` changes (jump-to-definition).
+  useEffect(() => {
+    const ed = editorRef.current;
+    if (!ed || !goto || goto.line <= 0) return;
+    const pos = { lineNumber: goto.line, column: goto.column ?? 1 };
+    ed.revealLineInCenter(goto.line);
+    ed.setPosition(pos);
+    ed.focus();
+  }, [goto]);
+
+  const setMarkers = useCallback((diags: Diagnostic[]) => {
+    const editor = editorRef.current;
+    const monacoNs = monacoRef.current;
+    if (!editor || !monacoNs) return;
+    const model = editor.getModel();
+    if (!model) return;
+    const markers: monaco.editor.IMarkerData[] = diags
+      .filter((d) => d.line > 0)
+      .map((d) => ({
+        severity:
+          d.severity === "error"
+            ? monacoNs.MarkerSeverity.Error
+            : monacoNs.MarkerSeverity.Warning,
+        message: d.message,
+        startLineNumber: d.line,
+        startColumn: Math.max(1, d.column),
+        endLineNumber: d.end_line > 0 ? d.end_line : d.line,
+        endColumn: Math.max(
+          d.column + 1,
+          d.end_column > 0 ? d.end_column : d.column + 1,
+        ),
+      }));
+    monacoNs.editor.setModelMarkers(model, "dmap", markers);
+  }, []);
+
+  // Re-apply markers whenever diagnostics change.
+  if (editorRef.current && monacoRef.current) {
+    setMarkers(diagnostics);
+  }
+
+  const handleMount: OnMount = (editor, monacoNs) => {
+    editorRef.current = editor;
+    monacoRef.current = monacoNs;
+    registerOnce(monacoNs);
+    defineTheme(monacoNs as unknown as typeof import("monaco-editor"));
+    defineNightTheme(monacoNs as unknown as typeof import("monaco-editor"));
+    monacoNs.editor.setTheme(editorTheme(lookRef.current));
+    const model = editor.getModel();
+    if (model) monacoNs.editor.setModelLanguage(model, LANGUAGE_ID);
+    setMarkers(diagnostics);
+
+    editor.onDidChangeCursorPosition((e) => {
+      onCursorRef.current?.({ line: e.position.lineNumber, column: e.position.column });
+    });
+
+    if (onSave) {
+      editor.addCommand(
+        monacoNs.KeyMod.CtrlCmd | monacoNs.KeyCode.KeyS,
+        () => onSave(),
+      );
+    }
+  };
+
+  return (
+    <Editor
+      height="100%"
+      defaultLanguage={LANGUAGE_ID}
+      language={LANGUAGE_ID}
+      value={value}
+      onChange={(v) => onChange(v ?? "")}
+      onMount={handleMount}
+      options={{
+        fontSize: 13,
+        fontFamily:
+          'ui-monospace, SFMono-Regular, Menlo, Consolas, monospace',
+        fontLigatures: false,
+        minimap: { enabled: false },
+        automaticLayout: true, // reflow when the pane is resized (split drag)
+        scrollBeyondLastLine: false,
+        smoothScrolling: true,
+        wordWrap: wordWrap ? "on" : "off",
+        wrappingIndent: "indent", // continuation lines sit under the text, not col 1
+        lineNumbersMinChars: 3,
+        renderLineHighlight: "line",
+        padding: { top: 16, bottom: 16 },
+        tabSize: 2,
+      }}
+    />
+  );
+}

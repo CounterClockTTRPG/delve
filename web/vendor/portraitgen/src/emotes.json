@@ -1,0 +1,293 @@
+{
+  "$comment": "Emote definitions, loaded at startup (see src/emote.js for the format). Add your own with registerEmote(id, definition).",
+  "blink": {
+    "label": "Blink",
+    "idle": { "every": [3.5, 6.5], "delay": [0.3, 2.5], "double": 0.3, "gap": 260 },
+    "steps": [
+      { "ms": 50, "eyes": { "lid": 0.5 } },
+      { "ms": 90, "eyes": { "lid": 1 } },
+      { "ms": 60, "eyes": { "lid": 0.5 } }
+    ]
+  },
+  "breathe": {
+    "label": "Breathe",
+    "idle": { "every": 4.3, "delay": [0, 2] },
+    "steps": [
+      { "ms": 2100, "head": null },
+      { "ms": 2100, "head": { "dy": -1.2 } }
+    ]
+  },
+  "talk": {
+    "label": "Talk",
+    "rest": 0,
+    "after": 800,
+    "repeat": [9, 14],
+    "steps": [
+      {
+        "ms": [90, 170],
+        "mouth": { "pick": [
+          { "part": "open", "sx": 0.85, "sy": 0.45 },
+          { "part": "open", "sx": 1, "sy": 0.75 },
+          { "part": "grin", "sx": 0.8, "sy": 0.55 },
+          { "part": "pursed" }
+        ] },
+        "head": { "dy": 1.4, "rot": [-1, 1] }
+      },
+      { "ms": [50, 90], "mouth": null, "head": null }
+    ],
+    "visemes": {
+      "a": { "part": "grin", "sx": 1, "sy": 0.9 },
+      "e": { "part": "grin", "sx": 0.95, "sy": 0.5 },
+      "o": { "part": "open", "sx": 0.85, "sy": 0.8 },
+      "m": null,
+      "f": { "part": "grin", "sx": 0.75, "sy": 0.32 },
+      "c": { "part": "open", "sx": 0.8, "sy": 0.4 }
+    },
+    "speech": { "vowel": [100, 140], "consonant": [55, 85], "space": 110, "pause": 380, "nod": { "dy": 1.2, "rot": [-1, 1] } }
+  },
+  "smile": {
+    "label": "Smile",
+    "hold": 2600,
+    "pose": { "mouth": { "part": "smile" }, "eyes": { "top": 0.9, "bot": 0.65 }, "brows": { "dy": -1.5 }, "marks": "smile" }
+  },
+  "laugh": {
+    "label": "Laugh",
+    "rest": 1100,
+    "pose": { "eyes": { "top": 0.5, "bot": 0.5 }, "brows": { "dy": -2.5, "tilt": -3 }, "marks": "smile" },
+    "repeat": 6,
+    "steps": [
+      { "ms": 150, "mouth": { "part": "grin", "sx": 1.1, "sy": 1.25 }, "head": { "dy": -3, "rot": 1 } },
+      { "ms": 150, "mouth": { "part": "grin", "sx": 1.05, "sy": 0.8 }, "head": null }
+    ]
+  },
+  "wink": {
+    "label": "Wink",
+    "hold": 500,
+    "after": 600,
+    "pose": { "eyes": { "right": { "lid": 1 } }, "brows": { "right": { "dy": 2 } }, "mouth": { "part": "smirk" }, "marks": "smile", "head": { "rot": 2 } }
+  },
+  "smug": {
+    "label": "Smug",
+    "hold": 2400,
+    "pose": { "mouth": { "part": "smirk" }, "eyes": { "top": 0.75, "gx": 0.25 }, "brows": { "right": { "dy": -3 } }, "head": { "rot": -2 } }
+  },
+  "sneer": {
+    "label": "Sneer",
+    "$comment": "Contempt: one mouth corner pulled up (the smirk, tilted and exaggerated), hard narrowed eyes looking down the nose, chin up.",
+    "rest": 700,
+    "hold": 2400,
+    "pose": {
+      "mouth": { "part": "smirk", "sx": 1.2, "sy": 1.5, "rot": -8 },
+      "eyes": { "top": 0.62, "bot": 0.8, "gy": 0.3 },
+      "brows": { "dy": 2.5, "tilt": 5, "right": { "dy": 1, "tilt": 9 } },
+      "marks": "stern",
+      "head": { "dy": -2.5, "rot": 3 }
+    }
+  },
+  "skeptical": {
+    "label": "Skeptical",
+    "hold": 2200,
+    "pose": {
+      "brows": { "left": { "dy": -9, "tilt": -6 }, "right": { "dy": 2.5, "tilt": 6 } },
+      "eyes": { "left": { "top": 1.15 }, "right": { "top": 0.7 } },
+      "mouth": { "part": "smirk" }, "head": { "rot": -1.5 }
+    }
+  },
+  "squint": {
+    "label": "Squint",
+    "$comment": "Peering: both lids close in to a slit, brows knit and lower, the head leans in, then narrows once more.",
+    "rest": 700,
+    "pose": { "brows": { "dy": 3, "tilt": 6 }, "mouth": { "part": "neutral", "sx": 0.85, "sy": 0.8 }, "marks": "stern" },
+    "steps": [
+      { "ms": 900, "eyes": { "top": 0.45, "bot": 0.55 }, "head": { "dy": 1.5 } },
+      { "ms": 700, "eyes": { "top": 0.32, "bot": 0.45 }, "head": { "dy": 2.5, "rot": -1.5 } },
+      { "ms": 900, "eyes": { "top": 0.42, "bot": 0.5 }, "head": { "dy": 2, "rot": -1 } }
+    ]
+  },
+  "thinking": {
+    "label": "Thinking",
+    "hold": 2800,
+    "pose": { "eyes": { "gx": 0.55, "gy": -0.7 }, "brows": { "left": { "dy": -3 }, "right": { "dy": 0.5 } }, "mouth": { "part": "pursed", "sx": 0.9 }, "head": { "rot": 3 } }
+  },
+  "rolleyes": {
+    "label": "Roll eyes",
+    "$comment": "The irises sweep from the side, up and over the top and down the other side, ending half-lidded and unimpressed.",
+    "rest": 700,
+    "after": 300,
+    "steps": [
+      { "ms": 120, "eyes": { "gx": -0.75, "gy": 0.1 } },
+      { "ms": 110, "eyes": { "gx": -0.7, "gy": -0.6, "top": 1.05 }, "brows": { "dy": -2 }, "head": { "dy": -0.5, "rot": -1 } },
+      { "ms": 140, "eyes": { "gx": 0, "gy": -0.95, "top": 1.1 }, "brows": { "dy": -4 }, "head": { "dy": -1.5, "rot": -2 } },
+      { "ms": 110, "eyes": { "gx": 0.7, "gy": -0.6, "top": 1.05 }, "brows": { "dy": -3 }, "head": { "dy": -1, "rot": -1.5 } },
+      { "ms": 120, "eyes": { "gx": 0.8, "gy": 0, "top": 0.85 }, "brows": { "dy": -1 }, "head": { "dy": 0, "rot": -0.5 } },
+      { "ms": 1200, "eyes": { "gx": 0.3, "gy": 0.1, "top": 0.6 }, "brows": { "dy": 1, "left": { "dy": -1.5 } }, "mouth": { "part": "neutral", "sx": 1.1, "sy": 0.6 }, "head": { "dy": 1, "rot": 1.5 } }
+    ]
+  },
+  "lookaround": {
+    "label": "Look around",
+    "rest": 600,
+    "steps": [
+      { "ms": 800, "eyes": { "gx": -0.9 }, "head": { "dx": -1.5 } },
+      { "ms": 250, "eyes": { "gx": 0 }, "head": null },
+      { "ms": 800, "eyes": { "gx": 0.9 }, "head": { "dx": 1.5 } },
+      { "ms": 500, "eyes": { "gx": 0.6, "gy": -0.6 }, "head": { "dx": 1, "dy": -1 } },
+      { "ms": 300, "eyes": { "gx": 0 }, "head": null }
+    ]
+  },
+  "shifty": {
+    "label": "Shifty",
+    "rest": 600,
+    "pose": { "brows": { "dy": 2, "tilt": 5 } },
+    "repeat": 3,
+    "steps": [
+      { "ms": 380, "eyes": { "gx": -0.85, "top": 0.65 } },
+      { "ms": 380, "eyes": { "gx": 0.85, "top": 0.65 } }
+    ]
+  },
+  "adoring": {
+    "label": "Adoring",
+    "rest": 700,
+    "$comment": "A loving gaze: soft eye contact, wide pupils, one slow blink, a warm smile and a tilt.",
+    "pose": {
+      "eyes": { "top": 0.78, "bot": 0.7, "lid": 0.15, "pupil": 1.3 },
+      "brows": { "dy": -2, "tilt": -6 },
+      "mouth": { "part": "smile", "sx": 0.85 },
+      "marks": "smile", "blush": 0.35
+    },
+    "steps": [
+      { "ms": 1500, "head": { "dy": 1, "rot": 4 } },
+      { "ms": 160, "eyes": { "top": 0.78, "bot": 0.7, "lid": 0.55, "pupil": 1.3 }, "head": { "dy": 1.2, "rot": 4.5 } },
+      { "ms": 420, "eyes": { "top": 0.78, "bot": 0.7, "lid": 1, "pupil": 1.3 }, "head": { "dy": 1.4, "rot": 5 } },
+      { "ms": 220, "eyes": { "top": 0.78, "bot": 0.7, "lid": 0.55, "pupil": 1.3 } },
+      { "ms": 1700, "head": { "dy": 0.6, "rot": 3 } }
+    ]
+  },
+  "embarrassed": {
+    "label": "Embarrassed",
+    "hold": 2800,
+    "pose": { "blush": 1, "eyes": { "gx": 0.4, "gy": 0.6, "top": 0.85 }, "brows": { "tilt": -6 }, "mouth": { "part": "smile", "sx": 0.8 }, "head": { "dy": 2, "rot": 3 } }
+  },
+  "surprised": {
+    "label": "Surprised",
+    "hold": 1800,
+    "pose": {
+      "eyes": { "top": 1.4, "bot": 1.25, "pupil": 0.85 }, "brows": { "dy": -7 },
+      "mouth": { "part": "open", "sx": 0.9, "sy": 0.9 }, "marks": "surprised", "head": { "dy": -3 }
+    }
+  },
+  "afraid": {
+    "label": "Afraid",
+    "pose": {
+      "eyes": { "top": 1.35, "bot": 1.2, "pupil": 0.6 }, "brows": { "dy": -5, "tilt": -10 },
+      "mouth": { "part": "grin", "sx": 1.1, "sy": 0.5 }, "marks": "surprised"
+    },
+    "repeat": 18,
+    "steps": [
+      { "ms": 60, "head": { "dx": 1.1, "dy": 2 } },
+      { "ms": 60, "head": { "dx": -1.1, "dy": 2 } }
+    ]
+  },
+  "shiver": {
+    "label": "Shiver",
+    "pose": { "eyes": { "top": 0.85 }, "brows": { "tilt": -4 }, "mouth": { "part": "grin", "sx": 0.9, "sy": 0.35 } },
+    "repeat": 30,
+    "steps": [
+      { "ms": 40, "head": { "dx": 0.7 } },
+      { "ms": 40, "head": { "dx": -0.7 } }
+    ]
+  },
+  "upset": {
+    "label": "Upset",
+    "hold": 2400,
+    "pose": { "eyes": { "top": 0.8 }, "brows": { "dy": -1, "tilt": -12 }, "mouth": { "part": "frown", "sy": 1.2 }, "marks": "sad", "head": { "dy": 3, "rot": -2 } }
+  },
+  "sigh": {
+    "label": "Sigh",
+    "rest": 700,
+    "steps": [
+      { "ms": 700, "eyes": { "lid": 0.2 }, "brows": { "dy": -2 }, "head": { "dy": -2 } },
+      { "ms": 1500, "eyes": { "lid": 0.5 }, "brows": { "tilt": -6 }, "mouth": { "part": "open", "sx": 0.6, "sy": 0.35 }, "head": { "dy": 3, "rot": -1 } }
+    ],
+    "after": 300
+  },
+  "cry": {
+    "label": "Cry",
+    "rest": 600,
+    "pose": { "eyes": { "top": 0.6, "bot": 0.9, "lid": 0.3 }, "brows": { "dy": -1, "tilt": -14 }, "mouth": { "part": "frown", "sy": 1.3 }, "marks": "sad", "tears": 1 },
+    "repeat": 4,
+    "steps": [
+      { "ms": 350, "head": { "dy": 2.5 } },
+      { "ms": 450, "head": { "dy": 1 } }
+    ]
+  },
+  "angry": {
+    "label": "Angry",
+    "hold": 2200,
+    "pose": { "eyes": { "top": 0.65, "bot": 0.85 }, "brows": { "dy": 4, "tilt": 14 }, "mouth": { "part": "frown", "sx": 1.1, "sy": 0.9 }, "marks": "stern", "head": { "dy": 1.5 } }
+  },
+  "disgusted": {
+    "label": "Disgusted",
+    "hold": 2000,
+    "pose": { "eyes": { "top": 0.6, "bot": 0.7 }, "brows": { "dy": 3, "tilt": 8 }, "mouth": { "part": "frown", "sx": 1.1, "sy": 1.2 }, "marks": "stern", "head": { "dx": -2, "dy": -2, "rot": -3 } }
+  },
+  "shout": {
+    "label": "Shout",
+    "rest": 800,
+    "pose": { "eyes": { "top": 0.75, "bot": 0.9 }, "brows": { "dy": 4, "tilt": 12 }, "mouth": { "part": "grin", "sx": 1.2, "sy": 1.6 }, "marks": "stern" },
+    "repeat": 12,
+    "steps": [
+      { "ms": 60, "head": { "dx": 0.8, "dy": -2.5 } },
+      { "ms": 60, "head": { "dx": -0.8, "dy": -2.5 } }
+    ]
+  },
+  "pain": {
+    "label": "Pain",
+    "rest": 900,
+    "pose": { "eyes": { "lid": 0.8, "top": 0.9 }, "brows": { "dy": 2, "tilt": -8 }, "mouth": { "part": "grin", "sx": 1.1, "sy": 0.45 }, "marks": "stern" },
+    "steps": [
+      { "ms": 120, "head": { "dx": -3, "dy": 2, "rot": -3 } },
+      { "ms": 1400, "head": { "dx": -1, "dy": 1, "rot": -1 } }
+    ]
+  },
+  "nod": {
+    "label": "Nod",
+    "rest": 500,
+    "after": 600,
+    "repeat": 2,
+    "steps": [
+      { "ms": 220, "head": { "dy": 5 } },
+      { "ms": 220, "head": null }
+    ]
+  },
+  "shake": {
+    "label": "Shake head",
+    "rest": 500,
+    "after": 500,
+    "pose": { "brows": { "dy": 1 } },
+    "repeat": 3,
+    "steps": [
+      { "ms": 200, "head": { "dx": -4, "rot": -2 } },
+      { "ms": 200, "head": { "dx": 4, "rot": 2 } }
+    ]
+  },
+  "yawn": {
+    "label": "Yawn",
+    "rest": 900,
+    "steps": [
+      { "ms": 400, "mouth": { "part": "open", "sx": 1, "sy": 1.1 }, "eyes": { "lid": 0.4 } },
+      { "ms": 1300, "mouth": { "part": "open", "sx": 1.2, "sy": 1.6 }, "eyes": { "lid": 0.9 }, "brows": { "dy": -3 }, "head": { "dy": -3, "rot": 2 } },
+      { "ms": 500, "mouth": { "part": "open", "sx": 0.9, "sy": 0.8 }, "eyes": { "lid": 0.6 }, "brows": null, "head": null },
+      { "ms": 700, "mouth": null, "eyes": { "lid": 0.35 } }
+    ]
+  },
+  "sleep": {
+    "label": "Sleep",
+    "rest": 300,
+    "pose": { "eyes": { "lid": 1 }, "brows": { "dy": 1.5 }, "zzz": 1 },
+    "repeat": 3,
+    "steps": [
+      { "ms": 1700, "mouth": null, "head": { "dy": 2, "rot": -2 } },
+      { "ms": 1700, "mouth": { "part": "open", "sx": 0.6, "sy": 0.35 }, "head": { "dy": 3.5, "rot": -3 } }
+    ]
+  }
+}

@@ -1,0 +1,40 @@
+# Hask and the Ambre (DEL-351): a day's travel around the free city, 1 unit = 1 mile, y north.
+
+workspace hask-region {
+
+    styles {
+        river                { stroke #3a6f9f; stroke-width 5 }
+        road.surface=paved   { stroke #8a6a40; stroke-width 3 }
+        road.surface=track   { stroke #a08050; stroke-width 1 }
+        [ruined]             { stroke #aa3030; stroke-width 2 }
+    }
+
+    model {
+        terrain thornwold-edge { polygon 0,14 9,16 13,26 11,40 8,56 0,58; biome forest; description "The eastern edge of the Thornwold. Woodcutters go in a bowshot and no farther." }
+        terrain wetside-fens { polygon 18,0 30,0 30,12 24,16 17,10; biome marsh; description "The fens below Hask, where the tanneries' water goes. Eels, reeds, smugglers." }
+        terrain east-fields { polygon 34,18 58,16 60,46 36,46; biome plains; description "Hask's farmland east of the river: barley, orchards, ferry-hamlets." }
+        terrain north-downs { polygon 14,44 30,46 28,60 12,60; biome hills; description "Low bare downs on the west bank; the Pale Tower stands on the last of them." }
+
+        river ambre { points 30,60 29,52 31,44 30,36 30,30 31,22 29,12 30,0; description "The Ambre, a quarter-mile wide at Hask Ford and slow; brown in spring, green in summer." }
+
+        city hask { at 30,30; pop 38000; description "Hask on both banks of the Ford: Tollside east, Wetside west, and no bridge between."; tags [walled, freecity] }
+        poi hask-ford { at 30,29; kind ford; description "Hask Ford, where the licensed ferries cross and the Ferryman takes his toll." }
+        poi weir { at 31,42; kind shrine; description "The weir above Hask, the Lady of the Weir's: millers leave her bread, ferrymen leave her alone." }
+        poi pale-tower { at 26,50; kind ruin; description "The Pale Tower, leaning, whiter than bone, a day's walk upriver. The Undercroft's mouth is in its cellars."; tags [ruined, dungeon] }
+        poi gallows-crossroads { at 38,32; kind gallows; description "The gallows at the crossroads outside the east gate, where the Watch hangs road-thieves." }
+
+        road old-road-west { from hask; to west-edge; surface paved; description "The Old Road west toward the Thornwold and Aldmoor." }
+        poi west-edge { at 0,28; kind road; description "The Old Road leaves the map for Aldmoor, eight days west." }
+        road old-road-east { from hask; to east-edge; via 38,32; surface paved; description "The Old Road east, past the gallows, toward Redmere and the Margravate." }
+        poi east-edge { at 60,34; kind road; description "The Old Road leaves the map for Vaelholt." }
+        road tower-path { from hask; to pale-tower; via 28,38 27,45; surface track; description "The towpath and then a sheep track up the west bank to the Pale Tower. Crews walk it at dawn; fewer walk it back." }
+    }
+
+    views {
+        view hask-region {
+            scope hask-region
+            include cities, roads, rivers, terrain, poi
+            units miles
+        }
+    }
+}

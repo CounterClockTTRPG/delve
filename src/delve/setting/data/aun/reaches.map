@@ -1,0 +1,96 @@
+# The Reaches of Aun (DEL-351): the known lands, 1 unit = 1 mile, x west to east, y south to north.
+# The canon is docs/settings/aun-bible.md; the realms' outlines are a sketch of their bounds, not surveyed borders.
+
+workspace reaches {
+
+    styles {
+        kingdom              { fill-opacity 0.12; stroke #6a5a3a; stroke-width 1 }
+        [freecity]           { color #c8a040; fill-opacity 0.25 }
+        [theocracy]          { color #d8c070; fill-opacity 0.18 }
+        [tyranny]            { color #8a2a2a; fill-opacity 0.20 }
+        [princedoms]         { color #7a4a8a; fill-opacity 0.16 }
+        [kingdom]            { color #3a6a3a; fill-opacity 0.14 }
+        [holds]              { color #5a7a9a; fill-opacity 0.16 }
+        [steppe]             { color #a08a40; fill-opacity 0.14 }
+        [pirates]            { color #2a6a7a; fill-opacity 0.16 }
+        [wild]               { color #4a5a3a; fill-opacity 0.10 }
+        lake                 { color #2d5f8f; fill-opacity 0.6; stroke #16406a; stroke-width 1 }
+        river                { stroke #3a6f9f; stroke-width 3 }
+        road.surface=paved   { stroke #8a6a40; stroke-width 3 }
+        road.surface=track   { stroke #a08050; stroke-width 1 }
+        city.pop>20000       { marker circle; color #3a2a18; marker-size 10; stroke #c8a96e; stroke-width 2 }
+        [ruined]             { stroke #aa3030; stroke-width 2 }
+    }
+
+    model {
+
+        # ── Seas ───────────────────────────────────────────────────────────────────────────────────────────────
+        lake iron-sea { polygon 0,1000 1600,1000 1600,880 1250,860 1000,948 700,962 400,960 150,955 0,930; description "The Iron Sea: cold, grey, the Hold-folk's road to everywhere. Frozen along the shore in Vormas and Velith." }
+        lake sunder-sea { polygon 300,0 1100,0 1100,140 950,138 820,150 700,158 650,140 450,128 310,132; description "The Sunder Sea: warm, busy, pirate-haunted. The ports of the Theocracy and the Lantern Principalities trade across it with the Southron coast." }
+
+        # ── Realms ─────────────────────────────────────────────────────────────────────────────────────────────
+        kingdom free-city-of-hask { polygon 700,430 770,440 860,450 880,520 860,600 780,612 700,600 692,520; description "The Free City of Hask and the farms, mills and ferry-hamlets it owns on both banks of the Ambre. A free city since the Bought Freedom of 901 RY."; tags [freecity] }
+        kingdom calder { polygon 400,380 520,370 640,390 700,420 692,520 700,600 690,700 600,725 480,720 400,680 380,560 390,450; description "The Kingdom of Calder: castles, downs and sheep; an old king without an heir and barons who count the days."; tags [kingdom] }
+        kingdom lantern-principalities { polygon 700,400 860,420 1000,380 1100,300 1100,170 950,150 820,160 700,170 690,280; description "The Lantern Principalities: seven princely Houses of Thaumarch blood, three of them strong (Corvanne, Tessarine, Amaranthe), all of them quarrelling."; tags [princedoms] }
+        kingdom sunward-theocracy { polygon 310,140 450,135 650,150 680,250 650,360 520,368 400,370 310,330 290,240; description "The Sunward Theocracy of Aurel: whitewashed towns, sun-temples, inquisitors, burnt shrines. Ruled from Candor by the Hierarch."; tags [theocracy] }
+        kingdom margravate { polygon 950,450 1080,440 1200,470 1210,600 1190,750 1060,760 950,740 900,640 890,540; description "The Margravate: iron, ash and gallows. Three hundred years under the Undying Margrave, Teodric Vael."; tags [tyranny] }
+        kingdom northern-holds { polygon 150,790 400,770 700,800 950,790 1000,880 980,940 700,955 400,952 150,945 120,870; description "The Northern Holds: fjords, longships and feuds. Jarls under the yearly Moot at Skarnholm, and no king."; tags [holds] }
+        kingdom drowned-coast { polygon 0,0 300,0 310,132 300,260 150,272 0,252; description "The Drowned Coast: smugglers' coves, pirate isles, and Thaumarch towns that show their roofs at low tide."; tags [pirates] }
+        kingdom greenmaw { polygon 1100,0 1600,0 1600,250 1400,252 1150,250 1100,170; description "The Greenmaw: jungle, fever and serpent-temples older than the Thaumarchy. Tribes heed the Serpent Oracle of Zhaumal."; tags [wild] }
+        kingdom horse-steppe { polygon 0,300 290,290 390,450 380,560 400,680 380,760 150,780 0,760; description "The Horse Steppe: a sea of grass under Ulagh Khan's clans; horse archers, sky-burials, raids and trade with Calder."; tags [steppe] }
+        kingdom glass-waste { polygon 1150,250 1350,240 1550,280 1565,450 1550,650 1400,665 1215,620 1200,470 1120,330; description "The Glass Waste, where Ishavel burned on the night of the Unmaking: glass dunes, brass ruins, ghosts and thirst. Nobody rules it."; tags [wild] }
+
+        # ── Land ───────────────────────────────────────────────────────────────────────────────────────────────
+        terrain hornwall { polygon 450,700 600,735 800,742 1000,732 1250,700 1262,760 1100,790 900,796 700,796 500,790 440,760; biome mountain; description "The Hornwall: the mountain wall between the Holds and the south. Deephorn's dwarves in the middle, orc tribes at the eastern end." }
+        terrain thornwold { polygon 600,480 680,470 760,490 772,600 742,700 650,712 600,640 590,560; biome forest; description "The Thornwold: the elves' forest between Calder and Hask. Its paths move; its lady is Ysmeine." }
+        terrain calder-downs { polygon 430,420 560,410 620,450 600,520 480,532 420,490; biome hills; description "Calder's downs: sheep, barrows, gnome-burrows, and the Hill That Listens." }
+        terrain glass-dunes { polygon 1160,262 1350,252 1540,290 1552,450 1540,640 1400,652 1222,612 1210,470 1132,332; biome desert; description "Dunes of black and green glass that ring like bells in the wind." }
+        terrain greenmaw-jungle { polygon 1120,20 1580,20 1590,240 1150,240 1112,170; biome jungle; description "The jungle of the Greenmaw." }
+        terrain grass-sea { polygon 20,320 285,310 370,460 362,560 380,680 362,742 150,762 20,742; biome plains; description "The grass of the Horse Steppe, taller than a man in Karsk and Fennick." }
+        terrain holds-tundra { polygon 160,890 950,900 960,935 700,948 400,946 150,938; biome tundra; description "Bare fells and glaciers above the fjords. Grandmother Frost's ice." }
+        terrain drowned-shallows { polygon 20,20 280,20 290,240 30,240; biome marsh; description "Salt marsh, sandbars and drowned streets." }
+        terrain redmere { polygon 880,600 930,594 946,640 900,656 874,630; biome marsh; description "Redmere: a reed lake and the battlefield of 1110 RY, on the Calder–Margravate border." }
+
+        river ambre { points 800,760 806,700 795,640 800,580 800,520 810,460 830,400 850,300 856,220 860,152; description "The Ambre: from the Hornwall south past Hask and through the Lantern Principalities to the Sunder Sea. Hask's ferries are its only crossing for a hundred miles." }
+
+        # ── Cities ─────────────────────────────────────────────────────────────────────────────────────────────
+        city hask { at 800,520; pop 38000; in free-city-of-hask; description "Hask, the free city on Hask Ford: rich, crooked, loud, and without a bridge."; tags [walled, freecity] }
+        city aldmoor { at 540,560; pop 22000; in calder; description "Aldmoor, the old royal city of Calder."; tags [walled, capital] }
+        city candor { at 450,222; pop 30000; in sunward-theocracy; description "Candor, the white city of the Hierarch, on the Sunder Sea."; tags [walled, capital, port] }
+        city vaelholt { at 1060,600; pop 15000; in margravate; description "Vaelholt, the Margrave's seat: a fortress city of black stone."; tags [walled, capital] }
+        city skarnholm { at 520,905; pop 8000; in northern-holds; description "Skarnholm, chief port of the Holds, where the Moot gathers."; tags [port] }
+        city gullhaven { at 180,120; pop 6000; in drowned-coast; description "Gullhaven, the pirates' port of the Drowned Coast."; tags [port] }
+        city corvanne { at 838,360; pop 18000; in lantern-principalities; description "Corvanne, on the Ambre, the Lantern city nearest Hask; seat of the House of Corvanne."; tags [walled] }
+        city tessarine { at 970,300; pop 14000; in lantern-principalities; description "Tessarine, in the eastern hills, seat of the House of Tessarine."; tags [walled] }
+        city amaranthe { at 858,168; pop 12000; in lantern-principalities; description "Amaranthe, seat of the House of Amaranthe, at the mouth of the Ambre on the Sunder Sea."; tags [walled, port] }
+        city deephorn { at 820,752; pop 9000; description "Deephorn, the dwarves' hold under the Hornwall, King Barrek Stonesong's."; tags [dwarven] }
+
+        # ── Places ─────────────────────────────────────────────────────────────────────────────────────────────
+        poi ishavel { at 1350,450; kind ruin; description "The glass ruins of Ishavel, the Thaumarchy's capital, the Lantern of the World."; tags [ruined] }
+        poi zhaumal { at 1350,130; kind ruin; description "Zhaumal, the ruined serpent-city of the Greenmaw, where the Oracle speaks."; tags [ruined] }
+        poi pale-tower { at 790,560; kind ruin; description "The Pale Tower, a day upriver from Hask; the Undercroft below it."; tags [ruined, dungeon] }
+        poi thousand-fires { at 180,520; kind camp; description "The Thousand Fires, where the steppe clans gather each summer." }
+        poi shardsend { at 1135,310; kind camp; description "Shardsend, the glass-pickers' camp-town on the Waste's south-west rim, three days from Tessarine." }
+        poi redmere-field { at 905,625; kind battlefield; description "The field of Redmere, 1110 RY." }
+        poi hill-that-listens { at 500,470; kind shrine; description "The Hill That Listens, a barrow in Calder's downs." }
+        poi drowned-bell { at 110,60; kind shrine; description "Where the Drowned Bell lies under the sea." }
+
+        # ── Roads ──────────────────────────────────────────────────────────────────────────────────────────────
+        road old-road-west { from aldmoor; to hask; via 640,540 700,525; surface paved; description "The Old Road west: a Thaumarch road, cracked but still the best in the Reaches, from Hask to Aldmoor through the Thornwold's southern edge." }
+        road old-road-east { from hask; to vaelholt; via 900,560 960,590; surface paved; description "The Old Road east, past Redmere to Vaelholt. Margravate toll-forts at the border." }
+        road river-road { from hask; to corvanne; via 815,440; surface dirt; description "The river road down the Ambre's east bank to Corvanne." }
+        road sun-road { from candor; to aldmoor; via 480,320 520,440; surface dirt; description "The Sun Road, pilgrims' and soldiers' road from Candor north to Calder." }
+        road deephorn-road { from hask; to deephorn; via 806,640 815,700; surface dirt; description "The road north up the Ambre to Deephorn's gates." }
+        road steppe-track { from aldmoor; to thousand-fires; via 420,550 300,530; surface track; description "The drovers' track west onto the steppe." }
+        road diggers-track { from vaelholt; to ishavel; via 1180,560 1270,500; surface track; description "The Margrave's diggers' track into the Glass Waste." }
+        road coast-road { from gullhaven; to candor; via 280,150 360,180; surface track; description "The coast track from Gullhaven to Candor, smugglers' and inquisitors' both." }
+    }
+
+    views {
+        view reaches {
+            scope reaches
+            include kingdoms, cities, roads, rivers, lakes, terrain, poi
+            units miles
+        }
+    }
+}

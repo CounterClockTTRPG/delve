@@ -1,0 +1,305 @@
+{
+ "_source": "OSRIC 3.0 Player Guide §1.5.3.2 (OUTDOOR movement: level terrain = Movement Rate x 0.2 miles/day, rugged x 0.15, very rugged x 0.10; the encumbered movement rate from Table 1.5.3.3A is used in place of the base rate) and Gamemaster Guide §2.4.1.3 (wandering monsters: normally two checks per day at 1 in 12). The three multipliers and the check rate are OSRIC. The assignment of each terrain to a ruggedness class, and the glyphs/colours, are this engine's mapping (a documented GM ruling, not a table in the book) — edit freely. Terrain keys deliberately match the wilderness encounter tables in data/encounters.json so the terrain of a hex selects the encounter table rolled on it.",
+ "hex_miles_default": 6,
+ "movement_multipliers": {
+  "level": 0.2,
+  "rugged": 0.15,
+  "very_rugged": 0.1
+ },
+ "wandering": {
+  "checks_per_hex": 1,
+  "chance_in": 12,
+  "_note": "§2.4.1.3 gives 1-in-12, twice a day. A hex is the unit of travel here, so the default is one check per hex entered; tune with --chance."
+ },
+ "terrains": {
+  "plains": {
+   "class": "level",
+   "glyph": ".",
+   "colour": "#c9c07a",
+   "label": "plains"
+  },
+  "rural": {
+   "class": "level",
+   "glyph": "⌷",
+   "colour": "#b8c77a",
+   "label": "farmland"
+  },
+  "desert": {
+   "class": "level",
+   "glyph": "≡",
+   "colour": "#e0c98a",
+   "label": "desert"
+  },
+  "tundra": {
+   "class": "rugged",
+   "glyph": ",",
+   "colour": "#b6c3c0",
+   "label": "tundra"
+  },
+  "forest": {
+   "class": "rugged",
+   "glyph": "♣",
+   "colour": "#4e7a4a",
+   "label": "forest"
+  },
+  "hills": {
+   "class": "rugged",
+   "glyph": "∩",
+   "colour": "#9a8a5c",
+   "label": "hills"
+  },
+  "wetlands": {
+   "class": "rugged",
+   "glyph": "≋",
+   "colour": "#6e8a6a",
+   "label": "marsh"
+  },
+  "jungle": {
+   "class": "very_rugged",
+   "glyph": "♠",
+   "colour": "#2f6b3a",
+   "label": "jungle"
+  },
+  "mountains": {
+   "class": "very_rugged",
+   "glyph": "▲",
+   "colour": "#8a8a92",
+   "label": "mountains"
+  },
+  "arctic": {
+   "class": "very_rugged",
+   "glyph": "❃",
+   "colour": "#dce8ee",
+   "label": "ice"
+  },
+  "aquatic": {
+   "class": "water",
+   "glyph": "~",
+   "colour": "#5b86b0",
+   "label": "lake"
+  },
+  "marine": {
+   "class": "water",
+   "glyph": "≈",
+   "colour": "#3f6d99",
+   "label": "sea"
+  }
+ },
+ "roads": {
+  "_source": "HOUSE RULE. OSRIC §1.5.3.2 gives only three travel classes (level, rugged, very rugged) and says nothing about roads. Rather than invent new multipliers, a road is expressed in OSRIC's own classes: a maintained road makes the leg count as level terrain, and a track improves it by one class. Roads never cross water — a causeway across a lake or sea should be modelled by setting that hex's terrain to land. A road that meets a *river* needs no such fudge: a river is an edge, so a road sharing that edge implies a crossing (see rivers.implied_crossings).",
+  "_ladder": [
+   "level",
+   "rugged",
+   "very_rugged"
+  ],
+  "kinds": {
+   "road": {
+    "label": "road",
+    "class": "level",
+    "improve": null,
+    "glyph": "#",
+    "colour": "#d8c9a3",
+    "width": 3.0
+   },
+   "track": {
+    "label": "track",
+    "class": null,
+    "improve": 1,
+    "glyph": ":",
+    "colour": "#a3937a",
+    "width": 1.8
+   }
+  }
+ },
+ "rivers": {
+  "_source": "HOUSE RULE. OSRIC has no river rules: §1.5.3.2 gives only the three travel classes and §2.4.1.6 (waterborne adventures) explicitly hands sailing speeds to the GM. A river here lives on the *edge* between two hexes (like a road) but works the opposite way — a road makes travelling ALONG an edge cheaper, a river makes CROSSING it dearer. The toll is quoted in the one unit the engine already carries without rounding: fractional travel days (see the 'travel' block on a saved map). A major river cannot be forded at all: the party needs infrastructure on that edge (see 'crossings') or a travel mode that doesn't care (see 'travel_modes' — sailing or flying).",
+  "_ladder": [
+   "stream",
+   "river",
+   "major_river"
+  ],
+  "kinds": {
+   "stream": {
+    "label": "stream",
+    "cross_days": 0.0,
+    "blocks": false,
+    "glyph": "⌇",
+    "colour": "#7fb0cf",
+    "width": 1.6
+   },
+   "river": {
+    "label": "river",
+    "cross_days": 0.25,
+    "blocks": false,
+    "glyph": "≀",
+    "colour": "#5b93bd",
+    "width": 2.6
+   },
+   "major_river": {
+    "label": "great river",
+    "cross_days": 0.5,
+    "blocks": true,
+    "glyph": "‖",
+    "colour": "#3f78ab",
+    "width": 4.0
+   }
+  },
+  "crossings": {
+   "_note": "Infrastructure on one river edge. 'opens' means it makes an otherwise unfordable river (kinds with blocks=true) passable. cross_days replaces the river's own toll rather than adding to it.",
+   "kinds": {
+    "ford": {
+     "label": "ford",
+     "cross_days": 0.1,
+     "opens": true,
+     "glyph": "=",
+     "colour": "#c8b48a"
+    },
+    "bridge": {
+     "label": "bridge",
+     "cross_days": 0.0,
+     "opens": true,
+     "glyph": "#",
+     "colour": "#d8c9a3"
+    },
+    "ferry": {
+     "label": "ferry",
+     "cross_days": 0.25,
+     "opens": true,
+     "glyph": "%",
+     "colour": "#b0a0c0"
+    }
+   }
+  },
+  "implied_crossings": {
+   "_note": "A road built across a river implies the crossing that carries it, so the GM never has to place a bridge by hand just to stop a highway dead at the water. An explicit crossing on the edge always wins over these.",
+   "road": "bridge",
+   "track": "ford"
+  }
+ },
+ "travel_modes": {
+  "_source": "PART OSRIC, PART HOUSE RULE. 'walk' and 'ride' are the book's: §1.5.3.2 sets the miles/day from the movement rate and the terrain class, and says plainly 'If the characters are mounted, the movement rate of the mount is used rather than the movement rate for the character' — so riding is exactly the same arithmetic with the mount's rate substituted (rate_ft below; override per march with --rate). 'sail' and 'fly' are house rules only because OSRIC supplies no rates for them (§2.4.1.6 leaves sailing speed to the GM). Rather than invent a second cost table, each mode re-expresses itself in OSRIC's own three classes: 'class_as' is the travel class every hex counts as for that mode, so open water under sail is simply level going. Default mount rates come from the bestiary (Riding Horse 120ft; a medium warhorse is 240 — pass --rate). allow = which terrain classes the mode may enter at all.",
+  "_default": "walk",
+  "modes": {
+   "walk": {
+    "label": "on foot",
+    "rate_ft": null,
+    "class_as": null,
+    "allow": [
+     "level",
+     "rugged",
+     "very_rugged"
+    ],
+    "crossing_multiplier": 1.0,
+    "ignores_blocked_crossings": false,
+    "glyph": "@"
+   },
+   "ride": {
+    "label": "mounted",
+    "rate_ft": 120,
+    "class_as": null,
+    "allow": [
+     "level",
+     "rugged",
+     "very_rugged"
+    ],
+    "crossing_multiplier": 1.0,
+    "ignores_blocked_crossings": false,
+    "glyph": "%"
+   },
+   "sail": {
+    "label": "under sail",
+    "rate_ft": 300,
+    "class_as": "level",
+    "allow": [
+     "water"
+    ],
+    "crossing_multiplier": 0.0,
+    "ignores_blocked_crossings": true,
+    "glyph": "&"
+   },
+   "fly": {
+    "label": "flying",
+    "rate_ft": 360,
+    "class_as": "level",
+    "allow": [
+     "level",
+     "rugged",
+     "very_rugged",
+     "water"
+    ],
+    "crossing_multiplier": 0.0,
+    "ignores_blocked_crossings": true,
+    "glyph": "^"
+   }
+  }
+ },
+ "site_kinds": {
+  "settlement": {
+   "glyph": "◉",
+   "label": "settlement"
+  },
+  "dungeon": {
+   "glyph": "◈",
+   "label": "dungeon"
+  },
+  "ruin": {
+   "glyph": "⌂",
+   "label": "ruin"
+  },
+  "lair": {
+   "glyph": "☠",
+   "label": "lair"
+  },
+  "landmark": {
+   "glyph": "★",
+   "label": "landmark"
+  }
+ },
+ "generation": {
+  "_note": "Seeded region growth: a handful of terrain seeds are scattered and every hex takes the terrain of the nearest seed, which yields contiguous countries rather than per-hex noise. Weights bias how much of the map each terrain claims.",
+  "seed_weights": {
+   "plains": 5,
+   "forest": 4,
+   "hills": 4,
+   "mountains": 3,
+   "wetlands": 2,
+   "rural": 2,
+   "desert": 1,
+   "tundra": 1
+  },
+  "seeds_per_100_hexes": 7,
+  "rivers": {
+   "_note": "Rivers are grown after the terrain, downhill. 'elevation' is a crude height per terrain — no new rules, just an ordering to flow down. A source is picked in high country and the water walks the lattice of hex CORNERS, each step taking the adjoining edge whose two hexes are lowest, until it reaches standing water, leaves the map, or joins another river (which upgrades that river the rest of the way to its mouth). A river with nowhere lower to go digs a lake, which is also how a generated map gets inland water at all.",
+   "per_100_hexes": 1.6,
+   "source_terrains": [
+    "mountains",
+    "arctic",
+    "hills"
+   ],
+   "elevation": {
+    "mountains": 5,
+    "arctic": 5,
+    "hills": 4,
+    "tundra": 3,
+    "forest": 3,
+    "jungle": 3,
+    "plains": 2,
+    "rural": 2,
+    "desert": 2,
+    "wetlands": 1,
+    "aquatic": 0,
+    "marine": 0
+   },
+   "start_kind": "stream",
+   "grow_after": {
+    "river": 3,
+    "major_river": 9
+   },
+   "min_length": 3,
+   "max_length": 40,
+   "jitter": 1,
+   "confluence_upgrade": true,
+   "lake_on_sink": true
+  }
+ }
+}

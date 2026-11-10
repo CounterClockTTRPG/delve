@@ -1,0 +1,130 @@
+{
+ "_source": "OSRIC 3.0 Player Guide §1.6.2.8 (NPC & Monster Reaction, Table 1.6.2.8A) and §1.6.8 (Morale, Table 1.6.8A). The Charisma reaction/loyalty modifiers referenced by the reaction roll live in ability_scores.json (charisma.<score>.reaction / .loyalty).",
+ "reaction": {
+  "_table": "1.6.2.8A",
+  "die": "d100",
+  "note": "Roll d100, add the negotiator's Charisma reaction modifier (and any situational modifier), then read the band.",
+  "bands": [
+   {
+    "roll": [
+     1,
+     5
+    ],
+    "key": "very_hostile",
+    "result": "Very hostile. Monsters attack; socially, absolute refusal / immediate steps to harm the disliked person."
+   },
+   {
+    "roll": [
+     6,
+     25
+    ],
+    "key": "hostile",
+    "result": "Hostile. Monsters probably attack unless obviously outmatched; a delayed hostile response socially."
+   },
+   {
+    "roll": [
+     26,
+     45
+    ],
+    "key": "unfavourable",
+    "result": "Unfavourable. Monsters probably attack; ~55% of next actions biased against the person."
+   },
+   {
+    "roll": [
+     46,
+     55
+    ],
+    "key": "neutral",
+    "result": "Neutral. Monsters don't attack unless sure to win; NPCs wait to hear more."
+   },
+   {
+    "roll": [
+     56,
+     75
+    ],
+    "key": "favourable",
+    "result": "Favourable. Monsters wait to hear an offer; ~55% of next actions biased in favour."
+   },
+   {
+    "roll": [
+     76,
+     95
+    ],
+    "key": "friendly",
+    "result": "Friendly. Probably offers assistance if profitable."
+   },
+   {
+    "roll": [
+     96,
+     100
+    ],
+    "key": "very_friendly",
+    "result": "Very friendly. May offer assistance even if unprofitable."
+   }
+  ]
+ },
+ "morale": {
+  "_table": "1.6.8 / 1.6.8A",
+  "die": "d100",
+  "base_pct": 50,
+  "per_hd_pct": 5,
+  "surrender_margin": 51,
+  "note": "Morale = 50% + 5% per hit die. Roll d100 (+ situational modifiers); roll <= morale passes. On failure the creatures retreat; a failure margin >= 51 indicates surrender. PCs never check; undead / mindless / fearless creatures never check. No more than two checks per battle.",
+  "modifiers": {
+   "_table": "1.6.8A",
+   "_note": "Cumulative; added to the d100 roll (positive = worse morale, more likely to fail).",
+   "situations": [
+    {
+     "key": "per_friend_lost",
+     "pct": 5,
+     "desc": "Per friend killed, surrendered or fled"
+    },
+    {
+     "key": "own_25pct_casualties",
+     "pct": 5,
+     "desc": "Own side experienced 25% casualties"
+    },
+    {
+     "key": "numerical_inferiority",
+     "pct": 10,
+     "desc": "Numerical inferiority"
+    },
+    {
+     "key": "own_50pct_casualties",
+     "pct": 15,
+     "desc": "Own side taken 50% casualties"
+    },
+    {
+     "key": "greatly_outnumbered",
+     "pct": 20,
+     "desc": "Own side greatly outnumbered (2:1 or more)"
+    },
+    {
+     "key": "leader_downed",
+     "pct": 25,
+     "desc": "Own leader defeated or downed"
+    },
+    {
+     "key": "per_foe_lost",
+     "pct": -5,
+     "desc": "Per foe killed, surrendered or fled"
+    },
+    {
+     "key": "inflicted_25pct",
+     "pct": -5,
+     "desc": "Own side inflicted 25% casualties"
+    },
+    {
+     "key": "numerical_superiority",
+     "pct": -10,
+     "desc": "Numerical superiority"
+    },
+    {
+     "key": "inflicted_50pct",
+     "pct": -15,
+     "desc": "Own side inflicted 50% casualties on the other side"
+    }
+   ]
+  }
+ }
+}

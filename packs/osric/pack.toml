@@ -1,0 +1,8 @@
+id = "osric"
+kind = "ruleset"
+title = "OSRIC 3.0"
+version = "1.0.0"
+delve_api = 1
+package = "delve_osric"
+entry = "delve_osric.pack:PACK"
+preferred = true

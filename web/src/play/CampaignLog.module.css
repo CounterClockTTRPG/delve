@@ -1,0 +1,153 @@
+/* The campaign's log (DEL-324): the story set as a read, one page of it at a time, or the whole for print. The
+   toolbar keeps MapPrint's styles, and is hidden in print by them; the page is named, as the novel's is. */
+
+@page log {
+  size: A4;
+  margin: 18mm 16mm 20mm;
+}
+
+.page {
+  max-width: 72ch;
+  margin: 0 auto;
+  padding: 24px 16px 80px;
+  font-family: var(--serif);
+  line-height: 1.6;
+  color: var(--fg);
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--sans);
+  font-size: 13px;
+}
+
+.header {
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.header h1 {
+  font-size: 1.8rem;
+  margin: 0;
+}
+.subtitle {
+  margin: 0 0 12px;
+  font-family: var(--sans);
+  color: var(--fg-muted);
+}
+
+.pager,
+.foot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--sans);
+  font-size: 14px;
+}
+.pager select {
+  flex: 1;
+  min-width: 0;
+}
+.foot {
+  justify-content: space-between;
+  margin-top: 40px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.part + .part {
+  margin-top: 48px;
+}
+.part h2 {
+  font-size: 1.35rem;
+  margin: 0;
+}
+.when {
+  margin: 2px 0 20px;
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--fg-muted);
+}
+
+.who {
+  display: block;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.prose :global(p) {
+  margin: 0 0 0.8em;
+}
+
+.act {
+  margin: 1.2em 0 0.8em;
+  padding-left: 12px;
+  border-left: 3px solid var(--accent);
+  font-family: var(--sans);
+}
+.act p {
+  margin: 0;
+}
+
+.said {
+  margin: 0.8em 0 0.8em 1.5em;
+  font-style: italic;
+}
+
+.recap,
+.asked {
+  margin: 1em 0;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.figure {
+  margin: 1em 0;
+  break-inside: avoid;
+}
+.figure img {
+  display: block;
+  max-width: 100%;
+  max-height: 60vh;
+  margin: 0 auto;
+}
+.figure figcaption {
+  text-align: center;
+  font-size: 0.9em;
+  font-style: italic;
+  color: var(--fg-muted);
+}
+
+.dice {
+  margin: 0.4em 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--sans);
+  font-size: 12px;
+  color: var(--fg-muted);
+}
+
+@media print {
+  .page {
+    page: log;
+    max-width: none;
+    padding: 0;
+    font-size: 11pt;
+  }
+  .pager,
+  .foot {
+    display: none;
+  }
+  /* Each page of the log, and the whole log's each session part, from a new sheet. */
+  .part + .part {
+    break-before: page;
+    margin-top: 0;
+  }
+}
