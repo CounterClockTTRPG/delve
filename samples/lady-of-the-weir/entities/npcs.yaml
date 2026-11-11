@@ -1,0 +1,147 @@
+- id: reeve-haldan
+  name: Reeve Haldan
+  portrait: asset:reeve-haldan-portrait
+  role: the Reeve of Ambresleigh, who hires the party
+  location: key:V2
+  disposition: 30
+  summary: Broad, grey, anxious, and very fond of the word "Tesk". Loves his daughter; broke the Lady's stone.
+  description: |
+    Haldan has been Reeve for twenty years and is good at it: he knows every eel-trap and every debt. He hired the
+    party to make the trouble go away without anyone learning that he caused it, and he steers them at Odo from
+    the first hour. The three lost are Coll the miller's son, Annet the tinker's wife and old Brisk the
+    drover, taken a night apart on the river path. He lies well until cornered, then all at once, weeping. He would give his life for Wenna and
+    has very nearly given everyone else's.
+  stats:
+    osric: { ac: 10, hd: 1, hp: 5, thac0: 21, attacks: "1d4 (cudgel)", morale: 40 }
+- id: wenna
+  name: Wenna
+  portrait: asset:wenna-portrait
+  role: the Reeve's daughter, chosen by the Lady
+  location: key:V2
+  disposition: 20
+  summary: Seventeen, quiet, watchful, and not sure she wants rescuing.
+  description: |
+    Wenna has heard a woman singing her name in the reeds at dusk since the spring came in, and has been going to
+    the pool to listen. She knows nothing of what her father did. Offered the Lady's water or her father's house,
+    she will think about it longer than anyone expects.
+- id: odo-tesk
+  name: Odo Tesk
+  portrait: asset:odo-tesk-portrait
+  role: leaseholder of the weir, the village's suspect
+  location: key:V6
+  disposition: 10
+  summary: Charming, greedy younger son of House Tesk of Hask, with a pipe, good boots and debts.
+  description: |
+    Odo leased the weir to dig Thaumarch bronze out of the Sluice-House and pay off his debts before his mother
+    hears of them. He pumped the pool down to get in, and his men pried a sword out of the floor there, and he has
+    told no one. He is a coward about the dead and brave about money. He will try to hire the party away from the
+    Reeve, and he can be talked into a great deal over supper.
+  stats:
+    osric: { ac: 7, hd: 1, hp: 7, thac0: 20, attacks: "1d8 (long sword)", morale: 45, class: "Fighter 1" }
+- id: garm-and-totty
+  name: Garm and Totty
+  role: Odo's two men-at-arms
+  location: key:W6
+  disposition: 0
+  summary: Garm is hard and loyal to Odo's purse; Totty is young, sick with fright, and wants to go home to Hask.
+  stats:
+    osric: { ac: 5, hd: 1, hp: 6, thac0: 21, attacks: "1d6 (spear)", morale: 50, count: 2 }
+- id: the-lady
+  name: The Lady of the Weir
+  portrait: asset:the-lady-portrait
+  role: the small god of the weir
+  location: key:V4
+  summary: A voice in the reeds at dusk, amused and cold; proud, playful and bound by her bargains.
+  description: |
+    The Lady is a small god of the old kind: strong on her own water and nothing away from it. She can't be fought
+    and won't fight; a weapon raised at her finds only reeds and mist, and she is offended. She bargains, and she
+    keeps every bargain to the letter. She took Ostric's dam for her weir, and every fifty years she takes a mortal
+    consort. She chose Wenna this spring. She knows who broke her stone. Her eye is the grey heron on the weir.
+- id: sorrel
+  name: Sorrel
+  portrait: asset:sorrel-portrait
+  role: the Lady's last consort, a ghost at the mound
+  location: key:V10
+  disposition: 40
+  summary: Grey, dripping, courteous and very tired. Only talks.
+  description: |
+    Sorrel lived twenty years in the pool as the Lady's consort, then walked out of it one winter dusk to see his
+    brother, and died on the bank before morning. He haunts the mound because his ring is lost. He can tell the
+    party what the Lady is, what being her consort means, and that she does not forgive leaving. Attacked, he
+    fades and doesn't return that night.
+- id: brother-aldo
+  name: Brother Aldo
+  portrait: asset:brother-aldo-portrait
+  role: a Sunward friar
+  location: key:V4
+  disposition: -10
+  summary: Thin, polite, stubborn; carries a torch, a flask of lamp-oil and the Sunward Church's view of small gods.
+  description: |
+    Aldo walked up from the House of the Scale in Hask to burn the Lady's shrine, since the Sunward Church calls
+    small gods demons. His god is Aurel, the Sun-Judge; he calls his fellows "the Sun's faithful" and swears by the
+    Scale. He is courteous to everyone and immovable. Talked out of it, or recruited against the walking
+    dead (he will fight them gladly), he is a useful ally; left alone, he burns the willows by the weir at dawn on
+    the second day, and the Lady will take no bargain from anyone who stood by and watched.
+  stats:
+    osric: { ac: 4, hd: 2, hp: 11, thac0: 20, attacks: "1d6+1 (mace)", morale: 65, class: "Cleric 2", spells: "bless, cure light wounds" }
+- id: pim
+  name: Pim
+  portrait: asset:pim-portrait
+  audience: player
+  role: a pedlar of charms
+  location: key:V1
+  disposition: 20
+  summary: A cheerful fraud with a tray of "Lady's blessings" made of river-glass.
+  description: |
+    Pim sells blessings to the frightened at a copper apiece. They do nothing. He knows every bit of gossip in the
+    valley and trades a true rumour for a drink.
+- id: magge
+  name: Magge
+  role: the miller, Wenna's aunt
+  location: key:V3
+  disposition: 0
+  summary: Short-tempered and frightened; her son Coll is one of the vanished.
+- id: tam-ruddle
+  name: Tam Ruddle
+  role: Odo's surveyor
+  location: key:V4
+  disposition: 10
+  summary: An honest man with a measuring chain, a grudge against Odo for unpaid wages, and the key to the grille.
+  description: |
+    Tam measures the weir for Odo by day. He hasn't been paid in a month, and he hands over the key to the
+    Sluice-House grille for 10 gp, a good argument, or the promise of seeing Odo humbled: any one of them is enough,
+    however badly the party has started with him, because he hates Odo more than he dislikes anyone else. He won't be
+    seen doing it in front of Odo's men; he slips the key over later, or leaves it on the pump.
+- id: dilly
+  name: Dilly
+  role: the eel-catcher's child, lost in the reeds
+  location: key:V7
+  disposition: 30
+  summary: Eight years old, muddy, up a willow, and certain she saw "the wet men" carrying someone into the arch.
+- id: merrit-vane
+  name: Merrit Vane
+  role: a boatman of the Ferrymen's Guild of Hask
+  location: key:V8
+  disposition: 0
+  summary: Weathered and wary, with a rod he never baits; the village's second suspect.
+  description: |
+    The Guild sent Merrit up from Hask to learn why the eel-boats have stopped coming down, and whether the Lady
+    is weakening, because the Guild's own god, the Ferryman, would like to know. He has done nothing but ask
+    questions, which is enough to make the village certain he poisoned the pool. Talked to, bribed or followed, he
+    turns out innocent and a little ashamed of his errand.
+  stats:
+    osric: { ac: 8, hd: 1, hp: 4, thac0: 21, attacks: "1d4 (boat-hook)", morale: 35 }
+- id: ostric
+  name: Ostric, the Sluice-Warden
+  role: the undead overseer of the Sluice-House
+  location: key:S5
+  summary: A ghoul in the rotted robes and silver chain of a Thaumarch overseer; cunning, patient, hungry.
+  description: |
+    Ostric built the dam and drowned his labourers building it; the Lady drowned him in turn and pinned him under
+    his own floor. Awake again since Odo's men drew her blade a week ago, he took three people from the river
+    path on three nights running, then spent the nights since raising his chained labourers; from the party's
+    arrival he goes further each night, and on the third he walks into the village. He is the toughest fight in the module. He takes the paralysed
+    alive, to make them his, and drags them off rather than killing them where they fall.
+  stats:
+    ref: monster:ghoul
+    osric: { ac: 6, hd: 2, hp: 15, thac0: 16, attacks: "1d3/1d3/1d6 (claw/claw/bite, paralysis)" }

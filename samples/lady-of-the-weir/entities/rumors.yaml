@@ -1,0 +1,32 @@
+- id: three-vanished
+  text: Three folk vanished on the river path since the new moon, at night, a night apart - Coll the miller's boy, Annet the tinker's wife and old Brisk the drover.
+  truth: "true"
+  audience: player
+- id: wenna-sings
+  text: The Reeve's girl Wenna goes down to the pool at dusk and sings to it.
+  truth: "true"
+  audience: player
+- id: pumps
+  text: Odo Tesk's pumps sucked the life out of the pool.
+  truth: partly_true
+  audience: player
+- id: odo-poisoned
+  text: Odo poisoned the pool on purpose, to drive the eel-catchers off his lease.
+  truth: "false"
+  audience: player
+- id: ferrymen
+  text: The Ferrymen's Guild poisoned the Lady out of jealousy - their boatman's been sitting at the ford all week, asking questions.
+  truth: "false"
+  audience: player
+- id: sorcerer-gold
+  text: There's sorcerers' gold under the weir, and that's what Odo's really after.
+  truth: partly_true
+  audience: player
+- id: heron
+  text: The grey heron on the weir is the Lady's eye. Be civil to it.
+  truth: "true"
+  audience: player
+- id: burn-the-shrine
+  text: Burn the shrine and the curse goes with it - a friar from Hask says so.
+  truth: "false"
+  audience: player

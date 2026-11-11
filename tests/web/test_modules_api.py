@@ -387,7 +387,7 @@ def test_import_sample_dscn(local, storage):
         ("core.dmap", "library", False),
     ]
     links = dict(storage.blobs.links(module["id"]))
-    assert sorted(links) == ["attachment", "source-bundle"]
+    assert sorted(links) == ["attachment", "banner", "source-bundle"]  # its cover became its banner (DEL-378)
     assert storage.blobs.get(links["source-bundle"]) == data
     rendered = local.post(f"/api/modules/{module['id']}/maps/crypt/render", json={})
     assert rendered.status_code == 200

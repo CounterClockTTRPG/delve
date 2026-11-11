@@ -1,0 +1,45 @@
+- id: the-ladys-matter
+  name: The Lady's matter
+  giver: npc:reeve-haldan
+  scope: the module
+  stakes: The pool, the village's god, and Wenna.
+  description: |
+    Set right whatever is wrong at the weir. It ends in one of three ways (see the endings in the valley key):
+    the stone restored, a new bargain struck, or the Lady let fade. **300 XP** to the party, shared, however it
+    ends; **150 XP more** if Wenna is alive and free at the end.
+  related: [npc:the-lady, npc:wenna, npc:ostric]
+- id: dilly-home
+  name: Dilly home
+  giver: npc:dilly
+  scope: side
+  stakes: A frightened child in the reeds at night.
+  description: Bring Dilly back to the village unharmed. **100 XP** to the party.
+  related: [npc:dilly]
+- id: sorrel-at-rest
+  name: Sorrel at rest
+  giver: npc:sorrel
+  scope: side
+  stakes: A ghost that has waited fifty years.
+  description: Find Sorrel's ring (in Odo's strongbox, W4) and leave it on the stone at the mound. **150 XP** to the party.
+  related: [npc:sorrel, npc:odo-tesk]
+- id: the-friars-torch
+  name: The friar's torch
+  giver: npc:brother-aldo
+  scope: side
+  stakes: The Lady's shrine, and her goodwill.
+  description: Talk Brother Aldo out of burning the shrine, or turn him against the walking dead instead. **75 XP** to the party.
+  related: [npc:brother-aldo, npc:the-lady]
+- id: odo-in-check
+  name: Odo in check
+  giver: npc:odo-tesk
+  scope: side
+  stakes: The seal chamber's bronze and Odo's neck.
+  description: Keep Odo from looting the seal chamber, without killing him. **100 XP** to the party.
+  related: [npc:odo-tesk, npc:ostric]
+- id: the-boatman
+  name: The boatman's errand
+  giver: npc:merrit-vane
+  scope: side
+  stakes: An innocent man the village wants to drown.
+  description: Find out that Merrit Vane poisoned nothing, and see him safely away. **50 XP** to the party.
+  related: [npc:merrit-vane]

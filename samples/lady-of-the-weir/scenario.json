@@ -1,0 +1,429 @@
+{
+  "format": "dungml-scenario",
+  "version": 1,
+  "id": "65f15b25-e26c-495e-b5b7-2aa9d084e3ae",
+  "title": "The Lady of the Weir",
+  "subtitle": "A starter adventure for OSRIC in Aun",
+  "summary": "An eel-fishing village's small god is failing, the dead walk the river path, and the man who hired you has a secret.",
+  "description": "A day's walk up the Ambre from Hask, the Lady of the Weir's pool has turned black, the eels are dying and three people have vanished on the river path. The Reeve blames the greedy young lord who leases the weir. The truth is closer to home, and the ending is the players' to choose.\n\nAn evening's adventure for four to six characters of 1st and 2nd level: a valley to roam, a fortified house, a sorcerer-era vault in the riverbank, a god to bargain with, and a choice with a price.",
+  "authors": [
+    {
+      "name": "Delve",
+      "role": "author"
+    },
+    {
+      "name": "Delve",
+      "role": "cartographer"
+    },
+    {
+      "name": "Claude",
+      "role": "author"
+    }
+  ],
+  "release": {
+    "version": "1.0.0",
+    "date": "2026-11-11",
+    "notes": "First release, Delve's sample OSRIC module."
+  },
+  "created": "2026-11-11T12:00:00Z",
+  "updated": "2026-11-11T12:00:00Z",
+  "system": "osric",
+  "system_name": "OSRIC 3.0",
+  "setting": "aun",
+  "language": "en",
+  "party": {
+    "size": {
+      "min": 4,
+      "max": 6,
+      "recommended": 5
+    },
+    "levels": {
+      "min": 1,
+      "max": 2,
+      "recommended": 1
+    },
+    "notes": "A cleric is a great help against the dead of the Sluice-House; a thief has locks and a trap to deal with; a magic-user can read the inscription."
+  },
+  "duration": {
+    "sessions": 1,
+    "hours": {
+      "min": 3,
+      "max": 4
+    }
+  },
+  "tags": [
+    "wilderness",
+    "dungeon",
+    "undead",
+    "small gods",
+    "starter",
+    "one-shot"
+  ],
+  "content_warnings": [
+    "undead",
+    "human remains",
+    "a parent's betrayal"
+  ],
+  "license": {
+    "spdx": "CC-BY-4.0",
+    "name": "Creative Commons Attribution 4.0 International",
+    "url": "https://creativecommons.org/licenses/by/4.0/"
+  },
+  "requires": {
+    "dungml": ">=0.1"
+  },
+  "maps": [
+    {
+      "name": "valley",
+      "file": "maps/valley.dmap",
+      "default": true,
+      "title": "The Ambresleigh Valley"
+    },
+    {
+      "name": "weirholt",
+      "file": "maps/weirholt.dmap",
+      "title": "Weirholt"
+    },
+    {
+      "name": "sluice-house",
+      "file": "maps/sluice-house.dmap",
+      "title": "The Sluice-House"
+    },
+    {
+      "name": "core.dmap",
+      "file": "maps/lib/core.dmap",
+      "role": "library"
+    },
+    {
+      "name": "forest.dmap",
+      "file": "maps/lib/forest.dmap",
+      "role": "library"
+    },
+    {
+      "name": "city.dmap",
+      "file": "maps/lib/city.dmap",
+      "role": "library"
+    },
+    {
+      "name": "dungeon.dmap",
+      "file": "maps/lib/dungeon.dmap",
+      "role": "library"
+    },
+    {
+      "name": "crypt.dmap",
+      "file": "maps/lib/crypt.dmap",
+      "role": "library"
+    },
+    {
+      "name": "common-dungeon.dmap",
+      "file": "maps/lib/common-dungeon.dmap",
+      "role": "library"
+    }
+  ],
+  "text": [
+    {
+      "id": "intro",
+      "file": "text/intro.md",
+      "title": "Introduction",
+      "audience": "player"
+    },
+    {
+      "id": "valley-key",
+      "file": "text/keyed/valley.md",
+      "title": "The valley",
+      "map": "valley"
+    },
+    {
+      "id": "weirholt-key",
+      "file": "text/keyed/weirholt.md",
+      "title": "Weirholt",
+      "map": "weirholt"
+    },
+    {
+      "id": "sluice-key",
+      "file": "text/keyed/sluice.md",
+      "title": "The Sluice-House",
+      "map": "sluice-house"
+    },
+    {
+      "id": "credits",
+      "file": "text/credits.md",
+      "title": "Credits and licence",
+      "audience": "player"
+    }
+  ],
+  "assets": [
+    {
+      "id": "cover",
+      "file": "assets/img/cover.jpg",
+      "type": "image/jpeg",
+      "sha256": "1614b137aa9aff40559630b081b3ff00b395e37e7a670ab57532f472addb21f6",
+      "size": 226074,
+      "audience": "player",
+      "caption": "The weir at Ambresleigh at dusk"
+    },
+    {
+      "id": "reeve-haldan-portrait",
+      "file": "assets/img/reeve-haldan.jpg",
+      "type": "image/jpeg",
+      "sha256": "2867eda87e5f30f82e76ea7a498f0dee57c15fea1f7308878ad859376ebb84cc",
+      "size": 112792,
+      "audience": "player",
+      "caption": "Reeve Haldan"
+    },
+    {
+      "id": "wenna-portrait",
+      "file": "assets/img/wenna.jpg",
+      "type": "image/jpeg",
+      "sha256": "e655f53e920c3ecfccc0cf41405b4e10a00638a6240599354730979ce7701d27",
+      "size": 95077,
+      "audience": "player",
+      "caption": "Wenna"
+    },
+    {
+      "id": "odo-tesk-portrait",
+      "file": "assets/img/odo-tesk.jpg",
+      "type": "image/jpeg",
+      "sha256": "4b2a96fbb1de30f9951b224ad438eb070269a6686bf178f63dca496fd98ff425",
+      "size": 94043,
+      "audience": "player",
+      "caption": "Odo Tesk"
+    },
+    {
+      "id": "the-lady-portrait",
+      "file": "assets/img/the-lady.jpg",
+      "type": "image/jpeg",
+      "sha256": "7d71b41293ede6c481e02f8487c9a97ac1cf93fe5181c2b836dbc8315f91c145",
+      "size": 135230,
+      "audience": "player",
+      "caption": "The Lady of the Weir"
+    },
+    {
+      "id": "sorrel-portrait",
+      "file": "assets/img/sorrel.jpg",
+      "type": "image/jpeg",
+      "sha256": "9a6f92017697282817e15cfad587649883c18b28fed83a8f47b53c344d770eba",
+      "size": 77253,
+      "audience": "player",
+      "caption": "Sorrel's ghost"
+    },
+    {
+      "id": "brother-aldo-portrait",
+      "file": "assets/img/brother-aldo.jpg",
+      "type": "image/jpeg",
+      "sha256": "05b5eae7e69b8a8b9d1b43c5e2e49c00cb56778811ff890f9c47e2caf3470d36",
+      "size": 121982,
+      "audience": "player",
+      "caption": "Brother Aldo"
+    },
+    {
+      "id": "pim-portrait",
+      "file": "assets/img/pim.jpg",
+      "type": "image/jpeg",
+      "sha256": "5f3a57958812735b0f791966c775c54cf7ff8548d8cb0965b53a223e23f80b7e",
+      "size": 101492,
+      "audience": "player",
+      "caption": "Pim the pedlar"
+    }
+  ],
+  "entities": {
+    "npcs": "entities/npcs.yaml",
+    "encounters": "entities/encounters.yaml",
+    "quests": "entities/quests.yaml",
+    "rumors": "entities/rumors.yaml",
+    "secrets": "entities/secrets.yaml",
+    "factions": "entities/factions.yaml"
+  },
+  "keys": [
+    {
+      "key": "V1",
+      "title": "Ambresleigh",
+      "node": "map:valley#room.village",
+      "text": "text:valley-key#v1",
+      "npcs": [
+        "npc:pim"
+      ],
+      "encounter": "encounter:road"
+    },
+    {
+      "key": "V2",
+      "title": "The Reeve's Hall",
+      "node": "map:valley#room.reeves_hall",
+      "text": "text:valley-key#v2",
+      "npcs": [
+        "npc:reeve-haldan",
+        "npc:wenna"
+      ]
+    },
+    {
+      "key": "V3",
+      "title": "The Mill",
+      "node": "map:valley#room.mill",
+      "text": "text:valley-key#v3",
+      "npcs": [
+        "npc:magge"
+      ]
+    },
+    {
+      "key": "V4",
+      "title": "The Weir",
+      "node": "map:valley#room.weir_bank",
+      "text": "text:valley-key#v4",
+      "npcs": [
+        "npc:the-lady",
+        "npc:tam-ruddle",
+        "npc:brother-aldo"
+      ],
+      "encounter": "encounter:river-path-by-night"
+    },
+    {
+      "key": "V5",
+      "title": "The Sluice-House Arch",
+      "node": "map:valley#room.sluice_mouth",
+      "text": "text:valley-key#v5"
+    },
+    {
+      "key": "V6",
+      "title": "Weirholt",
+      "node": "map:valley#room.weirholt",
+      "text": "text:valley-key#v6",
+      "npcs": [
+        "npc:odo-tesk"
+      ]
+    },
+    {
+      "key": "V7",
+      "title": "The Reeds",
+      "node": "map:valley#room.reeds",
+      "text": "text:valley-key#v7",
+      "npcs": [
+        "npc:dilly"
+      ],
+      "encounter": "encounter:reeds"
+    },
+    {
+      "key": "V8",
+      "title": "The Ford",
+      "node": "map:valley#room.ford",
+      "text": "text:valley-key#v8",
+      "npcs": [
+        "npc:merrit-vane"
+      ]
+    },
+    {
+      "key": "V9",
+      "title": "The Old Watchtower",
+      "node": "map:valley#room.watchtower",
+      "text": "text:valley-key#v9"
+    },
+    {
+      "key": "V10",
+      "title": "The Mound",
+      "node": "map:valley#room.barrow",
+      "text": "text:valley-key#v10",
+      "npcs": [
+        "npc:sorrel"
+      ]
+    },
+    {
+      "key": "W1",
+      "title": "The Gate",
+      "node": "map:weirholt#room.gatehouse",
+      "text": "text:weirholt-key#w1",
+      "npcs": [
+        "npc:garm-and-totty"
+      ]
+    },
+    {
+      "key": "W2",
+      "title": "The Yard",
+      "node": "map:weirholt#room.yard",
+      "text": "text:weirholt-key#w2"
+    },
+    {
+      "key": "W3",
+      "title": "The Hall",
+      "node": "map:weirholt#room.hall",
+      "text": "text:weirholt-key#w3",
+      "npcs": [
+        "npc:odo-tesk"
+      ]
+    },
+    {
+      "key": "W4",
+      "title": "The Study",
+      "node": "map:weirholt#room.study",
+      "text": "text:weirholt-key#w4"
+    },
+    {
+      "key": "W5",
+      "title": "The Kitchen",
+      "node": "map:weirholt#room.kitchen",
+      "text": "text:weirholt-key#w5"
+    },
+    {
+      "key": "W6",
+      "title": "The Guard Room",
+      "node": "map:weirholt#room.guardroom",
+      "text": "text:weirholt-key#w6",
+      "npcs": [
+        "npc:garm-and-totty"
+      ]
+    },
+    {
+      "key": "W7",
+      "title": "The Cellar",
+      "node": "map:weirholt#room.cellar",
+      "text": "text:weirholt-key#w7"
+    },
+    {
+      "key": "S1",
+      "title": "The Intake",
+      "node": "map:sluice-house#room.intake",
+      "text": "text:sluice-key#s1",
+      "encounter": "encounter:sluice-house"
+    },
+    {
+      "key": "S2",
+      "title": "The Valve Gallery",
+      "node": "map:sluice-house#room.valve_gallery",
+      "text": "text:sluice-key#s2"
+    },
+    {
+      "key": "S3",
+      "title": "The Labourers' Hall",
+      "node": "map:sluice-house#room.labourers_hall",
+      "text": "text:sluice-key#s3",
+      "encounter": "encounter:s3-labourers"
+    },
+    {
+      "key": "S4",
+      "title": "The Inscription",
+      "node": "map:sluice-house#room.inscription",
+      "text": "text:sluice-key#s4"
+    },
+    {
+      "key": "S5",
+      "title": "The Seal Chamber",
+      "node": "map:sluice-house#room.seal_chamber",
+      "text": "text:sluice-key#s5",
+      "npcs": [
+        "npc:ostric"
+      ],
+      "encounter": "encounter:s5-warden"
+    },
+    {
+      "key": "S6",
+      "title": "The Store",
+      "node": "map:sluice-house#room.store",
+      "text": "text:sluice-key#s6",
+      "encounter": "encounter:s6-rats"
+    }
+  ],
+  "start": {
+    "map": "valley",
+    "node": "room.village",
+    "text": "text:intro"
+  },
+  "cover": "asset:cover"
+}

@@ -1,0 +1,150 @@
+include "core.dmap"
+include "dungeon.dmap"
+include "crypt.dmap"
+include "common-dungeon.dmap"
+
+# The Sluice-House: the Thaumarch works cut into the bank beside the weir, dry since Odo's pumps drew the pool down.
+# North is up; a square is 5 feet. Nothing here is underwater.
+
+map "The Sluice-House" {
+  grid {
+    cell   28 px
+    units  feet 5
+    bounds 54 x 28
+    origin top-left
+  }
+  renderer "hatched"
+  theme paper
+  room_numbers off
+  description """
+  Dressed stone gone green with old slime, dry now and stinking of it. The walls sweat. Somewhere deep in the bank a
+  drip keeps time.
+  """
+}
+
+room "intake" {
+  polygon (1,12) (5,11.6) (9,11.2) (13,12) (13,16) (8,16.8) (4,16.6) (1,16.2)
+  label "Intake" at 5,12.6 size 0.7
+  description "A dry stone channel, a step down from its walkways, floored with green slime and the bones of fish."
+  area "channel" kind sunken {
+    polygon (1,13.4) (8,13) (13,13.6) (13,14.6) (8,15) (1,15)
+  }
+  feature portcullis at 2.4,14.2 rotate 90 scale 1.2 {
+    description "An iron grille on rotten hinges, with a new padlock."
+    dm_notes "See S1: the key, a pick, or Strength."
+  }
+  exit at 1.6,14.2 {
+    to "valley" at 27.4,20.2
+  }
+}
+
+room "valve_gallery" {
+  rect 13,10 11 x 9
+  label "Valve Gallery" at 18.5,11 size 0.8
+  description """
+  A vaulted hall full of rusted bronze: valve-wheels as tall as a man, rods running up into the roof, sluice-gates
+  hanging in slots. The biggest wheel stands in the middle on a grating over the dark.
+  """
+  feature pillar at 15,12.4 22,12.4 15,16.6 22,16.6
+  feature turnstile at 18.5,14.6 scale 1.6 {
+    description "The great wheel, bronze green with age, on an iron grating."
+    dm_notes "The trap: see S2."
+  }
+  feature grate at 18.5,14.6 scale 2.2
+  feature lever at 14,17.8 23,17.8 scale 0.8
+  feature cylinder at 23,11.2 scale 0.8
+  feature pit-trap at 18.5,14.6 scale 2 {
+    secret
+    dm_notes "Turning the great wheel drops the grating: 10 ft pit, 1d6, Dexterity check to leap clear."
+  }
+}
+
+room "labourers_hall" {
+  polygon (13.6,2.4) (20,1.6) (24.4,2.8) (24,10) (14,10) (13,6.4)
+  label "Labourers' Hall" at 19,3 size 0.7
+  description "A long low barracks. Iron rings in the walls, chains, and men in rags standing against them."
+  feature manacles at 15,5 15,8 23,5 23,8 scale 0.8
+  feature bones at 17,7.4 21,4.6 scale 0.9
+  feature bone_pile at 22.4,8.6 scale 0.8
+  feature rubble at 23.2,3.6 scale 1.1
+}
+
+room "inscription" {
+  circle at 31,14.5 radius 4
+  label "Inscription" at 31,11.4 size 0.7
+  description "A round chamber with a domed roof. Writing in a spiral covers the wall from floor to crown."
+  feature inscription_slab at 31,16.4 scale 1.2 {
+    description "The spiral ends at a slab at eye height, the letters deeper cut than the rest."
+  }
+  feature statue at 31,13.4 scale 0.9 {
+    description "A man in a long robe with a key at his belt, his face chiselled off."
+  }
+}
+
+room "seal_chamber" {
+  polygon (43,7) (49,7.4) (51.6,10.6) (51.2,18) (48.4,21.2) (42.6,21) (40.4,17.6) (41,12.5) (41.6,9.8)
+  label "Seal Chamber" at 47.4,9 size 0.8
+  line_style organic 0.3
+  description """
+  An eight-sided hall whose vault has sagged, its floor a great disc of bronze set in stone and written over with a
+  ring of letters. The disc is cracked across, and a narrow slot gapes at its centre. It is cold here, and it smells
+  of the river.
+  """
+  area "seal" kind dais {
+    circle at 46,14.5 radius 3.6
+  }
+  area "seal_ring" kind inlay {
+    circle at 46,14.5 radius 2.8
+  }
+  feature rubble at 50.4,11 41.6,18.8 49.6,19.2 scale 0.9
+  feature fallen-pillar at 42.6,10.6 rotate 30 scale 1.1
+  feature sarcophagus at 46,19.6 scale 1.2 {
+    description "A stone chest against the south wall, its lid shoved aside."
+  }
+}
+
+room "store" {
+  polygon (15,19) (23,19) (24.2,22) (21,25.4) (16.4,25) (14,22.4)
+  label "Store" at 19,23.6 size 0.7
+  line_style organic
+  description "A low cave of a room hacked out of the clay behind the gallery, full of rotten crates and bronze."
+  feature crate at 16,20.6 17.4,21 scale 0.9
+  feature barrel at 22.4,20.6 scale 0.8
+  feature cobweb at 15,20 scale 1.2
+}
+
+corridor "dome_passage" {
+  width 2
+  segment line from 24,14.5 to 27,14.5
+}
+corridor "seal_passage" {
+  width 2
+  line_style organic 0.2
+  segment line from 35,14.5 to 37.6,14.5
+  segment line from 37.6,14.5 to 39.4,12.5
+  segment line from 39.4,12.5 to 41,12.5
+  description "The passage kinks where the bank has shifted; the stones of its roof hang a hand's breadth out of true."
+}
+corridor "fallen_passage" "a fallen passage" {
+  width 1.6
+  line_style organic 0.3
+  segment line from 24.2,5 to 28,4
+  segment line from 28,4 to 31,5.2
+  feature rubble at 30.4,5 scale 1.2
+  description "Once a way on into the bank; now a heap of fallen stone and clay after twenty feet."
+}
+# The crack across the seal.
+slice "the_crack" {
+  kind split
+  width 0.3
+  segment line from 42.6,11.8 to 49.8,17.4
+}
+
+door between room.intake and room.valve_gallery { type arch  width 2 }
+door between room.valve_gallery and room.labourers_hall { type iron }
+door between room.valve_gallery and corridor.dome_passage { type arch  width 2 }
+door between room.inscription and corridor.dome_passage { type arch  width 2 }
+door between room.inscription and corridor.seal_passage { type arch  width 2 }
+door between room.seal_chamber and corridor.seal_passage { type stone  state open  width 2 }
+door between room.valve_gallery and room.store { type wooden }
+door between room.labourers_hall and corridor.fallen_passage { type smashed }

@@ -1,0 +1,10 @@
+- id: the-drowned
+  name: The drowned dead
+  summary: Ostric the Sluice-Warden and what he has raised.
+  goals: [Get out of the Sluice-House, Feed, Take the village]
+  members: [npc:ostric]
+  clocks:
+  - name: The Warden walks
+    segments: 3
+    filled: 0
+    on_complete: Ostric walks into Ambresleigh with every skeleton and zombie he has left.

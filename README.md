@@ -8,8 +8,12 @@ one process on one port on that person's machine.
 
 ## Install
 
-See **[INSTALL.md](INSTALL.md)**: what Delve needs, installing it, the first start, and running it as a service. In
-short, with Python 3.12 or newer, [uv](https://docs.astral.sh/uv/), Node.js and Claude Code:
+On Linux, `./install.sh` does it all, asking first: the tools Delve needs, Claude Code for its DM, Delve with the
+OSRIC ruleset, the sample adventure, and Delve running, now or as a service (`--check` only reports, `--yes` takes
+the recommended answers).
+
+See **[INSTALL.md](INSTALL.md)** for the same by hand: what Delve needs, installing it, the first start, and running
+it as a service. In short, with Python 3.12 or newer, [uv](https://docs.astral.sh/uv/), Node.js and Claude Code:
 
     make install
     make run
@@ -76,8 +80,8 @@ in with your owner account there.
 
 ## Maps
 
-Under **Modules**, make a module or import a `.dscn` file (dungml's scenario package, such as the Crypt of Saint
-Vellis sample; see "Getting a module" below); each map opens in the editor, with a live preview and a print
+Under **Modules**, make a module or import a `.dscn` file (dungml's scenario package, such as the sample
+adventure The Lady of the Weir; see "Getting a module" below); each map opens in the editor, with a live preview and a print
 view. Under **Campaigns**, start a
 campaign from a module (its characters are made in play, with the DM): the campaign keeps the module's revision of
 that moment until you press "Upgrade to the latest revision". The map-state panel moves characters (they can split up and meet again, sharing what
@@ -88,7 +92,9 @@ described in `docs/maps/`.
 
 Under **Modules**, **New module** offers four ways:
 - **An empty module**, from a title, to write in the editor.
-- **Import a .dscn**, such as the Crypt of Saint Vellis sample.
+- **Import a .dscn**, such as the sample adventure, **The Lady of the Weir**: a starter adventure for OSRIC in Aun,
+  for four to six 1st–2nd level characters, an evening's play (`samples/lady-of-the-weir`, ready as
+  `samples/lady-of-the-weir.dscn` in a release; its text, maps and pictures are CC BY 4.0).
 - **From a PDF:** a module's PDF becomes its texts, its NPCs and encounters, its images, the book's own map pages and
   sketched maps. Choose
   **Ready to play**, or **A draft to work on** when you want to go over it first. The texts keep the book's own words,
@@ -237,7 +243,7 @@ Delve's DM is Claude, through the `claude` command line (Claude Code) on your ow
 first, so `claude` is on the `PATH` of the shell that starts Delve. Without it, `/api/health` says the DM is
 unavailable and Settings say why.
 
-1. Under **Campaigns**, start a campaign from a module (the Crypt of Saint Vellis sample is a good first one).
+1. Under **Campaigns**, start a campaign from a module (the sample, The Lady of the Weir, is a good first one).
 2. Under **Play**, pick it. Write what you do and press **Act** (Enter): the DM answers in the story. The host and
    co-hosts also see the tools it used, folded into one line each; the other seats see only the story. A note the DM writes for the host alone (a
    paragraph starting `(ooc, for the host:`) reaches only the host's seat. While it thinks, the screen shows the time and the tool calls so far; **Cancel**

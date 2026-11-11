@@ -1,0 +1,122 @@
+- id: road
+  name: The road and the fields (by day)
+  kind: road
+  key: key:V1
+  table:
+  - roll: "1"
+    result: Pim the pedlar, with his tray of blessings and a rumour for a drink (npc:pim).
+    category: meeting
+  - roll: "2"
+    result: Brother Aldo on his way to the shrine with a torch and a flask of oil (npc:brother-aldo).
+    category: meeting
+  - roll: "3"
+    result: Tam Ruddle with his measuring chain, grumbling about his wages (npc:tam-ruddle).
+    category: meeting
+  - roll: 4-5
+    count: 1d4+2
+    creature: monster:dog
+    notes: Half-wild village curs, hungry since the eels died; they back off from fire or a thrown ham.
+  - roll: "6"
+    count: 1d4+1
+    creature: monster:bandit-footman
+    notes: Smugglers of the Quiet Hand with packhorses, bound for the watchtower (V9); they would rather pay a toll in brandy than fight.
+  - roll: "7"
+    result: The heron, standing in the shallows, watching. It follows the party at a distance.
+    category: meeting
+  - roll: "8"
+    result: An eel-catcher hauling a trap of dead eels, who says the Reeve has not slept in a week.
+    category: meeting
+- id: reeds
+  name: The reeds
+  kind: wilderness
+  key: key:V7
+  table:
+  - roll: 1-2
+    count: 1d3
+    creature: monster:giant-frog
+    notes: Two-foot frogs, 1 HD; they lurk in the channels and leap.
+  - roll: "3"
+    count: 1d2
+    creature: monster:giant-leech
+    notes: In the channels; 1 HD. A bitten character doesn't notice until the round after.
+  - roll: "4"
+    count: 1d6
+    creature: monster:stirge
+  - roll: "5"
+    result: Dilly, the lost child, up a willow (npc:dilly); only once.
+    category: meeting
+  - roll: "6"
+    result: The heron, lifting off a channel ahead of the party and settling again further on.
+    category: meeting
+  - roll: "7"
+    result: An eel-catcher in a punt, who will ferry the party along the channels for a copper and swears the pumps are to blame.
+    category: meeting
+  - roll: "8"
+    count: "1"
+    creature: monster:zombie
+    notes: A drowned labourer of the old works, risen and lost in the reeds; it shambles towards voices.
+- id: river-path-by-night
+  name: The river path by night (night only)
+  kind: road
+  key: key:V4
+  table:
+  - roll: 1-2
+    count: 1d3
+    creature: monster:skeleton
+    notes: Ostric's labourers, out on his errands, dripping mud. Night only.
+  - roll: "3"
+    result: Ostric himself with two zombies, at the edge of the light, watching the party. He withdraws to the Sluice-House if they come at him. Night only.
+    category: omen
+  - roll: "4"
+    result: A pale light on the black pool and a woman's voice singing a name, very faintly. Night only.
+    category: omen
+  - roll: "5"
+    result: The heron, awake when no heron should be, standing between the party and the arch.
+    category: meeting
+  - roll: "6"
+    count: 1d6
+    creature: monster:stirge
+- id: sluice-house
+  name: The Sluice-House
+  kind: dungeon
+  key: key:S1
+  table:
+  - roll: "1"
+    count: 1d4
+    creature: monster:giant-rat-bigger
+    notes: From the store (S6).
+  - roll: "2"
+    count: "1"
+    creature: monster:skeleton
+    notes: A labourer that slipped its chain in S3.
+  - roll: "3"
+    count: 1d3
+    creature: monster:stirge
+  - roll: "4"
+    result: A scrape of bone on stone somewhere ahead; Ostric knows the party is here and waits in S5.
+    category: omen
+  - roll: 5-6
+    result: Nothing but the drip.
+- id: s3-labourers
+  name: Ostric's labourers
+  key: key:S3
+  fixed:
+  - count: "6"
+    creature: monster:skeleton
+    notes: In chains until disturbed.
+- id: s5-warden
+  name: The Sluice-Warden and the vanished
+  key: key:S5
+  fixed:
+  - count: "1"
+    creature: npc:ostric
+    notes: The Sluice-Warden, a ghoul with 15 hp.
+  - count: "3"
+    creature: monster:zombie
+    notes: Coll, Annet and Brisk, the vanished.
+- id: s6-rats
+  name: Rats in the store
+  key: key:S6
+  fixed:
+  - count: 2d4
+    creature: monster:giant-rat-bigger

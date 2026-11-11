@@ -1,0 +1,438 @@
+# dungeon.dmap — extra feature_defs for dungeon maps: ruined / decayed
+# dressing that complements core.dmap.
+#
+# `include "dungeon.dmap"` from any .dmap file to bring these in. Local
+# feature_defs in the including file win on name collision, so you can
+# override any of these without editing this library.
+#
+# Includes: fallen-pillar, broken-pillar, bones, cobweb, grate, stalagmite,
+# turnstile, and dungeon furniture: throne, ladder, lever, cage, manacles,
+# vat, rowboat, folding-screen, ballista, fire-pit, teleport-ring,
+# teleporter, elevator, bas-relief, magic-mouth, caryatid, wall-basin,
+# vine-curtain, pod, crystal-pillar, energy-orb, planar-portal, console,
+# anvil, pentagram, chalkboard, monolith, bust, font, mosaic, light-prism,
+# mausoleum, cylinder, false-door, window-slot.
+#
+# Wall-mounted pieces (lever, bas-relief, magic-mouth, caryatid, wall-basin,
+# vine-curtain, chalkboard, false-door, window-slot) are drawn against the TOP edge of their cell (y = -0.5);
+# `rotate` the instance to put them on another wall.
+
+# A toppled column: the black base dot (same as core's `pillar`) with a grey
+# shaft lying about one cell diagonally to the lower-right.
+feature_def "fallen-pillar" {
+  name "Fallen Pillar"
+  glyph {
+    circle fill at 0,0 radius 0.13
+    line stroke from 0.05,0.05 to 0.78,0.78 stroke-color "#888888" stroke-width 0.16
+  }
+}
+
+# A snapped-off column stump — a hollow ring (vs the solid `pillar` dot).
+feature_def "broken-pillar" {
+  name "Broken Pillar"
+  glyph {
+    circle stroke at 0,0 radius 0.14 stroke-width 0.07
+  }
+}
+
+# Scattered bones — a pale crossed pair.
+feature_def "bones" {
+  name "Bones"
+  glyph {
+    line stroke from -0.25,-0.2 to 0.25,0.2 stroke-color "#777777" stroke-width 0.08
+    line stroke from -0.25,0.2 to 0.25,-0.2 stroke-color "#777777" stroke-width 0.08
+  }
+}
+
+# Cobweb — radial threads and two sagging arcs anchored in the top-left corner.
+feature_def "cobweb" {
+  name "Cobweb"
+  glyph {
+    line stroke from -0.35,-0.35 to 0.35,-0.35 stroke-color "#999999" stroke-width 0.04
+    line stroke from -0.35,-0.35 to -0.35,0.35 stroke-color "#999999" stroke-width 0.04
+    line stroke from -0.35,-0.35 to 0.3,0.3   stroke-color "#999999" stroke-width 0.04
+    path stroke "M0.1,-0.35 Q-0.12,-0.12 -0.35,0.1" fill-color "none" stroke-color "#999999" stroke-width 0.03
+    path stroke "M0.3,-0.35 Q0,0 -0.35,0.3"         fill-color "none" stroke-color "#999999" stroke-width 0.03
+  }
+}
+
+# Floor grate / drain — a square frame with two bars.
+feature_def "grate" {
+  name "Grate"
+  glyph {
+    rect stroke at -0.3,-0.3 0.6 x 0.6 stroke-width 0.06
+    line stroke from -0.1,-0.3 to -0.1,0.3 stroke-width 0.05
+    line stroke from 0.1,-0.3 to 0.1,0.3   stroke-width 0.05
+  }
+}
+
+# Stalagmite — a solid cave spike rising from the floor.
+feature_def "stalagmite" {
+  name "Stalagmite"
+  glyph {
+    polygon fill (0,-0.32) (-0.18,0.28) (0.18,0.28)
+  }
+}
+
+# Turnstile — a full-cell ring with a horizontal bar through it and a central
+# pivot dot (the outer circle spans one square).
+feature_def "turnstile" {
+  name "Turnstile"
+  glyph {
+    circle stroke at 0,0 radius 0.5
+    line stroke from -0.5,0 to 0.5,0
+    circle fill at 0,0 radius 0.1
+  }
+}
+
+# ---- dungeon furniture ----
+# Monochrome line art in the style of core.dmap's furniture, so these read
+# in every theme and renderer.
+
+# Throne — core's `chair` grown a tall back and arms.
+feature_def "throne" {
+  name "Throne"
+  glyph {
+    rect stroke at -0.38,-0.45 0.76 x 0.2
+    rect stroke at -0.38,-0.25 0.12 x 0.6
+    rect stroke at 0.26,-0.25 0.12 x 0.6
+    rect stroke at -0.26,-0.25 0.52 x 0.55
+  }
+}
+
+# Ladder — two rails and five rungs, about 0.5 x 1.2.
+feature_def "ladder" {
+  name "Ladder"
+  glyph {
+    line stroke from -0.25,-0.6 to -0.25,0.6
+    line stroke from 0.25,-0.6 to 0.25,0.6
+    line stroke from -0.25,-0.46 to 0.25,-0.46
+    line stroke from -0.25,-0.23 to 0.25,-0.23
+    line stroke from -0.25,0 to 0.25,0
+    line stroke from -0.25,0.23 to 0.25,0.23
+    line stroke from -0.25,0.46 to 0.25,0.46
+  }
+}
+
+# Lever — a wall plate with a short bar ending in a knob.
+feature_def "lever" {
+  name "Lever"
+  glyph {
+    rect stroke at -0.18,-0.5 0.36 x 0.12
+    line stroke from 0,-0.38 to 0.16,0.02
+    circle fill at 0.16,0.02 radius 0.08
+  }
+}
+
+# Cage — a round cage seen from above: rim, inner ring and radial bars.
+feature_def "cage" {
+  name "Cage"
+  glyph {
+    circle stroke at 0,0 radius 0.42
+    line stroke from -0.42,0 to 0.42,0
+    line stroke from 0,-0.42 to 0,0.42
+    line stroke from -0.297,-0.297 to 0.297,0.297
+    line stroke from -0.297,0.297 to 0.297,-0.297
+    circle stroke at 0,0 radius 0.22 fill-color "none"
+  }
+}
+
+# Manacles — two cuffs joined by a short chain of links.
+feature_def "manacles" {
+  name "Manacles"
+  glyph {
+    circle stroke at -0.07,0 radius 0.06
+    circle stroke at 0.07,0 radius 0.06
+    circle stroke at -0.27,0 radius 0.14 fill-color "none"
+    circle stroke at 0.27,0 radius 0.14 fill-color "none"
+  }
+}
+
+# Vat — a big tub with a small dark drain/dot at its centre (larger and
+# thinner-centred than core's `well`).
+feature_def "vat" {
+  name "Vat"
+  glyph {
+    circle stroke at 0,0 radius 0.46
+    circle stroke at 0,0 radius 0.4 fill-color "none"
+    circle fill at 0,0 radius 0.1
+  }
+}
+
+# Rowboat — a pointed bow, a square stern and two thwarts; about 0.6 x 1.6.
+feature_def "rowboat" {
+  name "Rowboat"
+  glyph {
+    path stroke "M0,-0.8 C0.24,-0.55 0.3,-0.2 0.3,0.2 C0.3,0.5 0.26,0.7 0.22,0.8 L-0.22,0.8 C-0.26,0.7 -0.3,0.5 -0.3,0.2 C-0.3,-0.2 -0.24,-0.55 0,-0.8 Z"
+    line stroke from -0.29,-0.1 to 0.29,-0.1
+    line stroke from -0.3,0.4 to 0.3,0.4
+  }
+}
+
+# Folding screen — three panels in a zig-zag.
+feature_def "folding-screen" {
+  name "Folding Screen"
+  glyph {
+    polyline stroke (-0.45,0.12) (-0.15,-0.12) (0.15,0.12) (0.45,-0.12) fill-color "none"
+  }
+}
+
+# Ballista — a crossbow on a stock: bow, string, and the bolt's head.
+feature_def "ballista" {
+  name "Ballista"
+  glyph {
+    line stroke from 0,-0.36 to 0,0.45
+    path stroke "M-0.45,0.05 Q0,-0.45 0.45,0.05" fill-color "none"
+    polyline stroke (-0.45,0.05) (0,0.2) (0.45,0.05) fill-color "none"
+    polygon fill (0,-0.48) (-0.08,-0.33) (0.08,-0.33)
+    line stroke from -0.12,0.45 to 0.12,0.45
+  }
+}
+
+# Fire pit — a stone ring with three open flame strokes (core's `brazier`
+# has a single filled flame).
+feature_def "fire-pit" {
+  name "Fire Pit"
+  glyph {
+    circle stroke at 0,0 radius 0.4
+    path stroke "M-0.14,0.22 Q-0.24,0.02 -0.1,-0.14" fill-color "none"
+    path stroke "M0,0.24 Q-0.12,0 0.02,-0.26" fill-color "none"
+    path stroke "M0.14,0.22 Q0.24,0.02 0.1,-0.14" fill-color "none"
+  }
+}
+
+# Teleport ring (Thothian) — a ring of twelve separate stone segments.
+feature_def "teleport-ring" {
+  name "Teleport Ring"
+  glyph {
+    path stroke "M0.395,-0.063 A0.4,0.4 0 0 1 0.395,0.063 M0.373,0.143 A0.4,0.4 0 0 1 0.311,0.252 M0.252,0.311 A0.4,0.4 0 0 1 0.143,0.373 M0.063,0.395 A0.4,0.4 0 0 1 -0.063,0.395 M-0.143,0.373 A0.4,0.4 0 0 1 -0.252,0.311 M-0.311,0.252 A0.4,0.4 0 0 1 -0.373,0.143 M-0.395,0.063 A0.4,0.4 0 0 1 -0.395,-0.063 M-0.373,-0.143 A0.4,0.4 0 0 1 -0.311,-0.252 M-0.252,-0.311 A0.4,0.4 0 0 1 -0.143,-0.373 M-0.063,-0.395 A0.4,0.4 0 0 1 0.063,-0.395 M0.143,-0.373 A0.4,0.4 0 0 1 0.252,-0.311 M0.311,-0.252 A0.4,0.4 0 0 1 0.373,-0.143" fill-color "none"
+  }
+}
+
+# Teleporter (Priscian) — a disc with four dots at the cardinal points.
+feature_def "teleporter" {
+  name "Teleporter"
+  glyph {
+    circle stroke at 0,0 radius 0.4
+    circle fill at 0,-0.26 radius 0.06
+    circle fill at 0.26,0 radius 0.06
+    circle fill at 0,0.26 radius 0.06
+    circle fill at -0.26,0 radius 0.06
+  }
+}
+
+# Elevator — a lift platform: a square cage inside a square shaft.
+feature_def "elevator" {
+  name "Elevator"
+  glyph {
+    rect stroke at -0.45,-0.45 0.9 x 0.9
+    rect stroke at -0.31,-0.31 0.62 x 0.62
+  }
+}
+
+# Bas-relief — a shallow carved panel along the wall (top edge).
+feature_def "bas-relief" {
+  name "Bas-Relief"
+  glyph {
+    path stroke "M-0.45,-0.5 L-0.45,-0.3 Q0,-0.14 0.45,-0.3 L0.45,-0.5 Z"
+    path stroke "M-0.33,-0.32 Q-0.25,-0.42 -0.17,-0.32 T-0.01,-0.32 T0.15,-0.32 T0.31,-0.32" fill-color "none"
+  }
+}
+
+# Magic mouth — a pair of lips set into the wall (top edge).
+feature_def "magic-mouth" {
+  name "Magic Mouth"
+  glyph {
+    path stroke "M-0.38,-0.26 Q0,-0.5 0.38,-0.26 Q0,0.02 -0.38,-0.26 Z"
+    path stroke "M-0.38,-0.26 Q0,-0.18 0.38,-0.26" fill-color "none"
+  }
+}
+
+# Caryatid — a carved column against the wall (top edge), drawn as one
+# solid block.
+feature_def "caryatid" {
+  name "Caryatid"
+  glyph {
+    rect fill at -0.2,-0.46 0.4 x 0.26
+  }
+}
+
+# Wall basin — a half-round basin projecting from the wall (top edge).
+feature_def "wall-basin" {
+  name "Wall Basin"
+  glyph {
+    path stroke "M-0.38,-0.5 A0.38,0.38 0 0 0 0.38,-0.5 Z"
+    path stroke "M-0.24,-0.5 A0.24,0.24 0 0 0 0.24,-0.5" fill-color "none"
+  }
+}
+
+# Vine curtain — wavy strands hanging from the wall (top edge).
+feature_def "vine-curtain" {
+  name "Vine Curtain"
+  glyph {
+    line stroke from -0.45,-0.5 to 0.45,-0.5
+    path stroke "M-0.3,-0.5 q0.08,0.12 0,0.24 t0,0.24 t0,0.24 t0,0.2" fill-color "none"
+    path stroke "M-0.1,-0.5 q0.08,0.12 0,0.24 t0,0.24 t0,0.24" fill-color "none"
+    path stroke "M0.1,-0.5 q0.08,0.12 0,0.24 t0,0.24 t0,0.24 t0,0.2" fill-color "none"
+    path stroke "M0.3,-0.5 q0.08,0.12 0,0.24 t0,0.24" fill-color "none"
+  }
+}
+
+# Pod — a half-round dome, flat side down.
+feature_def "pod" {
+  name "Pod"
+  glyph {
+    path stroke "M-0.36,0.18 A0.36,0.36 0 0 1 0.36,0.18 Z"
+  }
+}
+
+# Crystal pillar — a hexagonal column of crystal (Arden Vul's Tombs of Light).
+feature_def "crystal-pillar" {
+  name "Crystal Pillar"
+  glyph {
+    path stroke "M-0.4,0 L-0.2,-0.35 L0.2,-0.35 L0.4,0 L0.2,0.35 L-0.2,0.35 Z"
+    path stroke "M-0.2,-0.35 L0.2,0.35 M0.2,-0.35 L-0.2,0.35" fill-color "none" stroke-width 0.02
+  }
+}
+
+# Energy orb — a floating blob of energy: a ragged starburst round a core.
+feature_def "energy-orb" {
+  name "Energy Orb"
+  glyph {
+    circle stroke at 0,0 radius 0.16
+    path stroke "M0,-0.42 L0,-0.24 M0.3,-0.3 L0.17,-0.17 M0.42,0 L0.24,0 M0.3,0.3 L0.17,0.17 M0,0.42 L0,0.24 M-0.3,0.3 L-0.17,0.17 M-0.42,0 L-0.24,0 M-0.3,-0.3 L-0.17,-0.17" fill-color "none"
+  }
+}
+
+# Planar portal — a disc hanging in the air, a gate to another plane.
+feature_def "planar-portal" {
+  name "Planar Portal"
+  glyph {
+    circle stroke at 0,0 radius 0.4
+    path stroke "M0.28,0 A0.28,0.28 0 1 0 0,0.28 A0.16,0.16 0 1 0 -0.16,0 A0.06,0.06 0 0 0 0,0.06" fill-color "none"
+  }
+}
+
+# Console — a control desk against the wall (top edge), with three screens.
+feature_def "console" {
+  name "Console"
+  glyph {
+    rect stroke at -0.45,-0.5 0.9 x 0.4
+    rect stroke at -0.38,-0.44 0.2 x 0.14
+    rect stroke at -0.1,-0.44 0.2 x 0.14
+    rect stroke at 0.18,-0.44 0.2 x 0.14
+  }
+}
+
+# Anvil — a smith's anvil on its block: the horned top seen from above.
+feature_def "anvil" {
+  name "Anvil"
+  glyph {
+    path fill "M-0.42,-0.14 L0.22,-0.14 L0.42,-0.04 L0.22,0.06 L0.22,0.14 L-0.3,0.14 L-0.3,0.06 L-0.42,0.06 Z"
+    rect stroke at -0.2,0.14 0.3 x 0.22
+  }
+}
+
+# Pentagram — a five-pointed star in a ring, inscribed on the floor (smaller
+# and plainer than common-dungeon's coloured `magic_circle`).
+feature_def "pentagram" {
+  name "Pentagram"
+  glyph {
+    circle stroke at 0,0 radius 0.44 fill-color "none"
+    path stroke "M0,-0.42 L0.25,0.34 L-0.4,-0.13 L0.4,-0.13 L-0.25,0.34 Z" fill-color "none" stroke-width 0.03
+  }
+}
+
+# Chalkboard — a slate board against the wall (top edge), with chalk marks.
+feature_def "chalkboard" {
+  name "Chalkboard"
+  glyph {
+    rect fill at -0.42,-0.5 0.84 x 0.16
+    line stroke from -0.3,-0.25 to 0.3,-0.25 stroke-width 0.03
+  }
+}
+
+# Monolith — a standing slab of black stone.
+feature_def "monolith" {
+  name "Monolith"
+  glyph {
+    rect fill at -0.16,-0.42 0.32 x 0.84
+  }
+}
+
+# Bust — a carved head on a pedestal.
+feature_def "bust" {
+  name "Bust"
+  glyph {
+    rect stroke at -0.24,-0.24 0.48 x 0.48
+    circle fill at 0,0 radius 0.15
+  }
+}
+
+# Font — a basin on a pedestal (a font, a birdbath, a ritual bowl).
+feature_def "font" {
+  name "Font"
+  glyph {
+    circle stroke at 0,0 radius 0.36
+    circle stroke at 0,0 radius 0.24 fill-color "#9cc3d6"
+  }
+}
+
+# Mosaic — a floor or wall mosaic: a square of tesserae.
+feature_def "mosaic" {
+  name "Mosaic"
+  glyph {
+    rect stroke at -0.4,-0.4 0.8 x 0.8 fill-color "none"
+    path stroke "M-0.4,-0.13 L0.4,-0.13 M-0.4,0.13 L0.4,0.13 M-0.13,-0.4 L-0.13,0.4 M0.13,-0.4 L0.13,0.4" fill-color "none" stroke-width 0.025
+    rect fill at -0.13,-0.13 0.26 x 0.26
+  }
+}
+
+# Light prism — a crystal prism that bends a beam: a triangle with a ray.
+feature_def "light-prism" {
+  name "Light Prism"
+  glyph {
+    path stroke "M0,-0.36 L0.34,0.26 L-0.34,0.26 Z" fill-color "none"
+    line stroke from -0.45,-0.05 to -0.12,-0.05 stroke-width 0.03
+    path stroke "M0.12,0 L0.45,-0.12 M0.12,0.04 L0.45,0.04 M0.12,0.08 L0.45,0.2" fill-color "none" stroke-width 0.02
+  }
+}
+
+# Mausoleum — a small tomb building: walls, a pediment ridge and a door.
+feature_def "mausoleum" {
+  name "Mausoleum"
+  glyph {
+    rect stroke at -0.42,-0.36 0.84 x 0.72
+    line stroke from -0.42,0 to 0.42,0 stroke-width 0.03
+    rect fill at -0.1,0.22 0.2 x 0.14
+  }
+}
+
+# Cylinder — an upright drum or tank, seen from above.
+feature_def "cylinder" {
+  name "Cylinder"
+  glyph {
+    circle stroke at 0,0 radius 0.38
+    circle stroke at 0,0 radius 0.12 fill-color "none" stroke-width 0.03
+  }
+}
+
+# False door — a door set into the wall (top edge) that opens on nothing.
+# For maps that draw it as dressing; a `door … type false` is the real thing.
+feature_def "false-door" {
+  name "False Door"
+  glyph {
+    rect stroke at -0.36,-0.5 0.72 x 0.16
+    path stroke "M-0.36,-0.5 L0.36,-0.34 M0.36,-0.5 L-0.36,-0.34" fill-color "none" stroke-width 0.03
+  }
+}
+
+# Window slot — an arrow slit or narrow window through the wall (top edge),
+# for an opening that isn't a `window` on a room's wall.
+feature_def "window-slot" {
+  name "Window Slot"
+  glyph {
+    path stroke "M-0.3,-0.5 L-0.08,-0.28 L0.08,-0.28 L0.3,-0.5" fill-color "none"
+    line stroke from 0,-0.5 to 0,-0.28 stroke-width 0.03
+  }
+}

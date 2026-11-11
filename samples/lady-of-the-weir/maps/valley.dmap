@@ -1,0 +1,323 @@
+include "core.dmap"
+include "forest.dmap"
+include "city.dmap"
+
+# The Ambresleigh valley: the Ambre winding west to east, a day's walk above Hask. North is up; a square is 25 yards.
+
+map "The Ambresleigh Valley" {
+  grid {
+    cell   25 px
+    units  yards 25
+    bounds 64 x 44
+    origin top-left
+  }
+  renderer "classic-bw"
+  theme paper
+  background "grass"
+  room_numbers off
+  party_start "hask_lane"
+  description """
+  Water-meadows and willow, the Ambre brown and slow between low banks. Smoke from the eel-sheds hangs over the
+  village roofs. Upstream the river drops over a stone weir into a wide pool, and the pool is black.
+  """
+}
+
+# ============ The river ============
+
+# Above the weir the river runs full; below it, it spreads into the pool and runs on.
+slice "ambre" {
+  kind river
+  width 2.4
+  segment arc from 0,8 to 16,12 via 8,8.8
+  segment arc from 16,12 to 29.4,17.6 via 23,14.2
+  label "The Ambre" at 9,11.4 rotate 12 size 0.9
+  description "Brown, slow and cold, knee-deep at the ford and over a man's head everywhere else."
+}
+slice "ambre_below" {
+  kind river
+  width 2.4
+  segment line from 37.6,21.8 to 42,23.2
+  segment arc from 42,23.2 to 50,24 via 46,23.9
+  segment arc from 50,24 to 64,28 via 57,25.2
+}
+
+# The pool below the weir: wider than the river, and black.
+area "black_pool" kind water {
+  polygon (30.2,16.6) (33.4,17.2) (37.4,19.4) (38.8,21.2) (38.4,23.2) (35,23.6) (31.8,21.8) (30.8,19.9)
+  background "#2e3a3a"
+  line_style organic
+  label "The Black Pool" at 34.4,20.6 size 0.6
+}
+
+# The weir: a wall of grey stone across the river, its top a walkway a yard wide.
+line_feature "weir" kind wall {
+  point 28.8,15.8
+  point 30.9,20.2
+}
+text "weir" at 28.4,18.6 size 0.5 rotate 64
+
+# Fields behind the village: strips of barley and a hay meadow.
+area "barley" {
+  polygon (36,2) (44,1.4) (45,6.6) (37.4,8.2)
+  background "#d9d79c"
+  line_style dotted
+}
+area "hay_meadow" {
+  polygon (53,2.6) (55.6,2.4) (55.4,8.6) (53,9)
+  background "#c9d48e"
+  line_style dotted
+}
+area "osier_bed" {
+  polygon (24,23.4) (23.4,25) (26,26.4) (28,24.6)
+  background "#a9bb83"
+  line_style dotted
+}
+
+# The mill-race, taken off above the weir and back below the mill.
+line_feature "mill_race" kind canal {
+  point 15.6,11.2
+  point 18,11.4
+  point 21,11.3
+  point 24.6,12.6
+}
+
+
+# ============ Roads ============
+
+line_feature "old_road_north" kind road {
+  width 1.4
+  point 57,0
+  point 56.4,6
+  point 55.6,11
+}
+line_feature "old_road_south" kind road {
+  width 1.4
+  point 58.6,31.6
+  point 59.4,37
+  point 61,44
+}
+text "the old road" at 59.6,4 size 0.6 rotate -84
+
+# ============ The north bank ============
+
+room "village" {
+  polygon (38,11) (46,9) (52,9) (54,11) (55,17) (48,20.5) (40,20.5) (37,16)
+  label "Ambresleigh" at 46.4,11 size 0.9
+  line_style dashed
+  background "#e4dcc4"
+  description """
+  A dozen cottages of wattle and limewash round a muddy green, their roofs thatched with reed. Long racks of eels
+  hang to smoke over slow fires by the water. People talk quietly, and every door has a twist of river-weed nailed
+  over it.
+  """
+  feature house at 40,15 scale 2.4 rotate -10
+  feature house at 42.5,18.6 scale 2.2 rotate 8
+  feature house at 46,17.6 scale 2.6
+  feature house at 50.4,16.6 scale 2.2 rotate 20
+  feature house at 52.6,13 scale 2.2 rotate 75
+  feature house at 41.6,11.8 scale 2 rotate -15
+  feature well_stone at 46.6,13.8
+  feature barrel_stack at 49,19.4
+  feature crate_stack at 44.6,19.6
+  feature campfire at 47.2,19.2 scale 0.8 {
+    description "Eel-smoke fires, banked low."
+  }
+}
+
+room "reeves_hall" {
+  rect 46,5.5 6 x 3.5
+  label "Reeve's Hall" at 49,6.8 size 0.6
+  background "building"
+  description "The only house in Ambresleigh with a stone footing and a second storey, and the Reeve's tally-sticks over the door."
+}
+
+room "mill" {
+  rect 19,8 4 x 3
+  label "Mill" at 21,7.2 size 0.6
+  background "building"
+  description "A timber mill on the race, its wheel turning slowly in the thin water Odo's pumps have left it."
+}
+
+room "weir_bank" {
+  polygon (25.5,12.5) (31,13.5) (35.5,16.5) (34.5,17.6) (30,16.6) (26,15.3)
+  line_style dotted
+  background "grass"
+  label "The Weir" at 29.6,14.6 size 0.6
+  description """
+  A shelf of turf above the weir, worn bare by feet. A low stone with a dish hollowed in its top stands by the
+  water, cracked clean through. Rags and river-glass beads hang in the willows.
+  """
+  feature standing_stone at 31.8,15.4 scale 0.7 {
+    description "The offering-stone, split in two halves that lean apart."
+    dm_notes "Broken by Reeve Haldan with a mason's maul on the night of the last new moon. See V4."
+  }
+  feature oak at 27.2,13.4 scale 1.1
+}
+
+room "watchtower" {
+  circle at 8,3.4 radius 1.6
+  line_style ruined
+  background "stone"
+  label "Old Watchtower" at 8,6 size 0.6
+  description "A stump of Thaumarch stone on a knoll, roofless, its stair winding up to nothing."
+  feature rubble at 7.4,3.8 scale 0.8
+  feature stairs-spiral at 8.6,2.8 scale 0.7
+}
+
+# ============ The south bank ============
+
+room "sluice_mouth" {
+  polygon (24.5,18.2) (28.5,18.8) (30.8,19.6) (30,22) (26,22.8) (24,21)
+  line_style dotted
+  background "grass"
+  label "Sluice-House" at 27,21.4 size 0.6
+  description "Below the weir's south end a stone arch, half buried in the bank, gapes over a dry channel of green-slimed stone."
+  exit at 27.4,20.2 {
+    to "sluice-house" at 3,10
+  }
+}
+
+room "weirholt" {
+  polygon (13,26) (21,25.5) (22.5,31) (16,33) (12.5,31)
+  label "Weirholt" at 17,31.4 size 0.7
+  line_style solid
+  background "#ddd5c0"
+  description "A squat stone house inside a wall, on the only rise for a mile. A Tesk pennant, green and silver, hangs limp over the gate."
+  feature house at 17.6,27.8 scale 3.4 rotate 3
+  exit at 19.6,26.6 {
+    to "weirholt" at 16,26
+  }
+}
+
+room "barrow" {
+  circle at 7,37 radius 2.5
+  line_style dotted
+  background "#b7c89a"
+  label "The Mound" at 7,40.4 size 0.6
+  description "A long grassy mound with a single grey stone at its head. Cattle won't graze it."
+  feature standing_stone at 7,35.2 scale 0.6
+}
+
+room "reeds" {
+  polygon (36,27) (46,26.5) (53,29) (52,38) (42,40) (35,35)
+  line_style dotted
+  background "#bccaa6"
+  label "The Reeds" at 44,33 size 0.8
+  description "Reed-beds taller than a man, cut by eel-catchers' channels. The ground gives underfoot and the frogs never stop."
+  feature bush at 38,30 40.6,36.4 49.4,31.6 47,37.4
+}
+area "reed_water" kind swamp {
+  background "#93a57c"
+  polygon (38.6,29) (43,28.4) (46,30.6) (44,32.6) (39.4,32)
+  line_style organic
+}
+area "reed_water_2" kind swamp {
+  background "#93a57c"
+  polygon (45.4,34) (50,33) (51,36.4) (47.6,38) (44.6,36.6)
+  line_style organic
+}
+
+room "ford" {
+  polygon (55,27) (60,27.5) (61,31) (56,31.5) (54,29.5)
+  line_style dotted
+  background "grass"
+  label "The Ford" at 57.6,29.6 size 0.6
+  description "Where the old road wades the Ambre: a gravel bar, a post for the ferry-rope long gone, a cold fire-ring."
+  feature campfire at 56.4,30.4 scale 0.7
+  feature hitching_post at 59.6,28.6 scale 0.6
+}
+
+# ============ Ways ============
+
+corridor "hask_lane" "the lane to Hask" {
+  width 1.2
+  background "dirt"
+  line_style dashed
+  segment line from 64,14.2 to 59,14.6
+  segment line from 59,14.6 to 54.6,14.6
+  label "to Hask" at 61.6,13.2 size 0.6
+}
+corridor "path_weir" {
+  width 0
+  line_style dotted
+  segment line from 35.5,16.5 to 37,16
+}
+corridor "path_mill" {
+  width 0
+  line_style dotted
+  segment line from 23,9.5 to 30,9.6
+  segment line from 30,9.6 to 38,11
+}
+corridor "path_tower" {
+  width 0
+  line_style dotted
+  segment line from 19,9 to 12,6
+  segment line from 12,6 to 9.39,3.8
+}
+corridor "weir_walk" "the top of the weir" {
+  width 1
+  background "stone"
+  segment line from 30,16.6 to 30.6,19.4
+  description "A yard of wet stone with the pool on one side and the drop on the other."
+}
+corridor "ford_crossing" "the ford" {
+  width 1.4
+  background "dirt"
+  line_style dashed
+  segment line from 55,17 to 56,21
+  segment line from 56,21 to 57,27.24
+}
+corridor "path_weirholt" {
+  width 0
+  line_style dotted
+  segment line from 21,25.5 to 24,21
+}
+corridor "path_reeds" {
+  width 0
+  line_style dotted
+  segment line from 30,22 to 36,27
+}
+corridor "path_ford" {
+  width 0
+  line_style dotted
+  segment line from 53,29 to 54,29.5
+}
+corridor "path_barrow" {
+  width 0
+  line_style dotted
+  segment line from 12.5,31 to 10,33
+  segment line from 10,33 to 8.69,35.16
+}
+
+door between room.village and corridor.hask_lane { type open }
+door between room.reeves_hall and room.village { type wooden }
+door between room.weir_bank and corridor.path_weir { type open }
+door between room.village and corridor.path_weir { type open }
+door between room.mill and corridor.path_mill { type open }
+door between room.village and corridor.path_mill { type open }
+door between room.mill and corridor.path_tower { type open }
+door between room.watchtower and corridor.path_tower { type open }
+door between room.weir_bank and corridor.weir_walk { type open }
+door between room.sluice_mouth and corridor.weir_walk { type open }
+door between room.village and corridor.ford_crossing { type open }
+door between room.ford and corridor.ford_crossing { type open }
+door between room.weirholt and corridor.path_weirholt { type open }
+door between room.sluice_mouth and corridor.path_weirholt { type open }
+door between room.sluice_mouth and corridor.path_reeds { type open }
+door between room.reeds and corridor.path_reeds { type open }
+door between room.reeds and corridor.path_ford { type open }
+door between room.ford and corridor.path_ford { type open }
+door between room.weirholt and corridor.path_barrow { type open }
+door between room.barrow and corridor.path_barrow { type open }
+
+# ============ Trees ============
+
+feature oak at 3,14 5.6,18 2.4,24 10,21 33,6 36,3 27,4 13,40 18,38 24,36 30,41
+feature birch at 12,16 14.6,19.6 21,17 24.4,25.4 33,26.4 31,30 26,30
+feature pine at 4,1.4 11,1 12.6,3.4 5,6
+feature bush at 34.4,11.4 20,14.6 9,30 3,32 57,22.6 61,24 52,24.6 39.6,24.8 26,26
+feature withered at 4.4,38.6 9.6,39.4 {
+  description "Thorn trees, bent by the wind off the mound."
+}
+feature stump at 22,33 28,34
+feature boulder at 16,4 2,29

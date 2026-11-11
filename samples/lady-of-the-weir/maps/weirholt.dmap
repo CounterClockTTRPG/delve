@@ -1,0 +1,132 @@
+include "core.dmap"
+include "city.dmap"
+include "dungeon.dmap"
+
+# Weirholt: Odo Tesk's fortified house above the weir. North is up; a square is 5 feet. The cellar, under the
+# kitchen, is drawn to the east of the house.
+
+map "Weirholt" {
+  grid {
+    cell   28 px
+    units  feet 5
+    bounds 44 x 30
+    origin top-left
+  }
+  renderer "hatched"
+  theme paper
+  room_numbers off
+  description """
+  A stone house of two storeys behind a wall of rough stone, built for a river-toll that nobody pays any more. The
+  Tesks bought it cheap. It smells of wet lime and of Odo's pipe.
+  """
+}
+
+room "gatehouse" {
+  rect 13,24 6 x 4
+  label "Gate" align middle center size 0.7
+  description "A squat gate-tower with a barred oak gate and a murder-hole nobody has used in a century."
+  feature brazier at 14,27 scale 0.6
+}
+
+room "yard" {
+  polygon (3,15) (30,15) (32,19) (29,24) (19,24) (13,24) (5,24) (2,19)
+  label "Yard" at 8.6,20.4 size 0.8
+  background "dirt"
+  description "Beaten earth, a well, a cart with a broken axle and a stack of pump-timbers under a tarpaulin."
+  feature well at 21.4,19 scale 1.2
+  feature cart at 26.6,20.4 rotate -20 scale 1.2
+  feature crate_stack at 5.6,17 scale 1.1
+  feature hitching_post at 11,22.6 scale 0.8
+}
+
+room "kitchen" {
+  rect 4,8 8 x 7
+  label "Kitchen" at 8,9.4 size 0.7
+  description "A big hearth, hams in the smoke, a scrubbed table and a trapdoor to the cellar by the far wall."
+  feature hearth at 4.6,11.5 rotate 90 scale 1.2
+  feature table at 8,12.2 scale 1.2
+  feature barrel at 10.8,9.2 11,13.8 scale 0.8
+  feature floor-trapdoor at 6,14 scale 0.9
+  exit at 6,14 {
+    to "weirholt" at 36.2,4.2
+  }
+}
+
+room "guardroom" {
+  rect 4,3 8 x 5
+  label "Guard Room" at 8,4.2 size 0.6
+  description "Two cots, a dice-cup, a rack of spears and the smell of men who sleep in their boots."
+  feature bed at 5.2,6.2 10.8,6.2 scale 0.9
+  feature table at 8,6 scale 0.8
+}
+
+room "hall" {
+  rect 12,6 11 x 9
+  label "Hall" at 17.5,7.4 size 0.9
+  description """
+  A long room with a fire at one end and a good table down the middle, laid for more guests than Weirholt ever gets.
+  A painted map of the Ambre from Hask to the weir hangs over the fire.
+  """
+  feature hearth at 22.4,10.5 rotate -90 scale 1.4
+  feature table at 17,11 scale 2.4:1.2
+  feature chair at 14,10 14,12 20,10 20,12 scale 0.7
+  feature stairs-up at 13.2,7.2 scale 0.8
+}
+
+room "study" {
+  rect 23,6 6 x 9
+  label "Study" at 26,7.2 size 0.7
+  description "Odo's room: a writing desk, a strongbox bolted to the floor, and shelves of account books and curiosities."
+  feature desk at 26,10 scale 1.1
+  feature chest at 27.6,13.6 scale 0.9 {
+    description "An iron-bound strongbox, bolted to the floor."
+    dm_notes "Locked and trapped: see W4."
+  }
+  feature bookshelf at 24,7.4 28,7.4 scale 0.8
+  feature chair at 26,11.4 scale 0.6
+}
+
+room "cellar" {
+  polygon (32,2) (38.6,2.4) (40,6) (39.4,11) (34,11.6) (32.4,8.6)
+  label "Cellar" at 35.4,9.6 size 0.7
+  background "stone"
+  description "Barrels, a smell of earth, and a black hole in the east wall where a tunnel has been started."
+  feature stairs-up at 36.2,4.2 scale 0.8
+  feature barrel at 33.4,3.6 34.6,3.4 scale 0.8
+  feature crate at 33.4,6.6 scale 0.9
+  feature rubble at 39,9 scale 0.8
+  exit at 36.2,4.2 {
+    to "weirholt" at 6,14
+  }
+}
+text "(under the kitchen)" at 35.6,13 size 0.55
+
+corridor "tunnel" "Odo's tunnel" {
+  width 1.6
+  line_style organic
+  background "stone"
+  segment line from 40,7 to 42,8
+  segment line from 42,8 to 43.4,10.6
+  description "Rough-cut, shored with pump-timbers, heading east towards the weir. It stops after thirty feet in a fall of clay."
+}
+
+door between room.gatehouse and room.yard { type double  state locked }
+door between room.yard and room.kitchen { type wooden }
+door between room.yard and room.hall { type double }
+door between room.kitchen and room.hall { type wooden  state open }
+door between room.kitchen and room.guardroom { type wooden }
+door between room.hall and room.study { type wooden  state locked }
+door between room.cellar and corridor.tunnel { type open }
+
+# The outer wall.
+line_feature "curtain_wall" kind wall {
+  point 13,24.6
+  point 4.4,24.6
+  point 1.4,19
+  point 2,1.6
+  point 30,1.6
+  point 31,5
+  point 33,19
+  point 30,24.6
+  point 19,24.6
+}

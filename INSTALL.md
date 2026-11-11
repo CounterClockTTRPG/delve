@@ -4,6 +4,20 @@ Delve runs on one machine, as one process on one port, and you play in a browser
 of your network, or over the internet behind a proxy. Claude is the DM, through the Claude Code command line on your
 own Claude subscription. These steps are for Linux and macOS; on Windows, use WSL 2.
 
+## Quick install (Linux)
+
+    git clone https://github.com/CounterClockTTRPG/delve.git
+    cd delve
+    ./install.sh
+
+The script checks what you have and offers, step by step, to install what's missing: git, make and curl through your
+package manager (apt, dnf, pacman or zypper, with sudo), uv and its Python, Node.js 24 through nvm, and Claude Code,
+and to log you in to Claude. Then it installs Delve with the OSRIC ruleset, builds the web app, offers to add the
+sample adventure, The Lady of the Weir, and to start Delve, now or as a systemd service that starts with your
+computer. It says what it runs before it runs it. `./install.sh --check` only reports; `./install.sh --yes` takes the
+recommended answer everywhere (it doesn't log in to Claude or start Delve). The rest of this guide is the same by
+hand, and for macOS.
+
 ## 1. What you need
 
 | | Version | Check |
@@ -68,10 +82,10 @@ This builds the web app and starts Delve on port **7810**. Open <http://localhos
    exists, every browser logs in.
 2. **Check the DM.** Under Preferences → **Backends**, each job (the DM, helper tasks, translation, conversions)
    should say Claude (claude -p). A red line says what's missing.
-3. **Get a first module.** The repository has a small sample, the Crypt of Saint Vellis. Pack it as a `.dscn`
-   file and import it under **Modules** → **New module** → **Import a .dscn**:
-
-       (cd tests/fixtures/samples/scenarios/crypt-of-saint-vellis && python3 -m zipfile -c ~/crypt-of-saint-vellis.dscn *)
+3. **Get a first module.** The repository comes with a sample adventure, **The Lady of the Weir**: an evening's
+   play for OSRIC in Aun, for four to six 1st–2nd level characters. Import `samples/lady-of-the-weir.dscn` under
+   **Modules** → **New module** → **Import a .dscn**. (Changed the folder `samples/lady-of-the-weir`? Pack it again
+   with `(cd samples/lady-of-the-weir && python3 -m zipfile -c ../lady-of-the-weir.dscn *)`.)
 
    Or write one (**An empty module**), describe one for Claude to make (**Describe the module you want**), or turn a
    module's PDF into one (**From a PDF**).
