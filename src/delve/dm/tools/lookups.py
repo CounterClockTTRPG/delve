@@ -224,8 +224,8 @@ def proficiency_lookup(ctx: CampaignContext, name: str = "", group: str = "", ab
 def turning_undead(
     ctx: CampaignContext, level: int, undead: str = "", hd: int = 0, role: str = "priest", character: str = ""
 ) -> dict[str, Any]:
-    """Turn undead by the ruleset's turning table: the table's entry for the level, and the roll when one is needed. A number is
-    the d20 to equal or beat; T turns and D destroys 2d6 of them; D* destroys 2d6 and turns 2d4 more."""
+    """Turn undead by the ruleset's turning table: the table's entry for the level, and the roll when one is needed. A
+    number is the d20 to equal or beat; T turns and D destroys some of them, D* more; the result says how many."""
     actor = characters.get(ctx, character).id if character else None
     return plain(
         checks.turning_undead(

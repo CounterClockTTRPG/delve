@@ -180,13 +180,14 @@ def saving_throw(
     combat_round: int | None = None,
     rules: RuleTables,
 ) -> SaveResult:
-    """A d20 at or above the base, with the modifier and every effect's `save` modifier added."""
+    """A d20 at or above the base, with the modifier and every effect's `save` modifier added; a natural 1 fails
+    whatever the modifier where the ruleset says so (`save_natural_one_fails`)."""
     kind = save_type_for(save_type, rules=rules)
     total_modifier = modifier + sum(_effect_save(effect) for effect in effects)
     needed = int(base) - total_modifier
     roll = dice.d(20, purpose=f"save:{kind}", actor=actor, target=target, combat_round=combat_round)
     return SaveResult(
-        success=roll.total >= needed,
+        success=roll.total >= needed and not (rules.save_natural_one_fails and roll.total == 1),
         needed=needed,
         roll=roll,
         save_type=kind,
@@ -439,16 +440,16 @@ class TurningResult:
     effective_level: int
     level_column: str | None
     cell: str
-    """The turning table's entry: a number to roll, T (turned), D (destroyed), D* (destroyed, and 2d4 more turned)
-    or —."""
+    """The turning table's entry: a number to roll, T (turned), D (destroyed), D* (destroyed, with the ruleset's
+    more) or —."""
     can_turn: bool
     needed: int | None
     turned: bool
     destroyed: bool
     count: int
-    """How many undead are turned or destroyed (2d6)."""
+    """How many undead are turned or destroyed (the ruleset's dice: 2d6 for most)."""
     extra_turned: int
-    """For D*: how many more are turned (2d4)."""
+    """For D*, where the ruleset has them: how many more are turned (2d4)."""
     meaning: str
     roll: Roll | None
     count_roll: Roll | None
@@ -461,10 +462,18 @@ class TurningResult:
 
 _TURN_MEANINGS = {
     "—": "A priest of this level cannot turn this type.",
-    "T": "Automatically turned — no d20 roll required. Affects 2d6 creatures.",
-    "D": "Automatically destroyed (dispel). Affects 2d6 creatures.",
-    "D*": "Automatically destroyed (dispel). Affects 2d6 creatures, plus an additional 2d4 of that type are turned.",
+    "T": "Automatically turned — no d20 roll required. Affects {count} creatures.",
+    "D": "Automatically destroyed (dispel). Affects {count} creatures.",
+    "D*": "Automatically destroyed (dispel). Affects {count} creatures.",
 }
+
+
+def _turning_dice(rules: RuleTables, cell: str, undead_type: str) -> tuple[str, str | None]:
+    """The dice of how many a turning affects, and of how many more it turns, for the table's `cell` and type."""
+    count, extra = rules.turning_counts.get(cell if cell in _TURN_MEANINGS else "number", ("2d6", None))
+    kind = undead_type.strip().lower()
+    few = next((dice for name, dice in rules.turning_few.items() if kind.startswith(name)), None)
+    return (few, None) if few else (count, extra)
 
 
 def _undead_row(reference: RulesetReference, undead: str, hd: int) -> dict:
@@ -504,7 +513,7 @@ def turning_undead(
     rules: RuleTables,
 ) -> TurningResult:
     """Turn undead by the ruleset's turning table, by name or Hit Dice. A paladin turns as a priest two levels lower. A
-    number is the d20 roll needed; turned or destroyed undead number 2d6, and D* turns 2d4 more."""
+    number is the d20 roll needed; how many are turned or destroyed is the ruleset's (`turning_counts`)."""
     role = (role or "priest").strip().lower()
     if role not in ("priest", "paladin"):
         raise CheckError(f"Unknown role '{role}'. Use 'priest' or 'paladin'.", candidates=("priest", "paladin"))
@@ -534,16 +543,19 @@ def turning_undead(
     purpose = f"turn:{name.lower()}"
     keys = {"actor": actor, "combat_round": combat_round}
     roll = needed = None
+    count_dice, extra_dice = _turning_dice(rules, cell, name)
     if cell in _TURN_MEANINGS:
-        meaning = _TURN_MEANINGS[cell]
+        meaning = _TURN_MEANINGS[cell].format(count=count_dice)
+        if extra_dice:
+            meaning += f" An additional {extra_dice} of that type are turned."
         works = True
     else:
         needed = int(cell)
-        meaning = f"Roll 1d20; on a result of {cell} or higher, 2d6 of these undead are turned and flee."
+        meaning = f"Roll 1d20; on a result of {cell} or higher, {count_dice} of these undead are turned and flee."
         roll = dice.d(20, purpose=purpose, **keys)
         works = roll.total >= needed
-    count_roll = dice.roll("2d6", purpose=f"{purpose}:count", **keys) if works else None
-    extra_roll = dice.roll("2d4", purpose=f"{purpose}:extra", **keys) if works and cell == "D*" else None
+    count_roll = dice.roll(count_dice, purpose=f"{purpose}:count", **keys) if works else None
+    extra_roll = dice.roll(extra_dice, purpose=f"{purpose}:extra", **keys) if works and extra_dice else None
     destroyed = works and cell.startswith("D")
     return TurningResult(
         **base,

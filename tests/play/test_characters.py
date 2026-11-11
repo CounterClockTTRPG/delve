@@ -1,5 +1,7 @@
 """`play.characters`: creation, the exact-or-ambiguous lookup, damage and healing, XP, the party, coin, rest, NPCs."""
 
+from dataclasses import replace
+
 import pytest
 
 from delve.dice import ScriptedRng, SeededRng
@@ -10,6 +12,7 @@ from delve.play import characters, images
 from delve.play.characters import NotFound, PlayError
 from delve.play.context import context_for
 from delve.rules.classic import names
+from delve.rules.classic.tables import Healing
 from tests.fixtures.play_reference import PlayReference
 from tests.fixtures.rulesets import over
 
@@ -310,9 +313,11 @@ def test_a_portrait_from_an_old_read_keeps_the_hit_points_taken_since(ctx):
     assert characters.get(ctx, "Garrek").sheet.portrait is not None
 
 
-def test_rest_natural_healing(ctx):
-    """PHB ch. 9 (Natural Healing), as ttrpg2's `rest`: 1 hp a day, 3 a day of bed rest plus the Constitution bonus
-    for each full week (a warrior's bracketed bonus); the dead don't heal; `full` restores everyone living."""
+def test_rest_natural_healing(ctx, monkeypatch):
+    """PHB ch. 9 (Natural Healing), as ttrpg2's `rest`, the engine's own rates: 1 hp a day, 3 a day of bed rest plus
+    the Constitution bonus for each full week (a warrior's bracketed bonus); the dead don't heal; `full` restores
+    everyone living."""
+    monkeypatch.setattr(ctx.ruleset, "tables", replace(ctx.rules, healing=Healing()), raising=False)  # not OSRIC's
     characters.create(ctx, name="Garrek", sheet={**GARREK, "hp_max": 40, "ability_scores": {"con": 17}})
     characters.create(ctx, name="Pippa", sheet={"hp_max": 10, "ability_scores": {"con": 16}})
     characters.create(ctx, name="Bones", sheet={"hp_max": 10})

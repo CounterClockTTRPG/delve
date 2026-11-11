@@ -22,7 +22,14 @@ from pydantic import BaseModel
 from starlette.concurrency import run_in_threadpool
 from starlette.responses import Response
 
-from delve.domain.campaigns import CAMPAIGN_STATUSES, Campaign, default_ruleset, default_setting
+from delve.domain.campaigns import (
+    CAMPAIGN_STATUSES,
+    INITIATIVE_MODES,
+    Campaign,
+    MissingPack,
+    default_ruleset,
+    default_setting,
+)
 from delve.domain.histories import History
 from delve.domain.modules import Module, Revision
 from delve.domain.world import PLAIN_CALENDAR, Calendar
@@ -252,6 +259,7 @@ def make_campaign(
     else:
         seats.create_owner_seat(storage, campaign.id)
     seed_world(storage, campaign, request.app.state.registries.catalogs)
+    campaign = initiative_of_ruleset(storage, campaign, request.app.state.registries.catalogs)
     if bundle_ids or rule_ids:
         choose_house_rules(request, campaign.id, bundle_ids, rule_ids)
     return campaign
@@ -350,6 +358,18 @@ def setting_title(request: Request, campaign: Campaign) -> str:
     """The title of the campaign's setting, for its banner's brief: its id when no setting has it, "" for none."""
     titles = {caps.id: caps.title for caps in request.app.state.registries.settings_.capabilities()}
     return titles.get(campaign.setting, campaign.setting) if campaign.setting else ""
+
+
+def initiative_of_ruleset(storage: Any, campaign: Campaign, catalogs: Catalogs) -> Campaign:
+    """A new campaign rolls initiative as its ruleset does (`RuleTables.initiative_mode`: OSRIC's d6 a side); the host
+    may change it. A ruleset that isn't installed leaves the default."""
+    try:
+        mode = context_for(storage, campaign.id, "seed", catalogs=catalogs).rules.initiative_mode
+    except (PlayError, MissingPack):
+        return campaign
+    if mode == campaign.initiative or mode not in INITIATIVE_MODES:
+        return campaign
+    return storage.campaigns.set_initiative(campaign.id, mode)
 
 
 def seed_world(storage: Any, campaign: Campaign, catalogs: Catalogs) -> None:

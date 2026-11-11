@@ -53,8 +53,8 @@ def setup_combat(
 ) -> dict[str, Any]:
     """Start a fight in one call: the party where it stands on its map, the monsters looked up and added (each with
     its own id, mon_1 …), surprise, round 1's spell declarations, and round 1's initiative, in the campaign's mode
-    (per combatant, or per side: one d10 a side plus each one's own modifier). Tokens appear on the map. When the notes
-    say the module states other numbers for a monster than the reference (AC 5 zombies), set it up again with the
+    (per combatant, or per side: the ruleset's die a side plus each one's own modifier). Tokens appear on the map.
+    When the notes say the module states other numbers for a monster than the reference (AC 5 zombies), set it up again with the
     module's ac, hp or thac0 in its group. A spell can still be declared for round 1 in combat_round. Refused while a
     fight is live: end it first."""
     return combat.setup_combat(ctx, enemies, party_modifier, enemy_modifier, surprise, spells)
@@ -78,8 +78,9 @@ def setup_combat(
     areas=("characters", "combat"),
 )
 def combat_round(ctx: CampaignContext, actions: list[dict[str, Any]]) -> dict[str, Any]:
-    """Resolve a whole round: the declarations, initiative rolled again in the campaign's mode (d10 plus
-    weapon speed, casting time or the item's modifier; per side, one d10 a side), the actions in initiative order (ties
+    """Resolve a whole round: the declarations, initiative rolled again in the campaign's mode (the ruleset's die,
+    plus casting time, the item's modifier and weapon speed where the ruleset counts it; per side, one die a side),
+    the actions in initiative order (ties
     act simultaneously), downed and surprised combatants skipped, every attack the rate allows, then bleeding, effects
     ticking down and morale notices. Spells, scrolls, potions and long actions are ongoing until their count: a spell
     of a round or more takes effect at the end of its last round, and a hit or a failed save before then spoils a
@@ -96,7 +97,10 @@ def combat_round(ctx: CampaignContext, actions: list[dict[str, Any]]) -> dict[st
         "target",
         attacker=COMBATANT,
         target=COMBATANT,
-        condition=string("rear (+2), charging (+2, AC penalty), set_vs_charge (double damage) or fleeing (rear +2)."),
+        condition=string(
+            "rear (+2), charging (+2, AC penalty), set_vs_charge (double damage) or fleeing (the ruleset's bonus "
+            "against a foe fleeing melee)."
+        ),
         weapon=string("Part of the name of one of the attacker's attacks: 'bow', 'undead'."),
     ),
     mutates=True,

@@ -150,6 +150,20 @@ def hit_dice_number(text: str) -> float:
     return float(number.group()) if number else 0.0
 
 
+_SEGMENTS = re.compile(r"^\s*(\d+)\s*segments?\b", re.IGNORECASE)
+
+
+def casting_segments(casting_time: str) -> int | None:
+    """The segments after the caster's initiative segment in which a spell goes off (Player Guide 1.6.1.3: casting
+    begins in that segment, its first): "Fast" at once (0), "3 segments" two later; None for one in rounds or turns,
+    which the engine reads from the words, or one the table doesn't give ("See below")."""
+    text = casting_time.strip()
+    if text.lower() == "fast":
+        return 0
+    found = _SEGMENTS.match(text)
+    return max(0, int(found.group(1)) - 1) if found else None
+
+
 def monster_thac0(hit_dice: str) -> int:
     """Gamemaster Guide Table 2.1.2A: a monster's THAC0 by its Hit Dice."""
     hd = hit_dice_number(hit_dice)
@@ -283,6 +297,7 @@ class OsricReference:
             "aoe": spell.get("area_of_effect") or "",
             "components": spell.get("components") or "",
             "casting_time": spell.get("casting_time") or "",
+            "casting_time_init": casting_segments(spell.get("casting_time") or ""),
             "duration": spell.get("duration") or "",
             "save": spell.get("saving_throw") or "",
             "reversible": "1" if spell.get("reverse") else "0",
@@ -349,6 +364,11 @@ class OsricReference:
             "xp_bonus": f"10% XP with {cls['prime_requisite']} {cls['xp_bonus_threshold']}+"
             if cls.get("prime_requisite") and cls.get("xp_bonus_threshold")
             else "",
+            "xp_bonus_requisites": {
+                score.strip(): int(cls["xp_bonus_threshold"]) for score in cls["prime_requisite"].split(",")
+            }
+            if cls.get("prime_requisite") and cls.get("xp_bonus_threshold")
+            else {},
             "minimum_scores": cls.get("minimum_scores") or {},
             "armour_allowed": cls.get("armour_allowed"),
             "shield_allowed": cls.get("shield_allowed"),

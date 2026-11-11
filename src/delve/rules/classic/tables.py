@@ -33,6 +33,43 @@ class LevelDrain:
 
 
 @dataclass(frozen=True)
+class FightRules:
+    """The ruleset's ways a fight keeps with it (`Combat.rules`), set when it starts: the defaults are the engine's
+    own, which its first ruleset played."""
+
+    automatic_naturals: bool = True
+    """Whether a natural 20 always hits and a natural 1 always misses. Without them (OSRIC), a natural 20 counts as
+    `natural_twenty`."""
+    natural_twenty: int = 20
+    """What a natural 20 counts as without automatic naturals: OSRIC's 25, the to-hit table's repeated 20s."""
+    fleeing_bonus: int = 2
+    """The to-hit bonus against a foe fleeing from melee."""
+    fleeing_attack_free: bool = False
+    """Whether the attack on a foe fleeing comes on top of the attacker's own (OSRIC: "even if they have already
+    attacked")."""
+    bleed_from_zero: bool = False
+    """Whether a character at exactly 0 hp bleeds too (OSRIC), not only one below 0."""
+    unconscious_slain_by_damage: bool = False
+    """Whether any damage to an unconscious character kills it at once (OSRIC 1.6.6)."""
+
+
+@dataclass(frozen=True)
+class Healing:
+    """Natural healing (`play.characters.rest`): the defaults are the engine's own."""
+
+    per_day: int = 1
+    bed_rest_per_day: int | None = 3
+    """Hit points a day of complete bed rest; None for a ruleset without it (OSRIC: every rest is 1 a day)."""
+    con_bonus: str = "bed_rest_weekly"
+    """When the Constitution hit-point bonus is added: "bed_rest_weekly", each full week of bed rest; "second_week",
+    once, over the second week of rest (OSRIC)."""
+    con_penalty_delays: bool = False
+    """Whether a Constitution hit-point penalty delays healing by that many days (OSRIC)."""
+    full_after_days: int | None = None
+    """Days of rest that heal anyone fully (OSRIC's four weeks); None for none."""
+
+
+@dataclass(frozen=True)
 class RuleTables:
     save_types: tuple[str, ...]
     """The saving throws in the ruleset's order. Sheets key their saves by these."""
@@ -99,6 +136,49 @@ class RuleTables:
     extra: Mapping[str, Any] = field(default_factory=dict)
     """Anything else a ruleset's own code reads."""
     level_drain: LevelDrain = LevelDrain()
+    fight: FightRules = FightRules()
+    healing: Healing = Healing()
+    save_natural_one_fails: bool = False
+    """Whether a natural 1 on a saving throw always fails (OSRIC)."""
+    turning_counts: Mapping[str, tuple[str, str | None]] = field(
+        default_factory=lambda: {"number": ("2d6", None), "T": ("2d6", None), "D": ("2d6", None), "D*": ("2d6", "2d4")}
+    )
+    """The dice of how many undead a turning affects, by the table's entry ("number" for one rolled for), and of
+    how many more are turned (a D*'s 2d4)."""
+    turning_few: Mapping[str, str] = field(default_factory=dict)
+    """Turning types (lowercase, as the table names them: "fiend") that a success affects fewer of: their dice."""
+    initiative_mode: str = "combatant"
+    """A new campaign's initiative: per "combatant", or per "side" (OSRIC's d6 a side)."""
+    melee_rates: Mapping[str, tuple[tuple[int, float], ...]] = field(default_factory=dict)
+    """Each class group's melee attacks per round by level, (lowest level, rate) from the first: the rate of a melee
+    attack whose sheet says fewer (OSRIC's Melee Attack Combination)."""
+    specialised_melee_rates: tuple[tuple[int, float], ...] = ()
+    """The melee attacks per round with a specialised weapon by level, (lowest level, rate), for the class groups of
+    `melee_rates`."""
+    strength_damage: bool = False
+    """Whether Strength's damage adjustment is added to a melee attack whose damage dice carry no modifier of their
+    own (OSRIC); else the sheet's dice have it folded in."""
+    bonus_spells: Mapping[int, Mapping[int, int]] = field(default_factory=dict)
+    """The extra spell slots of high Wisdom, by score and then spell level, for `bonus_spell_classes`."""
+    bonus_spell_classes: tuple[str, ...] = ()
+    """The class groups that get `bonus_spells` (OSRIC's clerics and druids)."""
+    xp_bonus: bool = False
+    """Whether `award_xp` adds each class's prime-requisite bonus from the sheet's scores (the class lookup's
+    `xp_bonus_requisites`)."""
+
+    def melee_rate(self, cls: str, level: int, *, specialised: bool = False) -> float | None:
+        """The melee attacks per round of `cls` at `level` from `melee_rates` (`specialised_melee_rates` with a
+        specialised weapon); None for a class without them."""
+        bands = self.melee_rates.get(self.class_group(cls) or "")
+        if not bands:
+            return None
+        if specialised and self.specialised_melee_rates:
+            bands = self.specialised_melee_rates
+        rate = None
+        for low, value in bands:
+            if level >= low:
+                rate = value
+        return rate
 
     def group_saves(self, group: str, level: int) -> dict[str, int]:
         """The saves of `group` at `level`, by save type."""

@@ -38,8 +38,8 @@ from delve.rules.classic import checks
 from delve.rules.classic import initiative as timing
 from delve.rules.classic.initiative import Mode, Ongoing, ongoing_json
 from delve.rules.classic.life import DEAD_AT, with_condition
-from delve.rules.classic.tables import RuleTables
-from delve.rules.classic.thac0 import attack_thac0
+from delve.rules.classic.tables import FightRules, RuleTables
+from delve.rules.classic.thac0 import attack_thac0, is_missile, specialised, strength_damage
 
 Side = Literal["party", "ally", "enemy"]
 Phase = Literal["setup", "round", "ended"]
@@ -155,6 +155,8 @@ class Combat:
     """The map the fight is on, for its tokens."""
     mode: Mode = "combatant"
     """How this round's initiative was rolled: per combatant or per side."""
+    rules: FightRules = field(default_factory=FightRules)
+    """The ruleset's ways with attacks and the dying, from when the fight started."""
 
 
 @dataclass(frozen=True)
@@ -783,6 +785,35 @@ def find(combat: Combat, ref: str) -> Combatant:
     raise UnknownCombatant(f"No combatant '{ref}'.", near or everyone)
 
 
+def _by_the_book(sheet: Sheet, attack: Attack, reference: RulesetReference, rules: RuleTables) -> Attack:
+    """A melee attack with what the ruleset derives and the sheet leaves out: the class's attacks per round where the
+    sheet says fewer (`RuleTables.melee_rates`), and Strength's damage on dice without a modifier of their own
+    (`RuleTables.strength_damage`). A missile attack is as the sheet has it."""
+    if is_missile(attack):
+        return attack
+    rates = [
+        rate
+        for cls, level in sheet.levels.items()
+        if (rate := rules.melee_rate(cls, level, specialised=specialised(sheet, attack))) is not None
+    ]
+    if rates and max(rates) > _attack_rate({"attacks": attack.attacks}):
+        attack = replace(attack, attacks=max(rates))
+    if rules.strength_damage and (bonus := strength_damage(sheet, reference)):
+        attack = replace(
+            attack, damage_sm=_with_bonus(attack.damage_sm, bonus), damage_l=_with_bonus(attack.damage_l, bonus)
+        )
+    return attack
+
+
+def _with_bonus(notation: str, bonus: int) -> str:
+    """Dice with `bonus` added, when they are bare dice ("1d8" → "1d8+3"); dice with a modifier of their own, or
+    anything that isn't dice, as they are."""
+    parsed = _parse_dice(notation)
+    if parsed is None or parsed[2] != 0 or not bonus:
+        return notation
+    return f"{notation.strip()}{bonus:+d}"
+
+
 def party_blocks(
     character: Character, reference: RulesetReference | None = None, rules: RuleTables | None = None
 ) -> tuple[list[AttackBlock], list[str]]:
@@ -793,6 +824,7 @@ def party_blocks(
     sheet = character.sheet
     attacks = sheet.attacks
     if reference is not None and rules is not None:
+        attacks = tuple(_by_the_book(sheet, a, reference, rules) for a in attacks)
         attacks = tuple(
             a if a.thac0 is not None else replace(a, thac0=attack_thac0(sheet, a, reference, rules=rules).value)
             for a in attacks
@@ -857,7 +889,8 @@ def start(
             effects=state.effects,
             node=nodes.get(character.id),
         )
-    combat = _logged(Combat(combatants=combatants), {"type": "start", "ids": list(combatants)})
+    fight = rules.fight if rules is not None else FightRules()
+    combat = _logged(Combat(combatants=combatants, rules=fight), {"type": "start", "ids": list(combatants)})
     out: dict[str, Any] = {
         "party_loaded": [c.name for c in combatants.values()],
         "party_attacks": {
@@ -1343,17 +1376,25 @@ def roll_initiative(
 
 
 def _swing(
-    attacker: Combatant, target: Combatant, dice: Dice, combat_round: int, condition: str, notes: list[str]
+    attacker: Combatant,
+    target: Combatant,
+    dice: Dice,
+    combat_round: int,
+    condition: str,
+    notes: list[str],
+    fight: FightRules | None = None,
 ) -> tuple[dict[str, Any], int, Combatant, list[Roll]]:
     """One attack roll and its damage, against the target as it stands; nothing is applied. Returns the result, the
     damage (0 on a miss), the attacker after it and the rolls."""
+    fight = fight or FightRules()
     block = _block(attacker)
     thac0 = _thac0(attacker)
-    n = attacker.attacks_used + 1
     cond = condition.lower().strip()
+    free = cond == "fleeing" and fight.fleeing_attack_free
+    n = attacker.attacks_used + (0 if free else 1)
     conditions = attacker.conditions
     key = {"actor": attacker.id, "target": target.id, "combat_round": combat_round}
-    roll = dice.d(20, purpose=f"attack#{n}", **key)
+    roll = dice.d(20, purpose=f"attack#{n}" + (":fleeing" if free else ""), **key)
     rolls = [roll]
     face = roll.total
     hit_bonus = _sum_modifier(attacker, "to_hit")
@@ -1366,18 +1407,20 @@ def _swing(
         hit_bonus += 2
         notes.append("+2 to hit (rear attack).")
     elif cond == "fleeing":
-        # A fleeing target turns its back: the rear-attack bonus, with a real roll.
-        hit_bonus += 2
-        notes.append("+2 to hit (target fleeing: attack from the rear).")
+        # A fleeing target turns its back to the attack: the ruleset's bonus, with a real roll.
+        hit_bonus += fight.fleeing_bonus
+        notes.append(f"{fight.fleeing_bonus:+d} to hit (target fleeing from melee).")
+        if free:
+            notes.append("The attack on a fleeing foe comes on top of the attacker's own this round.")
     elif cond == "charging":
         hit_bonus += 2
         conditions = with_condition(conditions, "charging_ac_penalty", True)
         notes.append("+2 to hit (charging). Attacker has AC penalty this round.")
 
-    if face == 20:
+    if fight.automatic_naturals and face == 20:
         hit = True
         notes.append("Natural 20 — an automatic hit.")
-    elif face == 1:
+    elif fight.automatic_naturals and face == 1:
         hit = False
         notes.append("Natural 1 — automatic miss!")
     else:
@@ -1388,7 +1431,10 @@ def _swing(
                 f"{target.name} gets {target.ac_vs_larger:+d} AC against the larger {attacker.name} "
                 f"(size {_size_code(attacker.size)})."
             )
-        hit = face + hit_bonus >= thac0 - target_ac
+        counted = fight.natural_twenty if face == 20 else face
+        if counted != face:
+            notes.append(f"A natural 20 counts as {counted} (the table's repeated 20s).")
+        hit = counted + hit_bonus >= thac0 - target_ac
 
     damage, notation = 0, None
     if hit:
@@ -1465,8 +1511,13 @@ def _hurt(combat: Combat, id: str, amount: int) -> tuple[Combat, dict[str, Any]]
         combat = _break(combat, id, f"{c.name} was hit")
         c = combat.combatants[id]
     hp = max(DEAD_AT, c.hp - amount)
+    slain = combat.rules.unconscious_slain_by_damage and amount > 0 and DEAD_AT < c.hp <= 0
+    if slain:
+        hp = DEAD_AT  # OSRIC 1.6.6: any damage to someone unconscious, besides the bleeding, kills at once
     hurt = replace(c, hp=hp, conditions=with_condition(c.conditions, "downed", hp <= 0))
     info = {"hp_before": c.hp, "hp_after": hp, "downed": hp <= 0, "dead": _is_dead(hurt), "spell_disrupted": disrupted}
+    if slain:
+        info["slain_while_unconscious"] = True
     return _put(combat, hurt), info
 
 
@@ -1515,9 +1566,11 @@ def _morale_due(combat: Combat, side: str) -> tuple[Combat, dict[str, Any] | Non
 def attack(
     combat: Combat, dice: Dice, attacker_id: str, target_id: str, *, condition: str = "", weapon: str = ""
 ) -> tuple[Combat, dict[str, Any]]:
-    """One attack in the current round, applied at once. Natural 20 always hits; natural 1 always misses.
+    """One attack in the current round, applied at once. A natural 20 always hits and a natural 1 always misses,
+    unless the fight's ruleset says otherwise (`FightRules`).
 
-    condition: 'rear' (+2 to hit), 'fleeing' (the target turned its back: +2), 'charging' (+2 to hit,
+    condition: 'rear' (+2 to hit), 'fleeing' (the target flees from melee: the ruleset's bonus), 'charging' (+2 to
+    hit,
     AC penalty), 'set_vs_charge' (double damage on a hit). weapon picks one of the attacker's attacks by name and
     sticks. The Large damage die is rolled against targets of size L or bigger. It counts against the
     attacker's attacks this round; one beyond them is flagged `extra_attack`.
@@ -1543,7 +1596,7 @@ def attack(
             )
         elif note:
             notes.append(note)
-    swing, damage, atk, rolls = _swing(atk, tgt, dice, combat.round, condition, notes)
+    swing, damage, atk, rolls = _swing(atk, tgt, dice, combat.round, condition, notes, combat.rules)
     combat = _put(combat, atk)
     if swing["hit"]:
         combat = _land(combat, swing, damage)
@@ -1614,7 +1667,13 @@ def _throw(
         notes.append(f"Holy water harms only the undead (and fiends): {tgt.name} is unhurt even if it hits.")
     held = AttackBlock(f"flask of {kind}" if kind == "oil" else f"vial of {kind}", dmg, dmg)
     swing, damage, thrown, rolls = _swing(
-        replace(atk, attacks=(*atk.attacks, held), weapon=len(atk.attacks)), tgt, dice, combat.round, "", notes
+        replace(atk, attacks=(*atk.attacks, held), weapon=len(atk.attacks)),
+        tgt,
+        dice,
+        combat.round,
+        "",
+        notes,
+        combat.rules,
     )
     combat = _put(combat, replace(thrown, attacks=atk.attacks, weapon=atk.weapon))
     if swing["hit"] and damage:
@@ -1699,6 +1758,7 @@ def _attack_action(
             combat.round,
             action.get("condition", ""),
             [],
+            combat.rules,
         )
         combat = _put(combat, attacker)
         rolls.extend(swing_rolls)
@@ -1764,7 +1824,8 @@ def _end_round(combat: Combat) -> tuple[Combat, list[str]]:
     lines: list[str] = []
     changed: dict[str, Combatant] = {}
     for c in combat.combatants.values():
-        if c.side in ("party", "ally") and DEAD_AT < c.hp < 0 and not _removed(c) and not _tended(c):
+        dying = c.hp <= 0 if combat.rules.bleed_from_zero else c.hp < 0
+        if c.side in ("party", "ally") and DEAD_AT < c.hp and dying and not _removed(c) and not _tended(c):
             hp = max(DEAD_AT, c.hp - 1)
             lines.append(f"{c.name} bleeds 1 HP ({'dead' if hp <= DEAD_AT else f'hp now {hp}'})")
             changed[c.id] = replace(c, hp=hp)

@@ -10,7 +10,7 @@ from typing import Any
 
 from delve.rules.classic.encumbrance import EncumbranceTables
 from delve.rules.classic.overland import TravelRates
-from delve.rules.classic.tables import LevelDrain, RuleTables, SaveBands
+from delve.rules.classic.tables import FightRules, Healing, LevelDrain, RuleTables, SaveBands
 from delve_osric.data import CLASSES, load, own
 
 SAVE_TYPES = (
@@ -85,6 +85,24 @@ LOAD_STEP = 40
 
 LOAD_FRACTIONS = (1.0, 0.75, 0.5, 0.25, 0.0)
 """The share of the movement rate each load band keeps: full, three-quarters, half, a quarter, none."""
+
+
+MELEE_RATES = {
+    "fighter": ((1, 1.0), (7, 1.5), (13, 2.0)),
+    "paladin": ((1, 1.0), (7, 1.5), (13, 2.0)),
+    "ranger": ((1, 1.0), (8, 1.5), (15, 2.0)),
+}
+"""The Melee Attack Combination of each class (Player Guide §1.3: fighter and paladin 3/2 at 7th and 2/1 at 13th,
+ranger at 8th and 15th)."""
+
+SPECIALISED_MELEE_RATES = ((1, 1.5), (7, 2.0), (13, 2.5))
+"""Player Guide Table 1.3.13A: the melee attacks with a specialised weapon, by the specialist's level."""
+
+
+def bonus_spells() -> dict[int, dict[int, int]]:
+    """Player Guide §1.3.2: a cleric's or druid's extra spells for high Wisdom, cumulative, by score."""
+    rows = own(load("spellcasting")["wisdom_bonus_cleric_spells"])
+    return {int(score): {int(level): int(n) for level, n in row.items()} for score, row in rows.items()}
 
 
 def monster_saves(kind: str) -> SaveBands:
@@ -184,6 +202,32 @@ def tables() -> RuleTables:
         # Player's Guide §1.6.7: the lowest XP of the new level, a random class of equal highest levels, and death
         # below 1st level.
         level_drain=LevelDrain(xp="floor", tie="random", zero_level=False),
+        # Player Guide: a natural 1 or 20 isn't automatic on a to-hit roll, and a natural 20 counts +5 for the
+        # table's repeated 20s (1.4.2.4A); a fleeing foe is attacked at +4, even by one who has attacked (1.6.2.3);
+        # the unconscious bleed from 0 and die of any more damage (1.6.6).
+        fight=FightRules(
+            automatic_naturals=False,
+            natural_twenty=25,
+            fleeing_bonus=4,
+            fleeing_attack_free=True,
+            bleed_from_zero=True,
+            unconscious_slain_by_damage=True,
+        ),
+        # §1.6.6.1: 1 hp a day; a Constitution penalty delays it, a bonus adds over the second week; 4 weeks heal all.
+        healing=Healing(
+            per_day=1, bed_rest_per_day=None, con_bonus="second_week", con_penalty_delays=True, full_after_days=28
+        ),
+        save_natural_one_fails=True,
+        # Table 1.6.5A: a D* affects 1d6+6; fiends come one or two at a time.
+        turning_counts={"number": ("2d6", None), "T": ("2d6", None), "D": ("2d6", None), "D*": ("1d6+6", None)},
+        turning_few={"fiend": "1d2"},
+        initiative_mode="side",
+        melee_rates=MELEE_RATES,
+        specialised_melee_rates=SPECIALISED_MELEE_RATES,
+        strength_damage=True,
+        bonus_spells=bonus_spells(),
+        bonus_spell_classes=("cleric", "druid"),
+        xp_bonus=True,
     )
 
 

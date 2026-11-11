@@ -20,8 +20,13 @@ of a fight counts it for the monsters defeated (`xp_earned`). Morale is a percen
 `morale_check` with it as the rating (a d100, holding at or under it). Mindless monsters, most undead among them, never
 check.
 
-**Initiative** is a d6 a side, low first: the segment of the round the side acts in. Weapon speed doesn't add to it
-(a spell's casting time does). Set the table's initiative to per side for the book's way.
+**Initiative** is a d6 a side, low first: the segment of the round the side acts in; a new campaign rolls it so.
+Weapon speed doesn't add to it. A spell starts in its caster's segment and goes off after its casting time (Fast at
+once); a hit before then spoils it.
+
+**The tracker keeps the book's ways:** a natural 20 or 1 on an attack is no certain hit or miss, a natural 1 on a save
+always fails, the unconscious bleed from 0 hp and die of any more damage, a fleeing foe is attacked at +4, and a
+fighter, paladin or ranger gets its class's attacks per round. `award_xp` adds the prime-requisite bonus itself.
 
 **Monsters save** on OSRIC's own tables by their Hit Dice, the mindless on theirs; `saving_throw` reads them.
 

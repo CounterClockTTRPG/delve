@@ -140,9 +140,9 @@ def _fill_saves(ctx: CampaignContext, sheet: Sheet) -> Sheet:
 def create(ctx: CampaignContext, *, name: str = "", kind: Kind = "pc", sheet: dict[str, Any]) -> Character:
     """A new PC (at the back of the marching order) or NPC, at full hit points.
 
-    `sheet` has the fields of `Sheet`, and may give a single `level` for every class instead of `levels`. Saves and a
-    THAC0 the sheet doesn't give come from the class tables. A given name is kept (trimmed); without one, the
-    dice name the character for its sheet's race and gender, as `introduce_npc` does."""
+    `sheet` has the fields of `Sheet`, and may give a single `level` for every class instead of `levels`. Saves, a
+    THAC0 and spell slots the sheet doesn't give come from the class tables (slots with the ruleset's Wisdom bonus).
+    A given name is kept (trimmed); without one, the dice name the character for its sheet's race and gender, as `introduce_npc` does."""
     if kind not in ("pc", "npc"):
         raise PlayError(f"Unknown kind '{kind}'.", hint="Use pc or npc.")
     raw = dict(sheet)
@@ -153,6 +153,8 @@ def create(ctx: CampaignContext, *, name: str = "", kind: Kind = "pc", sheet: di
     parsed = _fill_saves(ctx, replace(parsed, levels=_levels(parsed, level)))
     if "thac0" not in raw:
         parsed = _fill_thac0(ctx, parsed)
+    if not parsed.spell_slots:
+        parsed = replace(parsed, spell_slots=_table_slots(ctx, parsed.levels, parsed))
     name = name.strip() or names.generate(
         ctx.dice.rng, race=parsed.race, female=parsed.gender.strip().lower() == "female"
     )
@@ -189,6 +191,9 @@ def update(ctx: CampaignContext, ref: str, patch: dict[str, Any], reason: str = 
         sheet = replace(sheet, levels={})
     if "levels" in sheet_patch or level is not None or "cls" in sheet_patch:
         sheet = replace(sheet, levels=_levels(sheet, level))
+        had = {k: v for k, v in character.sheet.spell_slots.items() if v}
+        if "spell_slots" not in sheet_patch and had in ({}, _table_slots(ctx, character.sheet.levels, character.sheet)):
+            sheet = replace(sheet, spell_slots=_table_slots(ctx, sheet.levels, sheet))  # the table's, at the new level
     try:
         state = CharacterState.from_dict({**character.state.to_dict(), **state_patch})
     except DataError as error:
@@ -251,6 +256,9 @@ def apply_damage(ctx: CampaignContext, ref: str, amount: int) -> dict[str, Any]:
         return fought
     before = character.state.hp
     after = max(before - amount, DEAD_AT)
+    slain = ctx.rules.fight.unconscious_slain_by_damage and amount > 0 and DEAD_AT < before <= 0
+    if slain:
+        after = DEAD_AT  # the ruleset's: any damage to someone unconscious kills at once
     conditions = life_conditions(character.state.conditions, after)
     ctx.storage.characters.save_state(
         replace(character, state=replace(character.state, hp=after, conditions=conditions))
@@ -264,6 +272,7 @@ def apply_damage(ctx: CampaignContext, ref: str, amount: int) -> dict[str, Any]:
         "hp_after": after,
         "downed": after <= 0,
         "dead": after <= DEAD_AT,
+        **({"slain_while_unconscious": True} if slain else {}),
     }
 
 
@@ -307,26 +316,65 @@ def award_xp(ctx: CampaignContext, ref: str, amount: int) -> dict[str, Any]:
     character = get(ctx, ref)
     if isinstance(amount, bool) or not isinstance(amount, int):
         raise PlayError(f"The XP must be a whole number, not {amount!r}.")
+    bonus, bonus_basis = _xp_bonus(ctx, character.sheet, amount) if ctx.rules.xp_bonus else (0, [])
     before = character.state.xp
-    after = before + amount
+    after = before + amount + bonus
     ctx.storage.characters.save_state(replace(character, state=replace(character.state, xp=after)))
     hints = class_xp.level_up_hints(character.sheet, before, after, ctx.lookups, rules=ctx.rules)
     per_class = [
         {k: row[k] for k in ("class", "level", "xp", "xp_next", "ready")}
         for row in class_xp.progress(character.sheet, after, ctx.lookups, rules=ctx.rules)
     ]
-    ctx.log("xp_awarded", character_id=character.id, name=character.name, amount=amount, xp_total=after, hints=hints)
+    ctx.log(
+        "xp_awarded", character_id=character.id, name=character.name, amount=amount + bonus, xp_total=after, hints=hints
+    )
     out = {
         "character_id": character.id,
         "name": character.name,
-        "xp_gained": amount,
+        "xp_gained": amount + bonus,
         "xp_total": after,
         "per_class": per_class,
         "level_up_hints": hints,
     }
+    if bonus:
+        out["xp_awarded"] = amount
+        out["xp_bonus"] = bonus
+        out["xp_bonus_basis"] = bonus_basis
     if hints:
         out["house_rules"] = house_rules.given(ctx, house_rules.level_up_rules(ctx, character))
     return out
+
+
+_ABILITY_KEYS = {"strength": "str", "dexterity": "dex", "constitution": "con", "intelligence": "int", "wisdom": "wis",
+                 "charisma": "cha"}  # fmt: skip
+
+
+def _score(sheet: Sheet, ability: str) -> int | None:
+    """The sheet's whole score in `ability` ("strength"): 18 for "18/50"; None when it has none."""
+    short = _ABILITY_KEYS.get(ability.lower(), ability.lower()[:3])
+    raw = sheet.ability_scores.get(short, sheet.ability_scores.get(ability.lower()))
+    found = re.match(r"\s*(\d+)", str(raw)) if raw is not None else None
+    return int(found.group(1)) if found else None
+
+
+def _xp_bonus(ctx: CampaignContext, sheet: Sheet, amount: int) -> tuple[int, list[str]]:
+    """The prime-requisite bonus on `amount` (OSRIC: 10% for a class whose prime requisites are all at their
+    threshold), and what earned it. A multi-class character's share of each class takes that class's bonus."""
+    classes = list(sheet.levels) or [c.strip() for c in sheet.cls.split("/") if c.strip()]
+    if amount <= 0 or not classes:
+        return 0, []
+    share = amount / len(classes)
+    bonus, basis = 0.0, []
+    for cls in classes:
+        found = ctx.lookups.char_class(cls) or {}
+        wanted = found.get("xp_bonus_requisites") or {}
+        scores = {ability: _score(sheet, ability) for ability in wanted}
+        if wanted and all(scores[a] is not None and scores[a] >= low for a, low in wanted.items()):
+            bonus += share / 10
+            have = ", ".join(f"{a.capitalize()} {sheet.ability_scores.get(_ABILITY_KEYS.get(a, a[:3]), scores[a])}"
+                             for a in wanted)  # fmt: skip
+            basis.append(f"+10% for {found.get('name') or cls} ({have})")
+    return int(bonus), basis
 
 
 _HIT_DICE = re.compile(r"^\s*(\d+)\s*d\s*(\d+)\s*(?:\+\s*(\d+))?\s*$", re.IGNORECASE)
@@ -338,22 +386,39 @@ def _level_row(ctx: CampaignContext, cls: str, level: int) -> dict[str, Any]:
     return next((r for r in rows if r.get("level") == level), {})
 
 
-def _table_slots(ctx: CampaignContext, levels: dict[str, int]) -> dict[int, int]:
+def _table_slots(ctx: CampaignContext, levels: dict[str, int], sheet: Sheet | None = None) -> dict[int, int]:
     """The spell slots the class tables give these class levels, by spell level, without the empty ones. A row has
-    them as '{"1": 2, "2": 0}' (2e) or a list from 1st level up (OSRIC)."""
+    them as '{"1": 2, "2": 0}' (2e) or a list from 1st level up (OSRIC). With the `sheet`, a class of the ruleset's
+    `bonus_spell_classes` adds Wisdom's bonus spells of the levels it can cast."""
     slots: dict[int, int] = {}
     for cls, level in levels.items():
-        raw = _level_row(ctx, cls, level).get("spell_slots")
-        if isinstance(raw, str):
-            try:
-                raw = json.loads(raw)
-            except ValueError:
-                raw = None
-        if isinstance(raw, list):
-            raw = dict(enumerate(raw, start=1))
-        for spell_level, count in (raw if isinstance(raw, dict) else {}).items():
-            if isinstance(count, int) and count > 0:
-                slots[int(spell_level)] = slots.get(int(spell_level), 0) + count
+        own = _class_slots(ctx, cls, level)
+        if sheet is not None and ctx.rules.class_group(cls) in ctx.rules.bonus_spell_classes:
+            wisdom = _score(sheet, "wisdom")
+            bonus = next((b for score, b in sorted(ctx.rules.bonus_spells.items(), reverse=True)
+                          if wisdom is not None and wisdom >= score), {})  # fmt: skip
+            for spell_level, count in bonus.items():
+                if int(spell_level) in own:
+                    own[int(spell_level)] += count
+        for spell_level, count in own.items():
+            slots[spell_level] = slots.get(spell_level, 0) + count
+    return slots
+
+
+def _class_slots(ctx: CampaignContext, cls: str, level: int) -> dict[int, int]:
+    """The spell slots one class's table gives at `level`, by spell level, without the empty ones."""
+    slots: dict[int, int] = {}
+    raw = _level_row(ctx, cls, level).get("spell_slots")
+    if isinstance(raw, str):
+        try:
+            raw = json.loads(raw)
+        except ValueError:
+            raw = None
+    if isinstance(raw, list):
+        raw = dict(enumerate(raw, start=1))
+    for spell_level, count in (raw if isinstance(raw, dict) else {}).items():
+        if isinstance(count, int) and count > 0:
+            slots[int(spell_level)] = slots.get(int(spell_level), 0) + count
     return slots
 
 
@@ -468,8 +533,8 @@ def drain_level(ctx: CampaignContext, ref: str, levels: int = 1, reason: str = "
             kept.append(f"saves.{kind}")
     after = replace(after, saves=saves)
     if sheet.spell_slots:
-        if {k: v for k, v in sheet.spell_slots.items() if v} == _table_slots(ctx, sheet.levels):
-            after = replace(after, spell_slots=_table_slots(ctx, now))
+        if {k: v for k, v in sheet.spell_slots.items() if v} == _table_slots(ctx, sheet.levels, sheet):
+            after = replace(after, spell_slots=_table_slots(ctx, now, sheet))
         else:
             kept.append("spell_slots")
     memorized = _within_slots(state.memorized, after.spell_slots)
@@ -560,10 +625,11 @@ def rest(
     full: bool = False,
     rememorize: bool = False,
 ) -> dict[str, Any]:
-    """Rest for some days, healing at the PHB's natural rate (ch. 9, Natural Healing), as ttrpg2's `rest`: 1 hp per
-    day of light activity, 3 per day of complete bed rest, and the Constitution hit-point bonus for each full week of
-    bed rest. The dead don't heal. `full` is the DM's override to restore everyone living to maximum, not the book
-    rule. A character in the live fight rests in its tracker too, as `update` does.
+    """Rest for some days, healing at the ruleset's natural rate (`RuleTables.healing`). The engine's own, as ttrpg2's
+    `rest`: 1 hp per day of light activity, 3 per day of complete bed rest, and the Constitution hit-point bonus for
+    each full week of bed rest. A ruleset may have no bed rest, delay healing by a Constitution penalty, add the bonus
+    once over the second week, and heal anyone fully after some weeks. The dead don't heal. `full` is the DM's
+    override to restore everyone living to maximum, not the book rule. A character in the live fight rests in its tracker too, as `update` does.
 
     A rest of a day or more makes every memorized spell uncast again, as ttrpg2's; with `rememorize` a caster with a
     default loadout memorizes it instead (PHB ch. 7: spells are memorized after a night's rest).
@@ -572,7 +638,9 @@ def rest(
     (`days.pass_days`), keeping the time of day. One character resting doesn't move the clock."""
     days = max(0, int(days))
     resting = [get(ctx, ref)] if ref else party(ctx)
-    rate = 3 if bed_rest else 1
+    rates = ctx.rules.healing
+    bed_rest = bed_rest and rates.bed_rest_per_day is not None
+    rate = rates.bed_rest_per_day if bed_rest and rates.bed_rest_per_day is not None else rates.per_day
     healing: dict[str, dict[str, Any]] = {}
     rememorized: dict[str, list[str]] = {}
     for character in resting:
@@ -582,12 +650,18 @@ def rest(
             after = before
         elif full:
             after = hp_max
+        elif rates.full_after_days is not None and days >= rates.full_after_days:
+            after = max(before, hp_max)
         else:
-            gained = rate * days
-            if bed_rest and days >= 7:
-                con_bonus = _con_hp_bonus(ctx, character.sheet) * (days // 7)
-                gained += con_bonus
-            after = min(hp_max, before + gained)
+            con = _con_hp_bonus(ctx, character.sheet)
+            delay = -con if rates.con_penalty_delays and con < 0 else 0
+            gained = rate * max(0, days - delay)
+            if rates.con_bonus == "bed_rest_weekly" and bed_rest and days >= 7:
+                con_bonus = con * (days // 7)
+            elif rates.con_bonus == "second_week" and days >= 14 and con > 0:
+                con_bonus = con
+            gained += con_bonus
+            after = min(hp_max, max(before, before + gained))
         conditions = life_conditions(character.state.conditions, after)
         memorized = character.state.memorized
         if days >= 1:
@@ -606,7 +680,11 @@ def rest(
     if full:
         basis = "DM override — restored to maximum (not the PHB rate)."
     else:
-        basis = f"{rate} hp/day x {days} day(s)" + (" (complete bed rest)" if bed_rest else " (light activity)")
+        basis = f"{rate} hp/day x {days} day(s)" + (
+            " (complete bed rest)" if bed_rest else " (light activity)" if rates.bed_rest_per_day else " (rest)"
+        )
+        if rates.full_after_days is not None and days >= rates.full_after_days:
+            basis += f"; {rates.full_after_days} days of rest heal fully"
     out: dict[str, Any] = {
         "rested": list(healing),
         "days": days,

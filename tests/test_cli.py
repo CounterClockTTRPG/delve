@@ -1,6 +1,7 @@
 import socket
 from pathlib import Path
 
+import delve
 from delve.__main__ import _setting_import_map, build_parser, build_registries, main, start_message, worldmap_query
 from delve.config import Config
 from delve.web import guard
@@ -8,7 +9,7 @@ from delve.web import guard
 
 def test_version(capsys):
     assert main(["--version"]) == 0
-    assert capsys.readouterr().out.strip() == "delve 0.0.1"
+    assert capsys.readouterr().out.strip() == f"delve {delve.__version__}"
 
 
 def test_token_prints_links(tmp_path, monkeypatch, capsys):

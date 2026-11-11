@@ -2,6 +2,8 @@
 initiative a d6 a side without weapon speed; morale a d100; a load keeping a share of the movement rate; and the XP of
 the monsters defeated, counted at the end of a fight."""
 
+import re
+
 from delve_osric.ruleset import OsricRuleset
 from delve_osric.tables import TABLES
 
@@ -74,3 +76,34 @@ def test_the_end_of_a_fight_counts_the_xp_of_the_defeated():
     _, end = cb.end(fight)
     (group,) = [g for g in end["groups"] if g["group"].lower().startswith("bugbear")]
     assert (group["defeated"], group["xp_earned"]) == (1, 135 + 4 * first.hp_max)
+
+
+def test_a_spell_goes_off_after_its_own_casting_time():
+    """Player Guide 1.6.1.3 (DEL-368): casting begins in the initiative segment, the first of its casting time; a Fast
+    spell goes off at once. A span in rounds the engine reads from the words."""
+    from delve_osric.reference import casting_segments
+
+    from delve.rules.classic import initiative
+
+    texts = ("Fast", "1 segment", "3 segments", "1 round", "See below")
+    assert [casting_segments(t) for t in texts] == [0, 0, 2, None, None]
+    assert initiative.duration("spell", "magic missile", REF) == (0, 0)
+    assert initiative.duration("spell", "fireball", REF) == (0, 2)
+    assert initiative.duration("spell", "bless", REF) == (0, initiative.ROUND_END)
+
+
+def test_every_spell_has_a_casting_time_the_engine_reads():
+    """Each spell's casting time is segments or a span in rounds and turns; the DM's are "See below", "Varies" and
+    rituals of dice of hours or days, never cast in a fight."""
+    from delve_osric.data import load
+    from delve_osric.reference import casting_segments
+
+    from delve.rules.classic import initiative
+
+    unread = {
+        text
+        for spell in load("spells")["spells"]
+        if casting_segments(text := spell.get("casting_time") or "") is None and initiative.casting_rounds(text) is None
+    }
+    rituals = {text for text in unread if re.match(r"^\d+d\d+(\+\d+)? (hours|days)$", text)}
+    assert unread - rituals <= {"See below", "Varies (GM discretion)", ""}, unread

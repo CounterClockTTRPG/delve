@@ -98,6 +98,21 @@ def _strength_hit(sheet: Sheet, reference: RulesetReference) -> int:
     return _signed(reference.ability("str", f"18/{pct % 100:02d}" if pct else str(score)), "hit_prob")
 
 
+def strength_damage(sheet: Sheet, reference: RulesetReference) -> int:
+    """Strength's damage adjustment from the reference; 0 without a score or a row for it."""
+    raw = sheet.ability_scores.get("str")
+    if raw is None:
+        return 0
+    score, pct = parse_strength(raw, sheet.ability_scores.get("str_pct"))
+    return _signed(reference.ability("str", f"18/{pct % 100:02d}" if pct else str(score)), "dmg_adj")
+
+
+def specialised(sheet: Sheet, attack: Attack) -> bool:
+    """Whether the sheet's proficiency in the attack's weapon says it is specialised."""
+    proficiency = _proficiency(sheet, attack)
+    return proficiency is not None and "special" in proficiency.casefold()
+
+
 def attack_thac0(sheet: Sheet, attack: Attack, reference: RulesetReference, *, rules: RuleTables) -> Thac0:
     """The THAC0 `attack` hits with, worked out from the sheet; the attack's stored `thac0` when it has one."""
     if attack.thac0 is not None:

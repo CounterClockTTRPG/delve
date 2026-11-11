@@ -514,7 +514,7 @@ gets its sentence. `setup_combat` also gives morale ratings and treasure types. 
 - **Damage dice follow target size.** A weapon has a die against small and medium targets and one against large ones
   (a long sword's 1d8 and 1d12). The tracker picks the die from the target's recorded size.
 - **Situational rules** (as `condition`): `rear` (+2 to hit), `charging` (+2 to hit), `set_vs_charge` (double damage),
-  `fleeing` (attacked from the rear). A natural 20 always hits; a natural 1 always misses.
+  `fleeing` (attacked as it flees melee). Natural 20s and 1s follow the ruleset; the tracker applies them.
 - **Surprise:** `setup_combat` rolls it, with each side's modifier. A surprised side loses the first round. Outside a
   fight, `surprise_check(party_modifier, enemy_modifier)` before anything else. Narrate the surprised side's lost round.
 - **Morale:** when a round's result says morale is due (a group lost half its number, its leader fell), call

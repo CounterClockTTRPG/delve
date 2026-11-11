@@ -373,7 +373,8 @@ def apply_heal(ctx: CampaignContext, character: str, amount: int) -> dict[str, A
     areas=("characters",),
 )
 def award_xp(ctx: CampaignContext, character: str, amount: int) -> dict[str, Any]:
-    """Award XP; a multi-class character's is split evenly between its classes. level_up_hints names each
+    """Award XP as earned; where the ruleset has it, the prime-requisite bonus is added (xp_bonus says so: don't
+    add it yourself). A multi-class character's is split evenly between its classes. level_up_hints names each
     class that reached its next level, and then house_rules has the campaign's level-up rules. The level itself
     changes with update_character."""
     return characters.award_xp(ctx, character, amount)
@@ -416,7 +417,7 @@ def update_coin(ctx: CampaignContext, delta: str) -> dict[str, Any]:
     params(
         character=string("One character; the whole party when empty."),
         days=integer("Days of rest (default 1).", minimum=0, maximum=MAX_DAYS),
-        bed_rest=boolean("Complete bed rest: 3 hp a day, and the Constitution bonus each full week."),
+        bed_rest=boolean("Complete bed rest, where the ruleset heals it faster than light activity."),
         full=boolean("The DM's override: everyone to maximum hit points (not the book rate)."),
         rememorize=boolean("Casters memorize their default loadout again."),
     ),
@@ -432,7 +433,7 @@ def rest(
     full: bool = False,
     rememorize: bool = False,
 ) -> dict[str, Any]:
-    """Rest and heal at the natural rate: 1 hp a day of light activity, 3 of complete bed rest. A rest of
+    """Rest and heal at the ruleset's natural rate (most: 1 hp a day; the result says the basis). A rest of
     a day or more makes memorized spells uncast again; with rememorize casters memorize their default loadout. The
     whole party's rest lets its days pass, keeping the time of day; one character's doesn't move the clock."""
     return characters.rest(ctx, character, days=days, bed_rest=bed_rest, full=full, rememorize=rememorize)

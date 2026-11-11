@@ -160,6 +160,7 @@ def who(lines) -> set[tuple]:
 
 def test_each_seat_reads_the_dice_it_may(app, local, dm, storage, table):
     cid = table["campaign"]
+    storage.campaigns.set_initiative(cid, "combatant")  # each combatant's own initiative die, to be read
     last = play_the_fight(app, local, dm, cid)
 
     host_lines = dice_of(page(local, cid))
