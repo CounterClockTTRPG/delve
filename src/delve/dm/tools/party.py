@@ -61,9 +61,9 @@ def _who(sheet: Sheet) -> dict[str, str]:
     return {key: value for key, value in found.items() if value}
 
 
-def _brief(character: Character) -> dict[str, Any]:
+def _brief(ctx: CampaignContext, character: Character) -> dict[str, Any]:
     sheet, state = character.sheet, character.state
-    return {
+    out = {
         "id": character.id,
         "name": character.name,
         "kind": character.kind,
@@ -79,6 +79,10 @@ def _brief(character: Character) -> dict[str, Any]:
         "conditions": list(state.conditions),
         "effects": [to_dict(e) for e in state.effects],
     }
+    if ctx.d20 is not None:  # a d20 engine's numbers stand in for AC and THAC0
+        del out["ac"], out["thac0"]
+        out["d20"] = ctx.d20.sheet_numbers(sheet)
+    return out
 
 
 # --- characters --------------------------------------------------------------------------------------------------
@@ -170,7 +174,7 @@ def create_character(
 def get_character(ctx: CampaignContext, ref: str, brief: bool = False) -> dict[str, Any]:
     """A character's sheet and state: everything, or with brief the numbers that matter in play."""
     found = characters.get(ctx, ref)
-    return _brief(found) if brief else character_json(found)
+    return _brief(ctx, found) if brief else character_json(found)
 
 
 @tool(
@@ -254,7 +258,7 @@ def party_status(ctx: CampaignContext) -> dict[str, Any]:
     npcs = [c for c in everyone if c.kind == "npc"]
     state = ctx.storage.campaign_states.get(ctx.campaign_id)
     return {
-        "party": [_brief(c) for c in pcs],
+        "party": [_brief(ctx, c) for c in pcs],
         "marching_order": [c.name for c in pcs],
         "departed": [
             {"id": c.id, "name": c.name, "departure": c.departure}

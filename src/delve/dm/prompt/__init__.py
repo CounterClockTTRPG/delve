@@ -43,17 +43,24 @@ DM_PROCEDURE = (Path(__file__).parent / "dm.md").read_text(encoding="utf-8")
 
 def procedure(ruleset: Ruleset) -> str:
     """The DM's procedure for a campaign of `ruleset`: its name in the opening line, and its section."""
-    saves = "; ".join(
-        f"`{short}`: {ruleset.tables.save_names[kind]}"
-        for short, kind in zip(ruleset.tables.save_short, ruleset.tables.save_types, strict=True)
-    )
+    d20 = getattr(ruleset, "d20", None)
+    if d20 is not None:
+        terms = d20.prompt_terms()
+        attack, saves_line = terms["attack_number"], f"**Saving throws**: {terms['saves_list']}."
+    else:
+        saves = "; ".join(
+            f"`{short}`: {ruleset.tables.save_names[kind]}"
+            for short, kind in zip(ruleset.tables.save_short, ruleset.tables.save_types, strict=True)
+        )
+        attack, saves_line = "THAC0", f"**Saving throws** (`saving_throw`'s `save_type`): {saves}."
     section = (
         "## The Ruleset\n\n"
-        f"This campaign plays **{ruleset.title}**. The tools compute its numbers (saves, THAC0, XP, encumbrance, "
+        f"This campaign plays **{ruleset.title}**. The tools compute its numbers (saves, {attack}, XP, encumbrance, "
         "turning, treasure): read them there, never from what you remember of another edition.\n\n"
-        f"**Saving throws** (`saving_throw`'s `save_type`): {saves}.\n\n{ruleset.prompt.strip()}"
+        f"{saves_line}\n\n{ruleset.prompt.strip()}"
     )
     return DM_PROCEDURE.replace("{{RULESET}}", ruleset.title).replace("{{RULESET_SECTION}}", section)
+
 
 TONE_PREFIX = (
     "TONE & VOICE DIRECTION: shapes texture, phrasing, pacing, and imagery only. It NEVER overrides the Hard "
@@ -242,7 +249,11 @@ def build_system_prompt(
     voice = (custom_tone if tone == "custom" else TONES[tone]).strip()
     parts.append(TONE_PREFIX + voice if voice else "")
     directive = DETAIL_LEVELS[detail][1]
-    parts.append(DETAIL_PREFIX + directive if directive else "")
+    if directive and (d20 := getattr(ruleset, "d20", None)) is not None:
+        attack = d20.prompt_terms()["attack_number"]
+        parts.append((DETAIL_PREFIX + directive).replace("THAC0", attack))
+    else:
+        parts.append(DETAIL_PREFIX + directive if directive else "")
     parts.append(_xp_awards(xp_awards))
     if rehydrate is not None:
         parts.append(REHYDRATE)

@@ -192,7 +192,7 @@ fi
 
 echo
 bold "Delve"
-say "make install: Delve's Python packages, the OSRIC ruleset, and the web app's packages."
+say "make install: Delve's Python packages, the OSRIC and SRD 3.5 rulesets, and the web app's packages."
 if ask "Install Delve?"; then
   run make install
 else
@@ -200,6 +200,9 @@ else
 fi
 if uv run delve pack list 2>/dev/null | grep -qi osric; then ok "OSRIC 3.0 is installed"; else
   if ask "The OSRIC ruleset isn't installed. Install it?"; then run uv run delve pack install packs/osric; fi
+fi
+if uv run delve pack list 2>/dev/null | grep -qi srd35; then ok "SRD 3.5 is installed"; else
+  if ask "The SRD 3.5 ruleset isn't installed. Install it?"; then run uv run delve pack install packs/srd35; fi
 fi
 say "Building the web app."
 run make build

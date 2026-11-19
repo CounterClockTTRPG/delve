@@ -3,7 +3,7 @@ it; painting one is `POST …/banner/paint`. Every change publishes `modules`.
 
 The upload is the sixth raw-body exception to the JSON rule: the guard lets only `BANNER_TYPES` through, of at most
 `BANNER_LIMIT` bytes as declared (`BANNER_UPLOAD_PATH`); the route counts the bytes too, and `band` checks them against
-the type. The crop position (`position`, 0 the top, 1 the bottom) chooses the 21:9 band kept.
+the type. The crop (`x`, `y` and `width`, as `module_banners.Crop` takes them) chooses the 21:9 box kept.
 """
 
 from __future__ import annotations
@@ -18,7 +18,15 @@ from starlette.responses import Response
 from delve.domain.settings import Job
 from delve.play import module_banners
 from delve.play.context import NotFound, PlayError
-from delve.play.module_banners import BANNER_LIMIT, BANNER_TYPES, BannerRefused, use_picture, use_upload
+from delve.play.module_banners import (
+    BANNER_LIMIT,
+    BANNER_TYPES,
+    MIN_WIDTH,
+    BannerRefused,
+    Crop,
+    use_picture,
+    use_upload,
+)
 from delve.web.auth import Organiser
 from delve.web.routes.assets import BannerSize, banner_picture
 from delve.web.routes.modules import changed, get_module, module_json, updates_of
@@ -26,6 +34,7 @@ from delve.web.routes.modules import changed, get_module, module_json, updates_o
 router = APIRouter()
 
 Position = Annotated[float, Field(ge=0.0, le=1.0)]
+Width = Annotated[float, Field(ge=MIN_WIDTH, le=1.0)]
 
 
 class PaintIn(BaseModel):
@@ -35,7 +44,9 @@ class PaintIn(BaseModel):
 class PictureIn(BaseModel):
     picture: str
     """One of the module's attachments, by id."""
-    position: Position = 0.5
+    x: Position = 0.5
+    y: Position = 0.5
+    width: Width = 1.0
 
 
 @router.get("/api/modules/{module_id}/banner")
@@ -53,9 +64,14 @@ async def read_banner(
 
 @router.post("/api/modules/{module_id}/banner/upload")
 async def upload_banner(
-    request: Request, principal: Organiser, module_id: str, position: Annotated[float, Query(ge=0.0, le=1.0)] = 0.5
+    request: Request,
+    principal: Organiser,
+    module_id: str,
+    x: Annotated[float, Query(ge=0.0, le=1.0)] = 0.5,
+    y: Annotated[float, Query(ge=0.0, le=1.0)] = 0.5,
+    width: Annotated[float, Query(ge=MIN_WIDTH, le=1.0)] = 1.0,
 ) -> dict:
-    """The body is the picture: its band at `position` becomes the banner. 400 for bytes that aren't their type, 413
+    """The body is the picture: its crop at `x`, `y` and `width` becomes the banner. 400 for bytes that aren't their type, 413
     past `BANNER_LIMIT`, 415 for another type, 422 for a picture of too many pixels, 503 while others are being cut."""
     get_module(request, module_id)
     media_type = request.headers.get("content-type", "").split(";")[0].strip().lower()
@@ -68,7 +84,7 @@ async def upload_banner(
             raise HTTPException(status_code=413, detail=f"A banner may be at most {BANNER_LIMIT} bytes.")
     storage = request.app.state.storage
     try:
-        module = await run_in_threadpool(use_upload, storage, module_id, bytes(data), media_type, position)
+        module = await run_in_threadpool(use_upload, storage, module_id, bytes(data), media_type, Crop(x, y, width))
     except BannerRefused as refused:
         raise HTTPException(status_code=refused.status, detail=refused.message) from None
     changed(request, module_id)
@@ -77,12 +93,14 @@ async def upload_banner(
 
 @router.put("/api/modules/{module_id}/banner")
 async def picture_banner(request: Request, principal: Organiser, module_id: str, body: PictureIn) -> dict:
-    """One of the module's own pictures (a converted book's cover, a handout), its band at `position`, becomes the
+    """One of the module's own pictures (a converted book's cover, a handout), its crop at `x`, `y` and `width`, becomes the
     banner. 404 for no such picture, 400 for one that isn't a PNG, JPEG or WebP."""
     get_module(request, module_id)
     storage = request.app.state.storage
     try:
-        module = await run_in_threadpool(use_picture, storage, module_id, body.picture, body.position)
+        module = await run_in_threadpool(
+            use_picture, storage, module_id, body.picture, Crop(body.x, body.y, body.width)
+        )
     except BannerRefused as refused:
         raise HTTPException(status_code=refused.status, detail=refused.message) from None
     changed(request, module_id)

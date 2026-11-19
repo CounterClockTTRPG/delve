@@ -16,6 +16,7 @@ from __future__ import annotations
 import re
 from typing import Any
 
+from delve.domain.reference import name_key
 from delve_osric import text
 from delve_osric.classes import ANCESTRY_CLASSES, LEVEL_LIMITS, Limit, features
 from delve_osric.data import CLASSES, load, own
@@ -118,13 +119,14 @@ def _values(ability: str, row: dict[str, Any]) -> dict[str, str]:
 
 
 def _ranked(rows: list[dict[str, Any]], name: str) -> list[dict[str, Any]]:
-    """The rows whose name holds `name`: the exact name, then names starting with it, then the rest; shorter first."""
-    wanted = name.strip().lower()
-    found = [row for row in rows if wanted in row["name"].lower()]
+    """The rows whose name holds `name`: the exact name, then names starting with it, then the rest; shorter first.
+    The apostrophe's shape doesn't matter ("Fool's Gold" finds "Fool’s Gold")."""
+    wanted = name_key(name)
+    found = [row for row in rows if wanted in name_key(row["name"])]
     return sorted(
         found,
         key=lambda row: (
-            0 if row["name"].lower() == wanted else 1 if row["name"].lower().startswith(wanted) else 2,
+            0 if name_key(row["name"]) == wanted else 1 if name_key(row["name"]).startswith(wanted) else 2,
             len(row["name"]),
             row["name"].lower(),
         ),
@@ -215,17 +217,18 @@ class OsricReference:
     def monster(self, name: str) -> list[dict]:
         """Monsters matching `name`, best first, at most 10: the exact name (or the guide's index name), the family's
         ("Badger" finds both badgers), names ending in it ("Cave bear"), names starting with it, names holding it as a word, any substring; when nothing matches, a name
-        holding every word of a query of two or more words ("red dragon" finds "Dragon, red")."""
-        wanted = name.strip().lower()
+        holding every word of a query of two or more words ("red dragon" finds "Dragon, red"); whatever the
+        apostrophe's shape."""
+        wanted = name_key(name)
         if not wanted:
             return []
         rows = load("monsters")["monsters"]
 
         def rank(m: dict[str, Any]) -> int | None:
-            low = m["name"].lower()
-            if low == wanted or (m.get("index_name") or "").lower() == wanted:  # the guide's own name too (DEL-325)
+            low = name_key(m["name"])
+            if low == wanted or name_key(m.get("index_name") or "") == wanted:  # the guide's own name too (DEL-325)
                 return 0
-            if (m.get("family") or "").lower() == wanted:
+            if name_key(m.get("family") or "") == wanted:
                 return 1
             # Its kind, said last as a player names it ("Cave bear" for "bear", DEL-325), before a longer word.
             if re.search(rf"\b{re.escape(wanted)}s?(?: \(.*\))?$", low):
@@ -243,7 +246,7 @@ class OsricReference:
         words = re.findall(r"[a-z]+", wanted)
         if not found and len(words) > 1:
             found = sorted(
-                (m for m in rows if all(w in m["name"].lower() for w in words)), key=lambda m: len(m["name"])
+                (m for m in rows if all(w in name_key(m["name"]) for w in words)), key=lambda m: len(m["name"])
             )
         return [self._monster(m) for m in found[:MOST]]
 

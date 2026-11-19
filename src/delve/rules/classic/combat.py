@@ -27,7 +27,7 @@ import re
 from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import dataclass, field, replace
 from fractions import Fraction
-from typing import Any, Literal
+from typing import TYPE_CHECKING, Any, Literal
 
 from delve.dice import BadNotation, Dice, Roll, parse, roll_json
 from delve.domain import data
@@ -40,6 +40,9 @@ from delve.rules.classic.initiative import Mode, Ongoing, ongoing_json
 from delve.rules.classic.life import DEAD_AT, with_condition
 from delve.rules.classic.tables import FightRules, RuleTables
 from delve.rules.classic.thac0 import attack_thac0, is_missile, specialised, strength_damage
+
+if TYPE_CHECKING:
+    from delve.rules.d20 import D20Engine
 
 Side = Literal["party", "ally", "enemy"]
 Phase = Literal["setup", "round", "ended"]
@@ -130,6 +133,8 @@ class Combatant:
     hit_dice: str = ""
     xp_value: str = ""
     treasure_type: str = ""
+    d20: dict[str, Any] | None = field(default=None, metadata={data.OMIT_IF_NONE: True, data.ENGINE_OWNED: True})
+    """What a d20 engine keeps of the combatant in the fight (`delve.rules.d20`); None for a ruleset without one."""
 
     @property
     def casting(self) -> str | None:
@@ -526,16 +531,38 @@ def xp_of(xp_value: str, hp_max: int) -> int | None:
     return None
 
 
-def _parse_hd(raw: Any) -> dict[str, Any]:
+@dataclass(frozen=True)
+class HitDie:
+    """One part of a d20 engine's Hit Dice line (DEL-402): `count`d`sides`+`mod`, of whose dice the hit points keep
+    `share`, rounded down ("1/2 d8" is a d8 halved). A line "4d8+19 plus 4d12+16" is two parts, summed."""
+
+    count: int
+    sides: int
+    mod: int = 0
+    share: Fraction = Fraction(1)
+
+
+_DICE_HD = re.compile(r"(\d+)\s*d\s*(\d+)(?:\s*([+\-–−])\s*(\d+))?")
+"""A d20 row's Hit Dice in dice notation, as written: "1d8+1", "12d12", "9d8–9", "4d10 + 20"."""
+
+
+def _parse_hd(raw: Any, *, dice_notation: bool = False) -> dict[str, Any]:
     """Parse a bestiary's Hit Dice line into a rollable shape.
 
     Returns {dice, sides, mod, fixed, hp_range, raw}: `fixed` is a literal HP value for the 'N hp' creatures,
     `hp_range` the [low, high] of a '1-6 hp' line (rolled per creature), and `dice` is 0 when the line carries no
-    usable number ('Varies', 'Nil', 'See below') — the caller must then be given an explicit hp."""
+    usable number ('Varies', 'Nil', 'See below') — the caller must then be given an explicit hp.
+
+    With `dice_notation` (a d20 engine's rows, ruling R18) a whole line "NdS±M" keeps its die and modifier, and the
+    shape says `least`, the SRD's at least 1 hit point a Hit Die; any other line reads as the classic one."""
     s = str(raw or "").strip()
     out: dict[str, Any] = {"dice": 0, "sides": 8, "mod": 0, "fixed": None, "hp_range": None, "raw": s}
     if not s:
         return out
+    if dice_notation and (found := _DICE_HD.fullmatch(s)):
+        count, sides = int(found.group(1)), int(found.group(2))
+        mod = int(found.group(4) or 0) * (-1 if found.group(3) in ("-", "–", "−") else 1)
+        return {**out, "dice": count, "sides": sides, "mod": mod, "least": count}
 
     low = s.lower()
     if "½" in s or "1/2" in s:
@@ -577,7 +604,22 @@ def _parse_hd(raw: Any) -> dict[str, Any]:
 
 
 def _roll_monster_hp(dice: Dice, hd: Mapping[str, Any], *, actor: str) -> int | None:
-    """Roll HP from a parsed HD shape, logged under purpose `hp`. None when the line gave us nothing."""
+    """Roll HP from a parsed HD shape, logged under purpose `hp`. None when the line gave us nothing.
+
+    A shape with `parts` (a d20 engine's `HitDie`s) rolls each part, keeps its share of the dice and adds its bonus, and
+    has at least 1 hit point a whole Hit Die (and 1 for a fraction of one). One part rolls as `hp`, more as `hp#1`,
+    `hp#2`…"""
+    if parts := hd.get("parts"):
+        total = 0
+        for n, part in enumerate(parts, start=1):
+            purpose = "hp" if len(parts) == 1 else f"hp#{n}"
+            if part.share == 1:
+                total += dice.roll(_notation((part.count, part.sides, part.mod)), purpose=purpose, actor=actor).total
+            else:
+                rolled = dice.roll(_notation((part.count, part.sides, 0)), purpose=purpose, actor=actor).total
+                total += int(rolled * part.share) + part.mod
+        least = sum(part.count if part.share == 1 else 1 for part in parts)
+        return max(least, total)
     if hd.get("fixed") is not None:
         return max(1, int(hd["fixed"]))
     if hd.get("hp_range"):
@@ -588,7 +630,7 @@ def _roll_monster_hp(dice: Dice, hd: Mapping[str, Any], *, actor: str) -> int | 
     if count <= 0:
         return None
     roll = dice.roll(_notation((count, int(hd.get("sides") or 8), int(hd.get("mod") or 0))), purpose="hp", actor=actor)
-    return max(1, roll.total)
+    return max(int(hd.get("least") or 1), roll.total)
 
 
 def _parse_damage(raw: Any, default: str = "1d6") -> tuple[str, bool]:
@@ -667,6 +709,12 @@ def _removed(c: Combatant) -> bool:
 
 def _can_act(c: Combatant) -> bool:
     return c.hp > 0 and not _removed(c)
+
+
+def _rolls_initiative(combat: Combat, c: Combatant) -> bool:
+    """Who rolls initiative: who can act; where the order is rolled once (`initiative_once`), everyone not removed,
+    so one down in round 1 has its place when it is up again (`run_round` skips it while it is down)."""
+    return not _removed(c) if combat.rules.initiative_once else _can_act(c)
 
 
 def _standing(c: Combatant) -> bool:
@@ -854,12 +902,14 @@ def start(
     abort: bool = False,
     reference: RulesetReference | None = None,
     rules: RuleTables | None = None,
+    d20: D20Engine | None = None,
 ) -> tuple[Combat, dict[str, Any]]:
     """A new fight with the party (PCs, and NPCs as allies) at their hit points, conditions and effects, each on its
     node of `map_nodes` (by character id).
 
     With a `reference`, an attack without a stored `thac0` hits with `thac0.attack_thac0`'s value, what the sheet
-    shows; without one, with the sheet's THAC0.
+    shows; without one, with the sheet's THAC0. With a `d20` engine the sheet's attacks are taken as they are and the
+    engine makes each combatant (`combatant_from_sheet`); the attacks shown have no THAC0.
 
     Refuses with `CombatActive` while `live` is a fight that hasn't ended, unless `abort`."""
     if live is not None and live.phase != "ended" and not abort:
@@ -871,7 +921,10 @@ def start(
     warnings: list[str] = []
     for character in party:
         sheet, state = character.sheet, character.state
-        blocks, block_warnings = party_blocks(character, reference, rules)
+        if d20 is not None:
+            blocks, block_warnings = party_blocks(character)
+        else:
+            blocks, block_warnings = party_blocks(character, reference, rules)
         warnings.extend(block_warnings)
         combatants[character.id] = Combatant(
             id=character.id,
@@ -889,6 +942,8 @@ def start(
             effects=state.effects,
             node=nodes.get(character.id),
         )
+        if d20 is not None:
+            combatants[character.id] = d20.combatant_from_sheet(character, combatants[character.id])
     fight = rules.fight if rules is not None else FightRules()
     combat = _logged(Combat(combatants=combatants, rules=fight), {"type": "start", "ids": list(combatants)})
     out: dict[str, Any] = {
@@ -906,6 +961,9 @@ def start(
             for c in combatants.values()
         },
     }
+    if d20 is not None:
+        for shown in out["party_attacks"].values():
+            del shown["thac0"]
     if warnings:
         out["warnings"] = warnings
     return combat, out
@@ -921,12 +979,18 @@ def add_monsters(
     node: str | None = None,
     side: Side = "enemy",
     overrides: Mapping[str, Any] | None = None,
+    rules: RuleTables | None = None,
+    d20: D20Engine | None = None,
 ) -> tuple[Combat, dict[str, Any]]:
     """`count` monsters of the reference's entry for `name`, each with its own hit points rolled from its Hit Dice
     (purpose `hp`), as `mon_<n>` and named "Goblin 1", "Goblin 2"… (just "Goblin" for one).
 
     `overrides` replace what the entry says: hp, ac, thac0, dmg, dmg_large, morale, weapon_speed, label, size and
-    attacks_per_round. The result is the group, with the stats the DM needs for morale and treasure."""
+    attacks_per_round. The result is the group, with the stats the DM needs for morale and treasure. With a `d20`
+    engine the engine finishes each combatant (`combatant_from_monster`).
+
+    In a fight that rolls initiative once (`FightRules.initiative_once`) and has rolled it, each newcomer rolls its own
+    now (the engine's, else the ruleset's die and its weapon's speed, as `roll_initiative`'s) and takes its place."""
     _live(combat)
     over = dict(overrides or {})
     unknown = sorted(set(over) - set(MONSTER_OVERRIDES))
@@ -942,11 +1006,13 @@ def add_monsters(
     count = max(1, int(count or 1))
     notes: list[str] = []
     stats = _monster_stats(reference, raw_name)
+    # A d20 engine reads the whole row (its attack line, saves, type and CR), not the classic slice of it.
+    row = (reference.monster(raw_name) or [{}])[0] if d20 is not None else {}
     if stats is None:
         notes.append(f"'{raw_name}' not found in the monster DB — using the supplied/default stats.")
         stats = {}
 
-    hd = _parse_hd(stats.get("hit_dice"))
+    hd = _parse_hd(stats.get("hit_dice"), dice_notation=d20 is not None)
     ac = int(over["ac"]) if over.get("ac") is not None else _parse_ac(stats.get("ac"))
     thac0 = int(over["thac0"]) if over.get("thac0") is not None else _first_int(stats.get("thac0"), 20)
     if over.get("dmg"):
@@ -976,7 +1042,16 @@ def add_monsters(
     if over.get("attacks_per_round") is not None:
         atk_rate = _attack_rate({"attacks": over["attacks_per_round"]})
 
-    if over.get("hp") is None and hd.get("dice", 0) <= 0 and hd.get("fixed") is None and not hd.get("hp_range"):
+    unrolled = hd.get("dice", 0) <= 0 and hd.get("fixed") is None and not hd.get("hp_range")
+    if d20 is not None and (parts := d20.read_hit_dice(hd["raw"])):
+        hd = {**hd, "dice": sum(part.count for part in parts), "parts": parts}
+    elif d20 is not None and over.get("hp") is None and over.get("hp_max") is None and hd["dice"] > 0 and "least" not in hd:
+        # Neither the engine nor R18's dice notation read the whole line: its first number is a guess (DEL-402).
+        notes.append(
+            f"'{base_label}' HD reads {hd['raw']!r} — read only in part, as {hd['dice']} Hit Dice; pass hp= to set "
+            f"it honestly."
+        )
+    if over.get("hp") is None and unrolled and not hd.get("parts"):
         notes.append(
             f"'{base_label}' HD reads {hd.get('raw')!r} — no rollable dice. Defaulted to 1d8; pass hp= to set it "
             f"honestly."
@@ -1059,11 +1134,36 @@ def add_monsters(
                 treasure_type=str(stats.get("treasure_type") or ""),
             )
         )
+        if d20 is not None:
+            added[-1] = d20.combatant_from_monster(row, added[-1], over)
         group["individuals"].append({"id": id, "name": added[-1].name, "hp": hp})
+    if combat.rules.initiative_once and combat.order:
+        added = [_late_initiative(combat, c, dice, reference, rules, d20) for c in added]
+        for entry, c in zip(group["individuals"], added, strict=True):
+            entry["init"] = c.init
     if notes:
         group["notes"] = notes
     combat = _logged(_put(combat, *added), {"type": "added", "group": base_label, "ids": [c.id for c in added]})
+    if combat.rules.initiative_once and combat.order:
+        combat = _ordered(combat)
     return combat, group
+
+
+def _late_initiative(
+    combat: Combat,
+    c: Combatant,
+    dice: Dice,
+    reference: RulesetReference | None,
+    rules: RuleTables | None,
+    d20: D20Engine | None,
+) -> Combatant:
+    """A combatant joining a fight whose order was rolled once, with its own initiative roll."""
+    if d20 is not None:
+        rolled = d20.initiative(c, dice, combat.round)
+        return replace(c, init=rolled.total, init_roll=rolled.roll)
+    die = rules.initiative_die if rules is not None else 10
+    face = dice.d(die, purpose="initiative", actor=c.id, combat_round=combat.round).total
+    return replace(c, init=face + _speed(c, reference, rules), init_roll=face)
 
 
 def apply_surprise(combat: Combat, result: checks.SurpriseResult) -> tuple[Combat, dict[str, Any]]:
@@ -1121,6 +1221,8 @@ def declare(
     action: Mapping[str, Any],
     reference: RulesetReference | None = None,
     rules: RuleTables | None = None,
+    *,
+    d20: D20Engine | None = None,
 ) -> tuple[Combat, dict[str, Any]]:
     """The round's action of a combatant, before it resolves:
 
@@ -1136,7 +1238,8 @@ def declare(
     a second declaration replaces the first, and a new action abandons an ongoing one. Declared after the round's
     initiative is rolled (round 1 after setup_combat), the declarer is placed again at its new count, on the roll
     it already has, and `hint` says so (backlog Fixes 10: Sleep in round 1); its weapon's speed counts only where
-    `rules` add it to initiative, as `roll_initiative`'s."""
+    `rules` add it to initiative, as `roll_initiative`'s. With a `d20` engine it keeps the place its initiative gave
+    it: the engine's total has no classic modifier to change."""
     _live(combat)
     c = find(combat, id)
     raw = {k: v for k, v in action.items() if k not in ("attacker", "caster", "actor")}
@@ -1216,7 +1319,7 @@ def declare(
         combat = _logged(combat, _broke(c, before, f"{c.name} turned to something else"))
     combat = _put(combat, c)
     combat = replace(combat, declared={**combat.declared, c.id: declared})
-    if combat.order and c.init_roll is not None:
+    if d20 is None and combat.order and c.init_roll is not None:
         combat, placed = _place_again(combat, c.id, reference, rules)
         if placed is not None:
             out["hint"] = placed
@@ -1256,8 +1359,10 @@ def _round_end(combat: Combat) -> int:
 
 
 def _ordered(combat: Combat) -> Combat:
-    """The order of the combatants with an initiative: lowest count first, what ends the round last, then as added.
-    Each ongoing action completing this round learns its count."""
+    """The order of the combatants with an initiative: lowest count first (highest first where the fight's rules say
+    `highest_first`), what ends the round last, then as added. Each ongoing action completing this round learns its
+    count. Where the order is rolled once (`initiative_once`), a combatant that has an initiative and no place yet (one
+    that joined later) is placed too."""
     end = _round_end(combat)
     changed = []
     for c in combat.combatants.values():
@@ -1271,8 +1376,13 @@ def _ordered(combat: Combat) -> Combat:
         changed.append(c)
     combat = _put(combat, *changed)
     added = {id: i for i, id in enumerate(combat.combatants)}
+    if combat.rules.initiative_once:
+        combat = replace(combat, order=(*combat.order, *(c.id for c in changed if c.id not in combat.order)))
     placed = [c for c in combat.combatants.values() if c.init is not None and c.id in combat.order]
-    placed.sort(key=lambda c: (c.init, _ends_round(c), added[c.id]))
+    if combat.rules.highest_first:
+        placed.sort(key=lambda c: (_ends_round(c), -(c.init or 0), added[c.id]))
+    else:
+        placed.sort(key=lambda c: (c.init, _ends_round(c), added[c.id]))
     return replace(combat, order=tuple(c.id for c in placed))
 
 
@@ -1306,15 +1416,19 @@ def _initiative(
     reference: RulesetReference | None,
     mode: Mode = "combatant",
     rules: RuleTables | None = None,
+    *,
+    d20: D20Engine | None = None,
 ) -> tuple[Combat, dict[str, Any], list[Roll]]:
     _live(combat)
     if combat.order:
         raise CombatError(f"Round {combat.round}'s initiative is already rolled.")
     if mode not in ("combatant", "side"):
         raise CombatError(f"Unknown initiative mode '{mode}'.", hint="Use combatant or side.")
+    if d20 is not None:
+        return _engine_initiative(combat, dice, reference, d20)
     rolls: list[Roll] = []
     die = rules.initiative_die if rules is not None else 10
-    able = [_resolved(c, reference) for c in combat.combatants.values() if _can_act(c)]
+    able = [_resolved(c, reference) for c in combat.combatants.values() if _rolls_initiative(combat, c)]
     sides: dict[str, Roll] = {}
     if mode == "side":
         # One die for each side; each combatant adds its own modifier.
@@ -1322,7 +1436,9 @@ def _initiative(
             if any(timing.side_of(c.side) == side for c in able):
                 sides[side] = dice.d(die, purpose="initiative", actor=f"side:{side}", combat_round=combat.round)
                 rolls.append(sides[side])
-    updated = [replace(c, init=None, init_roll=None) for c in combat.combatants.values() if not _can_act(c)]
+    updated = [
+        replace(c, init=None, init_roll=None) for c in combat.combatants.values() if not _rolls_initiative(combat, c)
+    ]
     for c in able:
         if mode == "side":
             face: int | None = sides[timing.side_of(c.side)].total
@@ -1360,18 +1476,55 @@ def _initiative(
     return combat, out, rolls
 
 
+def _engine_initiative(
+    combat: Combat, dice: Dice, reference: RulesetReference | None, d20: D20Engine
+) -> tuple[Combat, dict[str, Any], list[Roll]]:
+    """`_initiative` by a d20 engine: each combatant who rolls (`_rolls_initiative`) gets the engine's roll and total,
+    per combatant whatever the campaign's mode (the engine has no side roll); the order is `_ordered`'s."""
+    rolls: list[Roll] = []
+    able = [_resolved(c, reference) for c in combat.combatants.values() if _rolls_initiative(combat, c)]
+    updated = [
+        replace(c, init=None, init_roll=None) for c in combat.combatants.values() if not _rolls_initiative(combat, c)
+    ]
+    for c in able:
+        rolled = d20.initiative(c, dice, combat.round)
+        rolls.extend(rolled.rolls)
+        updated.append(replace(c, init=rolled.total, init_roll=rolled.roll))
+    combat = _put(combat, *updated)
+    combat = _ordered(replace(combat, order=tuple(c.id for c in able), mode="combatant"))
+    entries = []
+    for id in combat.order:
+        c = combat.combatants[id]
+        entry = {
+            "id": c.id,
+            "name": c.name,
+            "roll": c.init_roll,
+            "speed": (c.init or 0) - (c.init_roll or 0),
+            "total": c.init,
+            "side": c.side,
+        }
+        if _ends_round(c):
+            entry["end_of_round"] = True
+        entries.append(entry)
+    combat = _logged(replace(combat, phase="round", current=0), {"type": "initiative", "order": list(combat.order)})
+    return combat, {"round": combat.round, "mode": "combatant", "order": entries}, rolls
+
+
 def roll_initiative(
     combat: Combat,
     dice: Dice,
     reference: RulesetReference | None,
     mode: Mode = "combatant",
     rules: RuleTables | None = None,
+    *,
+    d20: D20Engine | None = None,
 ) -> tuple[Combat, dict[str, Any]]:
     """Initiative, lowest first, combatants on the same total acting together. `combatant`: each combatant who can act
     rolls d10 plus its weapon speed, or the casting time of the spell it declared, or its item's modifier. `side`: one
     d10 for the party and its allies and one for the enemies, each combatant adding its own modifier.
-    A spell of a round or more rolls nothing and takes effect at the round's end, after every other count."""
-    combat, out, rolls = _initiative(combat, dice, reference, mode, rules)
+    A spell of a round or more rolls nothing and takes effect at the round's end, after every other count. With a
+    `d20` engine each combatant's roll and total are the engine's (`_engine_initiative`)."""
+    combat, out, rolls = _initiative(combat, dice, reference, mode, rules, d20=d20)
     return combat, {**out, "rolls": [roll_json(r) for r in rolls]}
 
 
@@ -1383,10 +1536,15 @@ def _swing(
     condition: str,
     notes: list[str],
     fight: FightRules | None = None,
+    *,
+    d20: D20Engine | None = None,
 ) -> tuple[dict[str, Any], int, Combatant, list[Roll]]:
     """One attack roll and its damage, against the target as it stands; nothing is applied. Returns the result, the
-    damage (0 on a miss), the attacker after it and the rolls."""
+    damage (0 on a miss), the attacker after it and the rolls. With a `d20` engine the engine makes the attack
+    (`D20Engine.swing`), and its notes follow those already in `notes`."""
     fight = fight or FightRules()
+    if d20 is not None:
+        return _engine_swing(attacker, target, dice, combat_round, condition, notes, fight, d20)
     block = _block(attacker)
     thac0 = _thac0(attacker)
     cond = condition.lower().strip()
@@ -1409,9 +1567,11 @@ def _swing(
     elif cond == "fleeing":
         # A fleeing target turns its back to the attack: the ruleset's bonus, with a real roll.
         hit_bonus += fight.fleeing_bonus
-        notes.append(f"{fight.fleeing_bonus:+d} to hit (target fleeing from melee).")
         if free:
+            notes.append(f"{fight.fleeing_bonus:+d} to hit (target fleeing from melee).")
             notes.append("The attack on a fleeing foe comes on top of the attacker's own this round.")
+        else:  # the engine's own way: the fleeing target's back is a rear attack, in the words it always had
+            notes.append(f"{fight.fleeing_bonus:+d} to hit (target fleeing: attack from the rear).")
     elif cond == "charging":
         hit_bonus += 2
         conditions = with_condition(conditions, "charging_ac_penalty", True)
@@ -1479,6 +1639,45 @@ def _swing(
     if n > allowed:
         result["extra_attack"] = True
     return result, damage, after, rolls
+
+
+def _engine_swing(
+    attacker: Combatant,
+    target: Combatant,
+    dice: Dice,
+    combat_round: int,
+    condition: str,
+    notes: list[str],
+    fight: FightRules,
+    d20: D20Engine,
+) -> tuple[dict[str, Any], int, Combatant, list[Roll]]:
+    """`_swing` by a d20 engine: its result in `_swing`'s keys, the hit, damage, die, notes and rolls the engine's."""
+    s = d20.swing(attacker, target, condition, dice, combat_round, fight)
+    block = _block(s.attacker)
+    n = s.attacker.attacks_used
+    allowed = _attacks_allowed_in_round(block.rate, combat_round)
+    notes.extend(s.notes)
+    result = {
+        "attacker": attacker.name,
+        "attacker_id": attacker.id,
+        "target": target.name,
+        "target_id": target.id,
+        "weapon": block.name or None,
+        "roll": s.roll,
+        "hit": s.hit,
+        "damage": s.damage if s.hit else None,
+        "damage_die": s.damage_die,
+        "hp_after": None,
+        "downed": False,
+        "dead": False,
+        "spell_disrupted": False,
+        "attacks_per_round": block.rate,
+        "attacks_remaining_this_round": max(0, allowed - n),
+        "notes": notes,
+    }
+    if n > allowed:
+        result["extra_attack"] = True
+    return result, s.damage if s.hit else 0, s.attacker, list(s.rolls)
 
 
 def _broke(c: Combatant, ongoing: Ongoing, reason: str) -> dict[str, Any]:
@@ -1564,7 +1763,14 @@ def _morale_due(combat: Combat, side: str) -> tuple[Combat, dict[str, Any] | Non
 
 
 def attack(
-    combat: Combat, dice: Dice, attacker_id: str, target_id: str, *, condition: str = "", weapon: str = ""
+    combat: Combat,
+    dice: Dice,
+    attacker_id: str,
+    target_id: str,
+    *,
+    condition: str = "",
+    weapon: str = "",
+    d20: D20Engine | None = None,
 ) -> tuple[Combat, dict[str, Any]]:
     """One attack in the current round, applied at once. A natural 20 always hits and a natural 1 always misses,
     unless the fight's ruleset says otherwise (`FightRules`).
@@ -1575,7 +1781,8 @@ def attack(
     sticks. The Large damage die is rolled against targets of size L or bigger. It counts against the
     attacker's attacks this round; one beyond them is flagged `extra_attack`.
 
-    Refused before the round's initiative, and for an attacker that is down or dead."""
+    Refused before the round's initiative, and for an attacker that is down or dead. With a `d20` engine the engine
+    makes the attack (`_swing`)."""
     _in_round(combat)
     atk, tgt = find(combat, attacker_id), find(combat, target_id)
     for c in (atk, tgt):
@@ -1591,12 +1798,15 @@ def attack(
         if index is not None:
             atk = replace(atk, weapon=index)
             block = _block(atk)
-            notes.append(
-                f"{atk.name} attacks with {block.name} (THAC0 {_thac0(atk)}, {block.damage_sm}/{block.damage_l})."
-            )
+            if d20 is not None:
+                notes.append(f"{atk.name} attacks with {block.name} ({block.damage_sm}/{block.damage_l}).")
+            else:
+                notes.append(
+                    f"{atk.name} attacks with {block.name} (THAC0 {_thac0(atk)}, {block.damage_sm}/{block.damage_l})."
+                )
         elif note:
             notes.append(note)
-    swing, damage, atk, rolls = _swing(atk, tgt, dice, combat.round, condition, notes, combat.rules)
+    swing, damage, atk, rolls = _swing(atk, tgt, dice, combat.round, condition, notes, combat.rules, d20=d20)
     combat = _put(combat, atk)
     if swing["hit"]:
         combat = _land(combat, swing, damage)
@@ -1632,12 +1842,15 @@ def throw(
     target_id: str,
     missile: str,
     reference: RulesetReference | None = None,
+    *,
+    d20: D20Engine | None = None,
 ) -> tuple[Combat, dict[str, Any]]:
     """A grenade-like missile thrown at a combatant in the current round (DEL-333): an attack roll with the thrower's
     THAC0 and its effects, as `attack`'s, and on a hit the missile's damage, `MISSILES`: burning oil 2d6, holy water
     2d4 to undead (from the name, or "undead" in its monster entry; nothing to the living). A miss splashes nearby,
-    which the notes say for the DM to rule. It counts as one of the thrower's attacks this round."""
-    combat, swing, rolls = _throw(combat, dice, thrower_id, target_id, missile, reference)
+    which the notes say for the DM to rule. It counts as one of the thrower's attacks this round. With a `d20` engine
+    the engine makes the attack roll (`_swing`), the missile its damage die."""
+    combat, swing, rolls = _throw(combat, dice, thrower_id, target_id, missile, reference, d20=d20)
     swing["rolls"] = [roll_json(r) for r in rolls]
     return combat, swing
 
@@ -1649,6 +1862,8 @@ def _throw(
     target_id: str,
     missile: str,
     reference: RulesetReference | None = None,
+    *,
+    d20: D20Engine | None = None,
 ) -> tuple[Combat, dict[str, Any], list[Roll]]:
     kind = missile.strip().lower().removeprefix("flask of ").removeprefix("vial of ")
     if kind not in MISSILES:
@@ -1674,6 +1889,7 @@ def _throw(
         "",
         notes,
         combat.rules,
+        d20=d20,
     )
     combat = _put(combat, replace(thrown, attacks=atk.attacks, weapon=atk.weapon))
     if swing["hit"] and damage:
@@ -1719,10 +1935,19 @@ def _foes(combat: Combat, actor: Combatant) -> list[str]:
 
 
 def _attack_action(
-    combat: Combat, snapshot: Combat, dice: Dice, actor_id: str, action: Mapping[str, Any]
+    combat: Combat,
+    snapshot: Combat,
+    dice: Dice,
+    actor_id: str,
+    action: Mapping[str, Any],
+    landing: Sequence[tuple[dict[str, Any], int]] = (),
+    *,
+    d20: D20Engine | None = None,
 ) -> tuple[Combat, list[dict[str, Any]], list[tuple[dict[str, Any], int]], list[Roll]]:
     """An attacker's whole action: every swing it is owed this round, at the first target in [target, *targets] still
-    up when its group began (less what its own earlier swings did). Returns the swings and their pending damage."""
+    up when its group began, less the damage its group's earlier hits will do (`landing`) and its own earlier swings
+    did: a foe its group has already felled draws no further swing (DEL-385). Each swing is still rolled against the
+    group's starting state. Returns the swings and their pending damage."""
     actor = combat.combatants[actor_id]
     block = _block(actor)
     allowed = _attacks_allowed_in_round(block.rate, combat.round)
@@ -1731,10 +1956,13 @@ def _attack_action(
     if actor.attacks_used >= allowed:
         return combat, [_skip(actor, "already made this round's attacks")], [], []
     pool = [action["target"], *action.get("targets", [])]
+    felled = snapshot
+    for hit, amount in landing:
+        felled, _ = _hurt(felled, hit["target_id"], amount)
     own: dict[str, int] = {}
 
     def up(target_id: str, first: bool) -> bool:
-        t = snapshot.combatants[target_id]
+        t = felled.combatants[target_id]
         hit = replace(t, hp=t.hp - own.get(target_id, 0))
         if _removed(hit) or _is_dead(hit):
             return False
@@ -1744,7 +1972,7 @@ def _attack_action(
     if target is None:
         dead = snapshot.combatants[action["target"]]
         skipped = {**_skip(actor, "target already dead — attack not rolled"), "target": dead.name}
-        return combat, [{**skipped, "target_id": dead.id, "living_foes": _foes(snapshot, actor)}], [], []
+        return combat, [{**skipped, "target_id": dead.id, "living_foes": _foes(felled, actor)}], [], []
     swings, pending, rolls = [], [], []
     for k in range(allowed - actor.attacks_used):
         if k:
@@ -1759,6 +1987,7 @@ def _attack_action(
             action.get("condition", ""),
             [],
             combat.rules,
+            d20=d20,
         )
         combat = _put(combat, attacker)
         rolls.extend(swing_rolls)
@@ -1820,7 +2049,8 @@ def _tended(c: Combatant) -> bool:
 def _end_round(combat: Combat) -> tuple[Combat, list[str]]:
     """The round ends: the dying of the party and its allies bleed 1 HP unless their wounds
     were bound (`TENDED`), effects tick down, surprise ends, the ongoing actions that completed or broke are put
-    away (one that carries over stays), and the next round begins, waiting for its declarations and initiative."""
+    away (one that carries over stays), and the next round begins, waiting for its declarations and initiative; where
+    the fight's rules roll initiative once (`initiative_once`), it keeps the order it has."""
     lines: list[str] = []
     changed: dict[str, Combatant] = {}
     for c in combat.combatants.values():
@@ -1847,6 +2077,8 @@ def _end_round(combat: Combat) -> tuple[Combat, list[str]]:
         changed[c.id] = replace(c, effects=tuple(surviving), attacks_used=0, conditions=conditions)
     combat = replace(combat, combatants={**combat.combatants, **changed}, surprise={"party": False, "enemies": False})
     combat = _logged(combat, {"type": "round_end"})
+    if combat.rules.initiative_once:
+        return replace(combat, round=combat.round + 1, current=0, declared={}), lines
     return replace(combat, round=combat.round + 1, order=(), current=0, declared={}), lines
 
 
@@ -1914,6 +2146,8 @@ def run_round(
     declarations: Sequence[Mapping[str, Any]] = (),
     mode: Mode = "combatant",
     rules: RuleTables | None = None,
+    *,
+    d20: D20Engine | None = None,
 ) -> tuple[Combat, RoundResult]:
     """One whole round:
 
@@ -1924,16 +2158,19 @@ def run_round(
        already (round 1, by setup, in the mode it was rolled with);
     3. the actions in initiative order. Combatants on the same total act simultaneously: each action is rolled
        against the state at the start of the group, and the group's damage is applied together. The order within a
-       group is the listed order, and only orders the log;
+       group is the listed order: it orders the log, and a foe felled by an earlier hit of the group draws no later one;
     4. downed, dead, removed and (in round 1) surprised combatants are skipped, and an ongoing action of theirs is
-       lost; so is an attack on a target already dead, unless one of its fallback targets still stands;
+       lost; so is an attack on a target already dead (or felled by its group's earlier hits), unless one of its
+       fallback targets still stands;
     5. an attacker makes every attack its rate allows this round; a fractional rate follows the round number;
     6. an ongoing action takes effect at its count, unless damage or a failed save broke it first; one of a round or
        more at the round's end, or a later round's;
     7. the end of the round: bleeding, effects ticking down, the next round.
 
     Morale notices come due when a side first has half its number down. The result has the round's `slots` (its
-    order as it was set) and `outcomes`."""
+    order as it was set) and `outcomes`. With a `d20` engine the engine rolls the initiative and makes the attacks.
+    Where the fight's rules roll initiative once (`initiative_once`), round 1's order stands: later rounds roll
+    nothing."""
     _live(combat)
     listed: list[str] = []
     for action in declarations:
@@ -1947,7 +2184,7 @@ def run_round(
             raise CombatError(
                 f"{actor.name} has one action a round.", hint="Give fallback targets for further swings in targets."
             )
-        combat, _ = declare(combat, actor.id, action, reference, rules)
+        combat, _ = declare(combat, actor.id, action, reference, rules, d20=d20)
         listed.append(actor.id)
     carried = {
         c.id: {"continuing": True}
@@ -1959,7 +2196,7 @@ def run_round(
     rolls: list[Roll] = []
     initiative = None
     if not combat.order:
-        combat, initiative, init_rolls = _initiative(combat, dice, reference, mode, rules)
+        combat, initiative, init_rolls = _initiative(combat, dice, reference, mode, rules, d20=d20)
         rolls.extend(init_rolls)
     before = combat
     order_slots = tuple(slots(combat))
@@ -1992,13 +2229,15 @@ def run_round(
                 acted.append(actor_id)
             elif "missile" in action:
                 combat, thrown, thrown_rolls = _throw(
-                    combat, dice, actor_id, action["target"], action["missile"], reference
+                    combat, dice, actor_id, action["target"], action["missile"], reference, d20=d20
                 )
                 rolls.extend(thrown_rolls)
                 results.append(thrown)
                 acted.append(actor_id)
             else:
-                combat, swings, hits, swing_rolls = _attack_action(combat, snapshot, dice, actor_id, action)
+                combat, swings, hits, swing_rolls = _attack_action(
+                    combat, snapshot, dice, actor_id, action, pending, d20=d20
+                )
                 results.extend(swings)
                 pending.extend(hits)
                 rolls.extend(swing_rolls)
@@ -2242,32 +2481,45 @@ def saving_throw(
     modifier: int = 0,
     sheet: Sheet | None = None,
     rules: RuleTables,
+    d20: D20Engine | None = None,
 ) -> tuple[Combat, dict[str, Any]]:
     """A saving throw for any combatant (a monster by its Hit Dice, as the ruleset's tables say),
     with its effects' `save` modifiers. A character's base comes from its `sheet`. The roll is keyed by the combat
-    round, so the same save twice in one round is the same roll."""
+    round, so the same save twice in one round is the same roll. With a `d20` engine the engine makes the save, for the
+    sheet or else the combatant, and reads `save_type` itself."""
     _live(combat)
     c = find(combat, id)
-    if sheet is not None:
-        subject: Any = sheet
-    elif c.character_id is not None:
-        subject = {"kind": "pc"}
-    else:
-        subject = {"hit_dice": c.hit_dice, "name": c.group or c.name} if c.hit_dice else {"name": c.group or c.name}
-    try:
-        base = checks.save_base_for(subject, save_type, reference, rules=rules)
-        result = checks.saving_throw(
+    if d20 is not None:
+        result = d20.save(
+            sheet if sheet is not None else c,
+            save_type,
+            None,
+            modifier + checks.effects_save(c.effects),
             dice,
-            save_type=save_type,
-            base=base,
-            modifier=modifier,
-            effects=c.effects,
             actor=c.id,
             combat_round=combat.round,
-            rules=rules,
         )
-    except checks.CheckError as error:
-        raise CombatError(str(error), error.hint) from None
+    else:
+        if sheet is not None:
+            subject: Any = sheet
+        elif c.character_id is not None:
+            subject = {"kind": "pc"}
+        else:
+            subject = {"hit_dice": c.hit_dice, "name": c.group or c.name} if c.hit_dice else {"name": c.group or c.name}
+        try:
+            base = checks.save_base_for(subject, save_type, reference, rules=rules)
+            result = checks.saving_throw(
+                dice,
+                save_type=save_type,
+                base=base,
+                modifier=modifier,
+                effects=c.effects,
+                actor=c.id,
+                combat_round=combat.round,
+                rules=rules,
+            )
+        except checks.CheckError as error:
+            raise CombatError(str(error), error.hint) from None
     out = {
         "id": c.id,
         "name": c.name,
@@ -2305,8 +2557,8 @@ def status_of(c: Combatant) -> str:
 
 def status(combat: Combat) -> dict[str, Any]:
     """The fight as it stands: the round, how its initiative was rolled (`mode`), and every combatant by initiative,
-    with its hit points, armour class, conditions, effects, attack and ongoing action. Always answers, even with
-    nobody in the fight."""
+    with its hit points, armour class, conditions, effects, attack and ongoing action (a d20 engine's combatant its
+    `d20` numbers instead of armour class and THAC0). Always answers, even with nobody in the fight."""
     added = {id: i for i, id in enumerate(combat.combatants)}
     entries = []
     for c in combat.combatants.values():
@@ -2333,6 +2585,9 @@ def status(combat: Combat) -> dict[str, Any]:
             "damage_sm": block.damage_sm,
             "damage_l": block.damage_l,
         }
+        if c.d20 is not None:  # a d20 engine's combatant: its numbers, not AC and THAC0
+            del entry["ac"], entry["thac0"]
+            entry["d20"] = c.d20
         if block.name:
             entry["weapon"] = block.name
         if c.morale is not None:
@@ -2343,7 +2598,10 @@ def status(combat: Combat) -> dict[str, Any]:
                 0, _attacks_allowed_in_round(block.rate, combat.round) - c.attacks_used
             )
         entries.append(entry)
-    entries.sort(key=lambda e: (e["init"] is None, e["init"] or 0, added[e["id"]]))
+    if combat.rules.highest_first:
+        entries.sort(key=lambda e: (e["init"] is None, -(e["init"] or 0), added[e["id"]]))
+    else:
+        entries.sort(key=lambda e: (e["init"] is None, e["init"] or 0, added[e["id"]]))
     current = combat.combatants[combat.order[combat.current]].name if combat.order else None
     return {
         "phase": combat.phase,
@@ -2357,10 +2615,13 @@ def status(combat: Combat) -> dict[str, Any]:
     }
 
 
-def end(combat: Combat) -> tuple[Combat, dict[str, Any]]:
+def end(
+    combat: Combat, *, party_levels: Sequence[int] = (), d20: D20Engine | None = None
+) -> tuple[Combat, dict[str, Any]]:
     """The end of the fight. The outcome has, per character (by id), its hit points, its conditions (without the
     combat's own) and its effects, to write back; the fate of each enemy; and the defeated groups, for XP and
-    treasure."""
+    treasure. With a `d20` engine each defeated monster is worth what the engine says against the party's
+    `party_levels` (`D20Engine.xp_for_defeated`)."""
     _live(combat)
     everyone = list(combat.combatants.values())
     rounds = combat.round if combat.order else combat.round - 1
@@ -2391,7 +2652,10 @@ def end(combat: Combat) -> tuple[Combat, dict[str, Any]]:
         group["total"] += 1
         beaten = _enemy_fate(c) in ("slain", "down")
         group["defeated"] += beaten
-        earned = xp_of(c.xp_value, c.hp_max)
+        if d20 is not None:
+            earned = d20.xp_for_defeated(c, party_levels)
+        else:
+            earned = xp_of(c.xp_value, c.hp_max)
         if beaten and earned is not None:
             group["xp_earned"] = group.get("xp_earned", 0) + earned
     ended = _logged(replace(combat, phase="ended", declared={}), {"type": "end", "rounds": rounds})

@@ -17,12 +17,12 @@ the land and its roads, by river boat along the rivers and lakes, by ship over t
 An encounter stops the leg there, and the party's `Journey` keeps the rest: `travel()` with no destination goes on,
 planned again from where the party is (so a map the organiser edited meanwhile is followed). Arrival ends the journey.
 
-The base pace, in miles a day: on foot 2 × the slowest traveller's movement rate (a mount in `by` carries its owner,
-at its `fly` when it flies; a vehicle or a ship in `by` carries everyone at its `mv`); on horseback 2 × the mounts'
-`mv` (their `fly` when they all fly, and the leg then flies), else 2 × `HORSE_MV`; by cart `CART_MILES_PER_DAY`, or
-2 × a vehicle's `mv`; by river boat (`RIVER_BOAT_MPH`, or the boat's `mph`) ± `RIVER_CURRENT_MPH` downstream and
-upstream, × `RIVER_HOURS`; by ship (`SHIP_MPH`, or the ship's `mph`) × `SHIP_HOURS`, or 2 × a ship's `mv` without an
-`mph`. A house rule's `miles_per_day` replaces it, for the leg and the journey. A forced march is × 1.5, on land.
+The base pace, in miles a day: on foot 2 × the slowest traveller's movement rate (a sheet's × the ruleset's
+`sheet_speed_scale`, 2/5 of 3.5's feet; a mount in `by` carries its owner, at its `fly` when it flies; a vehicle or a
+ship in `by` carries everyone at its `mv`); on horseback 2 × the mounts' `mv` (their `fly` when they all fly, and
+the leg then flies), else 2 × `HORSE_MV`; by cart `CART_MILES_PER_DAY`, or 2 × a vehicle's `mv`; by river boat
+(`RIVER_BOAT_MPH`, or the boat's `mph`) ± `RIVER_CURRENT_MPH` downstream and upstream, × `RIVER_HOURS`; by ship
+(`SHIP_MPH`, or the ship's `mph`) × `SHIP_HOURS`, or 2 × a ship's `mv` without an `mph`. A house rule's `miles_per_day` replaces it, for the leg and the journey. A forced march is × 1.5, on land.
 """
 
 from __future__ import annotations
@@ -119,17 +119,18 @@ def _rides(ctx: CampaignContext, by: Iterable[str]) -> list[Possession]:
     return out
 
 
-def _paces(ctx: CampaignContext, rides: list[Possession], *, ridden: int = 0) -> list[tuple[int, bool]]:
+def _paces(ctx: CampaignContext, rides: list[Possession], *, ridden: int = 0) -> list[tuple[float, bool]]:
     """Each traveller's movement rate and whether it flies: a mount carries its owner, else the traveller walks (or,
     with `ridden`, rides a horse of that rate)."""
     carried = [possessions.movement(p)[0] for p in rides if p.kind in VEHICLES]
     if carried:
         return [(min(carried), False)]
     mounts = {p.owner_id: possessions.movement(p) for p in rides if p.kind == "mount"}
+    scale = ctx.rules.travel.sheet_speed_scale  # a sheet's movement rate as these rates have it (3.5's feet, DEL-404)
     paces = []
     for pc in characters.party(ctx):
         mv, fly = mounts.get(pc.id, (0, 0))
-        paces.append((fly, True) if fly else (mv, False) if mv else (ridden or pc.sheet.movement_rate, False))
+        paces.append((fly, True) if fly else (mv, False) if mv else (ridden or pc.sheet.movement_rate * scale, False))
     return paces
 
 

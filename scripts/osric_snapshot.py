@@ -53,6 +53,16 @@ PAGE_HEADER = re.compile(r"\s*\bP?ART TWO:(?: HOW TO PLAY\b)?\s*")
 """The Player Guide's running page header, which the PDF's text left inside some spells."""
 
 
+TITLE_CASE_ENDING = re.compile(r"(?<=[A-Za-z][’'])(S|T|D|M|Ll|Re|Ve)\b")
+"""What Python's `str.title()` makes of the ending after an apostrophe: the engine title-cases a spell's name, so
+"FOOL’S GOLD" came out "Fool’S Gold" (DEL-406)."""
+
+
+def apostrophe_case(name: str) -> str:
+    """`name` with the ending after its apostrophe in lower case again: "Fool’S Gold" is "Fool’s Gold"."""
+    return TITLE_CASE_ENDING.sub(lambda m: m.group(1).lower(), name)
+
+
 def clean(value: object) -> object:
     """Every string in `value` without the page header."""
     if isinstance(value, str):
@@ -91,6 +101,11 @@ def urban(entry: dict) -> dict:
 
 
 def scrub(name: str, data: dict) -> dict:
+    if name == "spells":
+        for spell in data["spells"]:
+            for key in ("name", "reverse"):
+                if spell.get(key):
+                    spell[key] = apostrophe_case(spell[key])
     if name == "encounters":
         for when in ("daytime", "nighttime"):
             data["urban"][when] = [urban(entry) for entry in data["urban"][when]]

@@ -1,0 +1,32 @@
+# The Singing Door — a passage that ends at the tomb's talking door.
+
+map "Tomb of Orsevar" {
+  grid {
+    cell    32 px
+    units   feet 5
+    bounds  30 x 14
+    origin  top-left
+  }
+  renderer "classic-bw"
+  background "#1a1a1a"
+}
+
+room "passage" {
+  rect 2,5 14 x 4
+  label "Passage" align top center
+  description "A low passage under the barrow, ending at a grey metal door."
+}
+
+room "tomb" {
+  rect 16,3 10 x 8
+  label "Tomb" align top center
+  description "Orsevar's tomb."
+}
+
+door at 16,7 {
+  connects room.passage, room.tomb
+  type iron
+  state locked
+  facing east
+  description "A single slab of dull grey metal, etched with runes."
+}

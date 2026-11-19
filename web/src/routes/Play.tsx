@@ -671,7 +671,7 @@ function PlayScreen({ campaignId }: { campaignId: string }) {
       <HotseatTurns turns={turns} taken={taken} current={turn.id} onPick={setTurnId} />
     )}
     {data?.missing_pack ? (
-      <MissingPack kind={data.missing_pack.kind} id={data.missing_pack.id} />
+      <MissingPack kind={data.missing_pack.kind} id={data.missing_pack.id} reference={data.missing_pack.reference} />
     ) : (
       <Composer
         running={thinking}

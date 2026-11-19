@@ -55,8 +55,9 @@ export function renderMarkdown(text: string): string {
 
   const flush = () => {
     if (para.length === 0) return;
-    const joined = para.join(" ");
-    out.push(SPEECH.test(joined) ? `<blockquote class="read-aloud">${inline(joined)}</blockquote>` : `<p>${inline(joined)}</p>`);
+    const joined = para.join("").trimEnd();
+    const html = inline(joined).replace(/\n/g, "<br>");
+    out.push(SPEECH.test(joined) ? `<blockquote class="read-aloud">${html}</blockquote>` : `<p>${html}</p>`);
     para = [];
   };
   const run = (i: number, pattern: RegExp): [string[], number] => {
@@ -108,7 +109,8 @@ export function renderMarkdown(text: string): string {
       out.push(`<${tag}>${items.map((it) => `<li>${inline(it)}</li>`).join("")}</${tag}>`);
       i = next;
     } else {
-      para.push(t);
+      // A line that ends with a backslash or two spaces breaks there, as verse does (DEL-357); the others join.
+      para.push(t.endsWith("\\") ? `${t.slice(0, -1)}\n` : / {2}$/.test(lines[i]) ? `${t}\n` : `${t} `);
       i++;
     }
   }

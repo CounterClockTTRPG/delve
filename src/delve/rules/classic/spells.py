@@ -11,7 +11,7 @@ from collections.abc import Iterable, Mapping
 from typing import Any
 
 from delve.domain.characters import MemorizedSpell, Sheet
-from delve.domain.reference import RulesetReference
+from delve.domain.reference import RulesetReference, name_key
 from delve.rules.classic.tables import RuleTables
 
 
@@ -39,14 +39,14 @@ def _candidate(row: dict[str, Any]) -> dict[str, Any]:
 
 
 def lookup(reference: RulesetReference, name: str, kind: str = "") -> dict[str, Any]:
-    """The reference's spell named exactly `name` (ignoring case), from the `kind` list ('priest' or 'wizard') when
-    it is on it, else from either. Raises `UnknownSpell` with the near names."""
-    wanted = name.strip().lower()
+    """The reference's spell named exactly `name` (ignoring case and the apostrophe's shape), from the `kind` list
+    ('priest' or 'wizard') when it is on it, else from either. Raises `UnknownSpell` with the near names."""
+    wanted = name_key(name)
     rows = reference.spell(name, caster=kind) if kind else []
-    exact = [row for row in rows if row["name"].lower() == wanted]
+    exact = [row for row in rows if name_key(row["name"]) == wanted]
     if not exact:
         everywhere = reference.spell(name)
-        exact = [row for row in everywhere if row["name"].lower() == wanted]
+        exact = [row for row in everywhere if name_key(row["name"]) == wanted]
         rows = rows or everywhere
     if not exact or not wanted:
         raise UnknownSpell(name, [_candidate(row) for row in rows])

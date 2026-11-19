@@ -1,0 +1,319 @@
+{
+ "title": "An OSRIC session in the Crypt of Saint Vellis",
+ "module": "crypt-of-saint-vellis",
+ "seed": 3835,
+ "beats": [
+  {
+   "beat": "beat-01",
+   "calls": [
+    {
+     "tool": "new_session",
+     "args": {
+      "title": "Down the crypt stairs"
+     }
+    },
+    {
+     "tool": "create_character",
+     "args": {
+      "name": "Garrek",
+      "sheet": {
+       "race": "Human",
+       "cls": "Fighter",
+       "levels": {
+        "fighter": 2
+       },
+       "hp_max": 18,
+       "ac": 4,
+       "ability_scores": {
+        "str": "18/50",
+        "dex": 12,
+        "con": 15,
+        "int": 9,
+        "wis": 10,
+        "cha": 11
+       },
+       "attacks": [
+        {
+         "name": "long sword",
+         "speed": 5,
+         "damage_sm": "1d8",
+         "damage_l": "1d12"
+        }
+       ],
+       "alignment": "Lawful Good"
+      }
+     }
+    },
+    {
+     "tool": "create_character",
+     "args": {
+      "name": "Halvaine",
+      "sheet": {
+       "race": "Human",
+       "cls": "Magic-User",
+       "levels": {
+        "magic-user": 1
+       },
+       "hp_max": 4,
+       "ac": 10,
+       "ability_scores": {
+        "str": 9,
+        "dex": 15,
+        "con": 12,
+        "int": 17,
+        "wis": 11,
+        "cha": 10
+       },
+       "attacks": [
+        {
+         "name": "dagger",
+         "speed": 2,
+         "damage_sm": "1d4",
+         "damage_l": "1d3"
+        }
+       ],
+       "alignment": "Lawful Good"
+      }
+     }
+    },
+    {
+     "tool": "create_character",
+     "args": {
+      "name": "Anselm",
+      "sheet": {
+       "race": "Human",
+       "cls": "Cleric",
+       "levels": {
+        "cleric": 1
+       },
+       "hp_max": 7,
+       "ac": 5,
+       "ability_scores": {
+        "str": 13,
+        "dex": 10,
+        "con": 14,
+        "int": 10,
+        "wis": 16,
+        "cha": 12
+       },
+       "attacks": [
+        {
+         "name": "mace",
+         "speed": 7,
+         "damage_sm": "1d6+1",
+         "damage_l": "1d6"
+        }
+       ],
+       "alignment": "Lawful Good"
+      }
+     }
+    },
+    {
+     "tool": "set_marching_order",
+     "args": {
+      "order": [
+       "Garrek",
+       "Anselm",
+       "Halvaine"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "beat": "beat-02",
+   "calls": [
+    {
+     "tool": "set_spell_loadout",
+     "args": {
+      "character": "Halvaine",
+      "known": {
+       "1": [
+        "Sleep",
+        "Magic Missile"
+       ]
+      },
+      "default": {
+       "1": [
+        "Magic Missile"
+       ]
+      }
+     }
+    },
+    {
+     "tool": "memorize_spells",
+     "args": {
+      "character": "Halvaine"
+     }
+    },
+    {
+     "tool": "move_party",
+     "args": {
+      "to": "Entry Hall"
+     }
+    }
+   ]
+  },
+  {
+   "beat": "beat-03",
+   "calls": [
+    {
+     "tool": "setup_combat",
+     "args": {
+      "enemies": [
+       {
+        "name": "goblin",
+        "count": 2,
+        "node": "corridor.main_hall"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "beat": "beat-04",
+   "calls": [
+    {
+     "tool": "combat_round",
+     "args": {
+      "actions": [
+       {
+        "attacker": "Garrek",
+        "target": "Goblin 1",
+        "targets": [
+         "Goblin 2"
+        ]
+       },
+       {
+        "caster": "Halvaine",
+        "spell": "Magic Missile",
+        "target": "Goblin 2"
+       },
+       {
+        "attacker": "Anselm",
+        "target": "Goblin 1",
+        "targets": [
+         "Goblin 2"
+        ]
+       },
+       {
+        "attacker": "Goblin 1",
+        "target": "Garrek"
+       },
+       {
+        "attacker": "Goblin 2",
+        "target": "Halvaine",
+        "targets": [
+         "Garrek"
+        ]
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "beat": "beat-05",
+   "calls": [
+    {
+     "tool": "combat_round",
+     "args": {
+      "actions": [
+       {
+        "attacker": "Garrek",
+        "target": "Goblin 2",
+        "targets": [
+         "Goblin 1"
+        ],
+        "condition": "fleeing"
+       },
+       {
+        "attacker": "Anselm",
+        "target": "Goblin 1",
+        "targets": [
+         "Goblin 2"
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "tool": "combat_round",
+     "args": {
+      "actions": [
+       {
+        "attacker": "Garrek",
+        "target": "Goblin 1",
+        "targets": [
+         "Goblin 2"
+        ]
+       },
+       {
+        "attacker": "Anselm",
+        "target": "Goblin 1",
+        "targets": [
+         "Goblin 2"
+        ]
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "beat": "beat-06",
+   "calls": [
+    {
+     "tool": "end_combat",
+     "args": {}
+    },
+    {
+     "tool": "saving_throw",
+     "args": {
+      "character": "Anselm",
+      "save_type": "para"
+     }
+    },
+    {
+     "tool": "apply_damage",
+     "args": {
+      "character": "Halvaine",
+      "amount": 4
+     }
+    },
+    {
+     "tool": "rest",
+     "args": {
+      "days": 3
+     }
+    },
+    {
+     "tool": "award_xp",
+     "args": {
+      "character": "Garrek",
+      "amount": 200
+     }
+    },
+    {
+     "tool": "award_xp",
+     "args": {
+      "character": "Anselm",
+      "amount": 200
+     }
+    }
+   ]
+  },
+  {
+   "beat": "beat-07",
+   "calls": [
+    {
+     "tool": "end_session",
+     "args": {
+      "recap": "The party fought two goblins in the crypt's main hall and rested three days."
+     }
+    }
+   ]
+  }
+ ]
+}

@@ -4,9 +4,10 @@ handout), cut to the banner's 21:9 band, or painted (`paint`, the campaign banne
 A picture is checked as an avatar is (`delve.play.avatars`): the bytes must be the type they are sent as (400), the
 header's size is checked before anything is decoded (422 past `BANNER_MAX_PIXELS`), a JPEG is drafted down as it is
 decoded and every picture is reduced to at most `BANNER_WORK_SIZE` px a side before it is cut, at most
-`BANNERS_AT_ONCE` are made at once (503 after `BANNER_WAIT_S`), and the result keeps no metadata. The crop position
-(0 the top, 1 the bottom; across, for a picture wider than 21:9) chooses which band is kept, as CSS `object-position`
-does with the same percentage, so the page's preview is the banner.
+`BANNERS_AT_ONCE` are made at once (503 after `BANNER_WAIT_S`), and the result keeps no metadata. The crop (`Crop`)
+is a 21:9 box: its `width` a fraction of the widest band the picture holds (1 the whole band, down to `MIN_WIDTH`;
+DEL-356), and `x`, `y` where it sits (0 the left or top, 1 the right or bottom), as fractions of the room left beside
+it, as CSS `object-position` takes a percentage, so the page's preview is the banner.
 """
 
 from __future__ import annotations
@@ -16,6 +17,7 @@ import io
 import logging
 import threading
 import warnings
+from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from PIL import Image, ImageOps
@@ -44,6 +46,37 @@ BANNER_WAIT_S = 10.0
 WEBP_QUALITY = 85
 MIME = "image/webp"
 _LABELS = {"PNG": "PNG", "JPEG": "JPEG", "WEBP": "WebP"}
+MIN_WIDTH = 0.2
+"""The narrowest crop: a fifth of the widest band."""
+
+
+@dataclass(frozen=True)
+class Crop:
+    """Which 21:9 box of a picture is its banner: `width` of the widest band (`MIN_WIDTH` to 1), at `x` across and `y`
+    down (0 to 1, of the room beside it). The default is the whole band, in the middle."""
+
+    x: float = 0.5
+    y: float = 0.5
+    width: float = 1.0
+
+    def clamped(self) -> Crop:
+        return Crop(_clamp(self.x, 0.0), _clamp(self.y, 0.0), _clamp(self.width, MIN_WIDTH))
+
+    def box(self, width: int, height: int) -> tuple[int, int, int, int]:
+        """The box of a picture `width` × `height` px it keeps: (left, top, right, bottom)."""
+        if width * BANNER_HEIGHT <= height * BANNER_WIDTH:  # taller than 21:9: the band is the picture's width
+            band_width, band_height = width, width * BANNER_HEIGHT / BANNER_WIDTH
+        else:  # wider: the band is the picture's height
+            band_width, band_height = height * BANNER_WIDTH / BANNER_HEIGHT, height
+        cut_width = min(width, max(1, round(band_width * self.width)))
+        cut_height = min(height, max(1, round(band_height * self.width)))
+        left = round(self.x * (width - cut_width))
+        top = round(self.y * (height - cut_height))
+        return (left, top, left + cut_width, top + cut_height)
+
+
+def _clamp(value: float, low: float) -> float:
+    return min(1.0, max(low, value))
 
 
 class BannerRefused(PlayError):
@@ -58,18 +91,22 @@ class BannerRefused(PlayError):
 _making = threading.BoundedSemaphore(BANNERS_AT_ONCE)
 
 
-def band(data: bytes, media_type: str, position: float = 0.5) -> bytes:
+WHOLE_BAND = Crop()
+"""The whole widest band, in the middle."""
+
+
+def band(data: bytes, media_type: str, crop: Crop = WHOLE_BAND) -> bytes:
     """The banner cut from `data`, a picture of `media_type` (one of `BANNER_TYPES`): WebP, 21:9, at most
-    `BANNER_WIDTH` wide, the band at `position` (0 to 1) of the picture's height, or of its width when it is wider."""
+    `BANNER_WIDTH` wide, the box `crop` chooses."""
     if not _making.acquire(timeout=BANNER_WAIT_S):
         raise BannerRefused(503, "Busy: try again in a moment.")
     try:
-        return _band(data, media_type, min(1.0, max(0.0, position)))
+        return _band(data, media_type, crop.clamped())
     finally:
         _making.release()
 
 
-def _band(data: bytes, media_type: str, position: float) -> bytes:
+def _band(data: bytes, media_type: str, crop: Crop) -> bytes:
     expected = BANNER_TYPES.get(media_type)
     if expected is None:
         raise BannerRefused(400, f"A banner is one of {', '.join(BANNER_TYPES)}.")
@@ -98,16 +135,7 @@ def _band(data: bytes, media_type: str, position: float) -> bytes:
     except (OSError, SyntaxError, ValueError, EOFError):
         raise not_it from None
     upright = upright.convert("RGB")
-    width, height = upright.size
-    if width * BANNER_HEIGHT <= height * BANNER_WIDTH:  # taller than 21:9: a band across, at `position` down
-        cut = max(1, round(width * BANNER_HEIGHT / BANNER_WIDTH))
-        top = round(position * (height - cut))
-        box = (0, top, width, top + cut)
-    else:  # wider: a band down, at `position` across
-        cut = max(1, round(height * BANNER_WIDTH / BANNER_HEIGHT))
-        left = round(position * (width - cut))
-        box = (left, 0, left + cut, height)
-    cropped = upright.crop(box)
+    cropped = upright.crop(crop.box(*upright.size))
     if cropped.width > BANNER_WIDTH:
         cropped = cropped.resize((BANNER_WIDTH, BANNER_HEIGHT), Image.Resampling.LANCZOS, reducing_gap=2.0)
     # A fresh picture: nothing of the upload's info (EXIF, colour profile, comments) comes along.
@@ -128,14 +156,14 @@ def _reduced(image: Image.Image) -> Image.Image:
     return image.resize(size, Image.Resampling.LANCZOS, reducing_gap=2.0)
 
 
-def use_upload(storage, module_id: str, data: bytes, media_type: str, position: float):
-    """The module, with the uploaded picture's band as its banner."""
-    blob = storage.blobs.put(band(data, media_type, position), MIME)
+def use_upload(storage, module_id: str, data: bytes, media_type: str, crop: Crop):
+    """The module, with the uploaded picture's crop as its banner."""
+    blob = storage.blobs.put(band(data, media_type, crop), MIME)
     return storage.modules.set_banner(module_id, blob, MIME, "uploaded")
 
 
-def use_picture(storage, module_id: str, attachment_id: str, position: float):
-    """The module, with the band of one of its own pictures (an attachment of a PNG, JPEG or WebP) as its banner."""
+def use_picture(storage, module_id: str, attachment_id: str, crop: Crop):
+    """The module, with the crop of one of its own pictures (an attachment of a PNG, JPEG or WebP) as its banner."""
     attachment = load_source(storage, module_id).attachment(attachment_id)
     if attachment is None:
         raise BannerRefused(404, "The module has no such picture.")
@@ -144,7 +172,7 @@ def use_picture(storage, module_id: str, attachment_id: str, position: float):
     data = storage.blobs.get(attachment.sha256)
     if data is None:
         raise BannerRefused(404, "That picture's file is missing.")
-    blob = storage.blobs.put(band(data, attachment.type, position), MIME)
+    blob = storage.blobs.put(band(data, attachment.type, crop), MIME)
     return storage.modules.set_banner(module_id, blob, MIME, f"picture:{attachment_id}")
 
 

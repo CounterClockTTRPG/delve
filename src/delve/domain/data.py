@@ -114,6 +114,9 @@ OMIT_IF_NONE = "omit_if_none"
 """A field's metadata key: with it true, `to_dict` leaves the field out while it is None (an optional key added later,
 so that older records' dicts stay as they were)."""
 
+ENGINE_OWNED = "engine_owned"
+"""A field's metadata key: with it true, a ruleset's engine keeps the field, and the DM's patches can't set it."""
+
 
 def to_dict(obj: Any) -> Any:
     """A dataclass (or a value inside one) as JSON-shaped data: dicts, lists and scalars; a field marked

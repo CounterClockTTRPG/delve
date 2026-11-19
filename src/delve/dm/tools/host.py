@@ -11,6 +11,7 @@ the answer the DM reads: the table takes them when it writes the call's story ro
 
 from __future__ import annotations
 
+import logging
 from collections.abc import Callable, Iterable
 from typing import Any
 
@@ -32,6 +33,7 @@ from delve.dm.tools import (
     pictures,
     possessions,
     pregens,
+    read_aloud,
     rolled,
     say,
     tell,
@@ -52,6 +54,8 @@ from delve.storage.interfaces import Storage
 
 __all__ = ["NO_LOOKUPS_ERROR", "ToolHost", "ToolSpec", "all_specs"]
 
+log = logging.getLogger(__name__)
+
 NO_LOOKUPS_ERROR = "the ruleset has no lookups"
 
 
@@ -71,6 +75,7 @@ def all_specs() -> list[ToolSpec]:
         *pictures.SPECS,
         *tell.SPECS,
         *say.SPECS,
+        *read_aloud.SPECS,
         *notes.SPECS,
         *world.SPECS,
         *travel.SPECS,
@@ -131,12 +136,64 @@ class ToolHost:
         self.dice_out = dice_out
         self.catalogs = catalogs
         self._specs = {spec.name: spec for spec in (all_specs() if specs is None else specs)}
+        self._resolved: dict[str, dict[str, ToolSpec]] = {}
+        self._broken: dict[str, str] = {}
+        """The rulesets whose own tools are wrong (mis-scoped, or two of a name), each with why: their campaigns'
+        calls answer that, and list only the core tools."""
 
-    def specs(self) -> list[ToolSpec]:
-        return list(self._specs.values())
+    def _scoped_specs(self, ruleset: str) -> list[ToolSpec]:
+        """The tools the playable ruleset `ruleset` brings through its d20 engine (DEL-387); none for a reference
+        only (skipped), one without an engine, or one that fails to make (a warning, so it can't break other
+        campaigns). A tool not scoped to it, or two of one name, is a `ValueError`."""
+        found = ruleset_entry(ruleset, self.catalogs.rulesets)
+        if found is None or not found.playable:
+            return []
+        try:
+            engine = getattr(found.make(), "d20", None)
+            brought = list(engine.tools()) if engine is not None else []
+        except Exception:
+            log.warning("Ruleset %s could not be made for its tools; it brings none.", ruleset, exc_info=True)
+            return []
+        names: set[str] = set()
+        for spec in brought:
+            if spec.rulesets != (ruleset,):
+                raise ValueError(f"{spec.name}: a tool of ruleset {ruleset} must be scoped to it")
+            if spec.name in names:
+                raise ValueError(f"{spec.name}: ruleset {ruleset} brings two tools of this name")
+            names.add(spec.name)
+        return brought
 
-    def spec(self, name: str) -> ToolSpec | None:
-        return self._specs.get(name)
+    def _lookup(self, ruleset: str | None) -> dict[str, ToolSpec]:
+        """The tools by name for a campaign of `ruleset`: the core ones, each replaced in place by the ruleset's
+        same-named one, then the ruleset's others in their order. Made on the first ask for a ruleset; a ruleset whose
+        own tools are wrong has the core ones (`_broken`)."""
+        if ruleset is None:
+            return self._specs
+        found = self._resolved.get(ruleset)
+        if found is None:
+            try:
+                own = {spec.name: spec for spec in self._scoped_specs(ruleset)}
+            except ValueError as wrong:
+                log.error("Ruleset %s brings tools Delve can't list: %s", ruleset, wrong)
+                self._broken[ruleset] = str(wrong)
+                own = {}
+            if not own:
+                found = self._specs
+            else:
+                found = {name: own.get(name, spec) for name, spec in self._specs.items()}
+                found.update({name: spec for name, spec in own.items() if name not in self._specs})
+            self._resolved[ruleset] = found
+        return found
+
+    def specs(self, ruleset: str | None = None) -> list[ToolSpec]:
+        return list(self._lookup(ruleset).values())
+
+    def spec(self, name: str, ruleset: str | None = None) -> ToolSpec | None:
+        return self._lookup(ruleset).get(name)
+
+    def ruleset_of(self, campaign_id: str) -> str | None:
+        campaign = self.storage.campaigns.get(campaign_id)
+        return campaign.ruleset if campaign is not None else None
 
     def call(self, campaign_id: str, beat: str, name: str, args: dict[str, Any]) -> dict[str, Any]:
         """Run the tool `name` with `args` for the campaign in this beat; its answer as a JSON object. What it rolled
@@ -150,7 +207,10 @@ class ToolHost:
     def _call(
         self, campaign_id: str, beat: str, name: str, args: dict[str, Any], dice: rolled.CallDice
     ) -> dict[str, Any]:
-        spec = self._specs.get(name)
+        ruleset = self.ruleset_of(campaign_id)
+        spec = self.spec(name, ruleset)
+        if ruleset in self._broken:
+            return error(f"Ruleset {ruleset}'s own tools are wrong: {self._broken[ruleset]}", "Fix its tools.")
         if spec is None:
             return error(f"Unknown tool '{name}'.", "See the tool list.")
         if not isinstance(args, dict):
@@ -164,7 +224,7 @@ class ToolHost:
             dice.clear()
             dice["steps"] = steps
             run = self._step(campaign_id, beat, args.get("steps"), steps)
-            return composites.batch(**args, run=run, exists=self._specs.__contains__)
+            return composites.batch(**args, run=run, exists=self._lookup(ruleset).__contains__)
         return self._run(spec, campaign_id, beat, args, dice["rolls"])
 
     def _run(
@@ -213,6 +273,7 @@ class ToolHost:
         `rolls` under its index in `asked`, the batch's steps: `batch` runs them in order, so a step is the next one
         asked that has its tool and arguments (DEL-270)."""
         listed = asked if isinstance(asked, list) else []
+        ruleset = self.ruleset_of(campaign_id)
         after = 0
 
         def index_of(name: str, args: dict[str, Any]) -> int | None:
@@ -227,7 +288,7 @@ class ToolHost:
 
         def run(name: str, args: dict[str, Any]) -> dict[str, Any]:
             index = index_of(name, args)
-            spec = self._specs.get(name)
+            spec = self.spec(name, ruleset)
             if spec is None:
                 raise composites.UnknownTool(name)
             args = unwrapped(spec, args)

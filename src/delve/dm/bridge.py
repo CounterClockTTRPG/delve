@@ -48,7 +48,9 @@ class DelveClient:
     async def tools(self) -> list[dict[str, Any]]:
         """`[{name, description, inputSchema}]`, fetched once."""
         if self._tools is None:
-            status, body = await asyncio.to_thread(self._request, "GET", "/internal/dm/tools")
+            status, body = await asyncio.to_thread(
+                self._request, "GET", f"/internal/dm/tools?campaign={self.campaign_id}"
+            )
             if status != 200 or not isinstance(body, list):
                 raise DelveUnavailable(f"Delve answered {status} for the tool list: {_error_of(body)}")
             self._tools = body

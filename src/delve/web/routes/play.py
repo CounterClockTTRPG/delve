@@ -55,7 +55,7 @@ from delve.play import (
 from delve.play import characters as play_characters
 from delve.play.ask import AskFailed, ask
 from delve.play.campaign_log import campaign_log
-from delve.play.context import NotFound, PlayError, context_for, missing_pack
+from delve.play.context import CampaignContext, NotFound, PlayError, context_for, missing_pack
 from delve.play.seats import NotAllowed
 from delve.play.table import (
     AppServices,
@@ -606,6 +606,8 @@ async def play_state(request: Request, seat: TableSeat, campaign_id: str) -> dic
 
 
 PARTY_KEYS = ("id", "name", "race", "cls", "levels", "hp", "hp_max", "ac", "conditions", "spells", "encumbrance")
+D20_PARTY_KEYS = (*(key for key in PARTY_KEYS if key != "ac"), "d20")
+"""A d20 campaign's party keys: the engine's numbers (`d20`), not AC (DEL-387)."""
 
 
 def _table_state(request: Request, campaign_id: str, seat: Seat) -> dict[str, Any]:
@@ -618,11 +620,12 @@ def _table_state(request: Request, campaign_id: str, seat: Seat) -> dict[str, An
     seen = None if seat.role in seats.TABLE_RIGHTS else seats.controls(storage, seat.id)  # None: every group
     if ctx.lookups is not NO_LOOKUPS:
         primer = sessions.primer(ctx, roll_weather=False)  # a seat's read never rolls the weather
-        party = [{key: pc[key] for key in PARTY_KEYS} for pc in primer["party"]]
+        keys = D20_PARTY_KEYS if ctx.d20 is not None else PARTY_KEYS
+        party = [{key: pc[key] for key in keys} for pc in primer["party"]]
         positions = primer["positions"] if seen is None else sessions.positions(ctx, seen)
         session, time = primer["session"]["number"], f"{primer['time']} ({primer['period']})"
     else:  # a ruleset with nothing to look up in: the sheets as stored, without encumbrance
-        party = [_digest(c) for c in play_characters.party(ctx)]
+        party = [_digest(ctx, c) for c in play_characters.party(ctx)]
         positions = []
         state = storage.campaign_states.get(campaign_id)
         session = state.session if state else None
@@ -655,7 +658,11 @@ def _table_state(request: Request, campaign_id: str, seat: Seat) -> dict[str, An
         "coin": _purse(storage, campaign_id),
         "ruleset": campaign.ruleset,
         # The ruleset or setting the campaign needs that isn't installed, which the screen says and stops acting for.
-        "missing_pack": {"kind": missing.kind, "id": missing.id} if missing is not None else None,
+        "missing_pack": (
+            {"kind": missing.kind, "id": missing.id, **({"reference": True} if missing.reference else {})}
+            if missing is not None
+            else None
+        ),  # `reference`: installed, but only a reference that no campaign plays (DEL-384)
         # Whether the table may talk in voice, and how its fights roll initiative (table voice and fixes Task 0).
         "voice": campaign.voice,
         "initiative": campaign.initiative,
@@ -695,9 +702,9 @@ def _banner_id(storage, campaign_id: str) -> str | None:
     return shown.id if shown is not None else None
 
 
-def _digest(character: Character) -> dict[str, Any]:
+def _digest(ctx: CampaignContext, character: Character) -> dict[str, Any]:
     sheet, state = character.sheet, character.state
-    return {
+    out = {
         "id": character.id,
         "name": character.name,
         "race": sheet.race,
@@ -713,6 +720,10 @@ def _digest(character: Character) -> dict[str, Any]:
         },
         "encumbrance": None,
     }
+    if ctx.d20 is not None:  # a d20 engine's numbers stand in for AC
+        del out["ac"]
+        out["d20"] = ctx.d20.sheet_numbers(sheet)
+    return out
 
 
 # ----- the campaign's table options -----

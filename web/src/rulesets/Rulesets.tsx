@@ -27,6 +27,7 @@ export default function Rulesets() {
               <li key={r.id}>
                 <Link to={withCampaign(rulesetHref(r.id), campaign)} className={`choice ${styles.card}`}>
                   <span className="choice-title">{r.title}</span>
+                  {r.playable === false && <span className="tag">{t("rulesets.referenceOnly")}</span>}
                 </Link>
               </li>
             ))}

@@ -154,6 +154,8 @@ class Sheet:
     portrait: Portrait | None = None
     faction: str = ""
     """The id of the faction the character belongs to, if any."""
+    d20: dict[str, Any] | None = field(default=None, metadata={data.OMIT_IF_NONE: True, data.ENGINE_OWNED: True})
+    """What a d20 engine keeps of the character (`delve.rules.d20`); None for a ruleset without one."""
 
     @classmethod
     def from_dict(cls, raw: dict[str, Any]) -> Sheet:
@@ -185,6 +187,8 @@ class CharacterState:
     effects: tuple[Effect, ...] = ()
     inventory: tuple[Item, ...] = ()
     memorized: tuple[MemorizedSpell, ...] = ()
+    d20: dict[str, Any] | None = field(default=None, metadata={data.OMIT_IF_NONE: True, data.ENGINE_OWNED: True})
+    """What a d20 engine keeps of the character's state, such as spells cast or levels lost; None without one."""
 
     @classmethod
     def from_dict(cls, raw: dict[str, Any]) -> CharacterState:

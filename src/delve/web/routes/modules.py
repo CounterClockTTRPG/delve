@@ -33,7 +33,7 @@ from delve.modules.exporter import export_module as export_whole_module
 from delve.modules.importer import MEDIA_TYPE, STRUCTURAL, ImportRefused, import_bundle
 from delve.modules.source import load_source, missing_refs
 from delve.play import banners
-from delve.play.module_banners import BannerRefused, use_picture
+from delve.play.module_banners import WHOLE_BAND, BannerRefused, use_picture
 from delve.storage import ModuleInUse
 from delve.web.auth import Organiser
 from delve.web.guard import UPLOAD_LIMIT
@@ -272,7 +272,7 @@ async def import_module(request: Request, principal: Organiser) -> dict:
     if module.banner is None and isinstance(cover, str) and cover.startswith("asset:"):
         # The bundle's cover, as if the organiser had picked it: its middle band (DEL-378).
         try:
-            module = await run_in_threadpool(use_picture, request.app.state.storage, module.id, cover[6:], 0.5)
+            module = await run_in_threadpool(use_picture, request.app.state.storage, module.id, cover[6:], WHOLE_BAND)
         except BannerRefused as refused:
             warnings.append(f"The cover can't be the banner: {refused.message}")
         except Exception as error:  # noqa: BLE001 - the module is stored: a failing cover must not fail the import

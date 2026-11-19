@@ -64,7 +64,7 @@ target-version = "py312"
 extend-exclude = ["src/delve/maps/dsl", "src/delve/modules/dscn", "tests/maps/dsl", "tests/modules/dscn"]
 
 [tool.pytest.ini_options]
-testpaths = ["tests", "packs/osric/tests"]
+testpaths = ["tests", "packs/osric/tests", "packs/srd35/tests"]
 # `make ci` runs every test; `-m "not slow"` skips the slow ones for a quick run.
 markers = ["slow: takes seconds, such as building reference.db from the committed snapshots"]
 # A whole run writes gigabytes under /tmp (often memory): keep only a failed test's directory, not every test's.

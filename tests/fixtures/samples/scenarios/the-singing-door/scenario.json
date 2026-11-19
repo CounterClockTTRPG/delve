@@ -1,0 +1,62 @@
+{
+  "format": "dungml-scenario",
+  "version": 1,
+  "id": "6b2e9d40-1c57-4a8e-b3f2-0d9a7c4e5f21",
+  "title": "The Singing Door",
+  "summary": "A tomb door that talks, sings a riddle and opens to the right answer.",
+  "description": "A sample for the read-aloud eval (DEL-357): one keyed door whose boxed text has narration, a song that holds the riddle's clues, and three spoken lines.",
+  "authors": [
+    {
+      "name": "delve samples",
+      "role": "author"
+    }
+  ],
+  "created": "2026-11-18T09:00:00Z",
+  "updated": "2026-11-18T09:00:00Z",
+  "system": "adnd2e",
+  "system_name": "AD&D 2nd Edition",
+  "setting": "generic",
+  "language": "en",
+  "license": {
+    "spdx": "CC0-1.0",
+    "name": "CC0 — sample content"
+  },
+  "requires": {
+    "dungml": ">=0.1"
+  },
+  "maps": [
+    {
+      "name": "tomb",
+      "file": "maps/tomb.dmap",
+      "default": true,
+      "title": "Tomb of Orsevar"
+    }
+  ],
+  "text": [
+    {
+      "id": "intro",
+      "file": "text/intro.md",
+      "title": "Introduction",
+      "audience": "player"
+    },
+    {
+      "id": "tomb-key",
+      "file": "text/keyed/tomb.md",
+      "title": "Keyed encounters",
+      "map": "tomb"
+    }
+  ],
+  "keys": [
+    {
+      "key": "T1",
+      "title": "The Singing Door",
+      "text": "text:tomb-key#t1",
+      "node": "map:tomb#room.passage"
+    }
+  ],
+  "start": {
+    "map": "tomb",
+    "node": "room.passage",
+    "text": "text:intro"
+  }
+}

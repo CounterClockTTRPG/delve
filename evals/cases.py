@@ -7,6 +7,7 @@ A case is evals/cases/<id>.json:
      "description": "...",
      "module": "crypt-of-saint-vellis",   a sample module under tests/fixtures/samples/scenarios/
      "ruleset": "osric",                  optional; the campaign's ruleset (default `RULESET`), a pack's id
+     "setting": "aun",                    optional; the campaign's setting (default `SETTING`)
      "setup": [{"tool": "create_character", "args": {...}}, ...],   run through the tool host before play
      "secrets": [{"text": "...", "tags": [...], "related_to": "...", "terms": ["needle"]}],   planted with dm_note
      "hidden_terms": ["..."],             words the player-facing choices must not use
@@ -77,6 +78,9 @@ def expectation(fixture: Path) -> tuple[str, str | None]:
 
 RULESET = "osric"
 """The ruleset a case plays unless it names one: OSRIC, the one Delve's repository holds (`packs/osric`)."""
+SETTING = "greyhawk"
+"""The setting a case plays unless it names one. Greyhawk is a pack of the private delve-packs: a live run of a case
+on it needs that pack installed; Aun (`aun`) is built into Delve."""
 
 
 def start_campaign(storage: Storage, case: dict, scenarios_dir: Path = SCENARIOS_DIR) -> Campaign:
@@ -94,7 +98,7 @@ def start_campaign(storage: Storage, case: dict, scenarios_dir: Path = SCENARIOS
         module_id,
         revision.number,
         ruleset=case.get("ruleset", RULESET),
-        setting="greyhawk",
+        setting=case.get("setting", SETTING),
     )
     set_campaign_house_rules(storage, campaign.id, bundle_ids=[bundle.id], rule_ids=[])
     return campaign

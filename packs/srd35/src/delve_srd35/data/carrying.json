@@ -1,0 +1,227 @@
+{
+ "loads": [
+  {
+   "heavy": 10,
+   "light": 3,
+   "medium": 6,
+   "strength": 1
+  },
+  {
+   "heavy": 20,
+   "light": 6,
+   "medium": 13,
+   "strength": 2
+  },
+  {
+   "heavy": 30,
+   "light": 10,
+   "medium": 20,
+   "strength": 3
+  },
+  {
+   "heavy": 40,
+   "light": 13,
+   "medium": 26,
+   "strength": 4
+  },
+  {
+   "heavy": 50,
+   "light": 16,
+   "medium": 33,
+   "strength": 5
+  },
+  {
+   "heavy": 60,
+   "light": 20,
+   "medium": 40,
+   "strength": 6
+  },
+  {
+   "heavy": 70,
+   "light": 23,
+   "medium": 46,
+   "strength": 7
+  },
+  {
+   "heavy": 80,
+   "light": 26,
+   "medium": 53,
+   "strength": 8
+  },
+  {
+   "heavy": 90,
+   "light": 30,
+   "medium": 60,
+   "strength": 9
+  },
+  {
+   "heavy": 100,
+   "light": 33,
+   "medium": 66,
+   "strength": 10
+  },
+  {
+   "heavy": 115,
+   "light": 38,
+   "medium": 76,
+   "strength": 11
+  },
+  {
+   "heavy": 130,
+   "light": 43,
+   "medium": 86,
+   "strength": 12
+  },
+  {
+   "heavy": 150,
+   "light": 50,
+   "medium": 100,
+   "strength": 13
+  },
+  {
+   "heavy": 175,
+   "light": 58,
+   "medium": 116,
+   "strength": 14
+  },
+  {
+   "heavy": 200,
+   "light": 66,
+   "medium": 133,
+   "strength": 15
+  },
+  {
+   "heavy": 230,
+   "light": 76,
+   "medium": 153,
+   "strength": 16
+  },
+  {
+   "heavy": 260,
+   "light": 86,
+   "medium": 173,
+   "strength": 17
+  },
+  {
+   "heavy": 300,
+   "light": 100,
+   "medium": 200,
+   "strength": 18
+  },
+  {
+   "heavy": 350,
+   "light": 116,
+   "medium": 233,
+   "strength": 19
+  },
+  {
+   "heavy": 400,
+   "light": 133,
+   "medium": 266,
+   "strength": 20
+  },
+  {
+   "heavy": 460,
+   "light": 153,
+   "medium": 306,
+   "strength": 21
+  },
+  {
+   "heavy": 520,
+   "light": 173,
+   "medium": 346,
+   "strength": 22
+  },
+  {
+   "heavy": 600,
+   "light": 200,
+   "medium": 400,
+   "strength": 23
+  },
+  {
+   "heavy": 700,
+   "light": 233,
+   "medium": 466,
+   "strength": 24
+  },
+  {
+   "heavy": 800,
+   "light": 266,
+   "medium": 533,
+   "strength": 25
+  },
+  {
+   "heavy": 920,
+   "light": 306,
+   "medium": 613,
+   "strength": 26
+  },
+  {
+   "heavy": 1040,
+   "light": 346,
+   "medium": 693,
+   "strength": 27
+  },
+  {
+   "heavy": 1200,
+   "light": 400,
+   "medium": 800,
+   "strength": 28
+  },
+  {
+   "heavy": 1400,
+   "light": 466,
+   "medium": 933,
+   "strength": 29
+  }
+ ],
+ "reduced_speeds": [
+  {
+   "base": 20,
+   "reduced": 15
+  },
+  {
+   "base": 30,
+   "reduced": 20
+  },
+  {
+   "base": 40,
+   "reduced": 30
+  },
+  {
+   "base": 50,
+   "reduced": 35
+  },
+  {
+   "base": 60,
+   "reduced": 40
+  },
+  {
+   "base": 70,
+   "reduced": 50
+  },
+  {
+   "base": 80,
+   "reduced": 55
+  },
+  {
+   "base": 90,
+   "reduced": 60
+  },
+  {
+   "base": 100,
+   "reduced": 70
+  }
+ ],
+ "sizes": {
+  "Colossal": "16",
+  "Diminutive": "1/4",
+  "Fine": "1/8",
+  "Gargantuan": "8",
+  "Huge": "4",
+  "Large": "2",
+  "Small": "3/4",
+  "Tiny": "1/2"
+ },
+ "tremendous": 4
+}

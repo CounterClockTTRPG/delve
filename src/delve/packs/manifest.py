@@ -13,6 +13,7 @@ from delve.packs.api import PACK_API
 MANIFEST_NAME = "pack.toml"
 _ID = re.compile(r"[a-z0-9-]+")
 _KINDS = ("ruleset", "setting")
+_PICTURES = ("paint", "reuse")
 
 
 class PackError(ValueError):
@@ -32,6 +33,12 @@ class PackManifest:
     preferred: bool = False
     """`preferred = true`: a new campaign takes this pack's ruleset or setting when the install has it (DEL-307), so
     core names none of them."""
+    playable: bool = True
+    """`playable = false`: a ruleset that is only a reference (DEL-384). The Rulesets area reads it, and no campaign
+    is made, carried into or played with it."""
+    monster_pictures: Literal["paint", "reuse"] = "paint"
+    """`monster_pictures = "reuse"`: the ruleset shows the shared monster pictures but never paints one (DEL-384),
+    so it can't change the pictures other rulesets' campaigns show."""
 
     @classmethod
     def read(cls, folder: Path) -> PackManifest:
@@ -70,6 +77,14 @@ class PackManifest:
         preferred = raw.get("preferred", False)
         if not isinstance(preferred, bool):
             raise PackError("preferred must be true or false")
+        playable = raw.get("playable", True)
+        if not isinstance(playable, bool):
+            raise PackError("playable must be true or false")
+        pictures = raw.get("monster_pictures", "paint")
+        if pictures not in _PICTURES:
+            raise PackError(f"monster_pictures must be {' or '.join(repr(p) for p in _PICTURES)}")
+        if kind != "ruleset" and ("playable" in raw or "monster_pictures" in raw):
+            raise PackError("playable and monster_pictures belong to rulesets only")
         return cls(
             id=pack_id,
             kind=kind,  # type: ignore[arg-type]  # checked against _KINDS above
@@ -80,6 +95,8 @@ class PackManifest:
             entry=entry,
             fact_categories=frozenset(categories),
             preferred=preferred,
+            playable=playable,
+            monster_pictures=pictures,
         )
 
 

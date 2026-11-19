@@ -21,6 +21,7 @@ from delve.play.setting_layer import layer_for
 from delve.rules.catalog import entry as ruleset_entry
 from delve.rules.catalog import make_ruleset
 from delve.rules.classic.tables import RuleTables
+from delve.rules.d20 import D20Engine
 from delve.rules.fake import FakeRuleset
 from delve.rules.ruleset import NO_LOOKUPS, Ruleset
 from delve.setting.catalog import entry as setting_entry
@@ -83,6 +84,11 @@ class CampaignContext:
         return reference if reference is not None else NO_LOOKUPS
 
     @property
+    def d20(self) -> D20Engine | None:
+        """The campaign's ruleset's d20 engine; None for a ruleset without one (the classic rulesets)."""
+        return getattr(self.ruleset, "d20", None) if self.ruleset is not None else None
+
+    @property
     def rules(self) -> RuleTables:
         """The campaign's ruleset's numbers for the classic engine."""
         if self.ruleset is None:
@@ -97,7 +103,11 @@ class CampaignContext:
 
 
 def _has_ruleset(catalogs: Catalogs, ruleset_id: str) -> bool:
-    return not ruleset_id or ruleset_id == FakeRuleset.id or ruleset_entry(ruleset_id, catalogs.rulesets) is not None
+    """Whether the campaign's ruleset is there to play: installed, and not only a reference (DEL-384)."""
+    if not ruleset_id or ruleset_id == FakeRuleset.id:
+        return True
+    found = ruleset_entry(ruleset_id, catalogs.rulesets)
+    return found is not None and found.playable
 
 
 def _has_setting(catalogs: Catalogs, setting_id: str | None) -> bool:
@@ -108,7 +118,8 @@ def missing_pack(catalogs: Catalogs, campaign: Campaign) -> MissingPack | None:
     """What the campaign needs that isn't installed: its ruleset, else its setting; None when it has both. No ruleset
     id (the fake one) and no setting are never missing."""
     if not _has_ruleset(catalogs, campaign.ruleset):
-        return MissingPack("ruleset", campaign.ruleset)
+        found = ruleset_entry(campaign.ruleset, catalogs.rulesets)
+        return MissingPack("ruleset", campaign.ruleset, reference=found is not None)
     if not _has_setting(catalogs, campaign.setting):
         return MissingPack("setting", campaign.setting or "")
     return None

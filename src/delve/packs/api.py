@@ -30,6 +30,7 @@ PACK_IMPORTS = (
     "delve.domain",
     "delve.dice",
     "delve.rules.classic",
+    "delve.rules.d20",
     "delve.rules.ruleset",
     "delve.setting.setting",
     "delve.setting.wiki",
@@ -38,3 +39,14 @@ PACK_IMPORTS = (
     "delve.packs.store",
 )
 """The core modules a pack may import, each with what is under it; `tests/packs/test_pack_imports.py` holds every pack to it."""
+
+PACK_TOOL_IMPORTS = (
+    "delve.dm.tools.schema",
+    "delve.dm.tools.host",
+    "delve.play.characters",
+    "delve.play.combat",
+)
+"""What a pack's `tools.py` may import besides `PACK_IMPORTS`: a d20 engine's scoped DM tools (DEL-387) are tools like
+core's, so they build their specs with the schema, take a core tool's spec from the host to keep its params or call
+it, and change characters and fights through the play layer as core's tools do (an engine's build through
+`characters.update(..., d20_build=…)`). Only that module: the rest of a pack stays to `PACK_IMPORTS`."""

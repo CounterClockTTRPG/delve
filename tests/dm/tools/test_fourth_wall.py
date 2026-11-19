@@ -252,7 +252,9 @@ def test_planted_secret_never_in_player_view_or_perceived(planted, host):
         else:
             assert view is None, name
     visible = {spec.name for spec in host.specs() if spec.player_visible}
-    assert visible | {"room"} <= covered
+    # read_aloud needs a module's text, which this campaign of one map lacks: test_read_aloud.py plants the secret in
+    # the key's DM text and the speaker's notes, and finds it in neither its player view nor any seat's story.
+    assert visible - {"read_aloud"} | {"room"} <= covered
     # The plant reached the DM: Tira's story, the entry hall's note, the hidden room behind the vestry's secret door.
     assert {"get_character", "update_character", "move_party", "room", "batch"} <= dm_saw_it
     # …and the faction's notes and the clock's on_complete, also when the clock completes in a pass of days.

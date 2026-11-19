@@ -58,3 +58,20 @@ def test_without_packs_the_registry_holds_the_fake_alone():
     registry = Registry()
     register_rulesets(registry)
     assert [c.id for c in registry.capabilities()] == ["fake-rules"]
+
+
+def test_the_catalog_carries_playable_and_pictures(packs):
+    """DEL-384: a ruleset plays and paints unless its pack says otherwise."""
+    (only,) = catalog(packs)
+    assert (only.playable, only.monster_pictures) == (True, "paint")
+
+
+def test_the_catalog_carries_a_reference_packs_flags(tmp_path):
+    folder = tmp_path / "test-ruleset"
+    shutil.copytree(FIXTURES / "test-ruleset", folder)
+    (folder / "pack.toml").write_text((folder / "pack.toml").read_text() + 'playable = false\nmonster_pictures = "reuse"\n')
+    loader.reset()
+    loaded, _ = loader.load_packs(tmp_path)
+    loader.reset()
+    (only,) = catalog(loaded)
+    assert (only.playable, only.monster_pictures) == (False, "reuse")

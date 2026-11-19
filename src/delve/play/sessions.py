@@ -225,7 +225,7 @@ def _live_combat(ctx: CampaignContext) -> dict[str, Any] | None:
 
 def _digest(ctx: CampaignContext, character: Character) -> dict[str, Any]:
     sheet, state = character.sheet, character.state
-    return {
+    out = {
         "id": character.id,
         "name": character.name,
         # How the story speaks of the PC and the god it serves (DEL-327): the narration drifted without them.
@@ -252,6 +252,10 @@ def _digest(ctx: CampaignContext, character: Character) -> dict[str, Any]:
             f"{p.name} ({p.kind})" for p in ctx.storage.possessions.list(ctx.campaign_id, owner_id=character.id)
         ],
     }
+    if ctx.d20 is not None:  # a d20 engine's numbers stand in for AC and THAC0
+        del out["ac"], out["thac0"]
+        out["d20"] = ctx.d20.sheet_numbers(sheet)
+    return out
 
 
 def _item_dm_notes(items: Iterable[Item]) -> dict[str, list[str]]:

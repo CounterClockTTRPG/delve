@@ -15,6 +15,13 @@ describe("a campaign whose pack isn't installed (DEL-307)", () => {
     expect(screen.getByRole("alert").textContent).toContain("This campaign's setting, eberron, isn't installed.");
   });
 
+  it("says a ruleset that is only a reference can't be played, not that it isn't installed (DEL-384)", () => {
+    renderWith(<MissingPack kind="ruleset" id="srd35" reference />);
+    expect(screen.getByRole("alert").textContent).toBe(
+      "This campaign's ruleset, srd35, is only a reference in this install: it can't be played.",
+    );
+  });
+
   it("shows the notice on the play screen and no composer", async () => {
     const routes = playRoutes();
     routes[`GET ${base}/play/state`] = () => json(200, playState({ missing_pack: { kind: "ruleset", id: "adnd9" } }));

@@ -30,7 +30,11 @@ def offered(capabilities: list[ProviderCapabilities], preferred: Collection[str]
 def list_worlds(request: Request, principal: Organiser) -> dict:
     registries = request.app.state.registries
     catalogs = registries.catalogs
+    references = {e.id for e in catalogs.rulesets if not e.playable}  # only to read, never to play (DEL-384)
     return {
-        "rulesets": offered(registries.rulesets.capabilities(), {e.id for e in catalogs.rulesets if e.preferred}),
+        "rulesets": offered(
+            [caps for caps in registries.rulesets.capabilities() if caps.id not in references],
+            {e.id for e in catalogs.rulesets if e.preferred},
+        ),
         "settings": offered(registries.settings_.capabilities(), {e.id for e in catalogs.settings if e.preferred}),
     }

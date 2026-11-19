@@ -4,11 +4,12 @@ UV  ?= uv
 NPM ?= npm
 WEB := web
 
-.PHONY: install build run ci e2e-browser help-shots evals evals-live dsl-reference convert-live
+.PHONY: install build run ci guard e2e-browser help-shots evals evals-live dsl-reference convert-live
 
 install:
 	$(UV) sync
 	$(UV) run delve pack install packs/osric
+	$(UV) run delve pack install packs/srd35
 	cd $(WEB) && $(NPM) ci
 
 build:
@@ -22,6 +23,12 @@ ci:
 	$(UV) run lint-imports
 	$(UV) run pytest -n auto --dist loadgroup
 	cd $(WEB) && $(NPM) run typecheck && $(NPM) test && $(NPM) run build
+
+# ci plus the private rulesets' tests (AD&D 2e and the settings in ~/claude/delve-packs, with its scripted-session
+# golden), which ci can't run: the gate for any change to the shared classic engine (DEL-381). Not on GitHub.
+PACKS_REPO ?= $(HOME)/claude/delve-packs
+guard: ci
+	$(MAKE) -C $(PACKS_REPO) test DELVE=$(CURDIR) PYTEST_ARGS="-n auto"
 
 # The play screen, the module editor, New module and the print page in Chromium against delve serve with a fake
 # claude; not in ci. Screenshots go to web/e2e/screenshots/.

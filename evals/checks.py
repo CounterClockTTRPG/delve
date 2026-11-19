@@ -16,7 +16,7 @@ from functools import cache
 
 from delve.dm.tools import all_specs
 from delve.dm.tools.redact import DM_ONLY_KEYS
-from evals.trace import Beat, ToolCall, Trace
+from evals.trace import Beat, Text, ToolCall, Trace
 
 CHECKS: dict[str, Callable] = {}
 
@@ -364,6 +364,78 @@ def no_state_bypass(case: dict, trace: Trace) -> list[Finding]:
         for call in beat.tool_calls:
             if not call.is_delves:
                 out.append(Finding("no_state_bypass", i, f"{call.raw_name} is not one of Delve's tools"))
+    return out
+
+
+# ── Read-aloud passages ────────────────────────────────────────────────
+
+
+def _plain(text: str) -> str:
+    """Text without markdown, quote marks or punctuation, lower case, one space between words: a line of the module's
+    read-aloud matches the DM's text however it was quoted, wrapped or set in italics."""
+    return " ".join(re.findall(r"[a-z0-9]+(?:'[a-z]+)?", text.lower().replace("’", "'")))
+
+
+def _heard(beat: Beat) -> list[tuple[str, str]]:
+    """What the players heard in the beat, in its order, as `(how, plain text)`: the DM's text and narration
+    `read_aloud` posted are `told`, a `say` line and a line `read_aloud` gave its speaker are `said`."""
+    heard = []
+    for e in beat.events:
+        if isinstance(e, Text):
+            heard.append(("told", _plain(e.text)))
+        elif isinstance(e, ToolCall):
+            results = e.result.get("results") if e.name == "batch" and isinstance(e.result, dict) else None
+            for n, (name, args) in enumerate(e.steps()):
+                if name == "say":
+                    heard.append(("said", _plain(str(args.get("text", "")))))
+                elif name == "read_aloud":
+                    result = e.result if results is None else _step_result(results, n)
+                    parts = result.get("read_aloud") if isinstance(result, dict) else None
+                    for part in parts if isinstance(parts, list) else []:
+                        said = part.get("said") if isinstance(part, dict) else None
+                        if isinstance(said, dict):
+                            heard.append(("said", _plain(str(said.get("text", "")))))
+                        elif isinstance(part, dict):
+                            heard.append(("told", _plain(str(part.get("text", "")))))
+    return heard
+
+
+def _step_result(results: list, n: int):
+    """The result of a batch's step `n`, as the batch answered it."""
+    return next((r.get("result") for r in results if isinstance(r, dict) and r.get("step", -1) == n), None)
+
+
+@check("read_aloud_told")
+def read_aloud_told(case: dict, trace: Trace) -> list[Finding]:
+    """A read-aloud passage with quoted lines is told whole, in order (DEL-357): the DM of campaign sword gave the
+    quotes through `say` and none of the rest.
+
+    expect.read_aloud = [{"told": "..."} | {"said": "..."} | {"heard": "..."}, ...], the passage's parts in its order.
+    Every `told` part (narration, a song's line, an inscription) must be in the beat's text word for word, or in the
+    narration `read_aloud` posted, not only in a `say`; a `heard` part may be either; a `said` part must be a `say`
+    line or one `read_aloud` gave its speaker, not only told. The parts the beat has come in the passage's order."""
+    out = []
+    for i, beat in enumerate(trace.beats):
+        parts = _expects(case, i).get("read_aloud")
+        if not parts:
+            continue
+        heard = list(enumerate(_heard(beat)))
+        last, last_part = -1, ""
+        for part in parts:
+            how = next(k for k in ("told", "said", "heard") if k in part)
+            line = _plain(part[how])
+            at = next((k for k, (got, text) in heard if how in (got, "heard") and line in text), None)
+            if at is None:
+                said = how == "told" and any(got == "said" and line in text for _, (got, text) in heard)
+                told = how == "said" and any(got == "told" and line in text for _, (got, text) in heard)
+                via = " (only in a say)" * said + " (only told, by no speaker)" * told
+                out.append(Finding("read_aloud_told", i, f"read-aloud not {how}{via}: {line!r}"))
+                continue
+            if at < last:
+                out.append(
+                    Finding("read_aloud_told", i, f"{line!r} comes before {last_part!r}, out of the passage's order")
+                )
+            last, last_part = at, line
     return out
 
 

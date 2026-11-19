@@ -89,9 +89,9 @@ def module_lookup(ctx: CampaignContext, query: str, section: str = "", limit: in
 )
 def module_key(ctx: CampaignContext, room: str, part: str = "") -> dict[str, Any]:
     """A keyed room of the module, by its key or as move_party names rooms: its read-aloud text (the boxed text, for
-    the players), its DM text (never read it aloud), the NPCs there and its encounters, with their stats: `encounters`
-    is every encounter keyed to the room, its main one (`encounter`) first. A key two parts of the module share (the
-    house's 7 and the ship's 7) takes `part`, or the key as written (`sea-ghost-7`)."""
+    the players, which read_aloud tells them), its DM text (never read it aloud), the NPCs there and its encounters,
+    with their stats: `encounters` is every encounter keyed to the room, its main one (`encounter`) first. A key two
+    parts of the module share (the house's 7 and the ship's 7) takes `part`, or the key as written (`sea-ghost-7`)."""
     _, _, text = _pinned(ctx)
     key = _keyed(ctx, text, room, part)
     section = text.section(key.text_anchor) if key.text_anchor else None

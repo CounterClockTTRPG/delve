@@ -9,7 +9,7 @@ one process on one port on that person's machine.
 ## Install
 
 On Linux, `./install.sh` does it all, asking first: the tools Delve needs, Claude Code for its DM, Delve with the
-OSRIC ruleset, the sample adventure, and Delve running, now or as a service (`--check` only reports, `--yes` takes
+OSRIC and SRD 3.5 rulesets, the sample adventure, and Delve running, now or as a service (`--check` only reports, `--yes` takes
 the recommended answers).
 
 See **[INSTALL.md](INSTALL.md)** for the same by hand: what Delve needs, installing it, the first start, and running
@@ -18,7 +18,8 @@ it as a service. In short, with Python 3.12 or newer, [uv](https://docs.astral.s
     make install
     make run
 
-This installs OSRIC, the ruleset in this repository (`packs/osric`), beside Aun, Delve's own setting.
+This installs the rulesets in this repository, OSRIC (`packs/osric`) and SRD 3.5 (`packs/srd35`), beside Aun,
+Delve's own setting.
 
 ## Rulesets and settings are packs
 
@@ -34,7 +35,7 @@ a campaign whose pack isn't installed says so and doesn't play. Only the owner i
     uv run delve pack remove adnd2e
 
 Restart Delve after installing or removing one (the owner can also do both under Preferences → **Packs**). This
-repository ships OSRIC and Aun only. Other rulesets and settings, such as the ids `adnd2e`, `greyhawk` and
+repository ships OSRIC, SRD 3.5 and Aun only. Other rulesets and settings, such as the ids `adnd2e`, `greyhawk` and
 `forgotten-realms` the code and its tests name, are packs you make or get yourself; none of their content is here.
 
 ## Run
@@ -234,7 +235,7 @@ Everything a session needs except Claude:
 - **The DM's tools:** about 70 tools (`delve.dm.tools`), with ttrpg2's `batch`, served to Claude by `delve dm-bridge`.
   `tests/e2e/test_tool_timing.py` plays a first session through them, without Claude.
 - **The reference data:** a ruleset's rules, monsters, spells and items, and a setting's wiki and lore facts, are its
-  pack's (`delve pack install`, which builds the pack's `pack.db`). Delve ships OSRIC and its own setting, Aun; other
+  pack's (`delve pack install`, which builds the pack's `pack.db`). Delve ships OSRIC, SRD 3.5 and its own setting, Aun; other
   rulesets and settings are packs you install.
 
 ## Play
@@ -510,8 +511,7 @@ In `~/.local/share/delve`, or in the directory named by `DELVE_DATA_DIR`, which 
                              # screenshots in web/e2e/screenshots/
     cd web && npm run dev    # the web app with hot reload, using the API of a running delve serve on port 7810
 
-The design is in `docs/superpowers/specs/`, the plans in `docs/superpowers/plans/`, and the words we use in
-`docs/glossary.md`.
+The words we use are in `docs/glossary.md`.
 
 ## Licence
 
@@ -522,7 +522,9 @@ The OSRIC pack's game content keeps its own terms, set out in `packs/osric/src/d
 an independent product published under the OSRIC 3.0 Third-Party License and is not affiliated with Mythmere Games
 LLC. "OSRIC" is a trademark of Matthew Finch and Stuart Marshall; "OSRIC 3" is a trademark of Mythmere Games. It
 includes material from the System Reference Document 5.1 by Wizards of the Coast LLC, under CC BY 4.0.
-`web/vendor/portraitgen` keeps its own licence. Aun, Delve's own setting (`src/delve/setting/data/aun`,
+The SRD 3.5 pack's game content (`packs/srd35`) is Open Game Content from the System Reference Document 3.5 under the
+Open Game License 1.0a, set out with its copyright notices in `packs/srd35/NOTICE.md`; Delve's code around it is not
+Open Game Content. `web/vendor/portraitgen` keeps its own licence. Aun, Delve's own setting (`src/delve/setting/data/aun`,
 `docs/settings/aun-bible.md`), is part of Delve and under its licence.
 
 Product names named in the code (AD&D, Greyhawk, Forgotten Realms and the modules of TSR) are trademarks of their

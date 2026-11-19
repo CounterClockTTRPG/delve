@@ -47,15 +47,39 @@ describe("ModuleBannerPanel", () => {
     expect(screen.getByText("The cover")).toBeTruthy();
   });
 
-  it("cuts a picked picture where the slider says, as the preview shows it", async () => {
+  it("cuts a picked picture where the sliders say, as the preview shows it", async () => {
     renderPanel();
     fireEvent.click(await screen.findByRole("button", { name: "Use one of the module's pictures" }));
     fireEvent.click(screen.getByText("The cover"));
-    fireEvent.change(screen.getByRole("slider"), { target: { value: "20" } });
-    expect(screen.getByRole("img", { name: "The banner as it will be cut" }).style.objectPosition).toBe("20% 20%");
+    const preview = screen.getByRole("img", { name: "The banner as it will be cut" }) as HTMLImageElement;
+    fireEvent.change(screen.getByRole("slider", { name: "Down" }), { target: { value: "20" } });
+    expect(preview.style.objectPosition).toBe("50% 20%");
+    // A 2100 × 1800 cover: the widest band is 2100 × 900; half of it, 1050 × 450, at the right and 20% down.
+    Object.defineProperty(preview, "naturalWidth", { value: 2100 });
+    Object.defineProperty(preview, "naturalHeight", { value: 1800 });
+    fireEvent.load(preview);
+    fireEvent.change(screen.getByRole("slider", { name: "Width" }), { target: { value: "50" } });
+    fireEvent.change(screen.getByRole("slider", { name: "Across" }), { target: { value: "100" } });
+    expect([preview.style.width, preview.style.height, preview.style.left, preview.style.top]).toEqual(["200%", "400%", "-100%", "-60%"]);
     fireEvent.click(screen.getByRole("button", { name: "Use as banner" }));
     await waitFor(() => expect(calls.some((c) => c.method === "PUT")).toBe(true));
-    expect(calls.find((c) => c.method === "PUT")).toEqual({ method: "PUT", path: "/api/modules/mod_crypt/banner", body: { picture: "page-1", position: 0.2 } });
+    expect(calls.find((c) => c.method === "PUT")).toEqual({
+      method: "PUT",
+      path: "/api/modules/mod_crypt/banner",
+      body: { picture: "page-1", x: 1, y: 0.2, width: 0.5 },
+    });
+  });
+
+  it("can't move the whole band across a tall picture, only down", async () => {
+    renderPanel();
+    fireEvent.click(await screen.findByRole("button", { name: "Use one of the module's pictures" }));
+    fireEvent.click(screen.getByText("The cover"));
+    const preview = screen.getByRole("img", { name: "The banner as it will be cut" });
+    Object.defineProperty(preview, "naturalWidth", { value: 2100 });
+    Object.defineProperty(preview, "naturalHeight", { value: 1800 });
+    fireEvent.load(preview);
+    expect((screen.getByRole("slider", { name: "Across" }) as HTMLInputElement).disabled).toBe(true);
+    expect((screen.getByRole("slider", { name: "Down" }) as HTMLInputElement).disabled).toBe(false);
   });
 
   it("offers no picking when the module has no picture", async () => {

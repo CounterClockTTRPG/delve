@@ -2,6 +2,7 @@
 and the engine's checks and loads worked out on them."""
 
 import json
+import re
 from importlib import resources
 
 import pytest
@@ -11,7 +12,7 @@ from delve_osric.tables import SAVE_TYPES, TABLES
 
 from delve.dice import Dice, MemoryRollLog, ScriptedRng
 from delve.domain.characters import Sheet
-from delve.rules.classic import checks, encumbrance
+from delve.rules.classic import checks, encumbrance, spells
 from delve.rules.classic.class_xp import progress
 
 DATA = resources.files("delve_osric").joinpath("data")
@@ -96,6 +97,26 @@ def test_a_load_is_banded_over_the_strength_allowance():
 )
 def test_ability_rows_carry_the_engines_columns(ability, score, column, value):
     assert REF.ability(ability, score)["values"][column] == value
+
+
+def test_names_are_found_whatever_their_apostrophe():  # DEL-401: the data's are curly
+    assert REF.spell("Fool's Gold")[0]["name"] == "Fool’s Gold"
+    assert REF.monster("executioner's hood")[0]["name"] == "Executioner’s hood"
+    assert REF.monster("al-mi`raj")[0]["name"] == "Al-mi’raj"
+    assert spells.lookup(REF, "Fool's Gold")["name"] == "Fool’s Gold"
+
+
+def test_a_name_keeps_its_lower_case_after_an_apostrophe():
+    """The engine title-cases a spell's name, and `str.title()` made "FOOL’S GOLD" "Fool’S Gold"; the snapshot puts the
+    ending back in lower case (DEL-406). No name of any kind has a capital after an apostrophe."""
+    names = [s["name"] for s in load("spells")["spells"]] + [
+        s["reverse"] for s in load("spells")["spells"] if s.get("reverse")
+    ]
+    names += [m["name"] for m in load("monsters")["monsters"]]
+    assert [name for name in names if re.search(r"[A-Za-z][’'][A-Z]", name)] == []
+    assert "Fool’s Gold" in names and "Tanzur’s Floating Disk" in names and "Otho’s Irresistible Dance" in names
+    assert [s["name"] for s in REF.spell("Fool’s Gold")] == ["Fool’s Gold"]
+    assert [s["name"] for s in REF.spell("biccby’s clenched fist")] == ["Biccby’s Clenched Fist"]
 
 
 def test_lookups():

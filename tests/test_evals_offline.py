@@ -64,13 +64,17 @@ def test_every_check_has_a_passing_and_a_violating_fixture():
     assert set(CHECKS) - clean == set(), "checks with no passing fixture"
 
 
+# Checks of Delve's own, each with its own case: only that case's beats expect what they check.
+DELVE_ONLY_CHECKS = {"read_aloud_told"}
+
+
 @pytest.mark.parametrize("case_id", ["locked_door", "goblin_ambush"])
 def test_the_ported_cases_have_a_pass_and_one_violation_per_check(case_id):
     names = {fx.name for fx in _cases.fixtures(case_id)}
-    assert names == {"pass.jsonl"} | {f"violates-{check}.jsonl" for check in CHECKS}
+    assert names == {"pass.jsonl"} | {f"violates-{check}.jsonl" for check in set(CHECKS) - DELVE_ONLY_CHECKS}
 
 
-def test_the_cases_are_the_planned_six():
+def test_the_cases_are_the_planned_seven():
     assert set(_cases.load_cases()) == {
         "locked_door",
         "goblin_ambush",
@@ -78,6 +82,7 @@ def test_the_cases_are_the_planned_six():
         "ask_the_dm_rules",
         "tone_and_xp",
         "xp_awards",
+        "read_aloud_song",
     }
     for cid in _cases.load_cases():
         assert any(_cases.expectation(fx)[0] == "pass" for fx in _cases.fixtures(cid)), cid
@@ -252,6 +257,71 @@ def test_no_meta_flags_the_dms_planning_in_the_story():
 def test_ooc_beat_is_exempt_from_no_meta():
     trace = Trace([_beat(Text("skill_check came up 31."), player="(ooc: roll?)")])
     assert run_checks({}, trace, ["no_meta"]) == []
+
+
+def test_a_read_aloud_is_told_in_its_order():
+    """DEL-357: the passage's narration and song in the text, its quotes through say, in the passage's order."""
+    case = {
+        "beats": [
+            {"expect": {"read_aloud": [{"told": "The door glows."}, {"said": "Who goes?"}, {"told": "It sings:"}]}}
+        ]
+    }
+
+    def said(text):
+        return TraceCall("say", {"npc": "Door", "text": text})
+
+    told = _beat(Text("The *door* glows."), said("Who goes?"), Text("It sings: la la."))
+    assert run_checks(case, Trace([told]), ["read_aloud_told"]) == []
+    late = _beat(said("Who goes?"), Text("The door glows. It sings: la la."))
+    assert [f.message for f in run_checks(case, Trace([late]), ["read_aloud_told"])] == [
+        "'who goes' comes before 'the door glows', out of the passage's order"
+    ]
+    lost = _beat(said("The door glows. Who goes?"))
+    assert [f.message for f in run_checks(case, Trace([lost]), ["read_aloud_told"])] == [
+        "read-aloud not told (only in a say): 'the door glows'",
+        "read-aloud not told: 'it sings'",
+    ]
+
+
+def test_a_read_aloud_call_tells_its_narration_and_says_its_lines_in_order():
+    """DEL-357: what `read_aloud` posted counts as told and said, at its place in the beat, a batch's step too; a
+    `heard` part may be either."""
+    case = {
+        "beats": [
+            {
+                "expect": {
+                    "read_aloud": [
+                        {"told": "The door glows."},
+                        {"said": "Who goes?"},
+                        {"heard": "Answer"},
+                        {"told": "It sings: la la."},
+                    ]
+                }
+            }
+        ]
+    }
+    parts = [
+        {"text": "The *door* glows."},
+        {"said": {"speaker": {"id": "n1", "name": "Door"}, "mood": "neutral", "text": "Who goes?"}},
+        {"text": '"Answer," it says. It sings: la la.'},
+    ]
+    call = TraceCall("read_aloud", {"room": "T1", "speaker": "Door"}, result={"key": "T1", "read_aloud": parts})
+    assert run_checks(case, Trace([_beat(Text("You reach the door."), call)]), ["read_aloud_told"]) == []
+    steps = {"steps": [{"tool": "read_aloud", "args": {"room": "T1"}}]}
+    batch = TraceCall("batch", steps, result={"results": [{"step": 0, "tool": "read_aloud", "result": call.result}]})
+    assert run_checks(case, Trace([_beat(batch)]), ["read_aloud_told"]) == []
+    nobody = [parts[0], {"text": "“Who goes?”"}, parts[2]]
+    unspoken = TraceCall("read_aloud", {"room": "T1"}, result={"key": "T1", "read_aloud": nobody})
+    assert [f.message for f in run_checks(case, Trace([_beat(unspoken)]), ["read_aloud_told"])] == [
+        "read-aloud not said (only told, by no speaker): 'who goes'"
+    ]
+    refused = TraceCall("read_aloud", {"room": "T1"}, result={"error": "T1 has no read-aloud text."})
+    assert [f.message for f in run_checks(case, Trace([_beat(refused)]), ["read_aloud_told"])] == [
+        "read-aloud not told: 'the door glows'",
+        "read-aloud not said: 'who goes'",
+        "read-aloud not heard: 'answer'",
+        "read-aloud not told: 'it sings la la'",
+    ]
 
 
 def test_no_tool_outside_delve():

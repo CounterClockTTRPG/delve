@@ -223,6 +223,7 @@ def _setup(
         live=live[1] if live else None,
         reference=ctx.lookups,
         rules=ctx.rules,
+        d20=ctx.d20,
     )
     fight = replace(fight, map=map_name)
     # Checked before the fight is stored, so a spell not memorized leaves none half set up (DEL-326).
@@ -243,11 +244,22 @@ def _setup(
             continue
         count, node, side = spec.pop("count", 1), spec.pop("node", None) or near_party, spec.pop("side", "enemy")
         fight, group = _rules(
-            rules.add_monsters, fight, dice, ctx.lookups, name, count, node=node, side=side, overrides=spec
+            rules.add_monsters,
+            fight,
+            dice,
+            ctx.lookups,
+            name,
+            count,
+            node=node,
+            side=side,
+            overrides=spec,
+            rules=ctx.rules,
+            d20=ctx.d20,
         )
         notes.extend(group.pop("notes", []))
-        rows = ctx.lookups.monster(name)
-        notes.extend(stated_differences(ctx.storage, ctx.campaign_id, name, rows[0] if rows else None))
+        if ctx.d20 is None:
+            rows = ctx.lookups.monster(name)
+            notes.extend(stated_differences(ctx.storage, ctx.campaign_id, name, rows[0] if rows else None))
         groups.append(group)
 
     out: dict[str, Any] = {"party_loaded": started["party_loaded"], "party_attacks": started["party_attacks"]}
@@ -265,14 +277,14 @@ def _setup(
             if not isinstance(spell, dict) or not spell.get("caster") or not spell.get("spell"):
                 notes.append(f"Skipped spell declaration {spell!r} — needs caster and spell.")
                 continue
-            fight, declared = _rules(rules.declare, fight, str(spell["caster"]), spell, ctx.lookups)
+            fight, declared = _rules(rules.declare, fight, str(spell["caster"]), spell, ctx.lookups, d20=ctx.d20)
             casting_time, init, found = rules.casting_time(ctx.lookups, declared["spell"])
             declared["casting_time"] = casting_time if found else "not found in DB — defaulting to 5"
             declared["casting_time_init"] = init
             out["declared"].append(declared)
         if spent := _spend(ctx, memorized):
             out["spells_spent"] = spent
-    fight, initiative = _rules(rules.roll_initiative, fight, dice, ctx.lookups, _mode(ctx), ctx.rules)
+    fight, initiative = _rules(rules.roll_initiative, fight, dice, ctx.lookups, _mode(ctx), ctx.rules, d20=ctx.d20)
     out["order"] = initiative["order"]
     if fight.mode == "side":
         out["sides"] = initiative["sides"]
@@ -313,7 +325,8 @@ def round_status(fight: rules.Combat) -> dict[str, Any]:
 def _memorized_spells(ctx: CampaignContext, fight: rules.Combat, declarations: Iterable[Any]) -> list[tuple[str, str]]:
     """The party casters' spells among `declarations` (a spell, not a scroll or an item), as `(character id, spell)`,
     each checked to be memorized and uncast (DEL-326): `PlayError` before anything of the round is resolved when one
-    isn't. A caster whose sheet has no spell slots keeps no memorized spells, and casts as before."""
+    isn't. A caster whose sheet has no spell slots keeps no memorized spells, and casts as before (a d20 pool caster
+    too: its pool is spent by `cast_spell`)."""
     spent: list[tuple[str, str]] = []
     for raw in declarations:
         if not isinstance(raw, dict) or not raw.get("spell") or raw.get("item"):
@@ -344,12 +357,20 @@ def _memorized_spells(ctx: CampaignContext, fight: rules.Combat, declarations: I
     return spent
 
 
+_CAST_KEYS = frozenset({"character_id", "name", "spell", "level", "remaining"})
+"""Core's own keys in `play_spells.cast`'s answer: the rest of a d20 cast's answer is the engine's report."""
+
+
 def _spend(ctx: CampaignContext, spells: list[tuple[str, str]]) -> list[dict[str, Any]]:
-    """Spend each declared spell's memorized copy: a spell is used up when it is begun, cast or spoiled (PHB ch. 7)."""
+    """Spend each declared spell's memorized copy: a spell is used up when it is begun, cast or spoiled (PHB ch. 7).
+    Under a d20 engine each entry keeps the engine's report too (a spell lost to arcane spell failure, its DC)."""
     out = []
     for character_id, spell in spells:
         cast = play_spells.cast(ctx, character_id, spell)
-        out.append({"caster": cast["name"], "spell": cast["spell"], "remaining": cast["remaining"]})
+        entry = {"caster": cast["name"], "spell": cast["spell"], "remaining": cast["remaining"]}
+        if ctx.d20 is not None:  # core's keys win over the engine's
+            entry = {**{k: v for k, v in cast.items() if k not in _CAST_KEYS}, **entry}
+        out.append(entry)
     return out
 
 
@@ -362,7 +383,9 @@ def combat_round(ctx: CampaignContext, actions: list[dict[str, Any]]) -> dict[st
     if not isinstance(actions, list):
         raise PlayError("actions must be a list of {attacker, target} dicts.")
     memorized = _memorized_spells(ctx, fight, actions)
-    fight, result = _rules(rules.run_round, fight, _dice(ctx, id), ctx.lookups, actions, _mode(ctx), ctx.rules)
+    fight, result = _rules(
+        rules.run_round, fight, _dice(ctx, id), ctx.lookups, actions, _mode(ctx), ctx.rules, d20=ctx.d20
+    )
     spent = _spend(ctx, memorized)
     _store(ctx, id, fight)
     _record(ctx, id, result.round, result.mode, result.slots, result.outcomes)
@@ -377,7 +400,9 @@ def resolve_attack(
 ) -> dict[str, Any]:
     """One attack in the current round, applied at once (see `rules.attack`)."""
     id, fight = _fight(ctx)
-    fight, out = _rules(rules.attack, fight, _dice(ctx, id), attacker, target, condition=condition, weapon=weapon)
+    fight, out = _rules(
+        rules.attack, fight, _dice(ctx, id), attacker, target, condition=condition, weapon=weapon, d20=ctx.d20
+    )
     _store(ctx, id, fight)
     ctx.log("attack", combat_id=id, round=fight.round, **_summary(out))
     return out
@@ -386,7 +411,7 @@ def resolve_attack(
 def throw_missile(ctx: CampaignContext, thrower: str, target: str, missile: str) -> dict[str, Any]:
     """A flask of oil or a vial of holy water thrown in the current round, applied at once (see `rules.throw`)."""
     id, fight = _fight(ctx)
-    fight, out = _rules(rules.throw, fight, _dice(ctx, id), thrower, target, missile, ctx.lookups)
+    fight, out = _rules(rules.throw, fight, _dice(ctx, id), thrower, target, missile, ctx.lookups, d20=ctx.d20)
     _store(ctx, id, fight)
     ctx.log("attack", combat_id=id, round=fight.round, **_summary(out))
     return out
@@ -417,9 +442,11 @@ def combatant(ctx: CampaignContext, ref: str) -> rules.Combatant | None:
 
 def end_combat(ctx: CampaignContext) -> dict[str, Any]:
     """End the fight: each character's hit points, conditions and effects are written back to its state, and one
-    `combat` event records the outcome, with the defeated groups for XP and treasure."""
+    `combat` event records the outcome, with the defeated groups for XP and treasure: a d20 engine's XP against the
+    total levels of the party's characters."""
     id, fight = _fight(ctx)
-    ended, outcome = _rules(rules.end, fight)
+    levels = _party_levels(ctx, fight) if ctx.d20 is not None else ()
+    ended, outcome = _rules(rules.end, fight, party_levels=levels, d20=ctx.d20)
     ctx.storage.combats.save(id, ended.phase, rules.to_json(ended))
     for character_id, back in outcome["characters"].items():
         if ctx.storage.characters.get(character_id) is not None:
@@ -437,6 +464,16 @@ def end_combat(ctx: CampaignContext) -> dict[str, Any]:
     return {key: outcome[key] for key in ("saved", "rounds", "defeated", "groups", "enemies", "characters")}
 
 
+def _party_levels(ctx: CampaignContext, fight: rules.Combat) -> list[int]:
+    """The total level of each character fighting on the party's side."""
+    levels = []
+    for c in fight.combatants.values():
+        character = ctx.storage.characters.get(c.character_id) if c.side == "party" and c.character_id else None
+        if character is not None:
+            levels.append(sum(character.sheet.levels.values()))
+    return levels
+
+
 def add_combatant(
     ctx: CampaignContext,
     name: str,
@@ -451,7 +488,17 @@ def add_combatant(
     id, fight = _fight(ctx)
     node = node or _party_node(fight)
     fight, group = _rules(
-        rules.add_monsters, fight, _dice(ctx, id), ctx.lookups, name, count, node=node, side=side, overrides=stats
+        rules.add_monsters,
+        fight,
+        _dice(ctx, id),
+        ctx.lookups,
+        name,
+        count,
+        node=node,
+        side=side,
+        overrides=stats,
+        rules=ctx.rules,
+        d20=ctx.d20,
     )
     _store(ctx, id, fight)
     return group
@@ -587,6 +634,7 @@ def saving_throw(ctx: CampaignContext, ref: str, save_type: str, modifier: int =
         modifier=modifier,
         sheet=sheet,
         rules=ctx.rules,
+        d20=ctx.d20,
     )
     _store(ctx, id, fight)
     return out
@@ -672,37 +720,51 @@ def tracked_heal(ctx: CampaignContext, character: Character, amount: int) -> dic
 def rearm(ctx: CampaignContext, character: Character) -> None:
     """A character's attacks, weapon or THAC0 changed (`play.characters.update`) while it fights: the tracker takes its
     attack blocks and THAC0 again from the sheet, keeping the weapon in hand when it has one of that name (DEL-332: a
-    +1 axe handed over mid-fight still rolled as the old one)."""
+    +1 axe handed over mid-fight still rolled as the old one). With a d20 engine its attacks are the sheet's as they are
+    and the engine makes the combatant again (`combatant_from_sheet`); its THAC0 is left alone."""
     live = _fighting(ctx, character)
     if live is None:
         return
     id, fight = live
     c = fight.combatants[character.id]
-    blocks, _ = rules.party_blocks(character, ctx.lookups, ctx.rules)
+    if ctx.d20 is not None:
+        blocks, _ = rules.party_blocks(character)
+    else:
+        blocks, _ = rules.party_blocks(character, ctx.lookups, ctx.rules)
     held = c.attacks[c.weapon].name if 0 <= c.weapon < len(c.attacks) else ""
     weapon = next((i for i, b in enumerate(blocks) if b.name == held), 0)
-    c = replace(c, attacks=tuple(blocks), weapon=weapon, thac0=character.sheet.thac0)
+    if ctx.d20 is not None:
+        c = ctx.d20.combatant_from_sheet(character, replace(c, attacks=tuple(blocks), weapon=weapon))
+    else:
+        c = replace(c, attacks=tuple(blocks), weapon=weapon, thac0=character.sheet.thac0)
     fight = replace(fight, combatants={**fight.combatants, c.id: c})
     ctx.storage.combats.save(id, fight.phase, rules.to_json(fight))
 
 
 def drained(ctx: CampaignContext, character: Character, thac0_change: int) -> None:
     """A character lost levels (`play.characters.drain_level`) while it fights: the tracker takes its hit points, their
-    new maximum and its conditions, and its THAC0 and each attack's move by `thac0_change`."""
+    new maximum and its conditions, and its THAC0 and each attack's move by `thac0_change`; with a d20 engine the engine
+    makes the combatant again from the drained sheet (`combatant_from_sheet`) and its THAC0 is left alone."""
     live = _fighting(ctx, character)
     if live is None:
         return
     id, fight = live
     c = fight.combatants[character.id]
     own = tuple(k for k in c.conditions if k in rules.COMBAT_ONLY and k not in character.state.conditions)
-    c = replace(
-        c,
-        hp=character.state.hp,
-        hp_max=character.sheet.hp_max,
-        conditions=(*character.state.conditions, *own),
-        thac0=c.thac0 + thac0_change,
-        attacks=tuple(a if a.thac0 is None else replace(a, thac0=a.thac0 + thac0_change) for a in c.attacks),
-    )
+    if ctx.d20 is not None:
+        c = replace(
+            c, hp=character.state.hp, hp_max=character.sheet.hp_max, conditions=(*character.state.conditions, *own)
+        )
+        c = ctx.d20.combatant_from_sheet(character, c)
+    else:
+        c = replace(
+            c,
+            hp=character.state.hp,
+            hp_max=character.sheet.hp_max,
+            conditions=(*character.state.conditions, *own),
+            thac0=c.thac0 + thac0_change,
+            attacks=tuple(a if a.thac0 is None else replace(a, thac0=a.thac0 + thac0_change) for a in c.attacks),
+        )
     fight = replace(fight, combatants={**fight.combatants, c.id: c})
     ctx.storage.combats.save(id, fight.phase, rules.to_json(fight))
 

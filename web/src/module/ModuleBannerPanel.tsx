@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState, type ChangeEvent } from "react";
+import { useEffect, useState, type CSSProperties, type ChangeEvent } from "react";
 import {
   NeedsToken,
   attachmentUrl,
@@ -11,6 +11,7 @@ import {
   removeModuleBanner,
   uploadModuleBanner,
   type Attachment,
+  type BannerCrop,
   type ModuleDetail,
 } from "../api";
 import Banner from "../campaign/Banner";
@@ -19,6 +20,44 @@ import { useT } from "../i18n";
 
 const PICTURES = new Set(["image/png", "image/jpeg", "image/webp"]);
 
+/** The banner's shape, as the server cuts it. */
+const BANNER_RATIO = 21 / 9;
+const WHOLE: BannerCrop = { x: 0.5, y: 0.5, width: 1 };
+
+/**
+ * The box of a picture `width` × `height` that `crop` keeps, as the server's `Crop.box` works it out: its size and
+ * place as fractions of the picture, and whether there is room to move it across and down.
+ */
+export function bannerBox([width, height]: [number, number], crop: BannerCrop) {
+  const tall = width / height <= BANNER_RATIO;
+  const bandWidth = tall ? width : height * BANNER_RATIO;
+  const cutWidth = Math.min(width, bandWidth * crop.width);
+  const cutHeight = Math.min(height, (bandWidth / BANNER_RATIO) * crop.width);
+  return {
+    left: (crop.x * (width - cutWidth)) / width,
+    top: (crop.y * (height - cutHeight)) / height,
+    width: cutWidth / width,
+    height: cutHeight / height,
+    across: width - cutWidth >= 1,
+    down: height - cutHeight >= 1,
+  };
+}
+
+/** The preview's picture placed so the 21:9 frame shows the box `crop` keeps; until its size is known, the band. */
+function previewStyle(size: [number, number] | null, crop: BannerCrop): CSSProperties {
+  if (!size) return { objectPosition: `${crop.x * 100}% ${crop.y * 100}%` };
+  const box = bannerBox(size, crop);
+  const percent = (v: number) => `${Math.round(v * 1e6) / 1e4}%`;
+  return {
+    position: "absolute",
+    maxWidth: "none",
+    width: percent(1 / box.width),
+    height: percent(1 / box.height),
+    left: percent(-box.left / box.width),
+    top: percent(-box.top / box.height),
+  };
+}
+
 /** A picture to cut: one uploaded (its object address while it is chosen) or one of the module's own. */
 type Choice = { kind: "upload"; file: File; src: string } | { kind: "picture"; id: string; src: string };
 
@@ -26,7 +65,8 @@ type Choice = { kind: "upload"; file: File; src: string } | { kind: "picture"; i
  * A module's banner on its page (DEL-123): the picture, or that it has none; a painting under way or failed; and the
  * four ways to set it: Paint a banner (with a hint; only the owner with a paid model), Upload a picture, Use one of
  * the module's pictures (its PNG, JPEG and WebP attachments, such as a converted book's cover), or Remove. An upload or
- * a picture is cut to the banner's 21:9 band: the slider chooses which, and the preview shows exactly that band.
+ * a picture is cut to a 21:9 box: Width keeps all of the widest band or part of it (DEL-356), Across and Down say
+ * where, and the preview shows exactly that box.
  */
 export default function ModuleBannerPanel({ module, attachments }: { module: ModuleDetail; attachments: Attachment[] }) {
   const t = useT();
@@ -35,12 +75,13 @@ export default function ModuleBannerPanel({ module, attachments }: { module: Mod
   const [hint, setHint] = useState("");
   const [choosing, setChoosing] = useState(false);
   const [choice, setChoice] = useState<Choice | null>(null);
-  const [position, setPosition] = useState(50);
+  const [crop, setCrop] = useState<BannerCrop>(WHOLE);
+  const [size, setSize] = useState<[number, number] | null>(null);
   const info = useQuery({ queryKey: ["module", module.id, "banner-paint"], queryFn: () => getBannerPaintInfo(module.id) });
   const done = () => {
     setChoice(null);
     setChoosing(false);
-    setPosition(50);
+    setCrop(WHOLE);
     client.invalidateQueries({ queryKey: queryKeys.module(module.id), exact: true });
     client.invalidateQueries({ queryKey: queryKeys.modules });
   };
@@ -48,18 +89,35 @@ export default function ModuleBannerPanel({ module, attachments }: { module: Mod
   const save = useMutation({
     mutationFn: (chosen: Choice) =>
       chosen.kind === "upload"
-        ? uploadModuleBanner(module.id, chosen.file, position / 100)
-        : pictureModuleBanner(module.id, chosen.id, position / 100),
+        ? uploadModuleBanner(module.id, chosen.file, crop)
+        : pictureModuleBanner(module.id, chosen.id, crop),
     onSuccess: done,
   });
   const remove = useMutation({ mutationFn: () => removeModuleBanner(module.id), onSuccess: done });
   // An uploaded file's object address is let go once it isn't shown.
   useEffect(() => () => void (choice?.kind === "upload" && URL.revokeObjectURL(choice.src)), [choice]);
+  // Another picture: its size is learnt again as it loads.
+  useEffect(() => setSize(null), [choice?.src]);
 
   const banner = module.banner ?? null;
   const pictures = attachments.filter((a) => PICTURES.has(a.type));
   const failed = [paint.error, save.error, remove.error].find((e) => e && !(e instanceof NeedsToken));
   const painting = banner?.status === "painting";
+
+  const room = size ? bannerBox(size, crop) : null;
+  const slider = (key: keyof BannerCrop, label: string, min: number, disabled = false) => (
+    <label className="banner-crop-slider">
+      <span>{t(label)}</span>
+      <input
+        type="range"
+        min={min}
+        max={100}
+        value={Math.round(crop[key] * 100)}
+        disabled={disabled}
+        onChange={(e) => setCrop((now) => ({ ...now, [key]: Number(e.target.value) / 100 }))}
+      />
+    </label>
+  );
 
   function pick(e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -94,12 +152,19 @@ export default function ModuleBannerPanel({ module, attachments }: { module: Mod
       {choice ? (
         <div className="banner-crop">
           <div className="banner-crop-frame">
-            <img src={choice.src} alt={t("moduleBanner.preview")} style={{ objectPosition: `${position}% ${position}%` }} />
+            <img
+              src={choice.src}
+              alt={t("moduleBanner.preview")}
+              style={previewStyle(size, crop)}
+              onLoad={(e) => {
+                const { naturalWidth, naturalHeight } = e.currentTarget;
+                if (naturalWidth && naturalHeight) setSize([naturalWidth, naturalHeight]);
+              }}
+            />
           </div>
-          <label className="banner-crop-slider">
-            <span>{t("moduleBanner.position")}</span>
-            <input type="range" min={0} max={100} value={position} onChange={(e) => setPosition(Number(e.target.value))} />
-          </label>
+          {slider("width", "moduleBanner.width", 20)}
+          {slider("x", "moduleBanner.across", 0, room ? !room.across : false)}
+          {slider("y", "moduleBanner.down", 0, room ? !room.down : false)}
           <div className="dialog-actions">
             <button type="button" onClick={() => setChoice(null)}>
               {t("moduleBanner.cancel")}

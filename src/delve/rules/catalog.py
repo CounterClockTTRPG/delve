@@ -22,13 +22,16 @@ if TYPE_CHECKING:
 @dataclass(frozen=True)
 class RulesetEntry:
     """One ruleset: its id and title, the package that holds it, and how to make it; `preferred` when its pack says a
-    new campaign takes it."""
+    new campaign takes it; `playable` false for a reference only, and `monster_pictures` "reuse" for one that paints
+    none (DEL-384)."""
 
     id: str
     title: str
     package: str
     make: Callable[[], Ruleset]
     preferred: bool = False
+    playable: bool = True
+    monster_pictures: str = "paint"
 
 
 CATALOG: tuple[RulesetEntry, ...] = ()
@@ -44,6 +47,8 @@ def catalog(packs: Sequence[LoadedPack]) -> tuple[RulesetEntry, ...]:
             p.manifest.package,
             lambda p=p: p.entry.ruleset(p.root),  # type: ignore[union-attr]
             p.manifest.preferred,
+            p.manifest.playable,
+            p.manifest.monster_pictures,
         )
         for p in packs
         if p.manifest.kind == "ruleset"

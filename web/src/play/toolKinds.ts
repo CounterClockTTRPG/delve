@@ -112,6 +112,7 @@ const BY_KIND: Record<Exclude<ToolKindName, "other">, string[]> = {
   ],
   story: [
     "say",
+    "read_aloud",
     "tell",
     "introduce_npc",
     "set_disposition",

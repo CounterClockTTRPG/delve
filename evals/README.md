@@ -112,8 +112,10 @@ and agree with what the checks say, copy it into `evals/fixtures/<case>/` as `pa
 | `goblin_ambush` | Bren fights three goblins through `setup_combat` → `combat_round` → `end_combat`, the loot through `award_treasure` | `pass` and one `violates-<check>` per check |
 | `split_party_secret` | Pippa alone sees the vestry; Bren's choices name nothing only she has seen | `pass`, `violates-no_hidden_intel` |
 | `ask_the_dm_rules` | Rules questions to Ask the DM, answered from the rules and the sheet: no module canon, no tool names | `pass`, `violates-no_hidden_intel`, `violates-no_meta` |
+| `read_aloud_song` | DEL-357: the party reaches a talking door whose read-aloud has narration, a song that holds a riddle's clues, and three spoken lines: the passage reaches the story word for word, in order, its quotes as the door's lines, posted by `read_aloud` or told by the DM with `say` | `pass`, `pass-told-by-hand`, `violates-read_aloud_told` |
 
-All four play "The Crypt of Saint Vellis", the sample module of the scripted session.
+The first four play "The Crypt of Saint Vellis", the sample module of the scripted session; `read_aloud_song` plays
+"The Singing Door" (`tests/fixtures/samples/scenarios/the-singing-door`), one keyed door made for it.
 
 ## The checks
 
@@ -125,6 +127,7 @@ All four play "The Crypt of Saint Vellis", the sample module of the scripted ses
 | `pacing_line` | Pacing a Beat | the text before the first tool call is more than one line, more than two sentences or 300 chars, or names dice or tools (a missing opener is not flagged) |
 | `no_meta` | the fourth wall | in-fiction narration mentions `mcp__`, system reminders, task tools, tool calls, `pre_turn_check` or a snake_case tool name; `(ooc…` beats are exempt |
 | `no_state_bypass` | Module canon, Session Start | a call to any tool outside `mcp__delve__` (Delve's DM has no file tools, so Read, Bash or another MCP server is a bypass) |
+| `read_aloud_told` | A read-aloud passage is told whole (DEL-357) | in a beat with `expect.read_aloud` (the passage's parts in order, each `{"told": …}`, `{"said": …}` or `{"heard": …}`, either), a `told` part (narration, a song's line, an inscription) is missing from the text and from the narration `read_aloud` posted, even if a `say` carried it, or the parts found (a `told` in the text or `read_aloud`'s narration, a `said` in a `say` or `read_aloud`'s lines) are out of the passage's order. Matching ignores case, punctuation and markdown |
 
 Calls inside `batch` count as calls in their own right.
 
@@ -178,4 +181,5 @@ knows the terms the case lists and the DM-only text the tools returned.
    `call.steps()` expands a `batch`.
 2. Add `fixtures/<case>/violates-<check>.jsonl` that breaks only this rule, and make sure some `pass*.jsonl`
    exercises it cleanly. `tests/test_evals_offline.py` fails until every registered check has both, and until
-   `locked_door` and `goblin_ambush` each have a `violates-<check>.jsonl`.
+   `locked_door` and `goblin_ambush` each have a `violates-<check>.jsonl`, unless the check is one of Delve's own
+   with a case of its own (`DELVE_ONLY_CHECKS` there).

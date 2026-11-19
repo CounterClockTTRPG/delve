@@ -60,6 +60,26 @@ def setting(setting_id: str = "greyhawk", exclude: frozenset[str] | None = None)
     return found.make(claimed_elsewhere(setting_id, settings) if exclude is None else exclude)
 
 
+SRD35 = Path(__file__).resolve().parents[2] / "packs" / "srd35"
+
+
+@functools.cache
+def srd35_packs_dir() -> Path:
+    """A packs folder with `packs/srd35` installed (DEL-384), made once per process and removed at its end."""
+    folder = Path(tempfile.mkdtemp(prefix="srd35-packs-"))
+    atexit.register(shutil.rmtree, folder, ignore_errors=True)
+    install_pack(SRD35, folder)
+    return folder
+
+
+def srd35_catalogs() -> Catalogs:
+    """OSRIC's catalogs with the SRD 3.5 pack's ruleset beside OSRIC, playable (DEL-388) but not preferred."""
+    packs, skipped = loader.load_packs(srd35_packs_dir())
+    assert not skipped, skipped
+    catalogs = osric_catalogs()
+    return Catalogs((*catalogs.rulesets, *Catalogs.of(packs).rulesets), catalogs.settings, (*catalogs.packs, *packs))
+
+
 def osric_packs() -> tuple[loader.LoadedPack, ...]:
     """The loaded packs of `osric_packs_dir`: OSRIC and the setting doubles."""
     packs, skipped = loader.load_packs(osric_packs_dir())

@@ -1,5 +1,15 @@
 // Shapes from the play API (plateau 2b, task 7), in one place so they are easy to adjust.
-import { apiFetch, deleteJson, postJson, putJson, type Effort, type NextSession, type Portrait, type Schedule } from "../api";
+import {
+  apiFetch,
+  deleteJson,
+  postJson,
+  putJson,
+  type D20Numbers,
+  type Effort,
+  type NextSession,
+  type Portrait,
+  type Schedule,
+} from "../api";
 import type { ProfileSummary } from "../profile/api";
 
 export type StoryKind =
@@ -157,7 +167,9 @@ export interface PartyMember {
   levels?: Record<string, number>;
   hp: number;
   hp_max: number;
-  ac: number;
+  /** Absent in a d20 campaign, where `d20` (the engine's numbers) stands in (DEL-387). */
+  ac?: number;
+  d20?: D20Numbers;
   conditions: string[];
   spells?: { memorized: string[]; uncast: string[] };
 }
@@ -192,7 +204,8 @@ export interface PlayState {
   /** The session has ended and the next hasn't started (DEL-182); left out by an older server. */
   session_over?: boolean;
   /** The ruleset or setting the campaign needs that isn't installed (DEL-307); null when it has both. */
-  missing_pack?: { kind: "ruleset" | "setting"; id: string } | null;
+  /** `reference`: the ruleset is installed but only a reference, which no campaign plays (DEL-384). */
+  missing_pack?: { kind: "ruleset" | "setting"; id: string; reference?: boolean } | null;
   /** The party's average level outside the module's levels (DEL-187); null when it fits or the module doesn't say. */
   level_fit?: { min: number; max: number; party: number } | null;
   time_of_day: string | null;

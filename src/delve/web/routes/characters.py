@@ -39,6 +39,9 @@ ENCUMBRANCE = ("total_lb", "band", "movement", "penalty")
 NPC_FOR_SEATS = ("id", "name", "kind")
 # The sheet keys that are the DM's even on a PC: an NPC's story and its disposition.
 SHEET_FOR_THE_DM = ("notes_md", "disposition")
+# The keys of a d20 engine's sheet numbers (`Sheet.d20`) that are the DM's, at any depth: its build warnings (an unknown
+# race, armour or skill, a feat without its prerequisites) are the DM's to fix, not the table's to read (DEL-398).
+D20_FOR_THE_DM = ("warnings",)
 
 
 def catalogs_of(request: Request) -> Catalogs:
@@ -72,12 +75,13 @@ def character_json(
     DEL-238); false without `storage`."""
     weighed = inventory.weigh(ctx, character) if ctx is not None else None
     sheet = character.sheet.to_dict()
-    if ctx is not None:
+    d20 = ctx.d20 if ctx is not None else None
+    if ctx is not None and d20 is None:
         sheet["attacks"] = [
             {**raw, "thac0_worked": asdict(attack_thac0(character.sheet, attack, ctx.lookups, rules=ctx.rules))}
             for raw, attack in zip(sheet["attacks"], character.sheet.attacks, strict=True)
         ]
-    return {
+    out = {
         "id": character.id,
         "campaign_id": character.campaign_id,
         "name": character.name,
@@ -87,7 +91,7 @@ def character_json(
         "emote": sheet_emote(character.state.hp, character.sheet.hp_max, character.state.conditions),
         "order": character.order,
         "encumbrance": {k: weighed[k] for k in ENCUMBRANCE} if weighed is not None else None,
-        "xp_progress": class_xp.progress(character.sheet, character.state.xp, ctx.lookups, rules=ctx.rules) if ctx is not None else None,
+        "xp_progress": None,
         "created_at": character.created_at,
         "departure": character.departure,
         "departed_at": character.departed_at,
@@ -95,6 +99,12 @@ def character_json(
         "portrait_failed": images.portrait_failed(storage, character) if storage is not None else False,
         "portrait_editable": images.editable(storage, character) if storage is not None else False,
     }
+    if d20 is not None:  # a d20 engine's numbers stand in for THAC0 (`thac0_worked`), its XP total for the rows
+        out["d20"] = d20.sheet_numbers(character.sheet)
+        out["xp_progress"] = asdict(d20.progress(character.sheet, character.state, ctx.lookups))
+    elif ctx is not None:
+        out["xp_progress"] = class_xp.progress(character.sheet, character.state.xp, ctx.lookups, rules=ctx.rules)
+    return out
 
 
 def characters_changed(request: Request, campaign_id: str) -> None:
@@ -131,10 +141,13 @@ def player_character_json(
     character: Character, ctx: CampaignContext | None = None, storage: Storage | None = None
 ) -> dict[str, Any]:
     """`character_json` for a seat: an NPC is the DM's to know, so a seat gets only its `NPC_FOR_SEATS`; a PC comes
-    without the DM-only keys, without `SHEET_FOR_THE_DM` and without its hidden effects (an unidentified item's)."""
+    without the DM-only keys, without `SHEET_FOR_THE_DM`, without its d20 numbers' `D20_FOR_THE_DM` and without its
+    hidden effects (an unidentified item's)."""
     if character.kind == "npc":
         return {key: getattr(character, key) for key in NPC_FOR_SEATS}
     out = strip_for_players(character_json(character, ctx, storage), SHEET_FOR_THE_DM)
+    if isinstance(out["sheet"].get("d20"), dict):
+        out["sheet"]["d20"] = strip_for_players(out["sheet"]["d20"], D20_FOR_THE_DM)
     # An unidentified item's effect is the DM's (DEL-335): the seats see neither it nor what it does.
     out["state"]["effects"] = [e for e in out["state"]["effects"] if not e.get("hidden")]
     for effect in out["state"]["effects"]:

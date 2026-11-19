@@ -58,6 +58,9 @@ class TravelRates:
     """A cog or a coaster's miles an hour."""
     ship_hours: int
     """Hours under sail a day."""
+    sheet_speed_scale: float = 1.0
+    """What a character sheet's movement rate is multiplied by to walk at a movement rate of these rates: 1 for a
+    classic sheet's; 2/5 for 3.5's speed in feet (30 ft. walks as 12, 24 miles a day, DEL-404)."""
 
 
 def mode_rules(mode: Mode | str, rates: TravelRates, *, flies: bool = False) -> ModeRules:

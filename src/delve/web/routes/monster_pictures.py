@@ -14,6 +14,7 @@ from pydantic import BaseModel, Field
 
 from delve.play import monster_pictures
 from delve.play.context import PlayError
+from delve.rules.catalog import entry as ruleset_entry
 from delve.web.auth import Organiser, Principal, current_principal
 from delve.web.refusals import refusal
 from delve.web.routes.assets import attachment_response
@@ -55,12 +56,25 @@ class PaintIn(BaseModel):
     name: str = Field(min_length=1, max_length=NAME_CHARS)
     campaign_id: str | None = Field(default=None, max_length=64)
     """The table that asked, which reads its strip again when the picture lands."""
+    ruleset: str | None = Field(default=None, max_length=64)
+    """The ruleset whose book asked (the Rulesets area); one that reuses the shared pictures paints none (DEL-384)."""
+
+
+def _asking_ruleset(request: Request, body: PaintIn) -> str | None:
+    """The ruleset a paint is asked for: the book's, else the campaign's that asked; None for neither."""
+    if body.ruleset:
+        return body.ruleset
+    asking = request.app.state.storage.campaigns.get(body.campaign_id) if body.campaign_id else None
+    return asking.ruleset if asking is not None else None
 
 
 @router.post("/api/monster-pictures", status_code=202)
 async def paint(request: Request, principal: Organiser, body: PaintIn) -> dict:
     """Paint the kind (again) in the background: 202 with its state; 422 while it is being painted, or without a
     model that paints."""
+    found = ruleset_entry(_asking_ruleset(request, body), request.app.state.registries.catalogs.rulesets)
+    if found is not None and found.monster_pictures == "reuse":
+        raise refusal(PlayError(f"{found.title} reuses the shared monster pictures and paints none."), 409)
     services = table(request)
     try:
         row = monster_pictures.ask(services, body.name, campaign_id=body.campaign_id)

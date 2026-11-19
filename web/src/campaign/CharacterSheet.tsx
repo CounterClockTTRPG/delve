@@ -1,4 +1,4 @@
-import type { Character, SheetEmote, XpProgress } from "../api";
+import type { Character, D20Feat, SheetEmote, XpProgress } from "../api";
 import Portrait from "../components/Portrait";
 import { useLanguage, useT, type Translate } from "../i18n";
 import { term } from "../i18n/terms";
@@ -21,6 +21,22 @@ function saveName(t: Translate, save: string): string {
   const key = `save.${save}`;
   const name = t(key);
   return name === key ? save.replace(/_/g, " ") : name;
+}
+
+/** A 3.5 id as the SRD writes the name: "weapon-focus" → "Weapon Focus", "sleight-of-hand" → "Sleight of Hand". */
+const LOWER_WORDS = new Set(["of", "and", "the", "a", "an", "to", "in", "on"]);
+
+function d20Name(id: string): string {
+  return id
+    .split(/[-_\s]+/)
+    .filter(Boolean)
+    .map((word, n) => (n > 0 && LOWER_WORDS.has(word) ? word : word[0].toUpperCase() + word.slice(1)))
+    .join(" ");
+}
+
+function featName(t: Translate, feat: D20Feat): string {
+  const name = d20Name(feat.id);
+  return feat.choice ? t("sheet.d20.featChoice", { feat: name, choice: feat.choice }) : name;
 }
 
 function signed(n: number): string {
@@ -54,7 +70,10 @@ function stateLook(emote: SheetEmote): { emotes?: string[]; once?: boolean } {
  * A read-only character sheet: the abilities, HP, AC, THAC0, saves, attacks (each with its THAC0), proficiencies,
  * thief skills, natural abilities, inventory with its encumbrance band, the spell loadout with what is memorized and
  * what has been cast, and the background, under its portrait, which shows the character's state. Everything shown comes from the server as it is. An NPC's story and
- * disposition show only with `organiser`, and only the organiser's route sends them. With `mayRepaint`, a small
+ * disposition show only with `organiser`, and only the organiser's route sends them. In a d20 campaign (SRD 3.5), the
+ * engine's numbers (`character.d20`) stand in: AC with touch and flat-footed, BAB, initiative and Fort/Ref/Will
+ * for THAC0 and the five saves, the 3.5 skills and feats for the thief skills, domains, sneak attack and turning,
+ * and a DC per spell level; the engine's warnings show only with `organiser`. With `mayRepaint`, a small
  * Repaint portrait (or Try again, for one that failed) under the head (DEL-135).
  */
 // The classes that cast from a spellbook: the mage or magic-user, its specialists (the illusionist among them), and
@@ -98,7 +117,13 @@ export default function CharacterSheet({
     .join(", ");
   const scores = sheet.ability_scores ?? {};
   const abilities = ABILITIES.filter((a) => scores[a] !== undefined);
-  const skills = Object.entries(sheet.skills ?? {});
+  const d20 = character.d20;
+  const build = sheet.d20;
+  const derived = build?.derived;
+  // A d20 sheet's percentile skills mean nothing; its 3.5 skills are the engine's, by name.
+  const skills = d20 ? [] : Object.entries(sheet.skills ?? {});
+  const d20Skills = d20 ? Object.keys(d20.skills).sort((a, b) => d20Name(a).localeCompare(d20Name(b))) : [];
+  const warnings = organiser ? (derived?.warnings ?? []) : [];
   const weaponProfs = sheet.weapon_profs ?? [];
   const nwps = sheet.nwps ?? [];
   const naturalAbilities = sheet.natural_abilities ?? [];
@@ -109,8 +134,9 @@ export default function CharacterSheet({
   // Known spells are a spellbook's: a priest may pray for any spell of their spheres, so a list means nothing there.
   const known = keepsSpellbook(sheet.levels) ? (sheet.spell_loadout?.known ?? {}) : null;
   const loadout = sheet.spell_loadout?.default ?? {};
+  const slots = d20 ? { ...sheet.spell_slots, ...d20.slots } : sheet.spell_slots;
   const spellLevels = [
-    ...new Set([...Object.keys(sheet.spell_slots), ...Object.keys(known ?? {}), ...Object.keys(loadout)]),
+    ...new Set([...Object.keys(slots), ...Object.keys(known ?? {}), ...Object.keys(loadout)]),
   ].sort((a, b) => Number(a) - Number(b));
   const hasSpells = memorized.length > 0 || spellLevels.length > 0;
 
@@ -180,26 +206,54 @@ export default function CharacterSheet({
       )}
 
       <div className="sheet-columns">
-        <section>
-          <h4>
-            <abbr title={t("sheet.savesExplain")}>{t("sheet.saves")}</abbr>
-          </h4>
-          {Object.keys(sheet.saves).length === 0 ? (
-            <p className="placeholder">{t("sheet.noSaves")}</p>
-          ) : (
-            <table className="sheet-table">
-              <tbody>
-                {/* In the sheet's own order: the ruleset's, as play fills them in. */}
-                {Object.keys(sheet.saves).map((s) => (
-                  <tr key={s}>
-                    <td>{saveName(t, s)}</td>
-                    <td className="num">{sheet.saves[s]}</td>
+        {d20 ? (
+          <section>
+            <h4>{t("sheet.d20.skills")}</h4>
+            {d20Skills.length === 0 ? (
+              <p className="placeholder">{t("sheet.d20.noSkills")}</p>
+            ) : (
+              <table className="sheet-table">
+                <thead>
+                  <tr>
+                    <th />
+                    <th>{t("sheet.d20.skillRanks")}</th>
+                    <th>{t("sheet.d20.skillTotal")}</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-        </section>
+                </thead>
+                <tbody>
+                  {d20Skills.map((skill) => (
+                    <tr key={skill}>
+                      <td>{d20Name(skill)}</td>
+                      <td className="num">{build?.skills?.[skill] ?? ""}</td>
+                      <td className="num">{signed(d20.skills[skill])}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </section>
+        ) : (
+          <section>
+            <h4>
+              <abbr title={t("sheet.savesExplain")}>{t("sheet.saves")}</abbr>
+            </h4>
+            {Object.keys(sheet.saves).length === 0 ? (
+              <p className="placeholder">{t("sheet.noSaves")}</p>
+            ) : (
+              <table className="sheet-table">
+                <tbody>
+                  {/* In the sheet's own order: the ruleset's, as play fills them in. */}
+                  {Object.keys(sheet.saves).map((s) => (
+                    <tr key={s}>
+                      <td>{saveName(t, s)}</td>
+                      <td className="num">{sheet.saves[s]}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </section>
+        )}
 
         <section>
           <h4>{t("sheet.attacks")}</h4>
@@ -211,9 +265,9 @@ export default function CharacterSheet({
                 <tr>
                   <th>{t("sheet.attackName")}</th>
                   <th>{t("sheet.attackRate")}</th>
-                  <th>{t("sheet.attackSpeed")}</th>
-                  <th>{t("sheet.attackThac0")}</th>
-                  <th>{t("sheet.attackDamage")}</th>
+                  {!d20 && <th>{t("sheet.attackSpeed")}</th>}
+                  {!d20 && <th>{t("sheet.attackThac0")}</th>}
+                  <th>{t(d20 ? "sheet.d20.damage" : "sheet.attackDamage")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -221,11 +275,14 @@ export default function CharacterSheet({
                   <tr key={a.name}>
                     <td>{a.name}</td>
                     <td className="num">{a.attacks}</td>
-                    <td className="num">{a.speed ?? ""}</td>
-                    <td className="num" title={a.thac0_worked ? thac0Parts(t, a.thac0_worked.parts) : undefined}>
-                      {a.thac0 ?? a.thac0_worked?.value ?? sheet.thac0}
-                    </td>
-                    <td>{`${a.damage_sm} / ${a.damage_l}`}</td>
+                    {!d20 && <td className="num">{a.speed ?? ""}</td>}
+                    {!d20 && (
+                      <td className="num" title={a.thac0_worked ? thac0Parts(t, a.thac0_worked.parts) : undefined}>
+                        {a.thac0 ?? a.thac0_worked?.value ?? sheet.thac0}
+                      </td>
+                    )}
+                    {/* 3.5's damage is the same against every size. */}
+                    <td>{d20 ? a.damage_sm : `${a.damage_sm} / ${a.damage_l}`}</td>
                   </tr>
                 ))}
               </tbody>
@@ -234,6 +291,41 @@ export default function CharacterSheet({
           {sheet.weapon && <p className="sheet-weapon">{t("sheet.inHand", { weapon: sheet.weapon })}</p>}
         </section>
       </div>
+
+      {d20 && (
+        <div className="sheet-columns">
+          <section>
+            <h4 id={`${headingId}-feats`}>{t("sheet.d20.feats")}</h4>
+            {d20.feats.length === 0 ? (
+              <p className="placeholder">{t("sheet.d20.noFeats")}</p>
+            ) : (
+              <ul className="sheet-items" aria-labelledby={`${headingId}-feats`}>
+                {d20.feats.map((feat) => (
+                  <li key={`${feat.id}-${feat.choice ?? ""}`}>{featName(t, feat)}</li>
+                ))}
+              </ul>
+            )}
+          </section>
+          {(d20.domains.length > 0 || derived?.sneak || Boolean(derived?.turning_per_day)) && (
+            <section>
+              {d20.domains.length > 0 && (
+                <>
+                  <h4 id={`${headingId}-domains`}>{t("sheet.d20.domains")}</h4>
+                  <ul className="sheet-items" aria-labelledby={`${headingId}-domains`}>
+                    {d20.domains.map((domain) => (
+                      <li key={domain}>{d20Name(domain)}</li>
+                    ))}
+                  </ul>
+                </>
+              )}
+              {derived?.sneak && <p>{t("sheet.d20.sneak", { dice: derived.sneak })}</p>}
+              {Boolean(derived?.turning_per_day) && (
+                <p>{t("sheet.d20.turning", { count: String(derived?.turning_per_day) })}</p>
+              )}
+            </section>
+          )}
+        </div>
+      )}
 
       {(weaponProfs.length > 0 || nwps.length > 0) && (
         <div className="sheet-columns">
@@ -295,9 +387,15 @@ export default function CharacterSheet({
         {encumbrance && (
           <p className={`encumbrance band-${encumbrance.band}`}>
             {t("sheet.encumbrance", {
-              band: t(`band.${encumbrance.band}`),
+              // A d20 sheet's speed is in feet, and 3.5 calls core's moderate band a medium load (DEL-404).
+              band:
+                character.d20 && encumbrance.band === "moderate"
+                  ? t("sheet.d20.bandMedium")
+                  : t(`band.${encumbrance.band}`),
               total: String(encumbrance.total_lb),
-              movement: String(encumbrance.movement),
+              movement: character.d20
+                ? t("sheet.d20.feet", { feet: String(encumbrance.movement) })
+                : String(encumbrance.movement),
             })}
           </p>
         )}
@@ -353,15 +451,21 @@ export default function CharacterSheet({
                   <th>{t("sheet.slots")}</th>
                   <th>{t("sheet.default")}</th>
                   {known && <th>{t("sheet.known")}</th>}
+                  {d20 && (
+                    <th>
+                      <abbr title={t("sheet.d20.dcExplain")}>{t("sheet.d20.dc")}</abbr>
+                    </th>
+                  )}
                 </tr>
               </thead>
               <tbody>
                 {spellLevels.map((level) => (
                   <tr key={level}>
                     <td>{t("sheet.spellLevel", { level })}</td>
-                    <td className="num">{sheet.spell_slots[level] ?? 0}</td>
+                    <td className="num">{slots[level] ?? 0}</td>
                     <td>{(loadout[level] ?? []).join(", ")}</td>
                     {known && <td>{(known[level] ?? []).join(", ")}</td>}
+                    {d20 && <td className="num">{d20.dc[level] ?? ""}</td>}
                   </tr>
                 ))}
               </tbody>
@@ -377,9 +481,16 @@ export default function CharacterSheet({
         </section>
       )}
 
-      {(story || disposition !== undefined) && (
+      {(story || disposition !== undefined || warnings.length > 0) && (
         <section className="sheet-dm">
           <h4>{t("sheet.forTheDm")}</h4>
+          {warnings.length > 0 && (
+            <ul className="sheet-items" aria-label={t("sheet.d20.warnings")}>
+              {warnings.map((warning) => (
+                <li key={warning}>{warning}</li>
+              ))}
+            </ul>
+          )}
           {disposition !== undefined && (
             <p>
               {t("sheet.disposition")} <strong>{signed(disposition)}</strong>
@@ -395,52 +506,86 @@ export default function CharacterSheet({
 
 /** HP, AC, THAC0, XP and movement, the numbers with the reader's separators; HP's "61 / 62" never breaks. AC, THAC0
  * and Move say what they are on hover, for a player new to the game (DEL-266); Move is the loaded rate, the unloaded one
- * under it, in small type, when the load slows the character. */
-function SheetStats({ character: { sheet, state, encumbrance } }: { character: Character }) {
+ * under it, in small type, when the load slows the character. With a d20 engine's numbers, AC is theirs with touch and
+ * flat-footed under it, and BAB, initiative and Fort/Ref/Will stand in for THAC0, and Move is the Speed, in feet
+ * (DEL-404). */
+function SheetStats({ character: { sheet, state, encumbrance, d20 } }: { character: Character }) {
   const t = useT();
   const number = new Intl.NumberFormat(useLanguage());
+  const rate = (value: number) => (d20 ? t("sheet.d20.feet", { feet: String(value) }) : String(value));
   return (
     <dl className="sheet-stats">
       <div>
         <dt>{t("sheet.hp")}</dt>
         <dd className="nowrap">{`${number.format(state.hp)} / ${number.format(sheet.hp_max)}`}</dd>
       </div>
-      <div>
-        <dt>
-          <abbr title={t("sheet.acExplain")}>{t("sheet.ac")}</abbr>
-        </dt>
-        <dd>{sheet.ac}</dd>
-      </div>
-      <div>
-        <dt>
-          <abbr title={t("sheet.thac0Explain")}>{t("sheet.thac0")}</abbr>
-        </dt>
-        <dd>{sheet.thac0}</dd>
-      </div>
+      {d20 ? (
+        <>
+          <div>
+            <dt>
+              <abbr title={t("sheet.d20.acExplain")}>{t("sheet.ac")}</abbr>
+            </dt>
+            <dd>
+              {d20.ac}
+              <span className="sheet-stat-note">
+                {t("sheet.d20.acNote", { touch: String(d20.touch), flat: String(d20.flat_footed) })}
+              </span>
+            </dd>
+          </div>
+          {D20_STATS.map((stat) => (
+            <div key={stat}>
+              <dt>
+                <abbr title={t(`sheet.d20.${stat}Explain`)}>{t(`sheet.d20.${stat}`)}</abbr>
+              </dt>
+              <dd>{signed(d20[stat])}</dd>
+            </div>
+          ))}
+        </>
+      ) : (
+        <>
+          <div>
+            <dt>
+              <abbr title={t("sheet.acExplain")}>{t("sheet.ac")}</abbr>
+            </dt>
+            <dd>{sheet.ac}</dd>
+          </div>
+          <div>
+            <dt>
+              <abbr title={t("sheet.thac0Explain")}>{t("sheet.thac0")}</abbr>
+            </dt>
+            <dd>{sheet.thac0}</dd>
+          </div>
+        </>
+      )}
       <div>
         <dt>{t("sheet.xp")}</dt>
         <dd>{number.format(state.xp)}</dd>
       </div>
       <div>
         <dt>
-          <abbr title={t("sheet.movementExplain")}>{t("sheet.movement")}</abbr>
+          {d20 ? (
+            <abbr title={t("sheet.d20.speedExplain")}>{t("sheet.d20.speed")}</abbr>
+          ) : (
+            <abbr title={t("sheet.movementExplain")}>{t("sheet.movement")}</abbr>
+          )}
         </dt>
         <dd>
           {encumbrance && encumbrance.movement !== sheet.movement_rate ? (
             <>
-              {encumbrance.movement}
-              <span className="sheet-stat-note">
-                {t("sheet.moveUnloaded", { base: String(sheet.movement_rate) })}
-              </span>
+              {rate(encumbrance.movement)}
+              <span className="sheet-stat-note">{t("sheet.moveUnloaded", { base: rate(sheet.movement_rate) })}</span>
             </>
           ) : (
-            sheet.movement_rate
+            rate(sheet.movement_rate)
           )}
         </dd>
       </div>
     </dl>
   );
 }
+
+/** The d20 numbers beside AC on the stats row, each with its `sheet.d20.<stat>` label and `<stat>Explain`. */
+const D20_STATS = ["bab", "init", "fort", "ref", "will"] as const;
 
 /** Each class's XP share against what its next level needs: "Fighter 2,600 / 4,000 · Mage 2,600 / 5,000". */
 function XpProgressLine({ rows }: { rows: XpProgress[] }) {

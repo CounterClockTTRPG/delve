@@ -1,0 +1,468 @@
+{
+ "campaign": {
+  "coin": {
+   "cp": 0,
+   "ep": 0,
+   "gp": 0,
+   "pp": 0,
+   "sp": 0
+  },
+  "day": 4,
+  "loot": [],
+  "session": 1,
+  "time": "06:00"
+ },
+ "characters": [
+  {
+   "conditions": [],
+   "effects": [],
+   "hp": 18,
+   "hp_max": 18,
+   "inventory": [],
+   "kind": "pc",
+   "levels": {
+    "fighter": 2
+   },
+   "memorized": [],
+   "name": "Garrek",
+   "order": 0,
+   "saves": {
+    "aimed_magic_items": 16,
+    "breath_weapons": 17,
+    "death_paralysis_poison": 14,
+    "petrification_polymorph": 15,
+    "spells": 17
+   },
+   "xp": 220
+  },
+  {
+   "conditions": [],
+   "effects": [],
+   "hp": 3,
+   "hp_max": 4,
+   "inventory": [],
+   "kind": "pc",
+   "levels": {
+    "magic-user": 1
+   },
+   "memorized": [
+    [
+     "Magic Missile",
+     1,
+     false
+    ]
+   ],
+   "name": "Halvaine",
+   "order": 2,
+   "saves": {
+    "aimed_magic_items": 11,
+    "breath_weapons": 15,
+    "death_paralysis_poison": 14,
+    "petrification_polymorph": 13,
+    "spells": 12
+   },
+   "xp": 0
+  },
+  {
+   "conditions": [],
+   "effects": [],
+   "hp": 7,
+   "hp_max": 7,
+   "inventory": [],
+   "kind": "pc",
+   "levels": {
+    "cleric": 1
+   },
+   "memorized": [],
+   "name": "Anselm",
+   "order": 1,
+   "saves": {
+    "aimed_magic_items": 14,
+    "breath_weapons": 16,
+    "death_paralysis_poison": 10,
+    "petrification_polymorph": 13,
+    "spells": 15
+   },
+   "xp": 220
+  }
+ ],
+ "events": [
+  [
+   "beat-01",
+   "session_start"
+  ],
+  [
+   "beat-01",
+   "character_created"
+  ],
+  [
+   "beat-01",
+   "character_created"
+  ],
+  [
+   "beat-01",
+   "character_created"
+  ],
+  [
+   "beat-01",
+   "marching_order"
+  ],
+  [
+   "beat-02",
+   "spell_loadout"
+  ],
+  [
+   "beat-02",
+   "spells_memorized"
+  ],
+  [
+   "beat-02",
+   "moved"
+  ],
+  [
+   "beat-03",
+   "combat_started"
+  ],
+  [
+   "beat-04",
+   "spell_cast"
+  ],
+  [
+   "beat-04",
+   "combat_round"
+  ],
+  [
+   "beat-05",
+   "combat_round"
+  ],
+  [
+   "beat-05",
+   "combat_round"
+  ],
+  [
+   "beat-06",
+   "character_updated"
+  ],
+  [
+   "beat-06",
+   "character_updated"
+  ],
+  [
+   "beat-06",
+   "character_updated"
+  ],
+  [
+   "beat-06",
+   "combat"
+  ],
+  [
+   "beat-06",
+   "damage"
+  ],
+  [
+   "beat-06",
+   "rest"
+  ],
+  [
+   "beat-06",
+   "days"
+  ],
+  [
+   "beat-06",
+   "xp_awarded"
+  ],
+  [
+   "beat-06",
+   "xp_awarded"
+  ],
+  [
+   "beat-07",
+   "session_end"
+  ]
+ ],
+ "live_fight": false,
+ "map_states": {
+  "crypt": {
+   "characters": {
+    "Anselm": {
+     "doors": [
+      "15,10"
+     ],
+     "location": "room.entry_hall",
+     "nodes": [
+      "room.entry_hall"
+     ]
+    },
+    "Garrek": {
+     "doors": [
+      "15,10"
+     ],
+     "location": "room.entry_hall",
+     "nodes": [
+      "room.entry_hall"
+     ]
+    },
+    "Halvaine": {
+     "doors": [
+      "15,10"
+     ],
+     "location": "room.entry_hall",
+     "nodes": [
+      "room.entry_hall"
+     ]
+    }
+   },
+   "door_states": {},
+   "revealed": []
+  }
+ },
+ "rolls": [
+  {
+   "actor": "mon_1",
+   "beat": "beat-03/<fight>",
+   "faces": [
+    3
+   ],
+   "notation": "1d8",
+   "purpose": "hp",
+   "round": null,
+   "target": null,
+   "total": 3
+  },
+  {
+   "actor": "mon_2",
+   "beat": "beat-03/<fight>",
+   "faces": [
+    4
+   ],
+   "notation": "1d8",
+   "purpose": "hp",
+   "round": null,
+   "target": null,
+   "total": 4
+  },
+  {
+   "actor": null,
+   "beat": "beat-03/surprise-0",
+   "faces": [
+    6
+   ],
+   "notation": "1d6",
+   "purpose": "surprise:party",
+   "round": null,
+   "target": null,
+   "total": 6
+  },
+  {
+   "actor": null,
+   "beat": "beat-03/surprise-0",
+   "faces": [
+    5
+   ],
+   "notation": "1d6",
+   "purpose": "surprise:enemies",
+   "round": null,
+   "target": null,
+   "total": 5
+  },
+  {
+   "actor": "side:party",
+   "beat": "beat-03/<fight>",
+   "faces": [
+    1
+   ],
+   "notation": "1d6",
+   "purpose": "initiative",
+   "round": 1,
+   "target": null,
+   "total": 1
+  },
+  {
+   "actor": "side:enemy",
+   "beat": "beat-03/<fight>",
+   "faces": [
+    5
+   ],
+   "notation": "1d6",
+   "purpose": "initiative",
+   "round": 1,
+   "target": null,
+   "total": 5
+  },
+  {
+   "actor": "Garrek",
+   "beat": "beat-04/<fight>",
+   "faces": [
+    6
+   ],
+   "notation": "1d20",
+   "purpose": "attack#1",
+   "round": 1,
+   "target": "mon_1",
+   "total": 6
+  },
+  {
+   "actor": "Anselm",
+   "beat": "beat-04/<fight>",
+   "faces": [
+    4
+   ],
+   "notation": "1d20",
+   "purpose": "attack#1",
+   "round": 1,
+   "target": "mon_1",
+   "total": 4
+  },
+  {
+   "actor": "mon_1",
+   "beat": "beat-04/<fight>",
+   "faces": [
+    4
+   ],
+   "notation": "1d20",
+   "purpose": "attack#1",
+   "round": 1,
+   "target": "Garrek",
+   "total": 4
+  },
+  {
+   "actor": "mon_2",
+   "beat": "beat-04/<fight>",
+   "faces": [
+    2
+   ],
+   "notation": "1d20",
+   "purpose": "attack#1",
+   "round": 1,
+   "target": "Halvaine",
+   "total": 2
+  },
+  {
+   "actor": "side:party",
+   "beat": "beat-05/<fight>",
+   "faces": [
+    2
+   ],
+   "notation": "1d6",
+   "purpose": "initiative",
+   "round": 2,
+   "target": null,
+   "total": 2
+  },
+  {
+   "actor": "side:enemy",
+   "beat": "beat-05/<fight>",
+   "faces": [
+    5
+   ],
+   "notation": "1d6",
+   "purpose": "initiative",
+   "round": 2,
+   "target": null,
+   "total": 5
+  },
+  {
+   "actor": "Garrek",
+   "beat": "beat-05/<fight>",
+   "faces": [
+    12
+   ],
+   "notation": "1d20",
+   "purpose": "attack#0:fleeing",
+   "round": 2,
+   "target": "mon_2",
+   "total": 12
+  },
+  {
+   "actor": "Garrek",
+   "beat": "beat-05/<fight>",
+   "faces": [
+    4
+   ],
+   "notation": "1d8+3",
+   "purpose": "damage#0",
+   "round": 2,
+   "target": "mon_2",
+   "total": 7
+  },
+  {
+   "actor": "Anselm",
+   "beat": "beat-05/<fight>",
+   "faces": [
+    9
+   ],
+   "notation": "1d20",
+   "purpose": "attack#1",
+   "round": 2,
+   "target": "mon_1",
+   "total": 9
+  },
+  {
+   "actor": "side:party",
+   "beat": "beat-05/<fight>",
+   "faces": [
+    4
+   ],
+   "notation": "1d6",
+   "purpose": "initiative",
+   "round": 3,
+   "target": null,
+   "total": 4
+  },
+  {
+   "actor": "side:enemy",
+   "beat": "beat-05/<fight>",
+   "faces": [
+    2
+   ],
+   "notation": "1d6",
+   "purpose": "initiative",
+   "round": 3,
+   "target": null,
+   "total": 2
+  },
+  {
+   "actor": "Garrek",
+   "beat": "beat-05/<fight>",
+   "faces": [
+    19
+   ],
+   "notation": "1d20",
+   "purpose": "attack#1",
+   "round": 3,
+   "target": "mon_1",
+   "total": 19
+  },
+  {
+   "actor": "Garrek",
+   "beat": "beat-05/<fight>",
+   "faces": [
+    5
+   ],
+   "notation": "1d8+3",
+   "purpose": "damage#1",
+   "round": 3,
+   "target": "mon_1",
+   "total": 8
+  },
+  {
+   "actor": "Anselm",
+   "beat": "beat-06",
+   "faces": [
+    15
+   ],
+   "notation": "1d20",
+   "purpose": "save:death_paralysis_poison",
+   "round": null,
+   "target": null,
+   "total": 15
+  }
+ ],
+ "sessions": [
+  {
+   "number": 1,
+   "recap_md": "The party fought two goblins in the crypt's main hall and rested three days.",
+   "title": "Down the crypt stairs"
+  }
+ ]
+}

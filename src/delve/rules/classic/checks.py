@@ -168,6 +168,11 @@ def _effect_save(effect: Any) -> int:
     return int(_get(effect, "save") or 0)
 
 
+def effects_save(effects: Iterable[Any]) -> int:
+    """The `save` modifiers of the effects, summed."""
+    return sum(_effect_save(effect) for effect in effects)
+
+
 def saving_throw(
     dice: Dice,
     *,
@@ -183,7 +188,7 @@ def saving_throw(
     """A d20 at or above the base, with the modifier and every effect's `save` modifier added; a natural 1 fails
     whatever the modifier where the ruleset says so (`save_natural_one_fails`)."""
     kind = save_type_for(save_type, rules=rules)
-    total_modifier = modifier + sum(_effect_save(effect) for effect in effects)
+    total_modifier = modifier + effects_save(effects)
     needed = int(base) - total_modifier
     roll = dice.d(20, purpose=f"save:{kind}", actor=actor, target=target, combat_round=combat_round)
     return SaveResult(

@@ -8,7 +8,7 @@ import { useT } from "../i18n";
 import { getMonsterPicture, monsterKeys } from "../monsters/api";
 import { MonsterFace, PaintMonster } from "../monsters/MonsterPictures";
 import { getEntry, rulesetKeys } from "./api";
-import { Crumbs, DataTable, Fields, HouseRuleTag, LoadFailed, NotFound, isNotFound, useCampaign } from "./parts";
+import { Crumbs, DataTable, Fields, HouseRuleTag, LoadFailed, NotFound, isNotFound, useCampaign, useRuleset } from "./parts";
 import styles from "./Rulesets.module.css";
 
 /**
@@ -27,6 +27,7 @@ export default function EntryPage() {
     queryFn: () => getEntry(rulesetId, section, entryId, campaign),
   });
   const data = entry.data;
+  const ruleset = useRuleset(rulesetId);
 
   return (
     <section className="page">
@@ -40,7 +41,7 @@ export default function EntryPage() {
             <h1>{data.name}</h1>
             {data.house_rule && <HouseRuleTag />}
           </header>
-          {section === "monsters" && <MonsterPicture name={data.name} />}
+          {section === "monsters" && <MonsterPicture name={data.name} rulesetId={rulesetId} paints={ruleset.data?.monster_pictures !== "reuse"} />}
           <Fields fields={data.fields} />
           {data.text && (
             <div className={styles.text}>
@@ -59,19 +60,21 @@ export default function EntryPage() {
 /** How often a picture being painted is asked about again, in ms. */
 const PAINTING_POLL = 4000;
 
-/** The monster's picture, enlarging on a click; an organiser's Paint, or Paint again (DEL-275). */
-function MonsterPicture({ name }: { name: string }) {
+/** The monster's picture, enlarging on a click; an organiser's Paint, or Paint again (DEL-275), unless the ruleset
+ * reuses the shared pictures and paints none (`paints` false, DEL-384). */
+function MonsterPicture({ name, rulesetId, paints }: { name: string; rulesetId: string; paints: boolean }) {
   const t = useT();
   const me = useMe();
   // Without an answer from /api/me this is the owner's own screen.
   const organiser = me.isError || (me.data !== undefined && (me.data.account ? isOrganiser(me.data.account) : !me.data.seat));
+  const painter = organiser && paints;
   const state = useQuery({
     queryKey: monsterKeys.state(name),
     queryFn: () => getMonsterPicture(name),
     refetchInterval: (query) => (query.state.data?.painting ? PAINTING_POLL : false),
   });
   const picture = state.data;
-  if (!picture || (!picture.picture && !organiser)) return null;
+  if (!picture || (!picture.picture && !painter)) return null;
   return (
     <figure className={styles.monsterPicture} data-testid="monster-picture">
       {picture.picture ? (
@@ -79,7 +82,7 @@ function MonsterPicture({ name }: { name: string }) {
       ) : (
         <span className={styles.noPicture}>{t("monsters.none")}</span>
       )}
-      {organiser && (
+      {painter && (
         <figcaption>
           {picture.painting ? (
             <span className="hint" role="status">
@@ -88,6 +91,7 @@ function MonsterPicture({ name }: { name: string }) {
           ) : (
             <PaintMonster
               name={name}
+              rulesetId={rulesetId}
               again={picture.picture}
               trigger={(open) => (
                 <button type="button" data-testid="monster-paint" onClick={open}>

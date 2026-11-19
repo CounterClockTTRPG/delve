@@ -37,10 +37,10 @@ def _levels(cls: str, level: Any) -> dict[str, Any]:
     return {}
 
 
-def pregen_sheet(record: dict[str, Any]) -> dict[str, Any]:
+def pregen_sheet(record: dict[str, Any], *, d20: bool = False) -> dict[str, Any]:
     """The sheet a pregen makes: its `stats.adnd2e` sheet fields, then the book's race, class, level, alignment and
-    background over them."""
-    stats = (record.get("stats") or {}).get("adnd2e") or {}
+    background over them. Under a d20 engine the 2e stats are left out: only the book's own words."""
+    stats = {} if d20 else (record.get("stats") or {}).get("adnd2e") or {}
     sheet = {k: v for k, v in stats.items() if k in SHEET_KEYS or k == "level"}
     for field, key in (("race", "race"), ("class", "cls")):
         if record.get(field):
@@ -69,7 +69,7 @@ def module_pregens(ctx: CampaignContext) -> dict[str, Any]:
                 "id": r["id"],
                 "name": r["name"],
                 "audience": "player" if r.get("audience") == "player" else "gm",
-                "sheet": pregen_sheet(r),
+                "sheet": pregen_sheet(r, d20=ctx.d20 is not None),
                 "gear": [str(line) for line in r.get("gear") or []],
             }
             for r in records

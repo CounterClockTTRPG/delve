@@ -1,0 +1,1985 @@
+{
+ "answers": [
+  {
+   "answer": {
+    "house_rules": [],
+    "id": "Bram",
+    "kind": "pc",
+    "name": "Bram",
+    "named_by": "given",
+    "order": 0,
+    "sheet": {
+     "ability_scores": {
+      "cha": 8,
+      "con": 14,
+      "dex": 13,
+      "int": 10,
+      "str": 16,
+      "wis": 12
+     },
+     "ac": 10,
+     "ac_vs_larger": 0,
+     "alignment": "",
+     "attacks": [],
+     "background": "",
+     "cls": "Fighter",
+     "d20": {
+      "derived": {
+       "ac": 11,
+       "acp": 0,
+       "bab": 1,
+       "dc": {},
+       "flat_footed": 10,
+       "fort": 4,
+       "init": 1,
+       "max_dex": null,
+       "ref": 1,
+       "skills": {},
+       "slots": {},
+       "sneak": "",
+       "speed": 30,
+       "spell_failure": 0,
+       "touch": 11,
+       "turning_per_day": 0,
+       "will": 1
+      }
+     },
+     "deity": "",
+     "disposition": 0,
+     "faction": "",
+     "gender": "",
+     "hp_max": 12,
+     "kind": "pc",
+     "label": "Bram",
+     "levels": {
+      "fighter": 1
+     },
+     "movement_rate": 30,
+     "natural_abilities": [],
+     "notes_md": "",
+     "nwps": [],
+     "portrait": null,
+     "portrait_prompt": "",
+     "pronouns": "",
+     "race": "Human",
+     "saves": {},
+     "size": "M",
+     "skills": {},
+     "spell_loadout": {
+      "default": {},
+      "known": {}
+     },
+     "spell_slots": {},
+     "thac0": 20,
+     "weapon": "",
+     "weapon_profs": []
+    },
+    "state": {
+     "conditions": [],
+     "effects": [],
+     "hp": 12,
+     "inventory": [],
+     "memorized": [],
+     "xp": 0
+    }
+   },
+   "args": {
+    "name": "Bram",
+    "sheet": {
+     "ability_scores": {
+      "cha": 8,
+      "con": 14,
+      "dex": 13,
+      "int": 10,
+      "str": 16,
+      "wis": 12
+     },
+     "cls": "Fighter",
+     "hp_max": 12,
+     "level": 1,
+     "race": "Human"
+    }
+   },
+   "tool": "create_character"
+  },
+  {
+   "answer": {
+    "house_rules": [],
+    "id": "Dorna",
+    "kind": "pc",
+    "name": "Dorna",
+    "named_by": "given",
+    "order": 1,
+    "sheet": {
+     "ability_scores": {
+      "cha": 12,
+      "con": 14,
+      "dex": 10,
+      "int": 10,
+      "str": 14,
+      "wis": 15
+     },
+     "ac": 10,
+     "ac_vs_larger": 0,
+     "alignment": "",
+     "attacks": [],
+     "background": "",
+     "cls": "Cleric",
+     "d20": {
+      "derived": {
+       "ac": 10,
+       "acp": 0,
+       "bab": 0,
+       "dc": {
+        "0": 12,
+        "1": 13
+       },
+       "flat_footed": 10,
+       "fort": 4,
+       "init": 0,
+       "max_dex": null,
+       "ref": 0,
+       "skills": {},
+       "slots": {
+        "0": 3,
+        "1": 3
+       },
+       "sneak": "",
+       "speed": 20,
+       "spell_failure": 0,
+       "touch": 10,
+       "turning_per_day": 4,
+       "will": 4
+      }
+     },
+     "deity": "",
+     "disposition": 0,
+     "faction": "",
+     "gender": "",
+     "hp_max": 10,
+     "kind": "pc",
+     "label": "Dorna",
+     "levels": {
+      "cleric": 1
+     },
+     "movement_rate": 20,
+     "natural_abilities": [],
+     "notes_md": "",
+     "nwps": [],
+     "portrait": null,
+     "portrait_prompt": "",
+     "pronouns": "",
+     "race": "Dwarf",
+     "saves": {},
+     "size": "M",
+     "skills": {},
+     "spell_loadout": {
+      "default": {},
+      "known": {}
+     },
+     "spell_slots": {
+      "0": 3,
+      "1": 3
+     },
+     "thac0": 20,
+     "weapon": "",
+     "weapon_profs": []
+    },
+    "state": {
+     "conditions": [],
+     "effects": [],
+     "hp": 10,
+     "inventory": [],
+     "memorized": [],
+     "xp": 0
+    }
+   },
+   "args": {
+    "name": "Dorna",
+    "sheet": {
+     "ability_scores": {
+      "cha": 12,
+      "con": 14,
+      "dex": 10,
+      "int": 10,
+      "str": 14,
+      "wis": 15
+     },
+     "cls": "Cleric",
+     "hp_max": 10,
+     "level": 1,
+     "race": "Dwarf"
+    }
+   },
+   "tool": "create_character"
+  },
+  {
+   "answer": {
+    "house_rules": [],
+    "id": "Elowen",
+    "kind": "pc",
+    "name": "Elowen",
+    "named_by": "given",
+    "order": 2,
+    "sheet": {
+     "ability_scores": {
+      "cha": 10,
+      "con": 10,
+      "dex": 16,
+      "int": 17,
+      "str": 8,
+      "wis": 12
+     },
+     "ac": 10,
+     "ac_vs_larger": 0,
+     "alignment": "",
+     "attacks": [],
+     "background": "",
+     "cls": "Wizard",
+     "d20": {
+      "derived": {
+       "ac": 13,
+       "acp": 0,
+       "bab": 0,
+       "dc": {
+        "0": 13,
+        "1": 14
+       },
+       "flat_footed": 10,
+       "fort": 0,
+       "init": 3,
+       "max_dex": null,
+       "ref": 3,
+       "skills": {},
+       "slots": {
+        "0": 3,
+        "1": 2
+       },
+       "sneak": "",
+       "speed": 30,
+       "spell_failure": 0,
+       "touch": 13,
+       "turning_per_day": 0,
+       "will": 3
+      }
+     },
+     "deity": "",
+     "disposition": 0,
+     "faction": "",
+     "gender": "",
+     "hp_max": 4,
+     "kind": "pc",
+     "label": "Elowen",
+     "levels": {
+      "wizard": 1
+     },
+     "movement_rate": 30,
+     "natural_abilities": [],
+     "notes_md": "",
+     "nwps": [],
+     "portrait": null,
+     "portrait_prompt": "",
+     "pronouns": "",
+     "race": "Elf",
+     "saves": {},
+     "size": "M",
+     "skills": {},
+     "spell_loadout": {
+      "default": {},
+      "known": {}
+     },
+     "spell_slots": {
+      "0": 3,
+      "1": 2
+     },
+     "thac0": 20,
+     "weapon": "",
+     "weapon_profs": []
+    },
+    "state": {
+     "conditions": [],
+     "effects": [],
+     "hp": 4,
+     "inventory": [],
+     "memorized": [],
+     "xp": 0
+    }
+   },
+   "args": {
+    "name": "Elowen",
+    "sheet": {
+     "ability_scores": {
+      "cha": 10,
+      "con": 10,
+      "dex": 16,
+      "int": 17,
+      "str": 8,
+      "wis": 12
+     },
+     "cls": "Wizard",
+     "hp_max": 4,
+     "level": 1,
+     "race": "Elf"
+    }
+   },
+   "tool": "create_character"
+  },
+  {
+   "answer": {
+    "build": {
+     "armor": "scale mail",
+     "feats": [
+      {
+       "id": "power-attack"
+      },
+      {
+       "id": "cleave"
+      },
+      {
+       "choice": "falchion",
+       "id": "weapon-focus"
+      }
+     ],
+     "skills": {
+      "climb": 4,
+      "intimidate": 4,
+      "jump": 4
+     },
+     "weapon": "falchion"
+    },
+    "character": "Bram",
+    "character_id": "Bram",
+    "derived": {
+     "ac": 15,
+     "acp": -4,
+     "bab": 1,
+     "base_speed": 30,
+     "dc": {},
+     "flat_footed": 14,
+     "fort": 4,
+     "init": 1,
+     "max_dex": 3,
+     "ref": 1,
+     "skills": {
+      "climb": 3,
+      "intimidate": 3,
+      "jump": 3
+     },
+     "slots": {},
+     "sneak": "",
+     "speed": 20,
+     "spell_failure": 0,
+     "touch": 11,
+     "turning_per_day": 0,
+     "will": 1
+    },
+    "skill_points": {
+     "spent": 12.0,
+     "total": 12
+    }
+   },
+   "args": {
+    "armor": "scale mail",
+    "character": "Bram",
+    "feats": [
+     "power attack",
+     "cleave",
+     {
+      "choice": "falchion",
+      "id": "weapon focus"
+     }
+    ],
+    "skills": {
+     "climb": 4,
+     "intimidate": 4,
+     "jump": 4
+    },
+    "weapon": "falchion"
+   },
+   "tool": "set_build"
+  },
+  {
+   "answer": {
+    "build": {
+     "armor": "scale mail",
+     "domains": [
+      "war",
+      "good"
+     ],
+     "shield": "shield, heavy steel",
+     "skills": {
+      "concentration": 4
+     },
+     "weapon": "warhammer"
+    },
+    "character": "Dorna",
+    "character_id": "Dorna",
+    "derived": {
+     "ac": 16,
+     "acp": -6,
+     "bab": 0,
+     "dc": {
+      "0": 12,
+      "1": 13
+     },
+     "flat_footed": 16,
+     "fort": 4,
+     "init": 0,
+     "max_dex": 3,
+     "ref": 0,
+     "skills": {
+      "concentration": 6
+     },
+     "slots": {
+      "0": 3,
+      "1": 3
+     },
+     "sneak": "",
+     "speed": 20,
+     "spell_failure": 0,
+     "touch": 10,
+     "turning_per_day": 4,
+     "will": 4
+    },
+    "skill_points": {
+     "spent": 4.0,
+     "total": 8
+    }
+   },
+   "args": {
+    "armor": "scale mail",
+    "character": "Dorna",
+    "domains": [
+     "war",
+     "good"
+    ],
+    "shield": "heavy steel shield",
+    "skills": {
+     "concentration": 4
+    },
+    "weapon": "warhammer"
+   },
+   "tool": "set_build"
+  },
+  {
+   "answer": {
+    "build": {
+     "feats": [
+      {
+       "id": "improved-initiative"
+      }
+     ],
+     "skills": {
+      "concentration": 4,
+      "knowledge-arcana": 4,
+      "spellcraft": 4
+     },
+     "weapon": "dagger"
+    },
+    "character": "Elowen",
+    "character_id": "Elowen",
+    "derived": {
+     "ac": 13,
+     "acp": 0,
+     "bab": 0,
+     "dc": {
+      "0": 13,
+      "1": 14
+     },
+     "flat_footed": 10,
+     "fort": 0,
+     "init": 7,
+     "max_dex": null,
+     "ref": 3,
+     "skills": {
+      "concentration": 4,
+      "knowledge-arcana": 7,
+      "spellcraft": 7
+     },
+     "slots": {
+      "0": 3,
+      "1": 2
+     },
+     "sneak": "",
+     "speed": 30,
+     "spell_failure": 0,
+     "touch": 13,
+     "turning_per_day": 0,
+     "will": 3
+    },
+    "skill_points": {
+     "spent": 12.0,
+     "total": 20
+    }
+   },
+   "args": {
+    "character": "Elowen",
+    "feats": [
+     "improved initiative"
+    ],
+    "skills": {
+     "concentration": 4,
+     "knowledge (arcana)": 4,
+     "spellcraft": 4
+    },
+    "weapon": "dagger"
+   },
+   "tool": "set_build"
+  },
+  {
+   "answer": {
+    "character_id": "Bram",
+    "house_rules": [],
+    "level": 3,
+    "level_up_hints": [
+     "fighter"
+    ],
+    "name": "Bram",
+    "xp_gained": 3000,
+    "xp_next": 1000,
+    "xp_total": 3000
+   },
+   "args": {
+    "amount": 3000,
+    "character": "Bram"
+   },
+   "tool": "award_xp"
+  },
+  {
+   "answer": {
+    "id": "Bram",
+    "kind": "pc",
+    "name": "Bram",
+    "order": 0,
+    "sheet": {
+     "ability_scores": {
+      "cha": 8,
+      "con": 14,
+      "dex": 13,
+      "int": 10,
+      "str": 16,
+      "wis": 12
+     },
+     "ac": 10,
+     "ac_vs_larger": 0,
+     "alignment": "",
+     "attacks": [],
+     "background": "",
+     "cls": "Fighter",
+     "d20": {
+      "armor": "scale mail",
+      "derived": {
+       "ac": 15,
+       "acp": -4,
+       "bab": 2,
+       "base_speed": 30,
+       "dc": {},
+       "flat_footed": 14,
+       "fort": 5,
+       "init": 1,
+       "max_dex": 3,
+       "ref": 1,
+       "skills": {
+        "climb": 3,
+        "intimidate": 3,
+        "jump": 3
+       },
+       "slots": {},
+       "sneak": "",
+       "speed": 20,
+       "spell_failure": 0,
+       "touch": 11,
+       "turning_per_day": 0,
+       "will": 1
+      },
+      "feats": [
+       {
+        "id": "power-attack"
+       },
+       {
+        "id": "cleave"
+       },
+       {
+        "choice": "falchion",
+        "id": "weapon-focus"
+       }
+      ],
+      "level_up": {
+       "class": "fighter",
+       "hints": [
+        "3 skill points",
+        "a fighter bonus feat"
+       ],
+       "hit_points": 6,
+       "level": 2
+      },
+      "skills": {
+       "climb": 4,
+       "intimidate": 4,
+       "jump": 4
+      },
+      "weapon": "falchion"
+     },
+     "deity": "",
+     "disposition": 0,
+     "faction": "",
+     "gender": "",
+     "hp_max": 18,
+     "kind": "pc",
+     "label": "Bram",
+     "levels": {
+      "fighter": 2
+     },
+     "movement_rate": 20,
+     "natural_abilities": [],
+     "notes_md": "",
+     "nwps": [],
+     "portrait": null,
+     "portrait_prompt": "",
+     "pronouns": "",
+     "race": "Human",
+     "saves": {},
+     "size": "M",
+     "skills": {},
+     "spell_loadout": {
+      "default": {},
+      "known": {}
+     },
+     "spell_slots": {},
+     "thac0": 20,
+     "weapon": "",
+     "weapon_profs": []
+    },
+    "state": {
+     "conditions": [],
+     "effects": [],
+     "hp": 18,
+     "inventory": [],
+     "memorized": [],
+     "xp": 3000
+    }
+   },
+   "args": {
+    "patch": {
+     "level": 2
+    },
+    "reason": "2nd level",
+    "ref": "Bram"
+   },
+   "tool": "update_character"
+  },
+  {
+   "answer": {
+    "id": "Bram",
+    "kind": "pc",
+    "name": "Bram",
+    "order": 0,
+    "sheet": {
+     "ability_scores": {
+      "cha": 8,
+      "con": 14,
+      "dex": 13,
+      "int": 10,
+      "str": 16,
+      "wis": 12
+     },
+     "ac": 10,
+     "ac_vs_larger": 0,
+     "alignment": "",
+     "attacks": [],
+     "background": "",
+     "cls": "Fighter",
+     "d20": {
+      "armor": "scale mail",
+      "derived": {
+       "ac": 15,
+       "acp": -4,
+       "bab": 3,
+       "base_speed": 30,
+       "dc": {},
+       "flat_footed": 14,
+       "fort": 5,
+       "init": 1,
+       "max_dex": 3,
+       "ref": 2,
+       "skills": {
+        "climb": 3,
+        "intimidate": 3,
+        "jump": 3
+       },
+       "slots": {},
+       "sneak": "",
+       "speed": 20,
+       "spell_failure": 0,
+       "touch": 11,
+       "turning_per_day": 0,
+       "will": 2
+      },
+      "feats": [
+       {
+        "id": "power-attack"
+       },
+       {
+        "id": "cleave"
+       },
+       {
+        "choice": "falchion",
+        "id": "weapon-focus"
+       }
+      ],
+      "level_up": {
+       "class": "fighter",
+       "hints": [
+        "3 skill points",
+        "a feat"
+       ],
+       "hit_points": 10,
+       "level": 3
+      },
+      "skills": {
+       "climb": 4,
+       "intimidate": 4,
+       "jump": 4
+      },
+      "weapon": "falchion"
+     },
+     "deity": "",
+     "disposition": 0,
+     "faction": "",
+     "gender": "",
+     "hp_max": 28,
+     "kind": "pc",
+     "label": "Bram",
+     "levels": {
+      "fighter": 3
+     },
+     "movement_rate": 20,
+     "natural_abilities": [],
+     "notes_md": "",
+     "nwps": [],
+     "portrait": null,
+     "portrait_prompt": "",
+     "pronouns": "",
+     "race": "Human",
+     "saves": {},
+     "size": "M",
+     "skills": {},
+     "spell_loadout": {
+      "default": {},
+      "known": {}
+     },
+     "spell_slots": {},
+     "thac0": 20,
+     "weapon": "",
+     "weapon_profs": []
+    },
+    "state": {
+     "conditions": [],
+     "effects": [],
+     "hp": 28,
+     "inventory": [],
+     "memorized": [],
+     "xp": 3000
+    }
+   },
+   "args": {
+    "patch": {
+     "level": 3
+    },
+    "reason": "3rd level",
+    "ref": "Bram"
+   },
+   "tool": "update_character"
+  },
+  {
+   "answer": {
+    "character_id": "Dorna",
+    "house_rules": [],
+    "level": 3,
+    "level_up_hints": [
+     "cleric"
+    ],
+    "name": "Dorna",
+    "xp_gained": 3000,
+    "xp_next": 1000,
+    "xp_total": 3000
+   },
+   "args": {
+    "amount": 3000,
+    "character": "Dorna"
+   },
+   "tool": "award_xp"
+  },
+  {
+   "answer": {
+    "id": "Dorna",
+    "kind": "pc",
+    "name": "Dorna",
+    "order": 1,
+    "sheet": {
+     "ability_scores": {
+      "cha": 12,
+      "con": 14,
+      "dex": 10,
+      "int": 10,
+      "str": 14,
+      "wis": 15
+     },
+     "ac": 10,
+     "ac_vs_larger": 0,
+     "alignment": "",
+     "attacks": [],
+     "background": "",
+     "cls": "Cleric",
+     "d20": {
+      "armor": "scale mail",
+      "derived": {
+       "ac": 16,
+       "acp": -6,
+       "bab": 1,
+       "dc": {
+        "0": 12,
+        "1": 13
+       },
+       "flat_footed": 16,
+       "fort": 5,
+       "init": 0,
+       "max_dex": 3,
+       "ref": 0,
+       "skills": {
+        "concentration": 6
+       },
+       "slots": {
+        "0": 4,
+        "1": 4
+       },
+       "sneak": "",
+       "speed": 20,
+       "spell_failure": 0,
+       "touch": 10,
+       "turning_per_day": 4,
+       "will": 5
+      },
+      "domains": [
+       "war",
+       "good"
+      ],
+      "level_up": {
+       "class": "cleric",
+       "hints": [
+        "2 skill points"
+       ],
+       "hit_points": 10,
+       "level": 2
+      },
+      "shield": "shield, heavy steel",
+      "skills": {
+       "concentration": 4
+      },
+      "weapon": "warhammer"
+     },
+     "deity": "",
+     "disposition": 0,
+     "faction": "",
+     "gender": "",
+     "hp_max": 20,
+     "kind": "pc",
+     "label": "Dorna",
+     "levels": {
+      "cleric": 2
+     },
+     "movement_rate": 20,
+     "natural_abilities": [],
+     "notes_md": "",
+     "nwps": [],
+     "portrait": null,
+     "portrait_prompt": "",
+     "pronouns": "",
+     "race": "Dwarf",
+     "saves": {},
+     "size": "M",
+     "skills": {},
+     "spell_loadout": {
+      "default": {},
+      "known": {}
+     },
+     "spell_slots": {
+      "0": 4,
+      "1": 4
+     },
+     "thac0": 20,
+     "weapon": "",
+     "weapon_profs": []
+    },
+    "state": {
+     "conditions": [],
+     "effects": [],
+     "hp": 20,
+     "inventory": [],
+     "memorized": [],
+     "xp": 3000
+    }
+   },
+   "args": {
+    "patch": {
+     "level": 2
+    },
+    "reason": "2nd level",
+    "ref": "Dorna"
+   },
+   "tool": "update_character"
+  },
+  {
+   "answer": {
+    "id": "Dorna",
+    "kind": "pc",
+    "name": "Dorna",
+    "order": 1,
+    "sheet": {
+     "ability_scores": {
+      "cha": 12,
+      "con": 14,
+      "dex": 10,
+      "int": 10,
+      "str": 14,
+      "wis": 15
+     },
+     "ac": 10,
+     "ac_vs_larger": 0,
+     "alignment": "",
+     "attacks": [],
+     "background": "",
+     "cls": "Cleric",
+     "d20": {
+      "armor": "scale mail",
+      "derived": {
+       "ac": 16,
+       "acp": -6,
+       "bab": 2,
+       "dc": {
+        "0": 12,
+        "1": 13,
+        "2": 14
+       },
+       "flat_footed": 16,
+       "fort": 5,
+       "init": 0,
+       "max_dex": 3,
+       "ref": 1,
+       "skills": {
+        "concentration": 6
+       },
+       "slots": {
+        "0": 4,
+        "1": 4,
+        "2": 3
+       },
+       "sneak": "",
+       "speed": 20,
+       "spell_failure": 0,
+       "touch": 10,
+       "turning_per_day": 4,
+       "will": 5
+      },
+      "domains": [
+       "war",
+       "good"
+      ],
+      "level_up": {
+       "class": "cleric",
+       "hints": [
+        "2 skill points",
+        "a feat"
+       ],
+       "hit_points": 10,
+       "level": 3
+      },
+      "shield": "shield, heavy steel",
+      "skills": {
+       "concentration": 4
+      },
+      "weapon": "warhammer"
+     },
+     "deity": "",
+     "disposition": 0,
+     "faction": "",
+     "gender": "",
+     "hp_max": 30,
+     "kind": "pc",
+     "label": "Dorna",
+     "levels": {
+      "cleric": 3
+     },
+     "movement_rate": 20,
+     "natural_abilities": [],
+     "notes_md": "",
+     "nwps": [],
+     "portrait": null,
+     "portrait_prompt": "",
+     "pronouns": "",
+     "race": "Dwarf",
+     "saves": {},
+     "size": "M",
+     "skills": {},
+     "spell_loadout": {
+      "default": {},
+      "known": {}
+     },
+     "spell_slots": {
+      "0": 4,
+      "1": 4,
+      "2": 3
+     },
+     "thac0": 20,
+     "weapon": "",
+     "weapon_profs": []
+    },
+    "state": {
+     "conditions": [],
+     "effects": [],
+     "hp": 30,
+     "inventory": [],
+     "memorized": [],
+     "xp": 3000
+    }
+   },
+   "args": {
+    "patch": {
+     "level": 3
+    },
+    "reason": "3rd level",
+    "ref": "Dorna"
+   },
+   "tool": "update_character"
+  },
+  {
+   "answer": {
+    "character_id": "Elowen",
+    "house_rules": [],
+    "level": 3,
+    "level_up_hints": [
+     "wizard"
+    ],
+    "name": "Elowen",
+    "xp_gained": 3000,
+    "xp_next": 1000,
+    "xp_total": 3000
+   },
+   "args": {
+    "amount": 3000,
+    "character": "Elowen"
+   },
+   "tool": "award_xp"
+  },
+  {
+   "answer": {
+    "id": "Elowen",
+    "kind": "pc",
+    "name": "Elowen",
+    "order": 2,
+    "sheet": {
+     "ability_scores": {
+      "cha": 10,
+      "con": 10,
+      "dex": 16,
+      "int": 17,
+      "str": 8,
+      "wis": 12
+     },
+     "ac": 10,
+     "ac_vs_larger": 0,
+     "alignment": "",
+     "attacks": [],
+     "background": "",
+     "cls": "Wizard",
+     "d20": {
+      "derived": {
+       "ac": 13,
+       "acp": 0,
+       "bab": 1,
+       "dc": {
+        "0": 13,
+        "1": 14
+       },
+       "flat_footed": 10,
+       "fort": 0,
+       "init": 7,
+       "max_dex": null,
+       "ref": 3,
+       "skills": {
+        "concentration": 4,
+        "knowledge-arcana": 7,
+        "spellcraft": 7
+       },
+       "slots": {
+        "0": 4,
+        "1": 3
+       },
+       "sneak": "",
+       "speed": 30,
+       "spell_failure": 0,
+       "touch": 13,
+       "turning_per_day": 0,
+       "will": 4
+      },
+      "feats": [
+       {
+        "id": "improved-initiative"
+       }
+      ],
+      "level_up": {
+       "class": "wizard",
+       "hints": [
+        "5 skill points"
+       ],
+       "hit_points": 1,
+       "level": 2
+      },
+      "skills": {
+       "concentration": 4,
+       "knowledge-arcana": 4,
+       "spellcraft": 4
+      },
+      "weapon": "dagger"
+     },
+     "deity": "",
+     "disposition": 0,
+     "faction": "",
+     "gender": "",
+     "hp_max": 5,
+     "kind": "pc",
+     "label": "Elowen",
+     "levels": {
+      "wizard": 2
+     },
+     "movement_rate": 30,
+     "natural_abilities": [],
+     "notes_md": "",
+     "nwps": [],
+     "portrait": null,
+     "portrait_prompt": "",
+     "pronouns": "",
+     "race": "Elf",
+     "saves": {},
+     "size": "M",
+     "skills": {},
+     "spell_loadout": {
+      "default": {},
+      "known": {}
+     },
+     "spell_slots": {
+      "0": 4,
+      "1": 3
+     },
+     "thac0": 20,
+     "weapon": "",
+     "weapon_profs": []
+    },
+    "state": {
+     "conditions": [],
+     "effects": [],
+     "hp": 5,
+     "inventory": [],
+     "memorized": [],
+     "xp": 3000
+    }
+   },
+   "args": {
+    "patch": {
+     "level": 2
+    },
+    "reason": "2nd level",
+    "ref": "Elowen"
+   },
+   "tool": "update_character"
+  },
+  {
+   "answer": {
+    "id": "Elowen",
+    "kind": "pc",
+    "name": "Elowen",
+    "order": 2,
+    "sheet": {
+     "ability_scores": {
+      "cha": 10,
+      "con": 10,
+      "dex": 16,
+      "int": 17,
+      "str": 8,
+      "wis": 12
+     },
+     "ac": 10,
+     "ac_vs_larger": 0,
+     "alignment": "",
+     "attacks": [],
+     "background": "",
+     "cls": "Wizard",
+     "d20": {
+      "derived": {
+       "ac": 13,
+       "acp": 0,
+       "bab": 1,
+       "dc": {
+        "0": 13,
+        "1": 14,
+        "2": 15
+       },
+       "flat_footed": 10,
+       "fort": 1,
+       "init": 7,
+       "max_dex": null,
+       "ref": 4,
+       "skills": {
+        "concentration": 4,
+        "knowledge-arcana": 7,
+        "spellcraft": 7
+       },
+       "slots": {
+        "0": 4,
+        "1": 3,
+        "2": 2
+       },
+       "sneak": "",
+       "speed": 30,
+       "spell_failure": 0,
+       "touch": 13,
+       "turning_per_day": 0,
+       "will": 4
+      },
+      "feats": [
+       {
+        "id": "improved-initiative"
+       }
+      ],
+      "level_up": {
+       "class": "wizard",
+       "hints": [
+        "5 skill points",
+        "a feat"
+       ],
+       "hit_points": 2,
+       "level": 3
+      },
+      "skills": {
+       "concentration": 4,
+       "knowledge-arcana": 4,
+       "spellcraft": 4
+      },
+      "weapon": "dagger"
+     },
+     "deity": "",
+     "disposition": 0,
+     "faction": "",
+     "gender": "",
+     "hp_max": 7,
+     "kind": "pc",
+     "label": "Elowen",
+     "levels": {
+      "wizard": 3
+     },
+     "movement_rate": 30,
+     "natural_abilities": [],
+     "notes_md": "",
+     "nwps": [],
+     "portrait": null,
+     "portrait_prompt": "",
+     "pronouns": "",
+     "race": "Elf",
+     "saves": {},
+     "size": "M",
+     "skills": {},
+     "spell_loadout": {
+      "default": {},
+      "known": {}
+     },
+     "spell_slots": {
+      "0": 4,
+      "1": 3,
+      "2": 2
+     },
+     "thac0": 20,
+     "weapon": "",
+     "weapon_profs": []
+    },
+    "state": {
+     "conditions": [],
+     "effects": [],
+     "hp": 7,
+     "inventory": [],
+     "memorized": [],
+     "xp": 3000
+    }
+   },
+   "args": {
+    "patch": {
+     "level": 3
+    },
+    "reason": "3rd level",
+    "ref": "Elowen"
+   },
+   "tool": "update_character"
+  },
+  {
+   "answer": {
+    "build": {
+     "armor": "scale mail",
+     "feats": [
+      {
+       "id": "power-attack"
+      },
+      {
+       "id": "cleave"
+      },
+      {
+       "choice": "falchion",
+       "id": "weapon-focus"
+      },
+      {
+       "id": "improved-initiative"
+      },
+      {
+       "id": "great-fortitude"
+      }
+     ],
+     "skills": {
+      "climb": 6,
+      "intimidate": 6,
+      "jump": 6
+     },
+     "weapon": "falchion"
+    },
+    "character": "Bram",
+    "character_id": "Bram",
+    "derived": {
+     "ac": 15,
+     "acp": -4,
+     "bab": 3,
+     "base_speed": 30,
+     "dc": {},
+     "flat_footed": 14,
+     "fort": 7,
+     "init": 5,
+     "max_dex": 3,
+     "ref": 2,
+     "skills": {
+      "climb": 5,
+      "intimidate": 5,
+      "jump": 5
+     },
+     "slots": {},
+     "sneak": "",
+     "speed": 20,
+     "spell_failure": 0,
+     "touch": 11,
+     "turning_per_day": 0,
+     "will": 2
+    },
+    "skill_points": {
+     "spent": 18.0,
+     "total": 18
+    }
+   },
+   "args": {
+    "character": "Bram",
+    "feats": [
+     "power attack",
+     "cleave",
+     {
+      "choice": "falchion",
+      "id": "weapon focus"
+     },
+     "improved initiative",
+     "great fortitude"
+    ],
+    "skills": {
+     "climb": 6,
+     "intimidate": 6,
+     "jump": 6
+    }
+   },
+   "tool": "set_build"
+  },
+  {
+   "answer": {
+    "build": {
+     "armor": "scale mail",
+     "domains": [
+      "war",
+      "good"
+     ],
+     "shield": "shield, heavy steel",
+     "skills": {
+      "concentration": 6
+     },
+     "weapon": "warhammer"
+    },
+    "character": "Dorna",
+    "character_id": "Dorna",
+    "derived": {
+     "ac": 16,
+     "acp": -6,
+     "bab": 2,
+     "dc": {
+      "0": 12,
+      "1": 13,
+      "2": 14
+     },
+     "flat_footed": 16,
+     "fort": 5,
+     "init": 0,
+     "max_dex": 3,
+     "ref": 1,
+     "skills": {
+      "concentration": 8
+     },
+     "slots": {
+      "0": 4,
+      "1": 4,
+      "2": 3
+     },
+     "sneak": "",
+     "speed": 20,
+     "spell_failure": 0,
+     "touch": 10,
+     "turning_per_day": 4,
+     "will": 5
+    },
+    "skill_points": {
+     "spent": 6.0,
+     "total": 12
+    }
+   },
+   "args": {
+    "character": "Dorna",
+    "skills": {
+     "concentration": 6
+    }
+   },
+   "tool": "set_build"
+  },
+  {
+   "answer": {
+    "build": {
+     "feats": [
+      {
+       "id": "improved-initiative"
+      }
+     ],
+     "skills": {
+      "concentration": 6,
+      "knowledge-arcana": 6,
+      "spellcraft": 6
+     },
+     "weapon": "dagger"
+    },
+    "character": "Elowen",
+    "character_id": "Elowen",
+    "derived": {
+     "ac": 13,
+     "acp": 0,
+     "bab": 1,
+     "dc": {
+      "0": 13,
+      "1": 14,
+      "2": 15
+     },
+     "flat_footed": 10,
+     "fort": 1,
+     "init": 7,
+     "max_dex": null,
+     "ref": 4,
+     "skills": {
+      "concentration": 6,
+      "knowledge-arcana": 9,
+      "spellcraft": 9
+     },
+     "slots": {
+      "0": 4,
+      "1": 3,
+      "2": 2
+     },
+     "sneak": "",
+     "speed": 30,
+     "spell_failure": 0,
+     "touch": 13,
+     "turning_per_day": 0,
+     "will": 4
+    },
+    "skill_points": {
+     "spent": 18.0,
+     "total": 30
+    }
+   },
+   "args": {
+    "character": "Elowen",
+    "skills": {
+     "concentration": 6,
+     "knowledge (arcana)": 6,
+     "spellcraft": 6
+    }
+   },
+   "tool": "set_build"
+  },
+  {
+   "answer": {
+    "by_level": {
+     "1": [
+      "Bless",
+      "Cure Light Wounds",
+      "Shield of Faith",
+      "Magic Weapon"
+     ],
+     "2": [
+      "Hold Person",
+      "Aid",
+      "Spiritual Weapon"
+     ]
+    },
+    "character_id": "Dorna",
+    "memorized": [
+     "Bless",
+     "Cure Light Wounds",
+     "Shield of Faith",
+     "Magic Weapon",
+     "Hold Person",
+     "Aid",
+     "Spiritual Weapon"
+    ],
+    "name": "Dorna"
+   },
+   "args": {
+    "character": "Dorna",
+    "spells": [
+     "Bless",
+     "Cure Light Wounds",
+     "Shield of Faith",
+     "Magic Weapon",
+     "Hold Person",
+     "Aid",
+     "Spiritual Weapon"
+    ]
+   },
+   "tool": "memorize_spells"
+  },
+  {
+   "answer": {
+    "by_level": {
+     "1": [
+      "Sleep",
+      "Magic Missile",
+      "Shield"
+     ],
+     "2": [
+      "Web",
+      "Glitterdust"
+     ]
+    },
+    "character_id": "Elowen",
+    "memorized": [
+     "Sleep",
+     "Magic Missile",
+     "Shield",
+     "Web",
+     "Glitterdust"
+    ],
+    "name": "Elowen"
+   },
+   "args": {
+    "character": "Elowen",
+    "spells": [
+     "Sleep",
+     "Magic Missile",
+     "Shield",
+     "Web",
+     "Glitterdust"
+    ]
+   },
+   "tool": "memorize_spells"
+  },
+  {
+   "answer": {
+    "character_id": "Dorna",
+    "dc": 14,
+    "level": 2,
+    "name": "Dorna",
+    "remaining": {
+     "1": 4,
+     "2": 2
+    },
+    "save": "Will negates; see text",
+    "school": "Enchantment",
+    "spell": "Hold Person"
+   },
+   "args": {
+    "character": "Dorna",
+    "spell_name": "Hold Person"
+   },
+   "tool": "cast_spell"
+  },
+  {
+   "answer": {
+    "character_id": "Elowen",
+    "dc": 15,
+    "level": 2,
+    "name": "Elowen",
+    "remaining": {
+     "1": 3,
+     "2": 1
+    },
+    "save": "Reflex negates; see text",
+    "school": "Conjuration",
+    "spell": "Web"
+   },
+   "args": {
+    "character": "Elowen",
+    "spell_name": "Web"
+   },
+   "tool": "cast_spell"
+  },
+  {
+   "answer": {
+    "available": [
+     "Bless",
+     "Cure Light Wounds",
+     "Shield of Faith",
+     "Magic Weapon",
+     "Aid",
+     "Spiritual Weapon"
+    ],
+    "character_id": "Dorna",
+    "loadout": {
+     "default": {},
+     "known": {}
+    },
+    "memorized": [
+     {
+      "cast": false,
+      "level": 1,
+      "name": "Bless"
+     },
+     {
+      "cast": false,
+      "level": 1,
+      "name": "Cure Light Wounds"
+     },
+     {
+      "cast": false,
+      "level": 1,
+      "name": "Shield of Faith"
+     },
+     {
+      "cast": false,
+      "level": 1,
+      "name": "Magic Weapon"
+     },
+     {
+      "cast": true,
+      "level": 2,
+      "name": "Hold Person"
+     },
+     {
+      "cast": false,
+      "level": 2,
+      "name": "Aid"
+     },
+     {
+      "cast": false,
+      "level": 2,
+      "name": "Spiritual Weapon"
+     }
+    ],
+    "name": "Dorna",
+    "slots": {
+     "0": {
+      "max": 4,
+      "memorized": 0,
+      "remaining": 0
+     },
+     "1": {
+      "max": 4,
+      "memorized": 4,
+      "remaining": 4
+     },
+     "2": {
+      "max": 3,
+      "memorized": 3,
+      "remaining": 2
+     }
+    },
+    "spent": [
+     "Hold Person"
+    ]
+   },
+   "args": {
+    "character": "Dorna"
+   },
+   "tool": "spell_status"
+  },
+  {
+   "answer": {
+    "available": [
+     "Sleep",
+     "Magic Missile",
+     "Shield",
+     "Glitterdust"
+    ],
+    "character_id": "Elowen",
+    "loadout": {
+     "default": {},
+     "known": {}
+    },
+    "memorized": [
+     {
+      "cast": false,
+      "level": 1,
+      "name": "Sleep"
+     },
+     {
+      "cast": false,
+      "level": 1,
+      "name": "Magic Missile"
+     },
+     {
+      "cast": false,
+      "level": 1,
+      "name": "Shield"
+     },
+     {
+      "cast": true,
+      "level": 2,
+      "name": "Web"
+     },
+     {
+      "cast": false,
+      "level": 2,
+      "name": "Glitterdust"
+     }
+    ],
+    "name": "Elowen",
+    "slots": {
+     "0": {
+      "max": 4,
+      "memorized": 0,
+      "remaining": 0
+     },
+     "1": {
+      "max": 3,
+      "memorized": 3,
+      "remaining": 3
+     },
+     "2": {
+      "max": 2,
+      "memorized": 2,
+      "remaining": 1
+     }
+    },
+    "spent": [
+     "Web"
+    ]
+   },
+   "args": {
+    "character": "Elowen"
+   },
+   "tool": "spell_status"
+  },
+  {
+   "answer": {
+    "id": "Bram",
+    "kind": "pc",
+    "name": "Bram",
+    "order": 0,
+    "sheet": {
+     "ability_scores": {
+      "cha": 8,
+      "con": 14,
+      "dex": 13,
+      "int": 10,
+      "str": 16,
+      "wis": 12
+     },
+     "ac": 10,
+     "ac_vs_larger": 0,
+     "alignment": "",
+     "attacks": [],
+     "background": "",
+     "cls": "Fighter",
+     "d20": {
+      "armor": "scale mail",
+      "derived": {
+       "ac": 15,
+       "acp": -4,
+       "bab": 3,
+       "base_speed": 30,
+       "dc": {},
+       "flat_footed": 14,
+       "fort": 7,
+       "init": 5,
+       "max_dex": 3,
+       "ref": 2,
+       "skills": {
+        "climb": 5,
+        "intimidate": 5,
+        "jump": 5
+       },
+       "slots": {},
+       "sneak": "",
+       "speed": 20,
+       "spell_failure": 0,
+       "touch": 11,
+       "turning_per_day": 0,
+       "will": 2
+      },
+      "feats": [
+       {
+        "id": "power-attack"
+       },
+       {
+        "id": "cleave"
+       },
+       {
+        "choice": "falchion",
+        "id": "weapon-focus"
+       },
+       {
+        "id": "improved-initiative"
+       },
+       {
+        "id": "great-fortitude"
+       }
+      ],
+      "level_up": {
+       "class": "fighter",
+       "hints": [
+        "3 skill points",
+        "a feat"
+       ],
+       "hit_points": 10,
+       "level": 3
+      },
+      "skills": {
+       "climb": 6,
+       "intimidate": 6,
+       "jump": 6
+      },
+      "weapon": "falchion"
+     },
+     "deity": "",
+     "disposition": 0,
+     "faction": "",
+     "gender": "",
+     "hp_max": 28,
+     "kind": "pc",
+     "label": "Bram",
+     "levels": {
+      "fighter": 3
+     },
+     "movement_rate": 20,
+     "natural_abilities": [],
+     "notes_md": "",
+     "nwps": [],
+     "portrait": null,
+     "portrait_prompt": "",
+     "pronouns": "",
+     "race": "Human",
+     "saves": {},
+     "size": "M",
+     "skills": {},
+     "spell_loadout": {
+      "default": {},
+      "known": {}
+     },
+     "spell_slots": {},
+     "thac0": 20,
+     "weapon": "",
+     "weapon_profs": []
+    },
+    "state": {
+     "conditions": [],
+     "effects": [],
+     "hp": 28,
+     "inventory": [],
+     "memorized": [],
+     "xp": 3000
+    }
+   },
+   "args": {
+    "ref": "Bram"
+   },
+   "tool": "get_character"
+  }
+ ],
+ "rolls": [
+  {
+   "actor": "Bram",
+   "beat": "beat-8",
+   "faces": [
+    4
+   ],
+   "notation": "1d10",
+   "purpose": "level_up:hp:fighter:2",
+   "round": null,
+   "target": null,
+   "total": 4
+  },
+  {
+   "actor": "Bram",
+   "beat": "beat-9",
+   "faces": [
+    8
+   ],
+   "notation": "1d10",
+   "purpose": "level_up:hp:fighter:3",
+   "round": null,
+   "target": null,
+   "total": 8
+  },
+  {
+   "actor": "Dorna",
+   "beat": "beat-11",
+   "faces": [
+    8
+   ],
+   "notation": "1d8",
+   "purpose": "level_up:hp:cleric:2",
+   "round": null,
+   "target": null,
+   "total": 8
+  },
+  {
+   "actor": "Dorna",
+   "beat": "beat-12",
+   "faces": [
+    8
+   ],
+   "notation": "1d8",
+   "purpose": "level_up:hp:cleric:3",
+   "round": null,
+   "target": null,
+   "total": 8
+  },
+  {
+   "actor": "Elowen",
+   "beat": "beat-14",
+   "faces": [
+    1
+   ],
+   "notation": "1d4",
+   "purpose": "level_up:hp:wizard:2",
+   "round": null,
+   "target": null,
+   "total": 1
+  },
+  {
+   "actor": "Elowen",
+   "beat": "beat-15",
+   "faces": [
+    2
+   ],
+   "notation": "1d4",
+   "purpose": "level_up:hp:wizard:3",
+   "round": null,
+   "target": null,
+   "total": 2
+  }
+ ]
+}

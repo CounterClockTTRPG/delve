@@ -1,0 +1,301 @@
+"""The 3.5 engine's prepared spells and turning undead (DEL-388): slots, domain slots and class lists, arcane spell
+failure, and turning by the SRD's table. Each worked example is checked by hand in its comment."""
+
+from __future__ import annotations
+
+from dataclasses import replace
+
+import pytest
+from delve_srd35.engine import Srd35Engine
+from delve_srd35.reference import Srd35Reference
+
+from delve.dice import Dice, MemoryRollLog, ScriptedRng
+from delve.domain.characters import CharacterState, MemorizedSpell, Sheet
+
+REF = Srd35Reference()
+ENGINE = Srd35Engine(REF)
+TEN = {"str": 10, "dex": 10, "con": 10, "int": 10, "wis": 10, "cha": 10}
+
+
+def dice(*faces: int) -> tuple[Dice, ScriptedRng]:
+    rng = ScriptedRng(faces)
+    return Dice(rng, MemoryRollLog(), "c", "beat"), rng
+
+
+def filled(cls: str, levels: dict[str, int], abilities: dict[str, int], **d20) -> Sheet:
+    return ENGINE.fill_derived(
+        Sheet(label=cls, cls=cls, race="Human", levels=levels, ability_scores={**TEN, **abilities}, d20=d20), REF
+    )
+
+
+def cleric(level: int = 1, **abilities) -> Sheet:
+    return filled("Cleric", {"cleric": level}, {"wis": 15, **abilities}, domains=["war", "good"])
+
+
+def wizard(**d20) -> Sheet:
+    # Int 16: slots 0: 3, 1: 1 + 1 bonus = 2; DC at level 1 is 10 + 1 + 3 = 14.
+    return filled("Wizard", {"wizard": 1}, {"int": 16}, **d20)
+
+
+def spent(*names: str) -> CharacterState:
+    return CharacterState(hp=6, memorized=tuple(MemorizedSpell(name, 1, cast=True) for name in names))
+
+
+def test_cleric_domain_slot_takes_only_a_domain_spell():
+    # A 1st-level cleric with Wis 15 has 1 + 1 bonus + 1 domain = 3 level-1 slots, one of them for a domain spell
+    # (war's is magic weapon, good's protection from evil).
+    sheet = cleric()
+    assert sheet.d20["derived"]["slots"]["1"] == 3
+    assert ENGINE.can_memorize(sheet, [1, 1, 1], ["Bless", "Bless", "Magic Weapon"]) is None
+    assert ENGINE.can_memorize(sheet, [1, 1, 1], ["Bless", "Shield of Faith", "Protection from Evil"]) is None
+    refusal = ENGINE.can_memorize(sheet, [1, 1, 1], ["Bless", "Bless", "Shield of Faith"])
+    assert refusal and "domain" in refusal and "Magic Weapon" in refusal
+    # A domain spell on no cleric list fills the domain slot; level 0 has no domain slot.
+    assert ENGINE.can_memorize(sheet, [0, 0, 0], ["Light", "Guidance", "Resistance"]) is None
+    # More spells than slots is refused, whatever they are.
+    assert "slots" in ENGINE.can_memorize(sheet, [1, 1, 1, 1], ["Magic Weapon"] * 4)
+
+
+def test_only_the_domain_slot_holds_a_spell_off_the_cleric_list():
+    # Fire's 1st-level spell is burning hands and animal's calm animals, both off the cleric list: the one domain slot
+    # holds one of them, the other two slots (Wis 15) take cleric spells.
+    fire = filled("Cleric", {"cleric": 1}, {"wis": 15}, domains=["fire", "animal"])
+    assert fire.d20["derived"]["slots"]["1"] == 3
+    twice = ENGINE.can_memorize(fire, [1, 1, 1], ["Burning Hands", "Burning Hands", "Bless"])
+    assert twice and "domain slot" in twice and "Burning Hands" in twice
+    both = ENGINE.can_memorize(fire, [1, 1], ["Burning Hands", "Calm Animals"])
+    assert both and "domain slot" in both and "Calm Animals" in both
+    assert ENGINE.can_memorize(fire, [1, 1, 1], ["Burning Hands", "Bless", "Shield of Faith"]) is None
+    assert ENGINE.can_memorize(fire, [1, 1], ["Calm Animals", "Bless"]) is None
+
+
+def test_wizard_cannot_prepare_a_cleric_spell():
+    sheet = wizard()
+    assert ENGINE.can_memorize(sheet, [1, 1], ["Sleep", "magic missile"]) is None
+    refusal = ENGINE.can_memorize(sheet, [1], ["Bless"])
+    assert refusal and "Bless" in refusal and "wizard" in refusal
+    # A wizard spell at the wrong level, and a name that is no spell.
+    assert "level-1 wizard spell" in ENGINE.can_memorize(sheet, [0], ["Sleep"])
+    assert "no spell" in ENGINE.can_memorize(sheet, [1], ["Fireballz"])
+    # A wizard has no domain slot: its slots go by count alone, and level 2 it has none of.
+    assert "slots" in ENGINE.can_memorize(sheet, [1, 1, 1])
+    assert "slots" in ENGINE.can_memorize(sheet, [2], ["Blur"])
+    fighter = filled("Fighter", {"fighter": 1}, {})
+    assert ENGINE.can_memorize(fighter, [], []) is None
+    assert "casts no spells" in ENGINE.can_memorize(fighter, [1], ["Sleep"])
+    with pytest.raises(ValueError, match="names"):
+        ENGINE.can_memorize(sheet, [1, 1], ["Sleep"])
+
+
+def test_level_four_spells_refused():
+    # A 7th-level cleric with Wis 15 has 4th-level slots (1 + 1 domain), and the slice still prepares up to 3rd.
+    sheet = cleric(7)
+    assert sheet.d20["derived"]["slots"]["4"] == 2
+    refusal = ENGINE.can_memorize(sheet, [4], ["Divine Power"])
+    assert refusal and "3rd" in refusal
+    assert ENGINE.can_memorize(sheet, [3, 3], ["Magic Vestment", "Prayer"]) is None
+
+
+def test_spell_failure_rolls_in_armour():
+    # A chain shirt is 20% arcane spell failure; sleep is V, S, M. The SRD's 20% chance is rolls 1-20 of a d100: a
+    # 20 fails and the spell is lost, a 21 casts.
+    sheet = wizard(armor="chain shirt")
+    assert sheet.d20["derived"]["spell_failure"] == 20
+    state = spent("Sleep")
+    roll, rng = dice(20)
+    after, said = ENGINE.cast(sheet, state, "Sleep", 1, dice=roll)
+    assert after is state
+    assert said == {"cast": False, "lost": True, "spell_failure": {"chance": 20, "roll": 20, "failed": True}}
+    assert rng.calls == [(1, 100)]
+    roll, _ = dice(21)
+    after, said = ENGINE.cast(sheet, state, "sleep", 1, dice=roll)
+    assert after is state
+    assert said == {"dc": 14, "school": "Enchantment", "save": "Will negates",
+                    "spell_failure": {"chance": 20, "roll": 21, "failed": False}}  # fmt: skip
+    # Each spent copy rolls its own d100, also within one beat.
+    roll, rng = dice(50, 5)
+    twice = spent("Sleep", "Sleep")
+    assert ENGINE.cast(sheet, spent("Sleep"), "Sleep", 1, dice=roll)[1].get("cast") is not False
+    assert ENGINE.cast(sheet, twice, "Sleep", 1, dice=roll)[1]["lost"] is True
+    with pytest.raises(ValueError, match="dice"):
+        ENGINE.cast(sheet, state, "Sleep", 1)
+
+
+def test_two_wizards_roll_their_own_failure_in_one_beat():
+    # The roll log gives a key it has seen its stored roll: two casters of one spell in one beat need two keys.
+    log = MemoryRollLog()
+    rng = ScriptedRng([5, 90])
+    shared = Dice(rng, log, "c", "beat")
+    first = replace(wizard(armor="chain shirt"), label="Ilsa")
+    second = replace(wizard(armor="chain shirt"), label="Oswin")
+    assert ENGINE.cast(first, spent("Sleep"), "Sleep", 1, dice=shared)[1]["lost"] is True
+    assert ENGINE.cast(second, spent("Sleep"), "Sleep", 1, dice=shared)[1]["spell_failure"]["roll"] == 90
+    rng.assert_done()
+    # The same caster's same copy asked again is the stored roll: nothing new is rolled.
+    assert ENGINE.cast(first, spent("Sleep"), "Sleep", 1, dice=shared)[1]["spell_failure"]["roll"] == 5
+
+
+def test_two_casters_of_one_name_roll_their_own_failure():
+    # DEL-395: core hands `cast` the character's id: two characters both called Ilsa are two casters, with two rolls.
+    log = MemoryRollLog()
+    rng = ScriptedRng([5, 90])
+    shared = Dice(rng, log, "c", "beat")
+    ilsa = replace(wizard(armor="chain shirt"), label="Ilsa")
+    assert ENGINE.cast(ilsa, spent("Sleep"), "Sleep", 1, dice=shared, actor="pc_1")[1]["lost"] is True
+    other = ENGINE.cast(ilsa, spent("Sleep"), "Sleep", 1, dice=shared, actor="pc_2")[1]
+    assert other["spell_failure"]["roll"] == 90
+    rng.assert_done()
+    assert [roll.key.actor for _, roll in log.rolls] == ["pc_1", "pc_2"]
+
+
+def test_verbal_only_spell_has_no_failure_roll():
+    # Feather fall is V only: the SRD casts a spell without a somatic component in armour with no failure chance.
+    sheet = wizard(armor="chain shirt")
+    roll, rng = dice()
+    state = spent("Feather Fall")
+    after, said = ENGINE.cast(sheet, state, "Feather Fall", 1, dice=roll)
+    assert after is state and rng.calls == []
+    assert said == {"dc": 14, "school": "Transmutation", "save": "Will negates (harmless) or Will negates (object)"}
+    # Without armour a wizard rolls nothing, and a cleric's divine spells never roll.
+    assert ENGINE.cast(wizard(), spent("Sleep"), "Sleep", 1)[1]["dc"] == 14
+    priest = filled("Cleric", {"cleric": 1}, {"wis": 15}, armor="full plate", domains=["war", "good"])
+    assert ENGINE.cast(priest, spent("Bless"), "Bless", 1)[1] == {"dc": 13, "school": "Enchantment", "save": "None"}
+
+
+def test_turning_table_and_damage():
+    # A 3rd-level cleric with Cha 12 (+1) turns 3 + 1 = 4 times a day. The check 13 + 1 = 14 reads "13-15: level + 1",
+    # 4 HD; the damage 2d6 (4 + 5) + 3 + 1 = 13 HD in total; 3 // 2 = 1 HD or less is destroyed. A ghoul has 2 HD.
+    sheet = cleric(3, cha=12)
+    assert sheet.d20["derived"]["turning_per_day"] == 4
+    state = CharacterState(hp=15)
+    roll, rng = dice(13, 4, 5)
+    said = ENGINE.turn_undead(sheet, 3, "ghoul", 0, roll, actor="pc_1", state=state)
+    rng.assert_done()
+    assert {k: said[k] for k in ("max_hd", "total_hd", "destroy_up_to_hd", "attempts_left")} == {
+        "max_hd": 4, "total_hd": 13, "destroy_up_to_hd": 1, "attempts_left": 3}  # fmt: skip
+    assert (said["check"], said["hd"], said["turned"], said["destroyed"]) == (14, 2, True, False)
+    assert said["state"].d20 == {"turning_used": 1} and said["state"].hp == 15
+    # The table's ends: 0 or lower is level - 4 (a 1 - 1 at Cha 8 is 0), 22 or higher level + 4 (a 20 + 2 at Cha 14);
+    # a 20 + 1 at Cha 12 is 21, level + 3.
+    low = ENGINE.turn_undead(cleric(3, cha=8), 3, "", 1, dice(1)[0], actor="pc_1", state=state)
+    assert (low["check"], low["max_hd"], low["turned"], low["total_hd"]) == (0, -1, False, 0)
+    high = ENGINE.turn_undead(sheet, 3, "", 1, dice(20, 1, 1)[0], actor="pc_1", state=state)
+    assert (high["check"], high["max_hd"]) == (21, 6)
+    higher = ENGINE.turn_undead(cleric(3, cha=14), 3, "", 1, dice(20, 1, 1)[0], actor="pc_1", state=state)
+    assert (higher["check"], higher["max_hd"]) == (22, 7)
+    # An undead stronger than the check affects is not turned and rolls no damage; a 1 HD one is destroyed.
+    roll, rng = dice(1)
+    wight = ENGINE.turn_undead(sheet, 3, "wight", 0, roll, actor="pc_1", state=state)
+    assert (wight["max_hd"], wight["hd"], wight["turned"], wight["total_hd"]) == (0, 4, False, 0)
+    rng.assert_done()
+    skeleton = ENGINE.turn_undead(sheet, 3, "human warrior skeleton", 0, dice(10, 1, 1)[0], actor="pc_1", state=state)
+    assert (skeleton["hd"], skeleton["turned"], skeleton["destroyed"]) == (1, True, True)
+    # Only undead are turned: an orc is refused without a roll or a spent attempt.
+    roll, rng = dice()
+    orc = ENGINE.turn_undead(sheet, 3, "orc", 0, roll, actor="pc_1", state=state)
+    assert "undead" in orc["note"] and "state" not in orc and rng.calls == []
+
+
+def test_turning_runs_out():
+    sheet = cleric(3, cha=12)
+    state = CharacterState(hp=15, d20={"turning_used": 3})
+    said = ENGINE.turn_undead(sheet, 3, "ghoul", 0, dice(12, 1, 1)[0], actor="pc_1", state=state)
+    assert said["attempts_left"] == 0 and said["state"].d20 == {"turning_used": 4}
+    roll, rng = dice()
+    said = ENGINE.turn_undead(sheet, 3, "ghoul", 0, roll, actor="pc_1", state=said["state"])
+    assert "4 times a day" in said["note"] and said["attempts_left"] == 0 and "state" not in said
+    assert rng.calls == []
+    # After a rest the attempts are back.
+    rested, _ = ENGINE.rest(sheet, CharacterState(hp=15, d20={"turning_used": 4}), 1)
+    assert ENGINE.turn_undead(sheet, 3, "ghoul", 0, dice(12, 1, 1)[0], actor="pc_1", state=rested)["attempts_left"] == 3
+    # A character that can't turn is refused, and without a sheet the DM's numbers are used (Cha +0, no count).
+    fighter = filled("Fighter", {"fighter": 3}, {})
+    assert "can't turn" in ENGINE.turn_undead(fighter, 3, "ghoul", 0, dice()[0], actor="pc_2", state=state)["note"]
+    bare = ENGINE.turn_undead(None, 3, "ghoul", 0, dice(12, 1, 1)[0], actor=None)
+    assert (bare["max_hd"], bare["total_hd"], bare["attempts_left"], bare.get("state")) == (3, 5, None, None)
+
+
+def test_uncounted_turnings_in_one_beat_roll_their_own_check():
+    # DEL-395: a turning without a sheet counts no attempts, so each is keyed by what is turned and at which level: two
+    # in one beat roll two checks. The very same turning asked again is the stored roll: a beat never rolls it twice.
+    log = MemoryRollLog()
+    rng = ScriptedRng([12, 1, 1, 3])
+    shared = Dice(rng, log, "c", "beat")
+    ghoul = ENGINE.turn_undead(None, 3, "ghoul", 0, shared, actor=None)
+    wight = ENGINE.turn_undead(None, 3, "wight", 0, shared, actor=None)
+    assert (ghoul["check"], wight["check"]) == (12, 3)
+    rng.assert_done()
+    assert ENGINE.turn_undead(None, 3, "ghoul", 0, shared, actor=None)["check"] == 12
+    assert ENGINE.turn_undead(None, 5, "", 2, Dice(ScriptedRng([7, 1, 1]), log, "c", "beat"), actor=None)["check"] == 7
+
+
+def test_unknown_components_count_as_somatic():
+    # The SRD exempts only a spell that lacks a somatic component; data without components doesn't show that.
+    from delve_srd35.engine import magic
+
+    assert magic._somatic({"components": ""}) and magic._somatic({"components": "V, S, M"})
+    assert not magic._somatic({"components": "V (Brd only), M"}) and not magic._somatic({"components": "V, F"})
+
+
+def test_spell_level_is_the_casters_own():  # R16
+    # Sleep is wizard 1 (sorcerer/wizard 1, bard 1); Bless is on no wizard list.
+    assert ENGINE.spell_level(wizard(), "Sleep") == 1
+    assert ENGINE.spell_level(wizard(), "sleep") == 1
+    assert ENGINE.spell_level(wizard(), "Bless") is None
+    # A war/good cleric: Magic Weapon is cleric 1 and war 1, Protection from Evil cleric 1 and good 1; Sleep is on none.
+    assert ENGINE.spell_level(cleric(), "Magic Weapon") == 1
+    assert ENGINE.spell_level(cleric(), "Protection from Evil") == 1
+    assert ENGINE.spell_level(cleric(), "Sleep") is None
+    # Burning Hands is on no cleric list; the fire domain's 1st-level spell, so a fire cleric's 1.
+    fire = filled("Cleric", {"cleric": 1}, {"wis": 15}, domains=["fire", "animal"])
+    assert ENGINE.spell_level(fire, "Burning Hands") == 1
+    assert ENGINE.spell_level(cleric(), "Burning Hands") is None
+    # A fighter casts nothing, and an unknown name is no spell.
+    fighter = filled("Fighter", {"fighter": 1}, {})
+    assert ENGINE.spell_level(fighter, "Sleep") is None
+    assert ENGINE.spell_level(wizard(), "Sleepy Time") is None
+
+
+def test_memorize_spells_resolves_through_the_engine(srd35_call):  # R16, through core's memorize_spells
+    sheet = {"cls": "Wizard", "level": 1, "race": "Elf", "hp_max": 4, "ability_scores": {**TEN, "int": 16}}
+    srd35_call("create_character", name="Elowen", sheet=sheet)
+    out = srd35_call("memorize_spells", character="Elowen", spells=["sleep", "magic missile"])
+    assert out["by_level"] == {"1": ["Sleep", "Magic Missile"]}, out
+    refused = srd35_call("memorize_spells", character="Elowen", spells=["Bless"])
+    assert refused["error"] == "Bless is on none of Elowen's spell lists."
+    sheet = {"cls": "Cleric", "level": 1, "race": "Dwarf", "hp_max": 10, "ability_scores": {**TEN, "wis": 15}}
+    srd35_call("create_character", name="Dorna", sheet=sheet)
+    srd35_call("set_build", character="Dorna", domains=["war", "good"])
+    out = srd35_call("memorize_spells", character="Dorna", spells=["Bless", "Cure Light Wounds", "Magic Weapon"])
+    assert out["by_level"] == {"1": ["Bless", "Cure Light Wounds", "Magic Weapon"]}, out
+
+
+def test_a_spell_is_memorized_whatever_its_apostrophe(srd35_call):  # DEL-401: the data's is curly
+    sheet = {"cls": "Wizard", "level": 3, "race": "Elf", "hp_max": 10, "ability_scores": {**TEN, "int": 16}}
+    srd35_call("create_character", name="Elowen", sheet=sheet)
+    for typed in ("bull's strength", "Bull`s Strength"):
+        out = srd35_call("memorize_spells", character="Elowen", spells=[typed])
+        assert out["by_level"] == {"2": ["Bull’s Strength"]}, out
+
+
+def test_a_fighter_casting_is_refused_by_the_engine(srd35_call):  # I3: the per-day cast asks the engine for the level
+    sheet = {"cls": "Fighter", "level": 1, "race": "Human", "hp_max": 12, "ability_scores": TEN}
+    srd35_call("create_character", name="Bram", sheet=sheet)
+    out = srd35_call("cast_spell", character="Bram", spell_name="Sleep")
+    assert out["error"] == "Sleep is on none of Bram's spell lists.", out
+    assert srd35_call("cast_spell", character="Bram", spell_name="Sleepy Time")["error"] == "No spell 'Sleepy Time'."
+
+
+def test_turning_takes_the_clerics_level_from_its_sheet():
+    # A 3rd-level cleric with Cha 12 passed level 1: the sheet's 3 counts. 13 + 1 = 14 is "13-15: level + 1", 4 HD;
+    # the damage 2d6 (4 + 5) + 3 + 1 = 13.
+    said = ENGINE.turn_undead(cleric(3, cha=12), 1, "ghoul", 0, dice(13, 4, 5)[0], actor="pc_1",
+                              state=CharacterState(hp=15))  # fmt: skip
+    assert (said["max_hd"], said["total_hd"], said["destroy_up_to_hd"]) == (4, 13, 1)
+
+
+def test_turning_needs_the_damage_to_reach_the_undead():
+    # A 3rd-level cleric with Cha 8: 20 - 1 = 19 is "19-21: level + 3", 6 HD; the damage 2d6 (1 + 1) + 3 - 1 = 4 HD of
+    # turning damage, too few for one 6-HD undead: it is not turned.
+    said = ENGINE.turn_undead(cleric(3, cha=8), 3, "", 6, dice(20, 1, 1)[0], actor="pc_1", state=CharacterState(hp=15))
+    assert (said["max_hd"], said["total_hd"], said["turned"], said["destroyed"]) == (6, 4, False, False)

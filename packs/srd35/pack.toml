@@ -1,0 +1,9 @@
+id = "srd35"
+kind = "ruleset"
+title = "SRD 3.5"
+version = "0.1.0"
+delve_api = 1
+package = "delve_srd35"
+entry = "delve_srd35.pack:PACK"
+playable = true
+monster_pictures = "reuse"

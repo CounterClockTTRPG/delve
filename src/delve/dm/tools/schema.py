@@ -46,6 +46,9 @@ class ToolSpec:
     areas: tuple[str, ...] | None = None
     """The `AREAS` a call may change, which the play screen reads again after it; none for a tool that changes nothing
     a seat reads (a roll, a DM note). None, left out, is every area (DEL-168)."""
+    rulesets: tuple[str, ...] | None = None
+    """The rulesets whose campaigns see this tool (a d20 ruleset's own, DEL-387); None, left out, is every one. A
+    scoped spec of a core tool's name replaces the core one in those campaigns."""
 
 
 def tool(

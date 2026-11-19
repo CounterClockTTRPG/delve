@@ -38,18 +38,20 @@ function refusedWith(error: unknown): string | null {
 /**
  * Paint `name` for every table: `trigger` is the button (it gets the click), and a dialog says what painting it
  * means before it starts. `again` is Paint again, for a kind that has a picture. `campaignId` is the table that
- * asked; `onAsked` runs once the painting has started.
+ * asked, `rulesetId` the book that asked (DEL-384); `onAsked` runs once the painting has started.
  */
 export function PaintMonster({
   name,
   again = false,
   campaignId,
+  rulesetId,
   onAsked,
   trigger,
 }: {
   name: string;
   again?: boolean;
   campaignId?: string;
+  rulesetId?: string;
   onAsked?: () => void;
   trigger: (open: () => void) => ReactNode;
 }) {
@@ -58,7 +60,7 @@ export function PaintMonster({
   const [open, setOpen] = useState(false);
   const state = useQuery({ queryKey: monsterKeys.state(name), queryFn: () => getMonsterPicture(name), enabled: open });
   const paint = useMutation({
-    mutationFn: () => paintMonster(name, campaignId),
+    mutationFn: () => paintMonster(name, campaignId, rulesetId),
     onSuccess: () => {
       client.invalidateQueries({ queryKey: monsterKeys.all });
       onAsked?.();

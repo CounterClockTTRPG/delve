@@ -207,3 +207,34 @@ def test_a_campaigns_module_text_goes_into_the_brief(local, storage, painter, sl
     assert asked.status_code == 202, asked.text
     painter.gate.set()
     assert settle(storage, "mudviper").prompt == "A Mudviper, a giant poisonous snake."
+
+
+def test_painting_for_a_reuse_ruleset_is_refused(local, registries, storage, painter, slow):
+    """DEL-384: a ruleset that reuses the shared pictures never paints one, so it can't change what other rulesets'
+    campaigns show."""
+    from dataclasses import replace
+
+    catalogs = registries.catalogs
+    rulesets = tuple(replace(e, monster_pictures="reuse") for e in catalogs.rulesets)
+    registries.catalogs = replace(catalogs, rulesets=rulesets)
+    refused = local.post("/api/monster-pictures", json={"name": "Owlbear", "ruleset": "osric"})
+    assert refused.status_code == 409
+    assert "reuses the shared monster pictures" in refused.json()["error"]
+    assert storage.monster_pictures.get("owlbear") is None
+
+
+def test_painting_without_a_ruleset_is_as_before(local, painter, slow):
+    assert local.post("/api/monster-pictures", json={"name": "Owlbear"}).status_code == 202
+
+
+def test_painting_for_a_campaign_whose_ruleset_reuses_pictures_is_refused(local, registries, storage, painter, slow):
+    from dataclasses import replace
+
+    from tests.web.test_campaigns_api import campaign, crypt_module
+
+    played = campaign(local, crypt_module(local)["id"])
+    catalogs = registries.catalogs
+    rulesets = tuple(replace(e, monster_pictures="reuse") for e in catalogs.rulesets)
+    registries.catalogs = replace(catalogs, rulesets=rulesets)
+    refused = local.post("/api/monster-pictures", json={"name": "Owlbear", "campaign_id": played["id"]})
+    assert refused.status_code == 409

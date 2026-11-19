@@ -64,8 +64,9 @@ export function asked(fetchMock: { mock: { calls: unknown[][] } }): string[] {
 }
 
 /** `GET /api/rulesets/adnd2e` (with `?campaign=` when given), as a player sees it: no monsters. */
-export function rulesetInfo(campaign: string | null = null) {
+export function rulesetInfo(campaign: string | null = null, extra: Record<string, unknown> = {}) {
   const body = {
+    ...extra,
     id: "adnd2e",
     title: "AD&D 2nd Edition",
     campaign_id: campaign,

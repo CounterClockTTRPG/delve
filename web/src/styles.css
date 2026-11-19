@@ -6079,6 +6079,7 @@ button.link-button {
 }
 
 .banner-crop-frame {
+  position: relative;
   aspect-ratio: 21 / 9;
   overflow: hidden;
   border: 1px solid var(--rule);

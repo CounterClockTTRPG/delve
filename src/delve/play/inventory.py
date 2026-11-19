@@ -187,7 +187,8 @@ def inventory(ctx: CampaignContext, ref: str = "") -> dict[str, Any]:
 
 def weigh(ctx: CampaignContext, character: Character) -> dict[str, Any]:
     """`encumbrance.compute` for a character's inventory, each item with the `source` of its weight ("stored" when
-    the item carries it) and a warning per item of unknown weight."""
+    the item carries it) and a warning per item of unknown weight. A d20 engine's multiplier scales the bands and its
+    `loaded_speed`, when it has one for the character, is the movement."""
     loads: list[tuple[str, int, float | None]] = []
     sources: list[str] = []
     for item in character.state.inventory:
@@ -204,8 +205,12 @@ def weigh(ctx: CampaignContext, character: Character) -> dict[str, Any]:
         strength=scores.get("str", 10),
         pct=scores.get("str_pct"),
         movement_rate=character.sheet.movement_rate,
+        multiplier=ctx.d20.load_multiplier(character.sheet) if ctx.d20 is not None else 1.0,
         rules=ctx.rules.encumbrance,
     )
+    speed = character.sheet.movement_rate
+    if ctx.d20 is not None and (own := ctx.d20.loaded_speed(character.sheet, out["band"], speed)) is not None:
+        out["movement"], out["penalty"] = own, own - speed  # the engine's own for this character (DEL-404)
     for row, source in zip(out["items"], sources, strict=True):
         row["source"] = source
     warnings = [_unknown_weight(row["item"]) for row in out["items"] if row["source"] == "unknown"]

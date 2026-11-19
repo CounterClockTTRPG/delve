@@ -509,6 +509,15 @@ def claude(argv: list[str]) -> int:
     return 0
 
 
+def browser_root(port: int) -> Path:
+    """The run's folder, one per port and emptied first (DEL-316). Playwright kills the server, so nothing can remove
+    it at the end; a fresh folder each run left 270 MB behind every time and once filled /tmp."""
+    root = Path(tempfile.gettempdir()) / f"delve-e2e-browser-{port}"
+    shutil.rmtree(root, ignore_errors=True)
+    root.mkdir()
+    return root
+
+
 def main(argv: list[str] | None = None) -> int:
     argv = sys.argv[1:] if argv is None else argv
     if argv[:1] == ["--claude"]:
@@ -540,7 +549,7 @@ def main(argv: list[str] | None = None) -> int:
         parser.error("--port is needed")
     if args.port in FORBIDDEN_PORTS:
         parser.error(f"port {args.port} is the owner's; pick another")
-    env = prepare(Path(tempfile.mkdtemp(prefix="delve-e2e-browser-")))
+    env = prepare(browser_root(args.port))
     if args.stores is not None:
         stores = args.stores.resolve()
         make_stores(stores)

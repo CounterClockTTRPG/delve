@@ -1,4 +1,4 @@
-import { screen } from "@testing-library/react";
+import { screen, within } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { json, stubFetch } from "../play/testing";
 import { renderArea } from "./testing";
@@ -20,6 +20,20 @@ describe("Rulesets", () => {
     expect(await screen.findByRole("heading", { level: 1, name: "Rulesets" })).toBeTruthy();
     expect((await screen.findByRole("link", { name: /AD&D 2nd Edition/ })).getAttribute("href")).toBe("/rulesets/adnd2e");
     expect(screen.getByRole("link", { name: /OSRIC/ }).getAttribute("href")).toBe("/rulesets/osric");
+  });
+
+  it("tags a ruleset that is only a reference (DEL-384)", async () => {
+    stubFetch({
+      "GET /api/rulesets": () =>
+        json(200, [
+          { id: "osric", title: "OSRIC", playable: true },
+          { id: "srd35", title: "SRD 3.5", playable: false },
+        ]),
+    });
+    renderArea("/rulesets");
+    const reference = await screen.findByRole("link", { name: /SRD 3.5/ });
+    expect(within(reference).getByText("Reference only")).toBeTruthy();
+    expect(within(screen.getByRole("link", { name: /OSRIC/ })).queryByText("Reference only")).toBeNull();
   });
 
   it("says when there is no ruleset", async () => {

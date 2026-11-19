@@ -58,6 +58,16 @@ describe("PartySidebar", () => {
     expect(meta).toEqual(["HP 8/10 · AC 5 · F1", "HP 3/9 · AC 5 · MU3/T4", "HP 8/10 · AC 5 · S1"]);
   });
 
+  it("shows a d20 character's AC from the engine's numbers, which stand in for `ac`", () => {
+    stubFetch({});
+    const { ac: _, ...rest } = party[0];
+    const d20 = { bab: 1, fort: 2, ref: 0, will: 0, ac: 16, touch: 10, flat_footed: 16, init: 0, skills: {} };
+    const member = { ...rest, d20: { ...d20, feats: [], domains: [], slots: {}, dc: {} } } as PartyMember;
+    renderWith(<PartySidebar campaignId="cmp_00000000000a" party={[member]} onOpenSheet={() => {}} />);
+    const meta = document.querySelector(".party-member .row-meta")?.textContent;
+    expect(meta).toBe("HP 8/10 · AC 16");
+  });
+
   it("shows each character's portrait, and the initial for one without", () => {
     stubFetch({});
     renderWith(

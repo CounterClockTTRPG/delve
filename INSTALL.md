@@ -12,7 +12,7 @@ own Claude subscription. These steps are for Linux and macOS; on Windows, use WS
 
 The script checks what you have and offers, step by step, to install what's missing: git, make and curl through your
 package manager (apt, dnf, pacman or zypper, with sudo), uv and its Python, Node.js 24 through nvm, and Claude Code,
-and to log you in to Claude. Then it installs Delve with the OSRIC ruleset, builds the web app, offers to add the
+and to log you in to Claude. Then it installs Delve with the OSRIC and SRD 3.5 rulesets, builds the web app, offers to add the
 sample adventure, The Lady of the Weir, and to start Delve, now or as a systemd service that starts with your
 computer. It says what it runs before it runs it. `./install.sh --check` only reports; `./install.sh --yes` takes the
 recommended answer everywhere (it doesn't log in to Claude or start Delve). The rest of this guide is the same by
@@ -54,8 +54,8 @@ still starts, but `/api/health` and Preferences → Backends say the DM is unava
 
 `make install` does three things:
 1. `uv sync`: makes `.venv` with Delve and its Python dependencies.
-2. `uv run delve pack install packs/osric`: installs **OSRIC 3.0**, the ruleset in this repository, into the data
-   directory (below). Aun, Delve's own setting, is built in.
+2. `uv run delve pack install packs/osric` and `packs/srd35`: installs the rulesets in this repository, **OSRIC 3.0**
+   and **SRD 3.5**, into the data directory (below). Aun, Delve's own setting, is built in.
 3. `npm ci` in `web/`: the web app's dependencies.
 
 ## 3. Start it
@@ -158,7 +158,8 @@ the socket alone running, the next request starts Delve again.
 
 ## 7. Rulesets and settings
 
-Rulesets and settings are **packs**. This repository brings OSRIC 3.0 (`packs/osric`) and Aun, Delve's own setting.
+Rulesets and settings are **packs**. This repository brings OSRIC 3.0 (`packs/osric`), SRD 3.5 (`packs/srd35`) and Aun,
+Delve's own setting.
 The owner installs other packs under Preferences → **Packs** (a `.delvepack` file), or from a shell:
 
     uv run delve pack install path/to/pack-folder       # or a .delvepack file, or a git URL
@@ -171,7 +172,7 @@ one. The code and tests name some packs that are not part of this repository (`a
 ## 8. Updating
 
     git pull
-    make install          # new dependencies and the OSRIC pack's update
+    make install          # new dependencies and the packs' updates
     make build
     systemctl --user restart delve        # or stop and start `make run`
 

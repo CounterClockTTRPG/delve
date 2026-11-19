@@ -68,3 +68,15 @@ def test_the_stores_folders_open_as_a_backup_store_that_fails_in_part_and_a_libr
     with pytest.raises(SystemExit):
         fake_play_server.make_stores(tmp_path / "mine")  # a folder of another name is never emptied
     assert (tmp_path / "mine").is_dir()
+
+
+def test_a_browser_run_reuses_one_folder_for_its_port(tmp_path, monkeypatch):
+    # DEL-316: Playwright kills the server, so nothing removes its folder at the end. One folder per port, emptied
+    # at the start, means a run leaves at most one behind, not 270 MB more each time.
+    monkeypatch.setattr(fake_play_server.tempfile, "tempdir", str(tmp_path))
+    first = fake_play_server.browser_root(47811)
+    (first / "left-over").write_text("from the last run")
+    again = fake_play_server.browser_root(47811)
+    assert again == first == tmp_path / "delve-e2e-browser-47811"
+    assert list(again.iterdir()) == []
+    assert fake_play_server.browser_root(47812) != first

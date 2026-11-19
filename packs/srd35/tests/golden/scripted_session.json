@@ -1,0 +1,2665 @@
+{
+ "answers": [
+  {
+   "answer": {
+    "house_rules": [],
+    "id": "Bram",
+    "kind": "pc",
+    "name": "Bram",
+    "named_by": "given",
+    "order": 0,
+    "sheet": {
+     "ability_scores": {
+      "cha": 8,
+      "con": 14,
+      "dex": 13,
+      "int": 10,
+      "str": 16,
+      "wis": 12
+     },
+     "ac": 10,
+     "ac_vs_larger": 0,
+     "alignment": "",
+     "attacks": [],
+     "background": "",
+     "cls": "Fighter",
+     "d20": {
+      "derived": {
+       "ac": 11,
+       "acp": 0,
+       "bab": 1,
+       "dc": {},
+       "flat_footed": 10,
+       "fort": 4,
+       "init": 1,
+       "max_dex": null,
+       "ref": 1,
+       "skills": {},
+       "slots": {},
+       "sneak": "",
+       "speed": 30,
+       "spell_failure": 0,
+       "touch": 11,
+       "turning_per_day": 0,
+       "will": 1
+      }
+     },
+     "deity": "",
+     "disposition": 0,
+     "faction": "",
+     "gender": "",
+     "hp_max": 12,
+     "kind": "pc",
+     "label": "Bram",
+     "levels": {
+      "fighter": 1
+     },
+     "movement_rate": 30,
+     "natural_abilities": [],
+     "notes_md": "",
+     "nwps": [],
+     "portrait": null,
+     "portrait_prompt": "",
+     "pronouns": "",
+     "race": "Human",
+     "saves": {},
+     "size": "M",
+     "skills": {},
+     "spell_loadout": {
+      "default": {},
+      "known": {}
+     },
+     "spell_slots": {},
+     "thac0": 20,
+     "weapon": "",
+     "weapon_profs": []
+    },
+    "state": {
+     "conditions": [],
+     "effects": [],
+     "hp": 12,
+     "inventory": [],
+     "memorized": [],
+     "xp": 0
+    }
+   },
+   "args": {
+    "name": "Bram",
+    "sheet": {
+     "ability_scores": {
+      "cha": 8,
+      "con": 14,
+      "dex": 13,
+      "int": 10,
+      "str": 16,
+      "wis": 12
+     },
+     "cls": "Fighter",
+     "hp_max": 12,
+     "level": 1,
+     "race": "Human"
+    }
+   },
+   "tool": "create_character"
+  },
+  {
+   "answer": {
+    "house_rules": [],
+    "id": "Dorna",
+    "kind": "pc",
+    "name": "Dorna",
+    "named_by": "given",
+    "order": 1,
+    "sheet": {
+     "ability_scores": {
+      "cha": 12,
+      "con": 14,
+      "dex": 10,
+      "int": 10,
+      "str": 14,
+      "wis": 15
+     },
+     "ac": 10,
+     "ac_vs_larger": 0,
+     "alignment": "",
+     "attacks": [],
+     "background": "",
+     "cls": "Cleric",
+     "d20": {
+      "derived": {
+       "ac": 10,
+       "acp": 0,
+       "bab": 0,
+       "dc": {
+        "0": 12,
+        "1": 13
+       },
+       "flat_footed": 10,
+       "fort": 4,
+       "init": 0,
+       "max_dex": null,
+       "ref": 0,
+       "skills": {},
+       "slots": {
+        "0": 3,
+        "1": 3
+       },
+       "sneak": "",
+       "speed": 20,
+       "spell_failure": 0,
+       "touch": 10,
+       "turning_per_day": 4,
+       "will": 4
+      }
+     },
+     "deity": "",
+     "disposition": 0,
+     "faction": "",
+     "gender": "",
+     "hp_max": 10,
+     "kind": "pc",
+     "label": "Dorna",
+     "levels": {
+      "cleric": 1
+     },
+     "movement_rate": 20,
+     "natural_abilities": [],
+     "notes_md": "",
+     "nwps": [],
+     "portrait": null,
+     "portrait_prompt": "",
+     "pronouns": "",
+     "race": "Dwarf",
+     "saves": {},
+     "size": "M",
+     "skills": {},
+     "spell_loadout": {
+      "default": {},
+      "known": {}
+     },
+     "spell_slots": {
+      "0": 3,
+      "1": 3
+     },
+     "thac0": 20,
+     "weapon": "",
+     "weapon_profs": []
+    },
+    "state": {
+     "conditions": [],
+     "effects": [],
+     "hp": 10,
+     "inventory": [],
+     "memorized": [],
+     "xp": 0
+    }
+   },
+   "args": {
+    "name": "Dorna",
+    "sheet": {
+     "ability_scores": {
+      "cha": 12,
+      "con": 14,
+      "dex": 10,
+      "int": 10,
+      "str": 14,
+      "wis": 15
+     },
+     "cls": "Cleric",
+     "hp_max": 10,
+     "level": 1,
+     "race": "Dwarf"
+    }
+   },
+   "tool": "create_character"
+  },
+  {
+   "answer": {
+    "house_rules": [],
+    "id": "Pip",
+    "kind": "pc",
+    "name": "Pip",
+    "named_by": "given",
+    "order": 2,
+    "sheet": {
+     "ability_scores": {
+      "cha": 12,
+      "con": 12,
+      "dex": 17,
+      "int": 12,
+      "str": 10,
+      "wis": 10
+     },
+     "ac": 10,
+     "ac_vs_larger": 0,
+     "alignment": "",
+     "attacks": [],
+     "background": "",
+     "cls": "Rogue",
+     "d20": {
+      "derived": {
+       "ac": 14,
+       "acp": 0,
+       "bab": 0,
+       "dc": {},
+       "flat_footed": 11,
+       "fort": 2,
+       "init": 3,
+       "max_dex": null,
+       "ref": 6,
+       "skills": {},
+       "slots": {},
+       "sneak": "1d6",
+       "speed": 20,
+       "spell_failure": 0,
+       "touch": 14,
+       "turning_per_day": 0,
+       "will": 1
+      }
+     },
+     "deity": "",
+     "disposition": 0,
+     "faction": "",
+     "gender": "",
+     "hp_max": 7,
+     "kind": "pc",
+     "label": "Pip",
+     "levels": {
+      "rogue": 1
+     },
+     "movement_rate": 20,
+     "natural_abilities": [],
+     "notes_md": "",
+     "nwps": [],
+     "portrait": null,
+     "portrait_prompt": "",
+     "pronouns": "",
+     "race": "Halfling",
+     "saves": {},
+     "size": "M",
+     "skills": {},
+     "spell_loadout": {
+      "default": {},
+      "known": {}
+     },
+     "spell_slots": {},
+     "thac0": 20,
+     "weapon": "",
+     "weapon_profs": []
+    },
+    "state": {
+     "conditions": [],
+     "effects": [],
+     "hp": 7,
+     "inventory": [],
+     "memorized": [],
+     "xp": 0
+    }
+   },
+   "args": {
+    "name": "Pip",
+    "sheet": {
+     "ability_scores": {
+      "cha": 12,
+      "con": 12,
+      "dex": 17,
+      "int": 12,
+      "str": 10,
+      "wis": 10
+     },
+     "cls": "Rogue",
+     "hp_max": 7,
+     "level": 1,
+     "race": "Halfling"
+    }
+   },
+   "tool": "create_character"
+  },
+  {
+   "answer": {
+    "house_rules": [],
+    "id": "Elowen",
+    "kind": "pc",
+    "name": "Elowen",
+    "named_by": "given",
+    "order": 3,
+    "sheet": {
+     "ability_scores": {
+      "cha": 10,
+      "con": 10,
+      "dex": 16,
+      "int": 17,
+      "str": 8,
+      "wis": 12
+     },
+     "ac": 10,
+     "ac_vs_larger": 0,
+     "alignment": "",
+     "attacks": [],
+     "background": "",
+     "cls": "Wizard",
+     "d20": {
+      "derived": {
+       "ac": 13,
+       "acp": 0,
+       "bab": 0,
+       "dc": {
+        "0": 13,
+        "1": 14
+       },
+       "flat_footed": 10,
+       "fort": 0,
+       "init": 3,
+       "max_dex": null,
+       "ref": 3,
+       "skills": {},
+       "slots": {
+        "0": 3,
+        "1": 2
+       },
+       "sneak": "",
+       "speed": 30,
+       "spell_failure": 0,
+       "touch": 13,
+       "turning_per_day": 0,
+       "will": 3
+      }
+     },
+     "deity": "",
+     "disposition": 0,
+     "faction": "",
+     "gender": "",
+     "hp_max": 4,
+     "kind": "pc",
+     "label": "Elowen",
+     "levels": {
+      "wizard": 1
+     },
+     "movement_rate": 30,
+     "natural_abilities": [],
+     "notes_md": "",
+     "nwps": [],
+     "portrait": null,
+     "portrait_prompt": "",
+     "pronouns": "",
+     "race": "Elf",
+     "saves": {},
+     "size": "M",
+     "skills": {},
+     "spell_loadout": {
+      "default": {},
+      "known": {}
+     },
+     "spell_slots": {
+      "0": 3,
+      "1": 2
+     },
+     "thac0": 20,
+     "weapon": "",
+     "weapon_profs": []
+    },
+    "state": {
+     "conditions": [],
+     "effects": [],
+     "hp": 4,
+     "inventory": [],
+     "memorized": [],
+     "xp": 0
+    }
+   },
+   "args": {
+    "name": "Elowen",
+    "sheet": {
+     "ability_scores": {
+      "cha": 10,
+      "con": 10,
+      "dex": 16,
+      "int": 17,
+      "str": 8,
+      "wis": 12
+     },
+     "cls": "Wizard",
+     "hp_max": 4,
+     "level": 1,
+     "race": "Elf"
+    }
+   },
+   "tool": "create_character"
+  },
+  {
+   "answer": {
+    "build": {
+     "armor": "scale mail",
+     "feats": [
+      {
+       "id": "power-attack"
+      },
+      {
+       "id": "cleave"
+      },
+      {
+       "choice": "falchion",
+       "id": "weapon-focus"
+      }
+     ],
+     "skills": {
+      "climb": 4,
+      "intimidate": 4,
+      "jump": 4
+     },
+     "weapon": "falchion"
+    },
+    "character": "Bram",
+    "character_id": "Bram",
+    "derived": {
+     "ac": 15,
+     "acp": -4,
+     "bab": 1,
+     "base_speed": 30,
+     "dc": {},
+     "flat_footed": 14,
+     "fort": 4,
+     "init": 1,
+     "max_dex": 3,
+     "ref": 1,
+     "skills": {
+      "climb": 3,
+      "intimidate": 3,
+      "jump": 3
+     },
+     "slots": {},
+     "sneak": "",
+     "speed": 20,
+     "spell_failure": 0,
+     "touch": 11,
+     "turning_per_day": 0,
+     "will": 1
+    },
+    "skill_points": {
+     "spent": 12.0,
+     "total": 12
+    }
+   },
+   "args": {
+    "armor": "scale mail",
+    "character": "Bram",
+    "feats": [
+     "power attack",
+     "cleave",
+     {
+      "choice": "falchion",
+      "id": "weapon focus"
+     }
+    ],
+    "skills": {
+     "climb": 4,
+     "intimidate": 4,
+     "jump": 4
+    },
+    "weapon": "falchion"
+   },
+   "tool": "set_build"
+  },
+  {
+   "answer": {
+    "build": {
+     "armor": "scale mail",
+     "domains": [
+      "war",
+      "good"
+     ],
+     "shield": "shield, heavy steel",
+     "skills": {
+      "concentration": 4
+     },
+     "weapon": "warhammer"
+    },
+    "character": "Dorna",
+    "character_id": "Dorna",
+    "derived": {
+     "ac": 16,
+     "acp": -6,
+     "bab": 0,
+     "dc": {
+      "0": 12,
+      "1": 13
+     },
+     "flat_footed": 16,
+     "fort": 4,
+     "init": 0,
+     "max_dex": 3,
+     "ref": 0,
+     "skills": {
+      "concentration": 6
+     },
+     "slots": {
+      "0": 3,
+      "1": 3
+     },
+     "sneak": "",
+     "speed": 20,
+     "spell_failure": 0,
+     "touch": 10,
+     "turning_per_day": 4,
+     "will": 4
+    },
+    "skill_points": {
+     "spent": 4.0,
+     "total": 8
+    }
+   },
+   "args": {
+    "armor": "scale mail",
+    "character": "Dorna",
+    "domains": [
+     "war",
+     "good"
+    ],
+    "shield": "heavy steel shield",
+    "skills": {
+     "concentration": 4
+    },
+    "weapon": "warhammer"
+   },
+   "tool": "set_build"
+  },
+  {
+   "answer": {
+    "build": {
+     "armor": "leather",
+     "feats": [
+      {
+       "id": "dodge"
+      }
+     ],
+     "skills": {
+      "climb": 4,
+      "hide": 4,
+      "listen": 4,
+      "move-silently": 4,
+      "open-lock": 4,
+      "search": 4,
+      "spot": 4,
+      "tumble": 4
+     },
+     "weapon": "sword, short"
+    },
+    "character": "Pip",
+    "character_id": "Pip",
+    "derived": {
+     "ac": 17,
+     "acp": 0,
+     "bab": 0,
+     "dc": {},
+     "flat_footed": 13,
+     "fort": 2,
+     "init": 3,
+     "max_dex": 6,
+     "ref": 6,
+     "skills": {
+      "climb": 6,
+      "hide": 11,
+      "listen": 6,
+      "move-silently": 9,
+      "open-lock": 7,
+      "search": 5,
+      "spot": 4,
+      "tumble": 7
+     },
+     "slots": {},
+     "sneak": "1d6",
+     "speed": 20,
+     "spell_failure": 0,
+     "touch": 15,
+     "turning_per_day": 0,
+     "will": 1
+    },
+    "skill_points": {
+     "spent": 32.0,
+     "total": 36
+    }
+   },
+   "args": {
+    "armor": "leather",
+    "character": "Pip",
+    "feats": [
+     "dodge"
+    ],
+    "skills": {
+     "climb": 4,
+     "hide": 4,
+     "listen": 4,
+     "move silently": 4,
+     "open lock": 4,
+     "search": 4,
+     "spot": 4,
+     "tumble": 4
+    },
+    "weapon": "short sword"
+   },
+   "tool": "set_build"
+  },
+  {
+   "answer": {
+    "build": {
+     "feats": [
+      {
+       "id": "improved-initiative"
+      }
+     ],
+     "skills": {
+      "concentration": 4,
+      "knowledge-arcana": 4,
+      "spellcraft": 4
+     },
+     "weapon": "dagger"
+    },
+    "character": "Elowen",
+    "character_id": "Elowen",
+    "derived": {
+     "ac": 13,
+     "acp": 0,
+     "bab": 0,
+     "dc": {
+      "0": 13,
+      "1": 14
+     },
+     "flat_footed": 10,
+     "fort": 0,
+     "init": 7,
+     "max_dex": null,
+     "ref": 3,
+     "skills": {
+      "concentration": 4,
+      "knowledge-arcana": 7,
+      "spellcraft": 7
+     },
+     "slots": {
+      "0": 3,
+      "1": 2
+     },
+     "sneak": "",
+     "speed": 30,
+     "spell_failure": 0,
+     "touch": 13,
+     "turning_per_day": 0,
+     "will": 3
+    },
+    "skill_points": {
+     "spent": 12.0,
+     "total": 20
+    }
+   },
+   "args": {
+    "character": "Elowen",
+    "feats": [
+     "improved initiative"
+    ],
+    "skills": {
+     "concentration": 4,
+     "knowledge (arcana)": 4,
+     "spellcraft": 4
+    },
+    "weapon": "dagger"
+   },
+   "tool": "set_build"
+  },
+  {
+   "answer": {
+    "by_level": {
+     "1": [
+      "Sleep",
+      "Magic Missile"
+     ]
+    },
+    "character_id": "Elowen",
+    "memorized": [
+     "Sleep",
+     "Magic Missile"
+    ],
+    "name": "Elowen"
+   },
+   "args": {
+    "character": "Elowen",
+    "spells": [
+     "Sleep",
+     "Magic Missile"
+    ]
+   },
+   "tool": "memorize_spells"
+  },
+  {
+   "answer": {
+    "by_level": {
+     "1": [
+      "Bless",
+      "Cure Light Wounds",
+      "Magic Weapon"
+     ]
+    },
+    "character_id": "Dorna",
+    "memorized": [
+     "Bless",
+     "Cure Light Wounds",
+     "Magic Weapon"
+    ],
+    "name": "Dorna"
+   },
+   "args": {
+    "character": "Dorna",
+    "spells": [
+     "Bless",
+     "Cure Light Wounds",
+     "Magic Weapon"
+    ]
+   },
+   "tool": "memorize_spells"
+  },
+  {
+   "answer": {
+    "combat": {
+     "combatants": [
+      {
+       "conditions": [],
+       "d20": {
+        "ac": 13,
+        "aoo": {
+         "round": 0,
+         "used": 0
+        },
+        "attacks": [
+         {
+          "bonus": -1,
+          "count": 1,
+          "damage": "1d4-1",
+          "hands": 1,
+          "mult": 2,
+          "name": "dagger",
+          "ranged": false,
+          "threat": 19,
+          "touch": false
+         },
+         {
+          "bonus": -1,
+          "count": 1,
+          "damage": "0",
+          "hands": 1,
+          "mult": 2,
+          "name": "touch",
+          "ranged": false,
+          "threat": 20,
+          "touch": true
+         },
+         {
+          "bonus": 3,
+          "count": 1,
+          "damage": "0",
+          "hands": 1,
+          "mult": 2,
+          "name": "ranged touch",
+          "ranged": true,
+          "threat": 20,
+          "touch": true
+         }
+        ],
+        "bab": 0,
+        "crit_immune": false,
+        "dex": 3,
+        "flat_footed": 10,
+        "init_bonus": 7,
+        "saves": {
+         "fort": 0,
+         "ref": 3,
+         "will": 3
+        },
+        "sneak": "",
+        "stance": {
+         "defensive": false,
+         "power_attack": 0
+        },
+        "touch": 13,
+        "type": "humanoid"
+       },
+       "damage_l": "1d4-1",
+       "damage_sm": "1d4-1",
+       "effects": [],
+       "hp": 4,
+       "hp_max": 4,
+       "id": "Elowen",
+       "init": 21,
+       "name": "Elowen",
+       "node": null,
+       "ongoing": null,
+       "side": "party",
+       "size": "M",
+       "status": "active",
+       "weapon": "dagger"
+      },
+      {
+       "conditions": [],
+       "d20": {
+        "ac": 15,
+        "aoo": {
+         "round": 0,
+         "used": 0
+        },
+        "attacks": [
+         {
+          "bonus": 5,
+          "count": 1,
+          "damage": "2d4+4",
+          "hands": 2,
+          "mult": 2,
+          "name": "falchion",
+          "ranged": false,
+          "threat": 18,
+          "touch": false
+         }
+        ],
+        "bab": 1,
+        "crit_immune": false,
+        "dex": 1,
+        "flat_footed": 14,
+        "init_bonus": 1,
+        "saves": {
+         "fort": 4,
+         "ref": 1,
+         "will": 1
+        },
+        "sneak": "",
+        "stance": {
+         "defensive": false,
+         "power_attack": 0
+        },
+        "touch": 11,
+        "type": "humanoid"
+       },
+       "damage_l": "2d4+4",
+       "damage_sm": "2d4+4",
+       "effects": [],
+       "hp": 12,
+       "hp_max": 12,
+       "id": "Bram",
+       "init": 18,
+       "name": "Bram",
+       "node": null,
+       "ongoing": null,
+       "side": "party",
+       "size": "M",
+       "status": "active",
+       "weapon": "falchion"
+      },
+      {
+       "conditions": [],
+       "d20": {
+        "ac": 17,
+        "aoo": {
+         "round": 0,
+         "used": 0
+        },
+        "attacks": [
+         {
+          "bonus": 1,
+          "count": 1,
+          "damage": "1d4",
+          "hands": 1,
+          "mult": 2,
+          "name": "sword, short",
+          "ranged": false,
+          "threat": 19,
+          "touch": false
+         }
+        ],
+        "bab": 0,
+        "crit_immune": false,
+        "dex": 3,
+        "flat_footed": 13,
+        "init_bonus": 3,
+        "saves": {
+         "fort": 2,
+         "ref": 6,
+         "will": 1
+        },
+        "sneak": "1d6",
+        "stance": {
+         "defensive": false,
+         "power_attack": 0
+        },
+        "touch": 15,
+        "type": "humanoid"
+       },
+       "damage_l": "1d4",
+       "damage_sm": "1d4",
+       "effects": [],
+       "hp": 7,
+       "hp_max": 7,
+       "id": "Pip",
+       "init": 16,
+       "name": "Pip",
+       "node": null,
+       "ongoing": null,
+       "side": "party",
+       "size": "S",
+       "status": "active",
+       "weapon": "sword, short"
+      },
+      {
+       "conditions": [],
+       "d20": {
+        "ac": 13,
+        "aoo": {
+         "round": 0,
+         "used": 0
+        },
+        "attacks": [
+         {
+          "bonus": 4,
+          "count": 1,
+          "damage": "2d4+4",
+          "hands": 2,
+          "mult": 2,
+          "name": "falchion",
+          "ranged": false,
+          "threat": 18,
+          "touch": false
+         },
+         {
+          "bonus": 1,
+          "count": 1,
+          "damage": "1d6+3",
+          "hands": 1,
+          "mult": 2,
+          "name": "javelin",
+          "ranged": true,
+          "threat": 20,
+          "touch": false
+         }
+        ],
+        "bab": 1,
+        "cr": "1/2",
+        "crit_immune": false,
+        "dex": 0,
+        "flat_footed": 13,
+        "init_bonus": 0,
+        "saves": {
+         "fort": 3,
+         "ref": 0,
+         "will": -2
+        },
+        "sneak": "",
+        "stance": {
+         "defensive": false,
+         "power_attack": 0
+        },
+        "touch": 10,
+        "type": "humanoid"
+       },
+       "damage_l": "2d4+4",
+       "damage_sm": "2d4+4",
+       "effects": [],
+       "hp": 3,
+       "hp_max": 3,
+       "id": "mon_4",
+       "init": 15,
+       "morale": 10,
+       "name": "Orc 4",
+       "node": null,
+       "ongoing": null,
+       "side": "enemy",
+       "size": "M",
+       "status": "active",
+       "weapon": "falchion"
+      },
+      {
+       "conditions": [],
+       "d20": {
+        "ac": 16,
+        "aoo": {
+         "round": 0,
+         "used": 0
+        },
+        "attacks": [
+         {
+          "bonus": 3,
+          "count": 1,
+          "damage": "1d8+2",
+          "hands": 1,
+          "mult": 3,
+          "name": "warhammer",
+          "ranged": false,
+          "threat": 20,
+          "touch": false
+         },
+         {
+          "bonus": 2,
+          "count": 1,
+          "damage": "0",
+          "hands": 1,
+          "mult": 2,
+          "name": "touch",
+          "ranged": false,
+          "threat": 20,
+          "touch": true
+         },
+         {
+          "bonus": 0,
+          "count": 1,
+          "damage": "0",
+          "hands": 1,
+          "mult": 2,
+          "name": "ranged touch",
+          "ranged": true,
+          "threat": 20,
+          "touch": true
+         }
+        ],
+        "bab": 0,
+        "crit_immune": false,
+        "dex": 0,
+        "flat_footed": 16,
+        "init_bonus": 0,
+        "saves": {
+         "fort": 4,
+         "ref": 0,
+         "will": 4
+        },
+        "sneak": "",
+        "stance": {
+         "defensive": false,
+         "power_attack": 0
+        },
+        "touch": 10,
+        "type": "humanoid"
+       },
+       "damage_l": "1d8+2",
+       "damage_sm": "1d8+2",
+       "effects": [],
+       "hp": 10,
+       "hp_max": 10,
+       "id": "Dorna",
+       "init": 12,
+       "name": "Dorna",
+       "node": null,
+       "ongoing": null,
+       "side": "party",
+       "size": "M",
+       "status": "active",
+       "weapon": "warhammer"
+      },
+      {
+       "conditions": [],
+       "d20": {
+        "ac": 13,
+        "aoo": {
+         "round": 0,
+         "used": 0
+        },
+        "attacks": [
+         {
+          "bonus": 4,
+          "count": 1,
+          "damage": "2d4+4",
+          "hands": 2,
+          "mult": 2,
+          "name": "falchion",
+          "ranged": false,
+          "threat": 18,
+          "touch": false
+         },
+         {
+          "bonus": 1,
+          "count": 1,
+          "damage": "1d6+3",
+          "hands": 1,
+          "mult": 2,
+          "name": "javelin",
+          "ranged": true,
+          "threat": 20,
+          "touch": false
+         }
+        ],
+        "bab": 1,
+        "cr": "1/2",
+        "crit_immune": false,
+        "dex": 0,
+        "flat_footed": 13,
+        "init_bonus": 0,
+        "saves": {
+         "fort": 3,
+         "ref": 0,
+         "will": -2
+        },
+        "sneak": "",
+        "stance": {
+         "defensive": false,
+         "power_attack": 0
+        },
+        "touch": 10,
+        "type": "humanoid"
+       },
+       "damage_l": "2d4+4",
+       "damage_sm": "2d4+4",
+       "effects": [],
+       "hp": 6,
+       "hp_max": 6,
+       "id": "mon_3",
+       "init": 4,
+       "morale": 10,
+       "name": "Orc 3",
+       "node": null,
+       "ongoing": null,
+       "side": "enemy",
+       "size": "M",
+       "status": "active",
+       "weapon": "falchion"
+      },
+      {
+       "conditions": [],
+       "d20": {
+        "ac": 13,
+        "aoo": {
+         "round": 0,
+         "used": 0
+        },
+        "attacks": [
+         {
+          "bonus": 4,
+          "count": 1,
+          "damage": "2d4+4",
+          "hands": 2,
+          "mult": 2,
+          "name": "falchion",
+          "ranged": false,
+          "threat": 18,
+          "touch": false
+         },
+         {
+          "bonus": 1,
+          "count": 1,
+          "damage": "1d6+3",
+          "hands": 1,
+          "mult": 2,
+          "name": "javelin",
+          "ranged": true,
+          "threat": 20,
+          "touch": false
+         }
+        ],
+        "bab": 1,
+        "cr": "1/2",
+        "crit_immune": false,
+        "dex": 0,
+        "flat_footed": 13,
+        "init_bonus": 0,
+        "saves": {
+         "fort": 3,
+         "ref": 0,
+         "will": -2
+        },
+        "sneak": "",
+        "stance": {
+         "defensive": false,
+         "power_attack": 0
+        },
+        "touch": 10,
+        "type": "humanoid"
+       },
+       "damage_l": "2d4+4",
+       "damage_sm": "2d4+4",
+       "effects": [],
+       "hp": 7,
+       "hp_max": 7,
+       "id": "mon_2",
+       "init": 2,
+       "morale": 10,
+       "name": "Orc 2",
+       "node": null,
+       "ongoing": null,
+       "side": "enemy",
+       "size": "M",
+       "status": "active",
+       "weapon": "falchion"
+      },
+      {
+       "conditions": [],
+       "d20": {
+        "ac": 13,
+        "aoo": {
+         "round": 0,
+         "used": 0
+        },
+        "attacks": [
+         {
+          "bonus": 4,
+          "count": 1,
+          "damage": "2d4+4",
+          "hands": 2,
+          "mult": 2,
+          "name": "falchion",
+          "ranged": false,
+          "threat": 18,
+          "touch": false
+         },
+         {
+          "bonus": 1,
+          "count": 1,
+          "damage": "1d6+3",
+          "hands": 1,
+          "mult": 2,
+          "name": "javelin",
+          "ranged": true,
+          "threat": 20,
+          "touch": false
+         }
+        ],
+        "bab": 1,
+        "cr": "1/2",
+        "crit_immune": false,
+        "dex": 0,
+        "flat_footed": 13,
+        "init_bonus": 0,
+        "saves": {
+         "fort": 3,
+         "ref": 0,
+         "will": -2
+        },
+        "sneak": "",
+        "stance": {
+         "defensive": false,
+         "power_attack": 0
+        },
+        "touch": 10,
+        "type": "humanoid"
+       },
+       "damage_l": "2d4+4",
+       "damage_sm": "2d4+4",
+       "effects": [],
+       "hp": 3,
+       "hp_max": 3,
+       "id": "mon_1",
+       "init": 1,
+       "morale": 10,
+       "name": "Orc 1",
+       "node": null,
+       "ongoing": null,
+       "side": "enemy",
+       "size": "M",
+       "status": "active",
+       "weapon": "falchion"
+      }
+     ],
+     "current": "Elowen",
+     "declared": {},
+     "map": null,
+     "mode": "combatant",
+     "phase": "round",
+     "round": 1,
+     "started": true
+    },
+    "enemies": [
+     {
+      "ac": 13,
+      "alignment": "Often chaotic evil",
+      "attacks": [
+       {
+        "bonus": 4,
+        "critical": "18–20/×2",
+        "damage": "2d4+4",
+        "name": "falchion"
+       },
+       {
+        "bonus": 1,
+        "critical": "×2",
+        "damage": "1d6+3",
+        "name": "javelin"
+       }
+      ],
+      "attacks_per_round": 1.0,
+      "count": 4,
+      "flat_footed": 13,
+      "hit_dice": "1d8+1",
+      "individuals": [
+       {
+        "hp": 3,
+        "id": "mon_1",
+        "name": "Orc 1"
+       },
+       {
+        "hp": 7,
+        "id": "mon_2",
+        "name": "Orc 2"
+       },
+       {
+        "hp": 6,
+        "id": "mon_3",
+        "name": "Orc 3"
+       },
+       {
+        "hp": 3,
+        "id": "mon_4",
+        "name": "Orc 4"
+       }
+      ],
+      "matched": "Orc",
+      "morale_rating": 10,
+      "saves": {
+       "fort": 3,
+       "ref": 0,
+       "will": -2
+      },
+      "size": "Medium",
+      "size_code": "M",
+      "special_attacks": "—",
+      "touch": 10,
+      "type": "Orc"
+     }
+    ],
+    "order": [
+     {
+      "bonus": 7,
+      "id": "Elowen",
+      "name": "Elowen",
+      "roll": 14,
+      "side": "party",
+      "total": 21
+     },
+     {
+      "bonus": 1,
+      "id": "Bram",
+      "name": "Bram",
+      "roll": 17,
+      "side": "party",
+      "total": 18
+     },
+     {
+      "bonus": 3,
+      "id": "Pip",
+      "name": "Pip",
+      "roll": 13,
+      "side": "party",
+      "total": 16
+     },
+     {
+      "bonus": 0,
+      "id": "mon_4",
+      "name": "Orc 4",
+      "roll": 15,
+      "side": "enemy",
+      "total": 15
+     },
+     {
+      "bonus": 0,
+      "id": "Dorna",
+      "name": "Dorna",
+      "roll": 12,
+      "side": "party",
+      "total": 12
+     },
+     {
+      "bonus": 0,
+      "id": "mon_3",
+      "name": "Orc 3",
+      "roll": 4,
+      "side": "enemy",
+      "total": 4
+     },
+     {
+      "bonus": 0,
+      "id": "mon_2",
+      "name": "Orc 2",
+      "roll": 2,
+      "side": "enemy",
+      "total": 2
+     },
+     {
+      "bonus": 0,
+      "id": "mon_1",
+      "name": "Orc 1",
+      "roll": 1,
+      "side": "enemy",
+      "total": 1
+     }
+    ],
+    "party_attacks": {
+     "Bram": {
+      "ac": 15,
+      "alternates": [],
+      "attacks": [
+       {
+        "bonus": 5,
+        "critical": "18–20/×2",
+        "damage": "2d4+4",
+        "name": "falchion"
+       }
+      ],
+      "flat_footed": 14,
+      "per_round": 1.0,
+      "saves": {
+       "fort": 4,
+       "ref": 1,
+       "will": 1
+      },
+      "touch": 11,
+      "weapon": "falchion"
+     },
+     "Dorna": {
+      "ac": 16,
+      "alternates": [
+       "touch",
+       "ranged touch"
+      ],
+      "attacks": [
+       {
+        "bonus": 3,
+        "critical": "×3",
+        "damage": "1d8+2",
+        "name": "warhammer"
+       },
+       {
+        "bonus": 2,
+        "critical": "×2",
+        "damage": "0",
+        "name": "touch"
+       },
+       {
+        "bonus": 0,
+        "critical": "×2",
+        "damage": "0",
+        "name": "ranged touch"
+       }
+      ],
+      "flat_footed": 16,
+      "per_round": 1.0,
+      "saves": {
+       "fort": 4,
+       "ref": 0,
+       "will": 4
+      },
+      "touch": 10,
+      "weapon": "warhammer"
+     },
+     "Elowen": {
+      "ac": 13,
+      "alternates": [
+       "touch",
+       "ranged touch"
+      ],
+      "attacks": [
+       {
+        "bonus": -1,
+        "critical": "19–20/×2",
+        "damage": "1d4-1",
+        "name": "dagger"
+       },
+       {
+        "bonus": -1,
+        "critical": "×2",
+        "damage": "0",
+        "name": "touch"
+       },
+       {
+        "bonus": 3,
+        "critical": "×2",
+        "damage": "0",
+        "name": "ranged touch"
+       }
+      ],
+      "flat_footed": 10,
+      "per_round": 1.0,
+      "saves": {
+       "fort": 0,
+       "ref": 3,
+       "will": 3
+      },
+      "touch": 13,
+      "weapon": "dagger"
+     },
+     "Pip": {
+      "ac": 17,
+      "alternates": [],
+      "attacks": [
+       {
+        "bonus": 1,
+        "critical": "19–20/×2",
+        "damage": "1d4",
+        "name": "sword, short"
+       }
+      ],
+      "flat_footed": 13,
+      "per_round": 1.0,
+      "saves": {
+       "fort": 2,
+       "ref": 6,
+       "will": 1
+      },
+      "touch": 15,
+      "weapon": "sword, short"
+     }
+    },
+    "party_loaded": [
+     "Bram",
+     "Dorna",
+     "Pip",
+     "Elowen"
+    ]
+   },
+   "args": {
+    "enemies": [
+     {
+      "count": 4,
+      "name": "orc"
+     }
+    ],
+    "surprise": false
+   },
+   "tool": "setup_combat"
+  },
+  {
+   "answer": {
+    "actions": [
+     {
+      "cast": true,
+      "caster": "Elowen",
+      "caster_id": "Elowen",
+      "spell": "Sleep",
+      "target": "Orc 3",
+      "target_id": "mon_3"
+     },
+     {
+      "attacker": "Bram",
+      "attacker_id": "Bram",
+      "attacks_per_round": 1.0,
+      "attacks_remaining_this_round": 0,
+      "damage": 15,
+      "damage_die": "2d4+4",
+      "dead": true,
+      "downed": true,
+      "hit": true,
+      "hp_after": -10,
+      "notes": [
+       "flat-footed",
+       "critical threat",
+       "confirmed ×2",
+       "Orc 1 is dead!"
+      ],
+      "roll": 18,
+      "spell_disrupted": false,
+      "target": "Orc 1",
+      "target_id": "mon_1",
+      "weapon": "falchion"
+     },
+     {
+      "attacker": "Pip",
+      "attacker_id": "Pip",
+      "attacks_per_round": 1.0,
+      "attacks_remaining_this_round": 0,
+      "damage": 10,
+      "damage_die": "1d4",
+      "dead": true,
+      "downed": true,
+      "hit": true,
+      "hp_after": -3,
+      "notes": [
+       "flat-footed",
+       "sneak attack +1d6",
+       "Orc 2 is dead!"
+      ],
+      "roll": 13,
+      "spell_disrupted": false,
+      "target": "Orc 2",
+      "target_id": "mon_2",
+      "weapon": "sword, short"
+     },
+     {
+      "attacker": "Orc 4",
+      "attacker_id": "mon_4",
+      "attacks_per_round": 1.0,
+      "attacks_remaining_this_round": 0,
+      "damage": null,
+      "damage_die": null,
+      "dead": false,
+      "downed": false,
+      "hit": false,
+      "hp_after": null,
+      "notes": [
+       "flat-footed"
+      ],
+      "roll": 5,
+      "spell_disrupted": false,
+      "target": "Dorna",
+      "target_id": "Dorna",
+      "weapon": "falchion"
+     },
+     {
+      "cast": true,
+      "caster": "Dorna",
+      "caster_id": "Dorna",
+      "spell": "Bless"
+     }
+    ],
+    "end_of_round": [],
+    "morale_due": [
+     {
+      "down": 2,
+      "message": "Morale check due: 2/4 of side 'enemy' down. Call morale_check(rating) using the group's morale rating (monster_lookup → 'morale').",
+      "ratings": {
+       "Orc": 10
+      },
+      "side": "enemy",
+      "total": 4
+     }
+    ],
+    "outcomes": {
+     "acted": [
+      "Elowen",
+      "Bram",
+      "Pip",
+      "mon_4",
+      "Dorna"
+     ],
+     "completed": [
+      {
+       "id": "Elowen",
+       "what": "Sleep"
+      },
+      {
+       "id": "Dorna",
+       "what": "Bless"
+      }
+     ],
+     "dead": [
+      "mon_1",
+      "mon_2"
+     ],
+     "downed": [],
+     "fled": [],
+     "interrupted": []
+    },
+    "round": 1,
+    "spells_spent": [
+     {
+      "caster": "Elowen",
+      "dc": 14,
+      "remaining": {
+       "1": 1
+      },
+      "save": "Will negates",
+      "school": "Enchantment",
+      "spell": "Sleep"
+     },
+     {
+      "caster": "Dorna",
+      "dc": 13,
+      "remaining": {
+       "1": 2
+      },
+      "save": "None",
+      "school": "Enchantment",
+      "spell": "Bless"
+     }
+    ],
+    "status": {
+     "combatants": [
+      {
+       "hp": 4,
+       "hp_max": 4,
+       "id": "Elowen",
+       "name": "Elowen",
+       "side": "party",
+       "status": "active"
+      },
+      {
+       "hp": 12,
+       "hp_max": 12,
+       "id": "Bram",
+       "name": "Bram",
+       "side": "party",
+       "status": "active"
+      },
+      {
+       "hp": 7,
+       "hp_max": 7,
+       "id": "Pip",
+       "name": "Pip",
+       "side": "party",
+       "status": "active"
+      },
+      {
+       "hp": 3,
+       "hp_max": 3,
+       "id": "mon_4",
+       "name": "Orc 4",
+       "side": "enemy",
+       "status": "active"
+      },
+      {
+       "hp": 10,
+       "hp_max": 10,
+       "id": "Dorna",
+       "name": "Dorna",
+       "side": "party",
+       "status": "active"
+      },
+      {
+       "hp": 6,
+       "hp_max": 6,
+       "id": "mon_3",
+       "name": "Orc 3",
+       "side": "enemy",
+       "status": "active"
+      },
+      {
+       "conditions": [
+        "downed"
+       ],
+       "hp": -3,
+       "hp_max": 7,
+       "id": "mon_2",
+       "name": "Orc 2",
+       "side": "enemy",
+       "status": "dead"
+      },
+      {
+       "conditions": [
+        "downed"
+       ],
+       "hp": -10,
+       "hp_max": 3,
+       "id": "mon_1",
+       "name": "Orc 1",
+       "side": "enemy",
+       "status": "dead"
+      }
+     ],
+     "current": "Elowen",
+     "phase": "round",
+     "round": 2
+    }
+   },
+   "args": {
+    "actions": [
+     {
+      "attacker": "Bram",
+      "target": "Orc 1"
+     },
+     {
+      "attacker": "Pip",
+      "target": "Orc 2"
+     },
+     {
+      "caster": "Elowen",
+      "spell": "Sleep",
+      "target": "Orc 3"
+     },
+     {
+      "caster": "Dorna",
+      "spell": "Bless"
+     },
+     {
+      "attacker": "Orc 4",
+      "target": "Dorna"
+     }
+    ]
+   },
+   "tool": "combat_round"
+  },
+  {
+   "answer": {
+    "active_count": 1,
+    "effect": {
+     "duration": 10,
+     "name": "bless",
+     "source": "Dorna",
+     "to_hit": 1
+    },
+    "lasts_through_round": 11,
+    "target": "Bram",
+    "target_id": "Bram"
+   },
+   "args": {
+    "duration": 10,
+    "name": "bless",
+    "source": "Dorna",
+    "target": "Bram",
+    "to_hit": 1
+   },
+   "tool": "apply_effect"
+  },
+  {
+   "answer": {
+    "base": -2,
+    "basis": "combatant: Will -2",
+    "dc": 14,
+    "id": "mon_3",
+    "modifier": 0,
+    "name": "Orc 3",
+    "needed": 16,
+    "roll": {
+     "actor": "mon_3",
+     "combat_round": 2,
+     "faces": [
+      3
+     ],
+     "id": "<roll id>",
+     "notation": "1d20",
+     "purpose": "save:will",
+     "target": null,
+     "total": 3
+    },
+    "round": 2,
+    "save": "Will",
+    "save_type": "will",
+    "success": false,
+    "total": 1
+   },
+   "args": {
+    "character": "Orc 3",
+    "dc": 14,
+    "save_type": "will"
+   },
+   "tool": "saving_throw"
+  },
+  {
+   "answer": {
+    "attacks": [
+     {
+      "attack_of_opportunity": true,
+      "attacker": "Bram",
+      "attacker_id": "Bram",
+      "damage": 9,
+      "damage_die": "2d4+4",
+      "dead": true,
+      "downed": true,
+      "hit": true,
+      "hp_after": -6,
+      "notes": [
+       "critical threat",
+       "Orc 4 is dead!"
+      ],
+      "roll": 19,
+      "rolls": [
+       {
+        "actor": "Bram",
+        "combat_round": 2,
+        "faces": [
+         19
+        ],
+        "id": "<roll id>",
+        "notation": "1d20",
+        "purpose": "attack#aoo",
+        "target": "mon_4",
+        "total": 19
+       },
+       {
+        "actor": "Bram",
+        "combat_round": 2,
+        "faces": [
+         6
+        ],
+        "id": "<roll id>",
+        "notation": "1d20",
+        "purpose": "confirm#aoo",
+        "target": "mon_4",
+        "total": 6
+       },
+       {
+        "actor": "Bram",
+        "combat_round": 2,
+        "faces": [
+         2,
+         3
+        ],
+        "id": "<roll id>",
+        "notation": "2d4+4",
+        "purpose": "damage#aoo",
+        "target": "mon_4",
+        "total": 9
+       }
+      ],
+      "spell_disrupted": false,
+      "target": "Orc 4",
+      "target_id": "mon_4",
+      "weapon": "falchion"
+     }
+    ],
+    "provoker": "Orc 4",
+    "provoker_id": "mon_4",
+    "round": 2
+   },
+   "args": {
+    "provoker": "Orc 4",
+    "threatened_by": [
+     "Bram"
+    ]
+   },
+   "tool": "provoke"
+  },
+  {
+   "answer": {
+    "characters": {
+     "Bram": {
+      "conditions": [],
+      "effects": [
+       {
+        "duration": 10,
+        "name": "bless",
+        "source": "Dorna",
+        "to_hit": 1
+       }
+      ],
+      "hp": 12
+     },
+     "Dorna": {
+      "conditions": [],
+      "effects": [],
+      "hp": 10
+     },
+     "Elowen": {
+      "conditions": [],
+      "effects": [],
+      "hp": 4
+     },
+     "Pip": {
+      "conditions": [],
+      "effects": [],
+      "hp": 7
+     }
+    },
+    "defeated": {
+     "orc": 3
+    },
+    "enemies": [
+     {
+      "fate": "slain",
+      "hp": -10,
+      "hp_max": 3,
+      "id": "mon_1",
+      "name": "Orc 1",
+      "side": "enemy"
+     },
+     {
+      "fate": "slain",
+      "hp": -3,
+      "hp_max": 7,
+      "id": "mon_2",
+      "name": "Orc 2",
+      "side": "enemy"
+     },
+     {
+      "fate": "standing",
+      "hp": 6,
+      "hp_max": 6,
+      "id": "mon_3",
+      "name": "Orc 3",
+      "side": "enemy"
+     },
+     {
+      "fate": "slain",
+      "hp": -6,
+      "hp_max": 3,
+      "id": "mon_4",
+      "name": "Orc 4",
+      "side": "enemy"
+     }
+    ],
+    "groups": [
+     {
+      "defeated": 3,
+      "group": "Orc",
+      "total": 4,
+      "treasure_type": "",
+      "xp_earned": 450,
+      "xp_value": ""
+     }
+    ],
+    "rounds": 2,
+    "saved": {
+     "Bram": 12,
+     "Dorna": 10,
+     "Elowen": 4,
+     "Pip": 7
+    }
+   },
+   "args": {},
+   "tool": "end_combat"
+  },
+  {
+   "answer": {
+    "bonus": 3,
+    "character": "Bram",
+    "character_id": "Bram",
+    "dc": 10,
+    "modifier": 0,
+    "name": "Climb",
+    "needed": 7,
+    "note": "",
+    "roll": {
+     "actor": "Bram",
+     "combat_round": null,
+     "faces": [
+      18
+     ],
+     "id": "<roll id>",
+     "notation": "1d20",
+     "purpose": "skill:climb#the gully wall",
+     "target": null,
+     "total": 18
+    },
+    "skill": "Climb",
+    "success": true,
+    "total": 21
+   },
+   "args": {
+    "character": "Bram",
+    "dc": 10,
+    "occasion": "the gully wall",
+    "skill": "climb"
+   },
+   "tool": "skill_check"
+  },
+  {
+   "answer": {
+    "attempts_left": 3,
+    "check": 12,
+    "destroy_up_to_hd": 0,
+    "destroyed": false,
+    "hd": 1,
+    "max_hd": 1,
+    "rolls": [
+     {
+      "actor": "Dorna",
+      "combat_round": null,
+      "faces": [
+       11
+      ],
+      "id": "<roll id>",
+      "notation": "1d20",
+      "purpose": "turning:check#1",
+      "target": null,
+      "total": 11
+     },
+     {
+      "actor": "Dorna",
+      "combat_round": null,
+      "faces": [
+       1,
+       1
+      ],
+      "id": "<roll id>",
+      "notation": "2d6",
+      "purpose": "turning:damage#1",
+      "target": null,
+      "total": 2
+     }
+    ],
+    "total_hd": 4,
+    "turned": true
+   },
+   "args": {
+    "character": "Dorna",
+    "level": 1,
+    "undead": "human warrior skeleton"
+   },
+   "tool": "turning_undead"
+  },
+  {
+   "answer": {
+    "character_id": "Bram",
+    "level": 1,
+    "level_up_hints": [],
+    "name": "Bram",
+    "xp_gained": 150,
+    "xp_next": 1000,
+    "xp_total": 150
+   },
+   "args": {
+    "amount": 150,
+    "character": "Bram"
+   },
+   "tool": "award_xp"
+  },
+  {
+   "answer": {
+    "character_id": "Dorna",
+    "level": 1,
+    "level_up_hints": [],
+    "name": "Dorna",
+    "xp_gained": 150,
+    "xp_next": 1000,
+    "xp_total": 150
+   },
+   "args": {
+    "amount": 150,
+    "character": "Dorna"
+   },
+   "tool": "award_xp"
+  },
+  {
+   "answer": {
+    "character_id": "Pip",
+    "level": 1,
+    "level_up_hints": [],
+    "name": "Pip",
+    "xp_gained": 150,
+    "xp_next": 1000,
+    "xp_total": 150
+   },
+   "args": {
+    "amount": 150,
+    "character": "Pip"
+   },
+   "tool": "award_xp"
+  },
+  {
+   "answer": {
+    "character_id": "Elowen",
+    "level": 1,
+    "level_up_hints": [],
+    "name": "Elowen",
+    "xp_gained": 150,
+    "xp_next": 1000,
+    "xp_total": 150
+   },
+   "args": {
+    "amount": 150,
+    "character": "Elowen"
+   },
+   "tool": "award_xp"
+  },
+  {
+   "answer": {
+    "character_id": "Bram",
+    "house_rules": [],
+    "level": 2,
+    "level_up_hints": [
+     "fighter"
+    ],
+    "name": "Bram",
+    "xp_gained": 850,
+    "xp_next": 1000,
+    "xp_total": 1000
+   },
+   "args": {
+    "amount": 850,
+    "character": "Bram"
+   },
+   "tool": "award_xp"
+  },
+  {
+   "answer": {
+    "id": "Bram",
+    "kind": "pc",
+    "name": "Bram",
+    "order": 0,
+    "sheet": {
+     "ability_scores": {
+      "cha": 8,
+      "con": 14,
+      "dex": 13,
+      "int": 10,
+      "str": 16,
+      "wis": 12
+     },
+     "ac": 10,
+     "ac_vs_larger": 0,
+     "alignment": "",
+     "attacks": [],
+     "background": "",
+     "cls": "Fighter",
+     "d20": {
+      "armor": "scale mail",
+      "derived": {
+       "ac": 15,
+       "acp": -4,
+       "bab": 2,
+       "base_speed": 30,
+       "dc": {},
+       "flat_footed": 14,
+       "fort": 5,
+       "init": 1,
+       "max_dex": 3,
+       "ref": 1,
+       "skills": {
+        "climb": 3,
+        "intimidate": 3,
+        "jump": 3
+       },
+       "slots": {},
+       "sneak": "",
+       "speed": 20,
+       "spell_failure": 0,
+       "touch": 11,
+       "turning_per_day": 0,
+       "will": 1
+      },
+      "feats": [
+       {
+        "id": "power-attack"
+       },
+       {
+        "id": "cleave"
+       },
+       {
+        "choice": "falchion",
+        "id": "weapon-focus"
+       }
+      ],
+      "level_up": {
+       "class": "fighter",
+       "hints": [
+        "3 skill points",
+        "a fighter bonus feat"
+       ],
+       "hit_points": 4,
+       "level": 2
+      },
+      "skills": {
+       "climb": 4,
+       "intimidate": 4,
+       "jump": 4
+      },
+      "weapon": "falchion"
+     },
+     "deity": "",
+     "disposition": 0,
+     "faction": "",
+     "gender": "",
+     "hp_max": 16,
+     "kind": "pc",
+     "label": "Bram",
+     "levels": {
+      "fighter": 2
+     },
+     "movement_rate": 20,
+     "natural_abilities": [],
+     "notes_md": "",
+     "nwps": [],
+     "portrait": null,
+     "portrait_prompt": "",
+     "pronouns": "",
+     "race": "Human",
+     "saves": {},
+     "size": "M",
+     "skills": {},
+     "spell_loadout": {
+      "default": {},
+      "known": {}
+     },
+     "spell_slots": {},
+     "thac0": 20,
+     "weapon": "",
+     "weapon_profs": []
+    },
+    "state": {
+     "conditions": [],
+     "effects": [
+      {
+       "ac": 0,
+       "dmg": 0,
+       "duration": 10,
+       "hidden": false,
+       "name": "bless",
+       "save": 0,
+       "source": "Dorna",
+       "to_hit": 1
+      }
+     ],
+     "hp": 16,
+     "inventory": [],
+     "memorized": [],
+     "xp": 1000
+    }
+   },
+   "args": {
+    "patch": {
+     "level": 2
+    },
+    "reason": "2nd level",
+    "ref": "Bram"
+   },
+   "tool": "update_character"
+  }
+ ],
+ "rolls": [
+  {
+   "actor": "mon_1",
+   "beat": "beat-11/<fight>",
+   "faces": [
+    2
+   ],
+   "notation": "1d8+1",
+   "purpose": "hp",
+   "round": null,
+   "target": null,
+   "total": 3
+  },
+  {
+   "actor": "mon_2",
+   "beat": "beat-11/<fight>",
+   "faces": [
+    6
+   ],
+   "notation": "1d8+1",
+   "purpose": "hp",
+   "round": null,
+   "target": null,
+   "total": 7
+  },
+  {
+   "actor": "mon_3",
+   "beat": "beat-11/<fight>",
+   "faces": [
+    5
+   ],
+   "notation": "1d8+1",
+   "purpose": "hp",
+   "round": null,
+   "target": null,
+   "total": 6
+  },
+  {
+   "actor": "mon_4",
+   "beat": "beat-11/<fight>",
+   "faces": [
+    2
+   ],
+   "notation": "1d8+1",
+   "purpose": "hp",
+   "round": null,
+   "target": null,
+   "total": 3
+  },
+  {
+   "actor": "Bram",
+   "beat": "beat-11/<fight>",
+   "faces": [
+    17
+   ],
+   "notation": "1d20",
+   "purpose": "initiative",
+   "round": 1,
+   "target": null,
+   "total": 17
+  },
+  {
+   "actor": "Dorna",
+   "beat": "beat-11/<fight>",
+   "faces": [
+    12
+   ],
+   "notation": "1d20",
+   "purpose": "initiative",
+   "round": 1,
+   "target": null,
+   "total": 12
+  },
+  {
+   "actor": "Pip",
+   "beat": "beat-11/<fight>",
+   "faces": [
+    13
+   ],
+   "notation": "1d20",
+   "purpose": "initiative",
+   "round": 1,
+   "target": null,
+   "total": 13
+  },
+  {
+   "actor": "Elowen",
+   "beat": "beat-11/<fight>",
+   "faces": [
+    14
+   ],
+   "notation": "1d20",
+   "purpose": "initiative",
+   "round": 1,
+   "target": null,
+   "total": 14
+  },
+  {
+   "actor": "mon_1",
+   "beat": "beat-11/<fight>",
+   "faces": [
+    1
+   ],
+   "notation": "1d20",
+   "purpose": "initiative",
+   "round": 1,
+   "target": null,
+   "total": 1
+  },
+  {
+   "actor": "mon_2",
+   "beat": "beat-11/<fight>",
+   "faces": [
+    2
+   ],
+   "notation": "1d20",
+   "purpose": "initiative",
+   "round": 1,
+   "target": null,
+   "total": 2
+  },
+  {
+   "actor": "mon_3",
+   "beat": "beat-11/<fight>",
+   "faces": [
+    4
+   ],
+   "notation": "1d20",
+   "purpose": "initiative",
+   "round": 1,
+   "target": null,
+   "total": 4
+  },
+  {
+   "actor": "mon_4",
+   "beat": "beat-11/<fight>",
+   "faces": [
+    15
+   ],
+   "notation": "1d20",
+   "purpose": "initiative",
+   "round": 1,
+   "target": null,
+   "total": 15
+  },
+  {
+   "actor": "Bram",
+   "beat": "beat-12/<fight>",
+   "faces": [
+    18
+   ],
+   "notation": "1d20",
+   "purpose": "attack#1",
+   "round": 1,
+   "target": "mon_1",
+   "total": 18
+  },
+  {
+   "actor": "Bram",
+   "beat": "beat-12/<fight>",
+   "faces": [
+    10
+   ],
+   "notation": "1d20",
+   "purpose": "confirm#1",
+   "round": 1,
+   "target": "mon_1",
+   "total": 10
+  },
+  {
+   "actor": "Bram",
+   "beat": "beat-12/<fight>",
+   "faces": [
+    1,
+    2
+   ],
+   "notation": "2d4+4",
+   "purpose": "damage#1#1",
+   "round": 1,
+   "target": "mon_1",
+   "total": 7
+  },
+  {
+   "actor": "Bram",
+   "beat": "beat-12/<fight>",
+   "faces": [
+    3,
+    1
+   ],
+   "notation": "2d4+4",
+   "purpose": "damage#1#2",
+   "round": 1,
+   "target": "mon_1",
+   "total": 8
+  },
+  {
+   "actor": "Pip",
+   "beat": "beat-12/<fight>",
+   "faces": [
+    13
+   ],
+   "notation": "1d20",
+   "purpose": "attack#1",
+   "round": 1,
+   "target": "mon_2",
+   "total": 13
+  },
+  {
+   "actor": "Pip",
+   "beat": "beat-12/<fight>",
+   "faces": [
+    4
+   ],
+   "notation": "1d4",
+   "purpose": "damage#1",
+   "round": 1,
+   "target": "mon_2",
+   "total": 4
+  },
+  {
+   "actor": "Pip",
+   "beat": "beat-12/<fight>",
+   "faces": [
+    6
+   ],
+   "notation": "1d6",
+   "purpose": "sneak#1",
+   "round": 1,
+   "target": "mon_2",
+   "total": 6
+  },
+  {
+   "actor": "mon_4",
+   "beat": "beat-12/<fight>",
+   "faces": [
+    5
+   ],
+   "notation": "1d20",
+   "purpose": "attack#1",
+   "round": 1,
+   "target": "Dorna",
+   "total": 5
+  },
+  {
+   "actor": "mon_3",
+   "beat": "beat-14/<fight>",
+   "faces": [
+    3
+   ],
+   "notation": "1d20",
+   "purpose": "save:will",
+   "round": 2,
+   "target": null,
+   "total": 3
+  },
+  {
+   "actor": "Bram",
+   "beat": "beat-15/<fight>",
+   "faces": [
+    19
+   ],
+   "notation": "1d20",
+   "purpose": "attack#aoo",
+   "round": 2,
+   "target": "mon_4",
+   "total": 19
+  },
+  {
+   "actor": "Bram",
+   "beat": "beat-15/<fight>",
+   "faces": [
+    6
+   ],
+   "notation": "1d20",
+   "purpose": "confirm#aoo",
+   "round": 2,
+   "target": "mon_4",
+   "total": 6
+  },
+  {
+   "actor": "Bram",
+   "beat": "beat-15/<fight>",
+   "faces": [
+    2,
+    3
+   ],
+   "notation": "2d4+4",
+   "purpose": "damage#aoo",
+   "round": 2,
+   "target": "mon_4",
+   "total": 9
+  },
+  {
+   "actor": "Bram",
+   "beat": "beat-17",
+   "faces": [
+    18
+   ],
+   "notation": "1d20",
+   "purpose": "skill:climb#the gully wall",
+   "round": null,
+   "target": null,
+   "total": 18
+  },
+  {
+   "actor": "Dorna",
+   "beat": "beat-18",
+   "faces": [
+    11
+   ],
+   "notation": "1d20",
+   "purpose": "turning:check#1",
+   "round": null,
+   "target": null,
+   "total": 11
+  },
+  {
+   "actor": "Dorna",
+   "beat": "beat-18",
+   "faces": [
+    1,
+    1
+   ],
+   "notation": "2d6",
+   "purpose": "turning:damage#1",
+   "round": null,
+   "target": null,
+   "total": 2
+  },
+  {
+   "actor": "Bram",
+   "beat": "beat-24",
+   "faces": [
+    2
+   ],
+   "notation": "1d10",
+   "purpose": "level_up:hp:fighter:2",
+   "round": null,
+   "target": null,
+   "total": 2
+  }
+ ]
+}

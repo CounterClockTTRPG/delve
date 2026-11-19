@@ -55,10 +55,15 @@ MOST_SLOTS = 20
 class MissingPack(Exception):
     """A campaign's ruleset or setting that this install doesn't have: its pack isn't installed (DEL-307)."""
 
-    def __init__(self, kind: Literal["ruleset", "setting"], id: str) -> None:
+    def __init__(self, kind: Literal["ruleset", "setting"], id: str, *, reference: bool = False) -> None:
         self.kind = kind
         self.id = id
-        self.message = f"This campaign's {kind}, {id}, isn't installed."
+        self.reference = reference
+        self.message = (
+            f"This campaign's {kind}, {id}, is only a reference: it can't be played."  # `playable = false` (DEL-384)
+            if reference
+            else f"This campaign's {kind}, {id}, isn't installed."
+        )
         super().__init__(self.message)
 
 

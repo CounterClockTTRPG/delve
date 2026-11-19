@@ -12,7 +12,9 @@ the tool's row. The tool answers it only for a player image of the campaign's pi
 that again before the story gets it. And `tell`'s `told`, `{characters, text}` (plan 4): what the DM tells some
 characters, which the story shows after the tool's row to the seats that play them only, its row too. And `say`'s
 `said`, `{speaker: {id, name, portrait}, mood, text}` (portraits plan Task 7): an NPC's line, for everyone, which the
-table rebuilds from the campaign's own NPC before the story gets it.
+table rebuilds from the campaign's own NPC before the story gets it. And `read_aloud`'s `read_aloud` (DEL-357): a
+keyed room's boxed text, as a list of parts, each `{text}` of narration or a `{said}` line as `say`'s, for everyone,
+which the table makes into `dm_text` and `say` entries after the tool's row, each line rebuilt as `say`'s is.
 
 A painted scene (plan 6) is not a tool output: `paint_scene` answers the DM `{image_id, status}`, and its row shows
 only its name. The `scene` entry the painting makes later is `scene_view`'s `{image_id, caption}`, never the brief.
@@ -25,11 +27,12 @@ from __future__ import annotations
 
 from typing import Any
 
+from delve.dm.tools.read_aloud import READ_ALOUD
 from delve.dm.tools.say import MOODS, SAY
 from delve.dm.tools.schema import ToolSpec
 from delve.domain.portrait_traits import TraitsError, checked
 
-__all__ = ["DM_ONLY_KEYS", "SAY", "player_row", "player_view", "scene_view", "strip_for_players"]
+__all__ = ["DM_ONLY_KEYS", "READ_ALOUD", "SAY", "player_row", "player_view", "scene_view", "strip_for_players"]
 
 DM_ONLY_KEYS = ("dm_only", "secret_exits", "hidden_annotations", "secret_map_exits", "dm_notes")
 SHOW_IMAGE = "show_image"
@@ -39,7 +42,8 @@ TELL = "tell"
 def player_view(spec: ToolSpec, args: dict[str, Any], result: dict[str, Any]) -> dict[str, Any] | None:
     """What the players' feed may show of the call of `spec` with `args` that answered `result`: `{}`, or
     `{"failed": True}` for a refusal, `{"image": {asset, caption}}` for an image shown, `{"told": {characters, text}}`
-    for a tell, `{"said": {speaker, mood, text}}` for an NPC's line; None for a DM-only tool."""
+    for a tell, `{"said": {speaker, mood, text}}` for an NPC's line, `{"read_aloud": [{text} | {said}, ...]}` for a
+    room's boxed text; None for a DM-only tool."""
     if not spec.player_visible:
         return None
     if "error" in result:
@@ -50,6 +54,9 @@ def player_view(spec: ToolSpec, args: dict[str, Any], result: dict[str, Any]) ->
     if spec.name == SAY:
         said = said_text(result)
         return {"said": said} if said is not None else {}
+    if spec.name == READ_ALOUD:
+        parts = read_aloud_parts(result)
+        return {"read_aloud": parts} if parts is not None else {}
     image = shown_image(result) if spec.name == SHOW_IMAGE else None
     return {"image": image} if image is not None else {}
 
@@ -100,6 +107,28 @@ def said_text(result: dict[str, Any]) -> dict[str, Any] | None:
         "mood": mood if mood in MOODS else MOODS[0],
         "text": text,
     }
+
+
+def read_aloud_parts(result: dict[str, Any]) -> list[dict[str, Any]] | None:
+    """`read_aloud`'s parts: a list, each `{"text": narration}` or `{"said": ...}` as `said_text` allows it, and
+    nothing else; None for anything other, or a part that is neither."""
+    parts = result.get("read_aloud")
+    if not isinstance(parts, list) or not parts:
+        return None
+    out: list[dict[str, Any]] = []
+    for part in parts:
+        if not isinstance(part, dict):
+            return None
+        if "said" in part:
+            said = said_text(part)
+            if said is None:
+                return None
+            out.append({"said": said})
+        elif isinstance(part.get("text"), str) and part["text"]:
+            out.append({"text": part["text"]})
+        else:
+            return None
+    return out
 
 
 def portrait_view(portrait: Any) -> dict[str, Any] | None:

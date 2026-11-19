@@ -6,6 +6,8 @@ import { apiFetch } from "../api";
 export interface RulesetSummary {
   id: string;
   title: string;
+  /** False for a ruleset that is only a reference, never played (DEL-384); left out by an older server. */
+  playable?: boolean;
 }
 
 export interface SectionSummary {
@@ -23,6 +25,10 @@ export interface RulesetInfo {
   campaign_id: string | null;
   /** What the ruleset's licence asks to be said of it ("" for none); left out by an older server. */
   notice?: string;
+  /** False for a ruleset that is only a reference (DEL-384); left out by an older server. */
+  playable?: boolean;
+  /** "reuse": the ruleset shows the shared monster pictures and paints none (DEL-384). */
+  monster_pictures?: "paint" | "reuse";
 }
 
 export interface SearchHit {

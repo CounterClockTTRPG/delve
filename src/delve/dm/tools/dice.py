@@ -115,6 +115,10 @@ def saving_throw(ctx: CampaignContext, character: str, save_type: str, modifier:
     if fighting is not None:
         return combat.saving_throw(ctx, fighting.id, save_type, modifier)
     who = characters.get(ctx, character)
+    if ctx.d20 is not None:
+        modifier += checks.effects_save(who.state.effects)
+        result = ctx.d20.save(who.sheet, save_type, None, modifier, ctx.dice, actor=who.id)
+        return {**_who(who), **plain(result)}
     base = checks.save_base_for(who.sheet, save_type, ctx.lookups, rules=ctx.rules)
     result = checks.saving_throw(
         ctx.dice,
@@ -148,6 +152,9 @@ def skill_check(
 ) -> dict[str, Any]:
     """A thief's or other percentile skill from the character's sheet: d100 at or under the percentage."""
     who = characters.get(ctx, character)
+    if ctx.d20 is not None:
+        result = ctx.d20.skill_check(who.sheet, skill, None, 0, ctx.dice, actor=who.id, occasion=occasion.strip())
+        return {**_who(who), "skill": skill, **plain(result)}
     name = checks.match_skill(who.sheet.skills, skill)
     if name is None:
         raise PlayError(
@@ -187,6 +194,12 @@ def ability_check(
 ) -> dict[str, Any]:
     """An ability check: a d20 at or under the ability score plus the modifier."""
     who = characters.get(ctx, character)
+    if ctx.d20 is not None:
+        name = _NAMES.get(ability.strip().lower(), ability)
+        result = ctx.d20.ability_check(
+            who.sheet, name, None, modifier, ctx.dice, actor=who.id, occasion=occasion.strip()
+        )
+        return {**_who(who), "ability": name, "modifier": modifier, **plain(result)}
     score = _score(who, ability)
     if score is None:
         raise PlayError(f"{who.name}'s sheet has no {ability}.", hint="Set ability_scores with update_character.")

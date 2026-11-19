@@ -108,12 +108,19 @@ def said_line(npc: Character, text: str, mood: str = NEUTRAL) -> dict[str, Any]:
 def say(ctx: CampaignContext, npc: str, text: str, mood: str = NEUTRAL) -> dict[str, Any]:
     """Give one quoted line of an NPC, with the mood it carries: it appears in the story after your narration so far,
     as its own entry beside the NPC's portrait, which talks and then shows the mood. Every character at the table
-    hears it. One line per call; narration stays in your reply, and a line only some characters hear is `tell`'s. A
-    player character speaks for itself, unless it is yours this beat: its player names it in their act and leaves its
-    words to you, or the beat's fallback has you play it in character. An NPC without a portrait gets one the first
-    time it speaks: portraitgen's, unless Preferences give NPCs no portrait."""
+    hears it. One line per call; narration stays in your reply, a keyed room's read-aloud goes with read_aloud, and a
+    line only some characters hear is `tell`'s. A player character speaks for itself, unless it is yours this beat:
+    its player names it in their act and leaves its words to you, or the beat's fallback has you play it in
+    character. An NPC without a portrait gets one the first time it speaks: portraitgen's, unless Preferences give
+    NPCs no portrait."""
     if not text.strip():
         raise PlayError("The line is empty.", "Give the NPC's words, one line per call.")
+    return {"said": said_line(speaker_of(ctx, npc), text, mood)}
+
+
+def speaker_of(ctx: CampaignContext, npc: str) -> Character:
+    """The character `npc` names who may be given a line: an NPC of the campaign, drawn if it has no portrait yet, or
+    a PC handed to the DM in this beat (`handed_to_dm`). Anyone else is refused with a hint."""
     try:
         speaker = roster.get(ctx, npc)
     except NotFound as unknown:
@@ -129,7 +136,7 @@ def say(ctx: CampaignContext, npc: str, text: str, mood: str = NEUTRAL) -> dict[
         )
     if speaker.kind == "npc" and speaker.sheet.portrait is None:
         speaker = _drawn(ctx, speaker)
-    return {"said": said_line(speaker, text, mood)}
+    return speaker
 
 
 def _drawn(ctx: CampaignContext, npc: Character) -> Character:

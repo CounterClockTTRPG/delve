@@ -86,7 +86,7 @@ BASE = "/api/rulesets/osric"
 
 def test_the_rulesets_with_a_book(local):
     """The fake ruleset has no book, so only OSRIC is listed."""
-    assert local.get("/api/rulesets").json() == [{"id": "osric", "title": "OSRIC 3.0"}]
+    assert local.get("/api/rulesets").json() == [{"id": "osric", "title": "OSRIC 3.0", "playable": True}]
 
 
 def test_a_ruleset_and_its_sections(local):
@@ -346,3 +346,27 @@ def test_the_search(local):
     assert local.get(f"{BASE}/search").json() == {"results": []}
     hits = local.get(f"{BASE}/search?q=light&limit=2").json()["results"]
     assert len(hits) == 2 and all(set(hit) == {"section", "id", "name"} for hit in hits)
+
+
+def as_reference(registries) -> None:
+    """OSRIC's entry marked as a reference that reuses the shared pictures, as an SRD 3.5 pack's manifest marks it."""
+    catalogs = registries.catalogs
+    rulesets = tuple(
+        replace(e, playable=False, monster_pictures="reuse") if e.id == "osric" else e for e in catalogs.rulesets
+    )
+    registries.catalogs = replace(catalogs, rulesets=rulesets)
+
+
+def test_rulesets_say_whether_they_play(local, registries):
+    """DEL-384: the list says which rulesets are only a reference."""
+    assert {r["id"]: r["playable"] for r in local.get("/api/rulesets").json()}["osric"] is True
+    as_reference(registries)
+    assert {r["id"]: r["playable"] for r in local.get("/api/rulesets").json()}["osric"] is False
+
+
+def test_a_ruleset_says_how_it_takes_monster_pictures(local, registries):
+    page = local.get("/api/rulesets/osric").json()
+    assert (page["playable"], page["monster_pictures"]) == (True, "paint")
+    as_reference(registries)
+    page = local.get("/api/rulesets/osric").json()
+    assert (page["playable"], page["monster_pictures"]) == (False, "reuse")

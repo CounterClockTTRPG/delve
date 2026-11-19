@@ -52,10 +52,12 @@ class CallIn(BaseModel):
 
 
 @router.get("/internal/dm/tools")
-def list_tools(request: Request) -> list[dict]:
+def list_tools(request: Request, campaign: str | None = None) -> list[dict]:
+    """The tools, for the campaign's ruleset when `campaign` names one (a ruleset may bring its own, DEL-387)."""
+    host = tool_host(request)
+    ruleset = host.ruleset_of(campaign) if campaign else None
     return [
-        {"name": spec.name, "description": spec.description, "inputSchema": spec.params}
-        for spec in tool_host(request).specs()
+        {"name": spec.name, "description": spec.description, "inputSchema": spec.params} for spec in host.specs(ruleset)
     ]
 
 
@@ -67,9 +69,10 @@ async def call_tool(request: Request, campaign_id: str, body: CallIn) -> dict:
         raise HTTPException(status_code=409, detail=NO_BEAT)
     host = tool_host(request)
     result = await run_in_threadpool(host.call, campaign_id, beat.id, body.name, body.args)
-    spec = host.spec(body.name)
+    ruleset = host.ruleset_of(campaign_id)
+    spec = host.spec(body.name, ruleset)
     if spec is not None and spec.mutates and "error" not in result:
-        _changed(request, campaign_id, areas_of(host, body.name, result))
+        _changed(request, campaign_id, areas_of(host, body.name, result, ruleset))
         # A picture tool answered at once; its painting runs now, in the background, never in the beat's way.
         from delve.web.routes.play import table_of  # it imports this module's `tool_host`
 
@@ -77,15 +80,15 @@ async def call_tool(request: Request, campaign_id: str, body: CallIn) -> dict:
     return result
 
 
-def areas_of(host: ToolHost, name: str, result: dict[str, Any]) -> set[str]:
+def areas_of(host: ToolHost, name: str, result: dict[str, Any], ruleset: str | None = None) -> set[str]:
     """What a call that wasn't refused may have changed: its tool's areas, every area for a tool that names none, and
     for a batch those of the steps that ran and weren't refused."""
     if name == BATCH:
         steps = [r for r in result.get("results") or [] if isinstance(r, dict) and isinstance(r.get("result"), dict)]
         return set().union(
-            *(areas_of(host, step["tool"], step["result"]) for step in steps if "error" not in step["result"])
+            *(areas_of(host, step["tool"], step["result"], ruleset) for step in steps if "error" not in step["result"])
         )
-    spec = host.spec(name)
+    spec = host.spec(name, ruleset)
     if spec is None or not spec.mutates:
         return set()
     return set(AREAS if spec.areas is None else spec.areas)

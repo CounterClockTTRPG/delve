@@ -1,4 +1,4 @@
-import { fireEvent, screen, within } from "@testing-library/react";
+import { fireEvent, screen, waitFor, within } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { json, stubFetch } from "../play/testing";
 import { owner, player, renderArea, rulesetInfo } from "./testing";
@@ -61,6 +61,28 @@ describe("An entry's page", () => {
     expect(screen.getByText("web", { selector: "strong" })).toBeTruthy();
     expect(screen.getByText("Creatures caught within it are stuck.")).toBeTruthy();
     expect(screen.getByRole("link", { name: "Spells" }).getAttribute("href")).toBe("/rulesets/adnd2e/spells");
+  });
+
+  it("labels an SRD 3.5 monster's fields (DEL-384)", async () => {
+    stubFetch({
+      "GET /api/me": owner,
+      ...rulesetInfo(),
+      "GET /api/rulesets/adnd2e/monsters/ogre": () =>
+        json(200, {
+          section: "monsters", id: "ogre", name: "Ogre", text: "", table: null, house_rule: false,
+          fields: { base_attack_grapple: "+3/+12", cr: "3", level_adjustment: "+2", space_reach: "10 ft./10 ft." },
+        }),
+      "GET /api/monster-pictures?name=Ogre": () =>
+        json(200, { slug: "ogre", picture: false, version: null, painting: false, error: null, paid: false }),
+    });
+    renderArea("/rulesets/adnd2e/monsters/ogre");
+    await screen.findByRole("heading", { name: "Ogre" });
+    expect(fields()).toEqual([
+      ["Base attack/grapple", "+3/+12"],
+      ["Challenge rating", "3"],
+      ["Level adjustment", "+2"],
+      ["Space/reach", "10 ft./10 ft."],
+    ]);
   });
 
   it("labels the fields in Dutch, and keeps the book's words", async () => {
@@ -132,7 +154,36 @@ describe("A monster's entry (DEL-275)", () => {
     expect(within(dialog).getByText("Paint Goblin again")).toBeTruthy();
     fireEvent.click(within(dialog).getByTestId("paint-monster-go"));
     await screen.findByTestId("monster-picture");
-    expect(fetchMock.mock.calls.some(([path, init]) => path === "/api/monster-pictures" && init?.method === "POST")).toBe(true);
+    const posted = fetchMock.mock.calls.find(([path, init]) => path === "/api/monster-pictures" && init?.method === "POST");
+    expect(JSON.parse(String(posted?.[1]?.body))).toMatchObject({ name: "Goblin", ruleset: "adnd2e" }); // DEL-384
+  });
+
+  it("shows the shared picture but no Paint for a ruleset that reuses pictures (DEL-384)", async () => {
+    stubFetch({
+      "GET /api/me": owner,
+      ...rulesetInfo(null, { playable: false, monster_pictures: "reuse" }),
+      "GET /api/rulesets/adnd2e/monsters/77": () => json(200, goblin),
+      "GET /api/monster-pictures?name=Goblin": state(true),
+    });
+    renderArea("/rulesets/adnd2e/monsters/77");
+    const figure = await screen.findByTestId("monster-picture");
+    expect(within(figure).getByRole("img", { name: "Goblin" })).toBeTruthy();
+    expect(screen.queryByTestId("monster-paint")).toBeNull();
+  });
+
+  it("shows an organiser nothing for a kind without a picture when its ruleset reuses pictures", async () => {
+    const fetchMock = stubFetch({
+      "GET /api/me": owner,
+      ...rulesetInfo(null, { monster_pictures: "reuse" }),
+      "GET /api/rulesets/adnd2e/monsters/77": () => json(200, goblin),
+      "GET /api/monster-pictures?name=Goblin": state(false),
+    });
+    renderArea("/rulesets/adnd2e/monsters/77");
+    await waitFor(() =>
+      expect(fetchMock.mock.calls.some(([path]) => path === "/api/monster-pictures?name=Goblin")).toBe(true),
+    );
+    await new Promise((settle) => setTimeout(settle, 50)); // the picture's state has been answered and rendered
+    expect(screen.queryByTestId("monster-picture")).toBeNull();
   });
 
   it("shows a player nothing for a kind without a picture, and no Paint for one with", async () => {

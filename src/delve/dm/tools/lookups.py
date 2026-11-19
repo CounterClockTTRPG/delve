@@ -4,6 +4,7 @@ house rules about the items they find (spec §9)."""
 
 from __future__ import annotations
 
+from dataclasses import replace
 from typing import Any
 
 from delve.dm.tools.schema import ToolSpec, integer, params, plain, string, tool
@@ -226,7 +227,16 @@ def turning_undead(
 ) -> dict[str, Any]:
     """Turn undead by the ruleset's turning table: the table's entry for the level, and the roll when one is needed. A
     number is the d20 to equal or beat; T turns and D destroys some of them, D* more; the result says how many."""
-    actor = characters.get(ctx, character).id if character else None
+    who = characters.get(ctx, character) if character else None
+    actor = who.id if who else None
+    if ctx.d20 is not None:
+        said = ctx.d20.turn_undead(
+            who.sheet if who else None, level, undead, hd, ctx.dice, actor=actor, state=who.state if who else None
+        )
+        kept = said.get("state")
+        if who is not None and kept is not None:
+            ctx.storage.characters.save_state(replace(who, state=kept))
+        return plain({key: value for key, value in said.items() if key != "state"})
     return plain(
         checks.turning_undead(
             ctx.dice, ctx.lookups, level=level, undead=undead, hd=hd, role=role, actor=actor, rules=ctx.rules

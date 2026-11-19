@@ -63,7 +63,7 @@ from delve.dm.provider import (
     TurnEnd,
 )
 from delve.dm.tools.composites import BATCH
-from delve.dm.tools.redact import SAY, SHOW_IMAGE, TELL, player_view
+from delve.dm.tools.redact import READ_ALOUD, SAY, SHOW_IMAGE, TELL, player_view
 from delve.dm.tools.rolled import ROLLED, CallDice
 from delve.dm.tools.say import handed_to_dm, said_line
 from delve.dm.tools.schema import ToolSpec
@@ -1225,9 +1225,9 @@ def _told_and_translated(services: AppServices, entry: StoryEntry) -> None:
     translate.translate_entry(services, entry)
 
 
-# The tools whose results make story entries of their own, beside their tool row: a recap, a picture shown, a tell
-# and a said line.
-STORY_MAKERS = ("end_session", SHOW_IMAGE, TELL, SAY)
+# The tools whose results make story entries of their own, beside their tool row: a recap, a picture shown, a tell,
+# a said line and a room's boxed text.
+STORY_MAKERS = ("end_session", SHOW_IMAGE, TELL, SAY, READ_ALOUD)
 
 
 def _made_by(name: str, result: ToolResult) -> list[tuple[str, ToolResult]]:
@@ -1260,6 +1260,9 @@ def _make(services: AppServices, campaign_id: str, beat_id: str, name: str, resu
         _told_and_translated(services, add_entry(storage, campaign_id, beat_id, "dm_text", *whisper))
     elif name == SAY and (said := _said(services, campaign_id, beat_id, result)) is not None:
         _told_and_translated(services, add_entry(storage, campaign_id, beat_id, "say", said))
+    elif name == READ_ALOUD:
+        for kind, payload in _read_aloud(services, campaign_id, beat_id, result):
+            _told_and_translated(services, add_entry(storage, campaign_id, beat_id, kind, payload))
 
 
 def _recap(result: ToolResult) -> dict[str, Any] | None:
@@ -1312,13 +1315,37 @@ def _said(services: AppServices, campaign_id: str, beat_id: str, result: ToolRes
     content = _content(result.content)
     if spec is None or not result.ok or not isinstance(content, dict):
         return None
-    said = (player_view(spec, {}, content) or {}).get("said")
+    return _rebuilt(services, campaign_id, beat_id, (player_view(spec, {}, content) or {}).get("said"))
+
+
+def _rebuilt(services: AppServices, campaign_id: str, beat_id: str, said: dict[str, Any] | None) -> dict | None:
+    """A `said` line rebuilt from the campaign's NPC it names: None for a speaker who isn't one of the campaign's NPCs
+    or a PC handed to the DM in this beat."""
     npc = services.storage.characters.get(said["speaker"]["id"]) if said is not None else None
     if said is None or npc is None or npc.campaign_id != campaign_id:
         return None
     if npc.kind != "npc" and not handed_to_dm(services.storage, campaign_id, beat_id, npc):
         return None
     return said_line(npc, said["text"], said["mood"])
+
+
+def _read_aloud(
+    services: AppServices, campaign_id: str, beat_id: str, result: ToolResult
+) -> list[tuple[StoryKind, dict[str, Any]]]:
+    """The entries of a `read_aloud` result, in its order, through `player_view`: a `dm_text` for each part of
+    narration, a `say` for each line, rebuilt as `say`'s are (a line whose speaker isn't the campaign's makes none).
+    Nothing for a refusal, or for a passage told earlier in the beat."""
+    spec = services.spec_lookup(READ_ALOUD)
+    content = _content(result.content)
+    if spec is None or not result.ok or not isinstance(content, dict):
+        return []
+    entries: list[tuple[StoryKind, dict[str, Any]]] = []
+    for part in (player_view(spec, {}, content) or {}).get("read_aloud") or []:
+        if "said" not in part:
+            entries.append(("dm_text", {"text": part["text"]}))
+        elif (said := _rebuilt(services, campaign_id, beat_id, part["said"])) is not None:
+            entries.append(("say", said))
+    return entries
 
 
 def system_prompt(services: AppServices, campaign_id: str) -> str:

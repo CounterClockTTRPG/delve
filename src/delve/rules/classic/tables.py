@@ -9,6 +9,7 @@ from collections.abc import Mapping
 from dataclasses import dataclass, field
 from typing import Any
 
+from delve.domain import data
 from delve.rules.classic.encumbrance import EncumbranceTables
 from delve.rules.classic.overland import TravelRates
 
@@ -51,6 +52,10 @@ class FightRules:
     """Whether a character at exactly 0 hp bleeds too (OSRIC), not only one below 0."""
     unconscious_slain_by_damage: bool = False
     """Whether any damage to an unconscious character kills it at once (OSRIC 1.6.6)."""
+    initiative_once: bool | None = field(default=None, metadata={data.OMIT_IF_NONE: True})
+    """Whether initiative is rolled once for the fight, not again each round; None leaves it to the mode."""
+    highest_first: bool | None = field(default=None, metadata={data.OMIT_IF_NONE: True})
+    """Whether the highest initiative acts first (d20 rules); None keeps the engine's lowest first."""
 
 
 @dataclass(frozen=True)

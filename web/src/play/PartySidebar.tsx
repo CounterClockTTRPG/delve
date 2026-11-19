@@ -140,7 +140,7 @@ export default function PartySidebar({
                         <span style={{ width: `${share * 100}%` }} />
                       </div>
                       <span className="row-meta">
-                        {t("play.hpAc", { hp: String(m.hp), max: String(m.hp_max), ac: String(m.ac) })}
+                        {t("play.hpAc", { hp: String(m.hp), max: String(m.hp_max), ac: String(m.d20?.ac ?? m.ac) })}
                         {classLevels(m) && ` · ${classLevels(m)}`}
                       </span>
                       {sheets[m.id]?.portrait_painting && (

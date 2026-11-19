@@ -1,0 +1,150 @@
+{
+  "id": "read_aloud_song",
+  "description": "DEL-357: a keyed door whose read-aloud has narration, a song that holds a riddle's clues, and the door's spoken lines. The passage reaches the story word for word and in its order, the song above all, its quotes as the door's lines: posted by read_aloud, or told by the DM with the quotes through say, before the players are asked the riddle.",
+  "module": "the-singing-door",
+  "setting": "aun",
+  "setup": [
+    {
+      "tool": "create_character",
+      "args": {
+        "name": "Bren",
+        "sheet": {
+          "race": "Human",
+          "gender": "male",
+          "cls": "Fighter",
+          "level": 3,
+          "hp_max": 26,
+          "ac": 4,
+          "thac0": 18,
+          "ability_scores": {
+            "str": 16,
+            "dex": 12,
+            "con": 14,
+            "int": 10,
+            "wis": 11,
+            "cha": 12
+          },
+          "attacks": [
+            {
+              "name": "long sword",
+              "speed": 5,
+              "attacks": 1,
+              "thac0": 18,
+              "damage_sm": "1d8+1",
+              "damage_l": "1d12+1"
+            }
+          ],
+          "movement_rate": 12,
+          "alignment": "Lawful Good"
+        }
+      }
+    },
+    {
+      "tool": "create_character",
+      "args": {
+        "name": "Pippa",
+        "sheet": {
+          "race": "Halfling",
+          "gender": "female",
+          "cls": "Thief",
+          "level": 3,
+          "hp_max": 12,
+          "ac": 6,
+          "thac0": 19,
+          "ability_scores": {
+            "str": 9,
+            "dex": 17,
+            "con": 12,
+            "int": 13,
+            "wis": 10,
+            "cha": 11
+          },
+          "attacks": [
+            {
+              "name": "short sword",
+              "speed": 3,
+              "attacks": 1,
+              "thac0": 19,
+              "damage_sm": "1d6",
+              "damage_l": "1d8"
+            }
+          ],
+          "skills": {
+            "open_locks": 47,
+            "find_remove_traps": 35,
+            "move_silently": 40,
+            "hide_in_shadows": 31
+          },
+          "movement_rate": 6,
+          "alignment": "Neutral"
+        }
+      }
+    },
+    {
+      "tool": "move_party",
+      "args": {
+        "to": "passage"
+      }
+    }
+  ],
+  "beats": [
+    {
+      "player": "Bren and Pippa walk to the end of the passage and look at the grey door.",
+      "expect": {
+        "read_aloud": [
+          {
+            "told": "The door at the end of the passage is a single slab of dull grey metal."
+          },
+          {
+            "told": "Lines of small runes are etched across it from edge to edge."
+          },
+          {
+            "told": "The runes catch fire one by one in a crackle of green light"
+          },
+          {
+            "heard": "Visitors again"
+          },
+          {
+            "said": "The last ones did not leave."
+          },
+          {
+            "told": "A dry laugh rolls out of the door."
+          },
+          {
+            "said": "Sit, and answer me, and I will let you in."
+          },
+          {
+            "told": "Then the door itself begins to sing"
+          },
+          {
+            "told": "Two brothers raised a single wall,"
+          },
+          {
+            "told": "And each one swore it would not fall."
+          },
+          {
+            "told": "One took the north, and one the south,"
+          },
+          {
+            "told": "With mortar's dust in either mouth."
+          },
+          {
+            "told": "A storm came down, the wall split wide,"
+          },
+          {
+            "told": "Each blamed the one on the other side."
+          },
+          {
+            "told": "Then, back to back against the rain,"
+          },
+          {
+            "told": "They held it up and built again."
+          },
+          {
+            "heard": "what held the wall up?"
+          }
+        ]
+      }
+    }
+  ]
+}

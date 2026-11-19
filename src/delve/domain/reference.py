@@ -129,6 +129,21 @@ class RulesetReference(Protocol):
         ...
 
 
+APOSTROPHES = str.maketrans(dict.fromkeys("\u2019\u2018`\u00b4", "'"))
+"""The apostrophes a name is typed or printed with (’ ‘ ` ´), each as the straight one (DEL-401)."""
+
+
+def straight_apostrophes(text: str) -> str:
+    """`text` with every apostrophe the straight one: "Bull’s Strength" and "Bull`s Strength" are "Bull's
+    Strength"."""
+    return text.translate(APOSTROPHES)
+
+
+def name_key(name: str) -> str:
+    """A name as the lookups compare it: stripped, lower case, its apostrophes straight."""
+    return straight_apostrophes(name.strip().lower())
+
+
 RARITY_BANDS: tuple[tuple[str, int | None], ...] = (
     ("common", 5),
     ("uncommon", 20),

@@ -273,6 +273,7 @@ NEW = {
     "propose_page",  # settings Task 7: a new page of the setting, or an edit, for an organiser to accept
     "propose_fact",  # settings Task 7: a lasting fact of the setting, for an organiser to accept
     "say",  # portraits Task 7: an NPC's line, its own story entry with the speaker and the mood
+    "read_aloud",  # DEL-357: a keyed room's boxed text, word for word, its quotes as the speaker's say lines
     "leave_party",  # table voice and fixes Task C2: a PC died, retired or left
     "rejoin_party",  # table voice and fixes Task C2: a departed PC comes back
     "interrupt",  # table voice and fixes Task B1.3: break a combatant's ongoing action

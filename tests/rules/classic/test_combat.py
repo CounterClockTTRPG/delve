@@ -114,6 +114,16 @@ def test_a_natural_20_always_hits_and_a_natural_1_always_misses():
     assert miss["hit"] is False
 
 
+def test_a_fleeing_target_is_a_rear_attack_by_the_engines_own_way():
+    """The engine's own way (2e, PHB ch. 9 Retreat): a fleeing target turns its back, +2 to hit with a real roll, in
+    the words the note always had. THAC0 18 against AC 6 needs 12: a 10 + 2 hits (DEL-381)."""
+    fight, _ = initiative(fight_with_goblins(hp=8), 1, 2, 3)
+    _, out = cb.attack(fight, dice(10, 3), "chr_garrek", "mon_1", condition="fleeing")
+    assert (out["roll"], out["hit"]) == (10, True)
+    assert "+2 to hit (target fleeing: attack from the rear)." in out["notes"]
+    assert not any("on top of the attacker's own" in note for note in out["notes"])
+
+
 def test_a_round_resolves_in_initiative_order_and_the_dead_dont_act():
     """Garrek (count 1) fells Goblin 1 (count 3) before it swings; Goblin 2 (count 5) swings and misses. The counts
     are the rolls alone: the fake ruleset adds no weapon speed, nor does a declaration after the roll."""
@@ -133,6 +143,29 @@ def test_a_round_resolves_in_initiative_order_and_the_dead_dont_act():
     assert result.outcomes["dead"] == ["mon_1"]
     assert fight.combatants["chr_garrek"].hp == 30
     assert fight.round == 2
+
+
+def test_an_attacker_whose_foes_all_fell_earlier_in_its_group_makes_no_roll():
+    """DEL-385: Goblin 2 is dead already; on the party's count Garrek kills Goblin 1, the last one standing. Mira,
+    after him in the same group, has no living target left among her target and fallbacks, so she rolls nothing and
+    is listed as skipped, and the corpse takes no second hit."""
+    mira = pc("chr_mira", "Mira")
+    fight, _ = initiative(fight_with_goblins(GARREK, mira), 1, 5, mode="side")
+    fight, _ = cb.damage(fight, "mon_2", 5)
+    declared = [
+        {"attacker": "Garrek", "target": "Goblin 1", "targets": ["Goblin 2"]},
+        {"attacker": "Mira", "target": "Goblin 1", "targets": ["Goblin 2"]},
+    ]
+    rolls = dice(15, 3)
+    fight, result = cb.run_round(fight, rolls, REF, declared, rules=FAKE_TABLES)
+    assert [(a["attacker"], a.get("skipped")) for a in result.actions] == [
+        ("Garrek", None),
+        ("Mira", "target already dead — attack not rolled"),
+    ]
+    assert result.actions[1]["living_foes"] == []
+    assert result.actions[0]["notes"].count("Goblin 1 is dead!") == 1
+    assert fight.combatants["mon_1"].hp == 0
+    assert [r.key.purpose for r in result.rolls if r.key.actor == "chr_mira"] == []
 
 
 def test_a_declaration_after_initiative_adds_weapon_speed_only_where_the_ruleset_does():

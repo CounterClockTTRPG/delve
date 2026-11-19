@@ -44,6 +44,7 @@ from delve.play import house_rules as play_house_rules
 from delve.play.campaign_maps import played_revision, with_own_maps
 from delve.play.context import PlayError, context_for
 from delve.web.auth import Organiser, Principal
+from delve.web.refusals import refusal
 from delve.web.routes.modules import get_module, is_empty
 from delve.web.routes.novels import novels
 from delve.web.seats import HostSeat
@@ -136,24 +137,34 @@ class CampaignIn(BaseModel):
     rule_ids: list[str] = []
 
 
+REFERENCE_ONLY = "is a reference: campaigns can't be played with it yet."
+"""What a ruleset that is only a reference (`playable = false`) answers a campaign that asks for it, after its title."""
+
+
 def world_of(request: Request, module: Module, body: CampaignIn) -> tuple[str, str]:
     """The campaign's ruleset and setting: the ones it is given (422 for an unknown id), else the module's.
 
-    The module's `metadata.system` is its ruleset when that is a registered ruleset, else the preferred ruleset this
+    The module's `metadata.system` is its ruleset when that is a registered ruleset that plays (409 for one given
+    that is only a reference, DEL-384), else the preferred ruleset this
     install has (`default_ruleset` of its catalogs). Its `metadata.setting` is its setting when it matches a setting's
     id or title, case-insensitively, else the preferred setting this install has, else "": no setting."""
     registries = request.app.state.registries
     catalogs = registries.catalogs
     rulesets = [caps.id for caps in registries.rulesets.capabilities()]
     settings = registries.settings_.capabilities()
+    references = {e.id: e.title for e in catalogs.rulesets if not e.playable}  # only to read (DEL-384)
     if body.ruleset is not None:
         if body.ruleset not in rulesets:
             raise HTTPException(status_code=422, detail=f"No ruleset '{body.ruleset}'.")
+        if body.ruleset in references:
+            raise refusal(PlayError(f"{references[body.ruleset]} {REFERENCE_ONLY}"), 409)
         ruleset = body.ruleset
     else:
         system = module.metadata.get("system")
-        ruleset = system if isinstance(system, str) and system in rulesets else default_ruleset(
-            [e.id for e in catalogs.rulesets], {e.id for e in catalogs.rulesets if e.preferred}
+        playable = [e for e in catalogs.rulesets if e.playable]
+        named = isinstance(system, str) and system in rulesets and system not in references
+        ruleset = system if named else default_ruleset(
+            [e.id for e in playable], {e.id for e in playable if e.preferred}
         )
     if "setting" in body.model_fields_set:
         if body.setting and body.setting not in {caps.id for caps in settings}:

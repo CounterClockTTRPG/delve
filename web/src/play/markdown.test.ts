@@ -33,4 +33,10 @@ describe("renderMarkdown", () => {
       '<blockquote class="read-aloud">The door is sealed.<br>It hums.</blockquote>',
     );
   });
+
+  it("breaks a line that ends with a backslash or two spaces, as verse does (DEL-357)", () => {
+    expect(renderMarkdown("*One wall,*\\\n*Two brothers.*\nThe door  \nfalls silent.\nIt waits.")).toBe(
+      "<p><em>One wall,</em><br><em>Two brothers.</em> The door<br>falls silent. It waits.</p>",
+    );
+  });
 });

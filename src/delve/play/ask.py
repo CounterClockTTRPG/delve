@@ -258,7 +258,13 @@ def _story_line(entry: StoryEntry) -> str:
 def _pc_line(pc: dict[str, Any]) -> str:
     levels = "/".join(str(n) for n in pc["levels"].values()) if pc["levels"] else ""
     who = " ".join(part for part in (pc["race"], pc["cls"], levels) if part)
-    facts = [f"HP {pc['hp']}/{pc['hp_max']}", f"AC {pc['ac']}", f"THAC0 {pc['thac0']}"]
+    facts = [f"HP {pc['hp']}/{pc['hp_max']}"]
+    if "d20" in pc:  # a d20 engine's numbers stand in for AC and THAC0 (`_digest`)
+        d20 = pc["d20"]
+        facts += [f"AC {d20['ac']} (touch {d20['touch']}, flat-footed {d20['flat_footed']})", f"BAB {d20['bab']:+d}"]
+        facts.append(f"Fort {d20['fort']:+d}, Ref {d20['ref']:+d}, Will {d20['will']:+d}")
+    else:
+        facts += [f"AC {pc['ac']}", f"THAC0 {pc['thac0']}"]
     if pc["conditions"]:
         facts.append("conditions: " + ", ".join(pc["conditions"]))
     if pc["spells"]["memorized"]:

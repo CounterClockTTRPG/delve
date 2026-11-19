@@ -1,0 +1,34 @@
+---
+title: "Dungeons"
+source: wilderness-weather-and-environment
+section: "WILDERNESS, WEATHER, & ENVIRONMENT"
+---
+### Types of Dungeons
+
+The four basic dungeon types are defined by their current status. Many dungeons are variations on these basic types or combinations of more than one of them. Sometimes old dungeons are used again and again by different inhabitants for different purposes.
+
+### Ruined Structure
+
+Once occupied, this place is now abandoned (completely or in part) by its original creator or creators, and other creatures have wandered in. Many subterranean creatures look for abandoned underground constructions in which to make their lairs. Any traps that might exist have probably been set off, but wandering beasts might very well be common.
+
+### Occupied Structure
+
+This type of dungeon is still in use. Creatures (usually intelligent) live there, although they may not be the dungeon's creators. An occupied structure might be a home, a fortress, a temple, an active mine, a prison, or a headquarters. This type of dungeon is less likely to have traps or wandering beasts, and more likely to have organized guards—both on watch and on patrol. Traps or wandering beasts that might be encountered are usually under the control of the occupants. Occupied structures have furnishings to suit the inhabitants, as well as decorations, supplies, and the ability for occupants to move around (doors they can open, hallways large enough for them to pass through, and so on). The inhabitants might have a communication system, and they almost certainly control an access to the outside.
+
+Some dungeons are partially occupied and partially empty or in ruins. In such cases, the occupants are typically not the original builders but instead a group of intelligent creatures that have set up their base, lair, or fortification within an abandoned dungeon.
+
+### Safe Storage
+
+When people want to protect something, they might bury it underground. Whether the item they want to protect is a fabulous treasure, a forbidden artifact, or the dead body of an important figure, these valuable objects are placed within a dungeon and surrounded by barriers, traps, and guardians.
+
+The safe storage type of dungeon is the most likely to have traps but the least likely to have wandering beasts. This type of dungeon normally is built for function rather than appearance, but sometimes it has ornamentation in the form of statuary or painted walls. This is particularly true of the tombs of important people.
+
+Sometimes, however, a vault or a crypt is constructed in such a way as to house living guardians. The problem with this strategy is that something must be done to keep the creatures alive between intrusion attempts. Magic is usually the best solution to provide food and water for these creatures. Even if there's no way anything living can survive in a safe storage dungeon, certain monsters can still serve as guardians. Builders of vaults or tombs often place undead creatures or constructs, both of which which have no need for sustenance or rest, to guard their dungeons. Magic traps can attack intruders by summoning monsters into the dungeon. These guardians also need no sustenance, since they appear only when they're needed and disappear when their task is done.
+
+### Natural Cavern Complex
+
+Underground caves provide homes for all sorts of subterranean monsters. Created naturally and connected by a labyrinthine tunnel system, these caverns lack any sort of pattern, order, or decoration. With no intelligent force behind its construction, this type of dungeon is the least likely to have traps or even doors.
+
+Fungi of all sorts thrive in caves, sometimes growing in huge forests of mushrooms and puffballs. Subterranean predators prowl these forests, looking for those feeding upon the fungi. Some varieties of fungus give off a phosphorescent glow, providing a natural cavern complex with its own limited light source. In other areas, a *daylight* spell or similar magical effect can provide enough light for green plants to grow.
+
+Often, a natural cavern complex connects with another type of dungeons, the caves having been discovered when the manufactured dungeon was delved. A cavern complex can connect two otherwise unrelated dungeons, sometimes creating a strange mixed environment. A natural cavern complex joined with another dungeon often provides a route by which subterranean creatures find their way into a manufactured dungeon and populate it.

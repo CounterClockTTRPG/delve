@@ -4321,7 +4321,7 @@
   },
   {
    "slug": "magic_user_niam_s_magic_aura_1",
-   "name": "Niam’S Magic Aura",
+   "name": "Niam’s Magic Aura",
    "class": "magic-user",
    "level": 1,
    "tradition": "Arcane",
@@ -4473,7 +4473,7 @@
   },
   {
    "slug": "magic_user_tanzur_s_floating_disk_1",
-   "name": "Tanzur’S Floating Disk",
+   "name": "Tanzur’s Floating Disk",
    "class": "magic-user",
    "level": 1,
    "tradition": "Arcane",
@@ -4640,7 +4640,7 @@
   },
   {
    "slug": "magic_user_fool_s_gold_2",
-   "name": "Fool’S Gold",
+   "name": "Fool’s Gold",
    "class": "magic-user",
    "level": 2,
    "tradition": "Arcane",
@@ -5120,7 +5120,7 @@
   },
   {
    "slug": "magic_user_leomondo_s_tiny_hut_3",
-   "name": "Leomondo’S Tiny Hut",
+   "name": "Leomondo’s Tiny Hut",
    "class": "magic-user",
    "level": 3,
    "tradition": "Arcane",
@@ -5604,7 +5604,7 @@
   },
   {
    "slug": "magic_user_rarit_s_mnemonic_enhancement_4",
-   "name": "Rarit’S Mnemonic Enhancement",
+   "name": "Rarit’s Mnemonic Enhancement",
    "class": "magic-user",
    "level": 4,
    "tradition": "Arcane",
@@ -5758,7 +5758,7 @@
   },
   {
    "slug": "magic_user_biccby_s_interposing_hand_5",
-   "name": "Biccby’S Interposing Hand",
+   "name": "Biccby’s Interposing Hand",
    "class": "magic-user",
    "level": 5,
    "tradition": "Arcane",
@@ -5893,7 +5893,7 @@
   },
   {
    "slug": "magic_user_leomondo_s_secret_chest_5",
-   "name": "Leomondo’S Secret Chest",
+   "name": "Leomondo’s Secret Chest",
    "class": "magic-user",
    "level": 5,
    "tradition": "Arcane",
@@ -5938,7 +5938,7 @@
   },
   {
    "slug": "magic_user_murkenvain_s_faithful_hound_5",
-   "name": "Murkenvain’S Faithful Hound",
+   "name": "Murkenvain’s Faithful Hound",
    "class": "magic-user",
    "level": 5,
    "tradition": "Arcane",
@@ -6103,7 +6103,7 @@
   },
   {
    "slug": "magic_user_biccby_s_forceful_hand_6",
-   "name": "Biccby’S Forceful Hand",
+   "name": "Biccby’s Forceful Hand",
    "class": "magic-user",
    "level": 6,
    "tradition": "Arcane",
@@ -6345,7 +6345,7 @@
   },
   {
    "slug": "magic_user_othalak_s_freezing_sphere_6",
-   "name": "Othalak’S Freezing Sphere",
+   "name": "Othalak’s Freezing Sphere",
    "class": "magic-user",
    "level": 6,
    "tradition": "Arcane",
@@ -6467,7 +6467,7 @@
   },
   {
    "slug": "magic_user_tanzur_s_transformation_6",
-   "name": "Tanzur’S Transformation",
+   "name": "Tanzur’s Transformation",
    "class": "magic-user",
    "level": 6,
    "tradition": "Arcane",
@@ -6482,7 +6482,7 @@
   },
   {
    "slug": "magic_user_biccby_s_grasping_hand_7",
-   "name": "Biccby’S Grasping Hand",
+   "name": "Biccby’s Grasping Hand",
    "class": "magic-user",
    "level": 7,
    "tradition": "Arcane",
@@ -6542,7 +6542,7 @@
   },
   {
    "slug": "magic_user_dramijar_s_instant_summons_7",
-   "name": "Dramijar’S Instant Summons",
+   "name": "Dramijar’s Instant Summons",
    "class": "magic-user",
    "level": 7,
    "tradition": "Arcane",
@@ -6617,7 +6617,7 @@
   },
   {
    "slug": "magic_user_murkenvain_s_sword_7",
-   "name": "Murkenvain’S Sword",
+   "name": "Murkenvain’s Sword",
    "class": "magic-user",
    "level": 7,
    "tradition": "Arcane",
@@ -6737,7 +6737,7 @@
   },
   {
    "slug": "magic_user_biccby_s_clenched_fist_8",
-   "name": "Biccby’S Clenched Fist",
+   "name": "Biccby’s Clenched Fist",
    "class": "magic-user",
    "level": 8,
    "tradition": "Arcane",
@@ -6797,7 +6797,7 @@
   },
   {
    "slug": "magic_user_otho_s_irresistible_dance_8",
-   "name": "Otho’S Irresistible Dance",
+   "name": "Otho’s Irresistible Dance",
    "class": "magic-user",
    "level": 8,
    "tradition": "Arcane",
@@ -6917,7 +6917,7 @@
   },
   {
    "slug": "magic_user_siartan_s_spell_immunity_8",
-   "name": "Siartan’S Spell Immunity",
+   "name": "Siartan’s Spell Immunity",
    "class": "magic-user",
    "level": 8,
    "tradition": "Arcane",
@@ -6977,7 +6977,7 @@
   },
   {
    "slug": "magic_user_biccby_s_crushing_hand_9",
-   "name": "Biccby’S Crushing Hand",
+   "name": "Biccby’s Crushing Hand",
    "class": "magic-user",
    "level": 9,
    "tradition": "Arcane",

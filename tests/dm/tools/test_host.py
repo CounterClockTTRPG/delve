@@ -190,11 +190,14 @@ def test_the_sheet_schema_describes_every_sheet_field(host):
     under `skills` (percentages) and passed `skills` as a list, because the schema didn't say what they hold."""
     from dataclasses import fields
 
+    from delve.domain.data import ENGINE_OWNED
+
+    engine_owned = {f.name for f in fields(Sheet) if f.metadata.get(ENGINE_OWNED)}
     for name in ("create_character", "update_character"):
         spec = host.spec(name)
         schema = spec.params["properties"]["sheet" if name == "create_character" else "patch"]
         described = set(schema["properties"]) | {word.strip("(),.:;'") for word in schema["description"].split()}
-        missing = {f.name for f in fields(Sheet)} - {"kind", "label"} - described
+        missing = {f.name for f in fields(Sheet)} - {"kind", "label"} - engine_owned - described
         assert not missing, f"{name} doesn't describe {sorted(missing)}"
         assert schema["properties"]["skills"]["additionalProperties"] == {"type": "integer"}
         assert schema["properties"]["weapon_profs"]["items"] == {"type": "string"}

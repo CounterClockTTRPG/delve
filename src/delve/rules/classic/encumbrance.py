@@ -16,7 +16,7 @@
 from __future__ import annotations
 
 import re
-from collections.abc import Iterable, Mapping
+from collections.abc import Callable, Iterable, Mapping
 from dataclasses import dataclass
 from typing import Any
 
@@ -48,6 +48,9 @@ class EncumbranceTables:
     band_fractions: Mapping[str, float] | None = None
     """Instead of a penalty, the share of the movement rate each band keeps (overloaded 0: no movement); None for
     the penalties."""
+    band_movement: Callable[[str, int], int] | None = None
+    """Instead of either, the ruleset's own rule: the movement rate under a band's load, from the band and the
+    unloaded rate (3.5's reduced speeds, DEL-399); None for the fractions or the penalties."""
 
 
 def parse_weight(raw: Any) -> float:
@@ -231,6 +234,7 @@ def compute(
     strength: Any = 10,
     pct: Any = None,
     movement_rate: int = 12,
+    multiplier: float = 1.0,
     rules: EncumbranceTables,
 ) -> dict[str, Any]:
     """The encumbrance of a load of `(name, qty, weight of one or None)`:
@@ -239,7 +243,8 @@ def compute(
 
     `band` is light, moderate, heavy, severe or overloaded for the Strength, `penalty` its movement penalty
     (0/-3/-6/-9/-12), and `movement` the movement rate with the penalty, at least 1 (an overloaded character moves 1,
-    as the rulesets have it). `strength` is the score, or "18/76" for exceptional strength."""
+    as the rulesets have it). `strength` is the score, or "18/76" for exceptional strength. `multiplier` scales the
+    bands, each rounded down (a d20 engine's for a Small character, ×3/4, DEL-399)."""
     score, str_pct = parse_strength(strength, pct)
     rows: list[dict[str, Any]] = []
     total = 0.0
@@ -249,6 +254,8 @@ def compute(
         total += unit_lb * qty
 
     light, moderate, heavy, severe = str_band_for(score, str_pct, rules=rules)
+    if multiplier != 1:
+        light, moderate, heavy, severe = (int(lb * multiplier) for lb in (light, moderate, heavy, severe))
     if total <= light:
         band = "light"
     elif total <= moderate:
@@ -259,7 +266,10 @@ def compute(
         band = "severe"
     else:
         band = "overloaded"
-    if rules.band_fractions is not None:
+    if rules.band_movement is not None:
+        movement = rules.band_movement(band, movement_rate)
+        penalty = movement - movement_rate
+    elif rules.band_fractions is not None:
         movement = int(movement_rate * rules.band_fractions[band])
         penalty = movement - movement_rate
     else:

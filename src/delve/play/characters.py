@@ -14,7 +14,7 @@ from typing import Any
 
 from delve.domain.campaigns import COINS, Character
 from delve.domain.characters import CharacterState, Kind, MemorizedSpell, Sheet
-from delve.domain.data import DataError
+from delve.domain.data import ENGINE_OWNED, DataError
 from delve.play import house_rules
 from delve.play.context import CampaignContext, NotFound, PlayError
 from delve.play.days import answer, pass_days
@@ -52,8 +52,10 @@ _DISPOSITION_BANDS = (
     (-60, "Hostile"),
 )
 
-_SHEET_FIELDS = tuple(f.name for f in fields(Sheet) if f.name not in ("label", "kind"))
-_STATE_FIELDS = tuple(f.name for f in fields(CharacterState))
+_SHEET_FIELDS = tuple(
+    f.name for f in fields(Sheet) if f.name not in ("label", "kind") and not f.metadata.get(ENGINE_OWNED)
+)
+_STATE_FIELDS = tuple(f.name for f in fields(CharacterState) if not f.metadata.get(ENGINE_OWNED))
 
 
 def _fight():
@@ -90,6 +92,8 @@ def _sheet(ctx: CampaignContext, raw: dict[str, Any]) -> Sheet:
         sheet = Sheet.from_dict(raw)
     except DataError as error:
         raise PlayError(f"Bad sheet: {error}", hint=f"The sheet's fields are {', '.join(_SHEET_FIELDS)}.") from None
+    if ctx.d20 is not None:
+        return sheet  # a d20 sheet has no classic saves to rename
     saves = {ctx.rules.save_aliases.get(kind.strip().lower(), kind): value for kind, value in sheet.saves.items()}
     return replace(sheet, saves=saves)
 
@@ -142,7 +146,8 @@ def create(ctx: CampaignContext, *, name: str = "", kind: Kind = "pc", sheet: di
 
     `sheet` has the fields of `Sheet`, and may give a single `level` for every class instead of `levels`. Saves, a
     THAC0 and spell slots the sheet doesn't give come from the class tables (slots with the ruleset's Wisdom bonus).
-    A given name is kept (trimmed); without one, the dice name the character for its sheet's race and gender, as `introduce_npc` does."""
+    A given name is kept (trimmed); without one, the dice name the character for its sheet's race and gender, as
+    `introduce_npc` does. Under a d20 engine its `fill_derived` gives the derived numbers, not the class tables."""
     if kind not in ("pc", "npc"):
         raise PlayError(f"Unknown kind '{kind}'.", hint="Use pc or npc.")
     raw = dict(sheet)
@@ -150,11 +155,14 @@ def create(ctx: CampaignContext, *, name: str = "", kind: Kind = "pc", sheet: di
     raw.pop("label", None)
     raw["kind"] = kind
     parsed = _sheet(ctx, raw)
-    parsed = _fill_saves(ctx, replace(parsed, levels=_levels(parsed, level)))
-    if "thac0" not in raw:
-        parsed = _fill_thac0(ctx, parsed)
-    if not parsed.spell_slots:
-        parsed = replace(parsed, spell_slots=_table_slots(ctx, parsed.levels, parsed))
+    if ctx.d20 is not None:
+        parsed = ctx.d20.fill_derived(replace(parsed, levels=_levels(parsed, level)), ctx.lookups)
+    else:
+        parsed = _fill_saves(ctx, replace(parsed, levels=_levels(parsed, level)))
+        if "thac0" not in raw:
+            parsed = _fill_thac0(ctx, parsed)
+        if not parsed.spell_slots:
+            parsed = replace(parsed, spell_slots=_table_slots(ctx, parsed.levels, parsed))
     name = name.strip() or names.generate(
         ctx.dice.rng, race=parsed.race, female=parsed.gender.strip().lower() == "female"
     )
@@ -165,10 +173,48 @@ def create(ctx: CampaignContext, *, name: str = "", kind: Kind = "pc", sheet: di
     return character
 
 
-def update(ctx: CampaignContext, ref: str, patch: dict[str, Any], reason: str = "") -> Character:
+def _leveled(ctx: CampaignContext, old: Sheet, new: Sheet) -> Sheet:
+    """`new`, with its d20 numbers from the engine: one `level_up` for each level a class gained, or `fill_derived`
+    when a class dropped or was added."""
+    engine = ctx.d20
+    assert engine is not None
+    gains = {cls: level - old.levels.get(cls, 0) for cls, level in new.levels.items()}
+    if any(cls not in old.levels for cls in gains) or any(
+        old.levels[cls] > new.levels.get(cls, 0) for cls in old.levels
+    ):
+        return engine.fill_derived(new, ctx.lookups)
+    sheet = replace(new, levels=dict(old.levels))
+    for cls, gained in gains.items():
+        for _ in range(gained):
+            sheet = engine.level_up(sheet, cls, ctx.lookups, ctx.dice)
+    return replace(sheet, levels=dict(new.levels)) if sheet.levels != new.levels else sheet
+
+
+def _gains_only(old: Sheet, new: Sheet) -> bool:
+    """Whether `new` only raised levels of the classes `old` has: the level-ups `_leveled` gave."""
+    return (
+        set(new.levels) == set(old.levels)
+        and new.levels != old.levels
+        and all(new.levels[cls] >= level for cls, level in old.levels.items())
+    )
+
+
+def update(
+    ctx: CampaignContext, ref: str, patch: dict[str, Any], reason: str = "", *, d20_build: dict[str, Any] | None = None
+) -> Character:
     """Change a character: `name`, any field of its sheet, and `hp`, `xp`, `conditions` or `effects` of its state.
 
-    A single-class character may take `level`; a multi-class one gives `levels` for every class."""
+    A single-class character may take `level`; a multi-class one gives `levels` for every class. Under a d20 engine a
+    changed level takes the engine's level-ups (`_leveled`), and any other sheet change its `fill_derived`, also one
+    that names the levels or class it already has; a fighting character's combatant is made again (`rearm`) when its
+    abilities change too. A d20 level-up's hit points are gained: a living character's hp rises by what its `hp_max`
+    rose, unless the patch sets hp itself (ruling R19).
+
+    `d20_build` is a d20 engine's own write (a pack's tool, never the DM's patch, which can't name `d20`): its keys go
+    into `Sheet.d20` over the ones there, then `fill_derived` runs and a fighting character's combatant is made again.
+    Refused without a d20 engine."""
+    if d20_build is not None and ctx.d20 is None:
+        raise PlayError("Only a d20 ruleset's engine writes a d20 build.")
     character = get(ctx, ref)
     patch = dict(patch)
     unknown = sorted(set(patch) - {"name", "level", *_SHEET_FIELDS, *_STATE_FIELDS})
@@ -182,6 +228,8 @@ def update(ctx: CampaignContext, ref: str, patch: dict[str, Any], reason: str = 
     sheet_patch = {k: v for k, v in patch.items() if k in _SHEET_FIELDS}
     state_patch = {k: v for k, v in patch.items() if k in _STATE_FIELDS}
     sheet = _sheet(ctx, {**character.sheet.to_dict(), **sheet_patch, "label": name})
+    if d20_build is not None:
+        sheet = replace(sheet, d20={**(sheet.d20 or {}), **d20_build})
     if level is not None:
         if class_xp.is_multiclass(sheet):
             raise PlayError(
@@ -189,23 +237,47 @@ def update(ctx: CampaignContext, ref: str, patch: dict[str, Any], reason: str = 
                 hint=f"levels: {{{', '.join(f'{c!r}: …' for c in class_xp.component_classes(sheet.cls))}}}",
             )
         sheet = replace(sheet, levels={})
+    gained_hp = 0
     if "levels" in sheet_patch or level is not None or "cls" in sheet_patch:
         sheet = replace(sheet, levels=_levels(sheet, level))
-        had = {k: v for k, v in character.sheet.spell_slots.items() if v}
-        if "spell_slots" not in sheet_patch and had in ({}, _table_slots(ctx, character.sheet.levels, character.sheet)):
-            sheet = replace(sheet, spell_slots=_table_slots(ctx, sheet.levels, sheet))  # the table's, at the new level
+        if ctx.d20 is not None:
+            sheet = _leveled(ctx, character.sheet, sheet)
+            if _gains_only(character.sheet, sheet):  # the level's hit points are gained (ruling R19)
+                gained_hp = max(0, sheet.hp_max - character.sheet.hp_max)
+            if sheet.levels == character.sheet.levels:  # no level gained or lost: the engine's numbers follow the patch
+                sheet = ctx.d20.fill_derived(sheet, ctx.lookups)
+        else:
+            had = {k: v for k, v in character.sheet.spell_slots.items() if v}
+            if "spell_slots" not in sheet_patch and had in (
+                {},
+                _table_slots(ctx, character.sheet.levels, character.sheet),
+            ):
+                sheet = replace(sheet, spell_slots=_table_slots(ctx, sheet.levels, sheet))  # the table's, new level
+    elif ctx.d20 is not None and (sheet_patch or d20_build is not None):
+        sheet = ctx.d20.fill_derived(sheet, ctx.lookups)  # the engine's numbers follow the changed sheet
     try:
         state = CharacterState.from_dict({**character.state.to_dict(), **state_patch})
     except DataError as error:
         raise PlayError(f"Bad state: {error}") from None
     if "hp" in state_patch:  # a raise that sets hit points clears dead; setting conditions alone keeps them as given
         state = replace(state, conditions=life_conditions(state.conditions, state.hp))
+    elif gained_hp and state.hp > DEAD_AT:
+        state = replace(state, hp=state.hp + gained_hp)
+        state_patch = {**state_patch, "hp": state.hp}
     saved = ctx.storage.characters.save(replace(character, name=name, sheet=sheet, state=state))
     if state_patch:
         _fight().mirror(ctx, saved)
-    if {"attacks", "weapon", "thac0", "levels", "cls"} & sheet_patch.keys() or level is not None:
+    rearming = {"attacks", "weapon", "thac0", "levels", "cls"}
+    if ctx.d20 is not None:
+        rearming |= {"ability_scores"}  # what the engine makes the combatant from (a build is `d20_build`)
+    if rearming & sheet_patch.keys() or level is not None or d20_build is not None:
         _fight().rearm(ctx, saved)
-    changed = {*sheet_patch, *state_patch, *(["level"] if level is not None else [])}
+    changed = {
+        *sheet_patch,
+        *state_patch,
+        *(["level"] if level is not None else []),
+        *(["d20"] if d20_build is not None else []),
+    }
     if name != character.name:
         changed.add("name")
     ctx.log("character_updated", character_id=saved.id, name=saved.name, fields=sorted(changed), reason=reason)
@@ -312,10 +384,12 @@ def award_xp(ctx: CampaignContext, ref: str, amount: int) -> dict[str, Any]:
     """Add XP. A multi-class character's award is split evenly between its classes (PHB ch. 3): `per_class` has each
     class's share, level and next threshold, and `level_up_hints` names each class whose share crossed one. The level
     itself changes only through `update`. When a hint fires, `house_rules` has the campaign's level-up rules (spec
-    §9)."""
+    §9). Under a d20 engine the XP is one total, by the engine's `award_xp` and `progress` (`_award_d20`)."""
     character = get(ctx, ref)
     if isinstance(amount, bool) or not isinstance(amount, int):
         raise PlayError(f"The XP must be a whole number, not {amount!r}.")
+    if ctx.d20 is not None:
+        return _award_d20(ctx, character, amount)
     bonus, bonus_basis = _xp_bonus(ctx, character.sheet, amount) if ctx.rules.xp_bonus else (0, [])
     before = character.state.xp
     after = before + amount + bonus
@@ -340,6 +414,29 @@ def award_xp(ctx: CampaignContext, ref: str, amount: int) -> dict[str, Any]:
         out["xp_awarded"] = amount
         out["xp_bonus"] = bonus
         out["xp_bonus_basis"] = bonus_basis
+    if hints:
+        out["house_rules"] = house_rules.given(ctx, house_rules.level_up_rules(ctx, character))
+    return out
+
+
+def _award_d20(ctx: CampaignContext, character: Character, amount: int) -> dict[str, Any]:
+    """`award_xp` under a d20 engine: one XP total, and the engine says the level and who may take one."""
+    engine = ctx.d20
+    assert engine is not None
+    state = engine.award_xp(character.sheet, character.state, amount)
+    saved = ctx.storage.characters.save_state(replace(character, state=state))
+    progress = engine.progress(saved.sheet, saved.state, ctx.lookups)
+    hints = list(progress.ready)
+    ctx.log("xp_awarded", character_id=character.id, name=character.name, amount=amount, xp_total=state.xp, hints=hints)
+    out = {
+        "character_id": character.id,
+        "name": character.name,
+        "xp_gained": amount,
+        "xp_total": state.xp,
+        "level": progress.level,
+        "xp_next": progress.xp_next,
+        "level_up_hints": hints,
+    }
     if hints:
         out["house_rules"] = house_rules.given(ctx, house_rules.level_up_rules(ctx, character))
     return out
@@ -505,45 +602,55 @@ def drain_level(ctx: CampaignContext, ref: str, levels: int = 1, reason: str = "
         raise PlayError(f"{character.name} has no class levels to drain.", hint="A monster loses a Hit Die instead.")
     if state.hp <= DEAD_AT:
         raise PlayError(f"{character.name} is already dead (HP {state.hp}).")
-    now = dict(sheet.levels)
-    hp_lost, drained, slain = 0, set(), False
-    for _ in range(levels):
-        cls = _drained_class(ctx, now)
-        if now[cls] < 1 or (now[cls] == 1 and not ctx.rules.level_drain.zero_level):
-            slain = True
-            break
-        hp_lost += _drained_hp(ctx, character, cls, now[cls])
-        now[cls] -= 1
-        drained.add(cls)
-    after = replace(sheet, levels=now, hp_max=max(1, sheet.hp_max - hp_lost))
-    zero = min(now.values()) < 1
-    kept = []
-    was = _fill_thac0(ctx, replace(sheet, thac0=0)).thac0
-    if was == sheet.thac0:
-        after = replace(after, thac0=20) if zero else _fill_thac0(ctx, after)
-    elif was:
-        kept.append("thac0")
-    table_saves = _table_saves(ctx, sheet)
-    new_saves = {} if zero else _table_saves(ctx, after)
-    saves = dict(sheet.saves)
-    for kind, value in sheet.saves.items():
-        if table_saves.get(kind) == value and kind in new_saves:
-            saves[kind] = new_saves[kind]
-        elif kind in table_saves:
-            kept.append(f"saves.{kind}")
-    after = replace(after, saves=saves)
-    if sheet.spell_slots:
-        if {k: v for k, v in sheet.spell_slots.items() if v} == _table_slots(ctx, sheet.levels, sheet):
-            after = replace(after, spell_slots=_table_slots(ctx, now, sheet))
-        else:
-            kept.append("spell_slots")
-    memorized = _within_slots(state.memorized, after.spell_slots)
-    xp = _drained_xp(ctx, now, state.xp, drained)
-    hp = DEAD_AT if slain else min(state.hp, after.hp_max)
-    conditions = life_conditions(state.conditions, hp)
-    state_after = replace(state, hp=hp, xp=xp, memorized=memorized, conditions=conditions)
+    kept: list[str] = []
+    d20: dict[str, Any] = {}
+    if ctx.d20 is not None:
+        after, drained_state, d20 = ctx.d20.drain(sheet, state, levels, ctx.lookups, ctx.dice)
+        now = dict(after.levels)
+        slain, zero = bool(d20.get("slain")), False
+        hp_lost = sheet.hp_max - after.hp_max
+        memorized, xp = drained_state.memorized, drained_state.xp
+        hp = DEAD_AT if slain else min(drained_state.hp, after.hp_max)
+        state_after = replace(drained_state, hp=hp, conditions=life_conditions(drained_state.conditions, hp))
+    else:
+        now = dict(sheet.levels)
+        hp_lost, drained, slain = 0, set(), False
+        for _ in range(levels):
+            cls = _drained_class(ctx, now)
+            if now[cls] < 1 or (now[cls] == 1 and not ctx.rules.level_drain.zero_level):
+                slain = True
+                break
+            hp_lost += _drained_hp(ctx, character, cls, now[cls])
+            now[cls] -= 1
+            drained.add(cls)
+        after = replace(sheet, levels=now, hp_max=max(1, sheet.hp_max - hp_lost))
+        zero = min(now.values()) < 1
+        was = _fill_thac0(ctx, replace(sheet, thac0=0)).thac0
+        if was == sheet.thac0:
+            after = replace(after, thac0=20) if zero else _fill_thac0(ctx, after)
+        elif was:
+            kept.append("thac0")
+        table_saves = _table_saves(ctx, sheet)
+        new_saves = {} if zero else _table_saves(ctx, after)
+        saves = dict(sheet.saves)
+        for kind, value in sheet.saves.items():
+            if table_saves.get(kind) == value and kind in new_saves:
+                saves[kind] = new_saves[kind]
+            elif kind in table_saves:
+                kept.append(f"saves.{kind}")
+        after = replace(after, saves=saves)
+        if sheet.spell_slots:
+            if {k: v for k, v in sheet.spell_slots.items() if v} == _table_slots(ctx, sheet.levels, sheet):
+                after = replace(after, spell_slots=_table_slots(ctx, now, sheet))
+            else:
+                kept.append("spell_slots")
+        memorized = _within_slots(state.memorized, after.spell_slots)
+        xp = _drained_xp(ctx, now, state.xp, drained)
+        hp = DEAD_AT if slain else min(state.hp, after.hp_max)
+        conditions = life_conditions(state.conditions, hp)
+        state_after = replace(state, hp=hp, xp=xp, memorized=memorized, conditions=conditions)
     saved = ctx.storage.characters.save(replace(character, sheet=after, state=state_after))
-    _fight().drained(ctx, saved, after.thac0 - sheet.thac0)
+    _fight().drained(ctx, saved, 0 if ctx.d20 is not None else after.thac0 - sheet.thac0)
     ctx.log(
         "level_drained",
         character_id=saved.id,
@@ -564,10 +671,13 @@ def drain_level(ctx: CampaignContext, ref: str, levels: int = 1, reason: str = "
         "hp": hp,
         "xp_before": state.xp,
         "xp_after": xp,
-        "thac0": after.thac0,
-        "saves": after.saves,
         "spell_slots": after.spell_slots,
     }
+    if ctx.d20 is not None:
+        out["d20"] = d20
+    else:
+        out["thac0"] = after.thac0
+        out["saves"] = after.saves
     if len(memorized) < len(state.memorized):
         out["spells_forgotten"] = [s.name for s in state.memorized if s not in memorized]
     if kept:
@@ -575,7 +685,11 @@ def drain_level(ctx: CampaignContext, ref: str, levels: int = 1, reason: str = "
         out["kept_note"] = "Set on the sheet, not from the class tables: change them with update_character if need be."
     if slain:
         out["slain"] = True
-        out["note"] = "Drained below 1st level: dead. The monster's entry says whether and when the victim rises."
+        out["note"] = (
+            "Slain by the drain: its negative levels reached the character's level, or its hit points went past dead."
+            if ctx.d20 is not None
+            else "Drained below 1st level: dead."
+        ) + " The monster's entry says whether and when the victim rises."
     elif zero:
         out["note"] = (
             "0-level: an ordinary person without class abilities until restoration or a wish; another drain slays."
@@ -629,7 +743,9 @@ def rest(
     `rest`: 1 hp per day of light activity, 3 per day of complete bed rest, and the Constitution hit-point bonus for
     each full week of bed rest. A ruleset may have no bed rest, delay healing by a Constitution penalty, add the bonus
     once over the second week, and heal anyone fully after some weeks. The dead don't heal. `full` is the DM's
-    override to restore everyone living to maximum, not the book rule. A character in the live fight rests in its tracker too, as `update` does.
+    override to restore everyone living to maximum, not the book rule. A character in the live fight rests in its
+    tracker too, as `update` does. Under a d20 engine its `rest` heals (bed rest as asked) and its report's basis is
+    the answer's, with no `rate_per_day`; `full` still restores to maximum after it.
 
     A rest of a day or more makes every memorized spell uncast again, as ttrpg2's; with `rememorize` a caster with a
     default loadout memorizes it instead (PHB ch. 7: spells are memorized after a night's rest).
@@ -638,6 +754,8 @@ def rest(
     (`days.pass_days`), keeping the time of day. One character resting doesn't move the clock."""
     days = max(0, int(days))
     resting = [get(ctx, ref)] if ref else party(ctx)
+    asked_bed_rest = bed_rest  # as asked: a d20 engine decides what bed rest is
+    engine_basis = ""
     rates = ctx.rules.healing
     bed_rest = bed_rest and rates.bed_rest_per_day is not None
     rate = rates.bed_rest_per_day if bed_rest and rates.bed_rest_per_day is not None else rates.per_day
@@ -646,8 +764,14 @@ def rest(
     for character in resting:
         hp_max, before = character.sheet.hp_max, character.state.hp
         con_bonus = 0
+        engine_report: dict[str, Any] = {}
+        engine_state = character.state
         if before <= DEAD_AT:  # neither rest nor the DM's override raises the dead, as `apply_heal` doesn't
             after = before
+        elif ctx.d20 is not None:
+            engine_state, engine_report = ctx.d20.rest(character.sheet, character.state, days, bed_rest=asked_bed_rest)
+            engine_basis = engine_basis or engine_report.get("basis", "")
+            after = hp_max if full else engine_state.hp
         elif full:
             after = hp_max
         elif rates.full_after_days is not None and days >= rates.full_after_days:
@@ -669,16 +793,20 @@ def rest(
             memorized = default or spells.uncast(memorized)
             if default:
                 rememorized[character.name] = [s.name for s in default]
-        state = replace(character.state, hp=after, conditions=conditions, memorized=memorized)
+        state = replace(engine_state, hp=after, conditions=conditions, memorized=memorized)
         saved = ctx.storage.characters.save_state(replace(character, state=state))
         _fight().mirror(ctx, saved)  # else the live fight's next write-through puts its old hit points back
         report = {"hp_before": before, "hp_after": after, "healed": after - before, "at_max": after >= hp_max}
         if con_bonus:
             report["con_weekly_bonus"] = con_bonus
+        if engine_report:
+            report["d20"] = engine_report
         healing[character.name] = report
 
     if full:
         basis = "DM override — restored to maximum (not the PHB rate)."
+    elif ctx.d20 is not None:
+        basis = engine_basis
     else:
         basis = f"{rate} hp/day x {days} day(s)" + (
             " (complete bed rest)" if bed_rest else " (light activity)" if rates.bed_rest_per_day else " (rest)"
@@ -692,6 +820,8 @@ def rest(
         "basis": basis,
         "healing": healing,
     }
+    if ctx.d20 is not None:
+        del out["rate_per_day"]  # the engine's healing has no one rate; its basis says how it healed
     still_hurt = [name for name, report in healing.items() if not report["at_max"]]
     if still_hurt and not full:
         out["still_wounded"] = still_hurt
@@ -700,7 +830,7 @@ def rest(
     casters = [c.name for c in resting if c.sheet.spell_slots and c.name not in rememorized]
     if days >= 1 and casters:
         out["reminder"] = f"Spells are uncast again. Call memorize_spells to change what {', '.join(casters)} memorize."
-    ctx.log("rest", days=days, bed_rest=bed_rest, full=full, healing=healing)
+    ctx.log("rest", days=days, bed_rest=asked_bed_rest if ctx.d20 is not None else bed_rest, full=full, healing=healing)
     if not ref and days >= 1:
         out.update(answer(pass_days(ctx, days, reason="rest")))
     return out

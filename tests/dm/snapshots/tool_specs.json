@@ -1,0 +1,4078 @@
+[
+ {
+  "areas": null,
+  "description": "Search the campaign's ruleset's rulebooks (full text) for a rule: the best paragraphs first, each with its book, chapter, section and a snippet with the hits in <<…>>. Read the whole section with rules_section.",
+  "dm_only_keys": [],
+  "mutates": false,
+  "name": "rules_lookup",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "query": {
+     "description": "Words to search the rules for: 'surprise', 'called shot', 'morale'.",
+     "type": "string"
+    },
+    "source": {
+     "description": "One of the ruleset's books, as The Ruleset names them; all of them when empty.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "query"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "The full text of a rulebook section by its title, an exact title first.",
+  "dm_only_keys": [],
+  "mutates": false,
+  "name": "rules_section",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "section": {
+     "description": "Part of the section's title: 'Surprise', 'Morale'.",
+     "type": "string"
+    },
+    "source": {
+     "description": "One of the ruleset's books, as The Ruleset names them.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "source",
+    "section"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "A monster's entry in the ruleset's bestiary, best match first: the exact name, the family's entries, then names starting with or containing it. The first 3 whole; `also` names the rest (at most 10 in all): look one up by its name for its entry.",
+  "dm_only_keys": [],
+  "mutates": false,
+  "name": "monster_lookup",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "name": {
+     "description": "The monster: 'goblin', 'dragon, red'.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "name"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "A spell's entry (level, school, range, duration, casting time, saving throw, text): exact name first, then names starting with or containing it.",
+  "dm_only_keys": [],
+  "mutates": false,
+  "name": "spell_lookup",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "caster": {
+     "description": "The spell list or a class that casts from it ('wizard', 'cleric', 'magic-user'); any when empty.",
+     "type": "string"
+    },
+    "name": {
+     "description": "The spell.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "name"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "Equipment and magic items whose name contains `name`, commonest first: cost, weight, description. house_rules has the campaign's house rules about the items found; they override the book.",
+  "dm_only_keys": [],
+  "mutates": false,
+  "name": "item_lookup",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "item_type": {
+     "description": "Part of its type: weapon, armor, potion, ring…",
+     "type": "string"
+    },
+    "max_rarity": {
+     "description": "The rarest to list, 0 common … 100 artifact (default 100).",
+     "maximum": 100,
+     "minimum": 0,
+     "type": "integer"
+    },
+    "name": {
+     "description": "Part of the item's name.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "name"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "A class: its description, hit die, prime requisite and special abilities, with its level table or one level's row.",
+  "dm_only_keys": [],
+  "mutates": false,
+  "name": "class_lookup",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "class_name": {
+     "description": "The class: fighter, cleric, mage…",
+     "type": "string"
+    },
+    "level": {
+     "description": "One level's row (XP, hit dice, THAC0, saves, spell slots); every level when 0.",
+     "minimum": 0,
+     "type": "integer"
+    }
+   },
+   "required": [
+    "class_name"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "A race of the ruleset: its ability adjustments and ranges, the classes and multi-classes it may take with their level limits, its features. A ruleset that keeps its races in its rules text answers none: look them up there.",
+  "dm_only_keys": [],
+  "mutates": false,
+  "name": "race_lookup",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "race": {
+     "description": "The race or ancestry: 'elf', 'half-orc'.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "race"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "An ability's table: what each column means, and the row for a score (hit and damage adjustments, weight allowance, system shock, bonus spells and so on).",
+  "dm_only_keys": [],
+  "mutates": false,
+  "name": "ability_lookup",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "ability": {
+     "description": "strength, dexterity, constitution, intelligence, wisdom, charisma (or str, dex…).",
+     "type": "string"
+    },
+    "score": {
+     "description": "The score: '15', '18/76'; every row when empty.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "ability"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "Nonweapon proficiencies, in a ruleset that has them: slots, the ability checked and its modifier, by name, group or ability.",
+  "dm_only_keys": [],
+  "mutates": false,
+  "name": "proficiency_lookup",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "ability": {
+     "description": "The ability it checks against.",
+     "type": "string"
+    },
+    "group": {
+     "description": "general, priest, rogue, warrior or wizard.",
+     "type": "string"
+    },
+    "name": {
+     "description": "Part of the proficiency's name.",
+     "type": "string"
+    }
+   },
+   "required": [],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "combat"
+  ],
+  "description": "Turn undead by the ruleset's turning table: the table's entry for the level, and the roll when one is needed. A number is the d20 to equal or beat; T turns and D destroys some of them, D* more; the result says how many.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "turning_undead",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "character": {
+     "description": "Who turns, for the roll log.",
+     "type": "string"
+    },
+    "hd": {
+     "description": "Or its Hit Dice, when it has no name in the table.",
+     "minimum": 0,
+     "type": "integer"
+    },
+    "level": {
+     "description": "The priest's (or paladin's) level.",
+     "minimum": 1,
+     "type": "integer"
+    },
+    "role": {
+     "description": "priest (default) or paladin, who turns as a priest two levels lower.",
+     "type": "string"
+    },
+    "undead": {
+     "description": "The undead by name: skeleton, ghoul, wight…",
+     "type": "string"
+    }
+   },
+   "required": [
+    "level"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "The setting's entries of one kind whose name contains the query (at most 20), each with its facts in one line. When exactly one matches, its wiki page comes too: its fields, its categories and its text, cut at 4,000 characters. It holds the install's own pages and facts, and this campaign's proposals; `dm_only` marks what is for you alone. Find an entry by its words with setting_search.",
+  "dm_only_keys": [],
+  "mutates": false,
+  "name": "setting_lookup",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "kind": {
+     "description": "place, realm, deity, character, organization, creature, item, plane, holiday, building or archfiend.",
+     "type": "string"
+    },
+    "query": {
+     "description": "Part of the name: 'Hardby', 'Boccob'; every row of the kind when empty.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "kind",
+    "query"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "Full-text search of the setting's wiki, best first: each page's title, its kind and an excerpt with the hits in <<…>>; a fact comes as kind \"fact\". It holds the install's own pages and facts, and this campaign's proposals; `dm_only` marks what is for you alone. Read a page with setting_lookup.",
+  "dm_only_keys": [],
+  "mutates": false,
+  "name": "setting_search",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "limit": {
+     "description": "At most this many pages (default 10).",
+     "maximum": 50,
+     "minimum": 1,
+     "type": "integer"
+    },
+    "query": {
+     "description": "Words the page holds: 'Circle of Eight', 'Iuz Old'. Every word must match.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "query"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [],
+  "description": "Record a fact of this campaign's own, on today's campaign day: what happened, what the party owes, what it vowed. DM-only; find it again with facts.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "add_fact",
+  "player_visible": false,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "category": {
+     "description": "Free-form: victory, death, debt, rumour.",
+     "type": "string"
+    },
+    "text": {
+     "description": "The fact, in a sentence that reads well alone: a victory, a death, a debt, a vow.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "text"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "The campaign's own facts, oldest first, with the day each was recorded.",
+  "dm_only_keys": [],
+  "mutates": false,
+  "name": "facts",
+  "player_visible": false,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "query": {
+     "description": "Part of the fact's text, any case; every fact when empty.",
+     "type": "string"
+    }
+   },
+   "required": [],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [],
+  "description": "Propose a lasting page of the world to the setting: a new village, an NPC's fate, a homebrew deity. A title the setting has already makes it an edit of that page. Never what matters only to this table: use add_fact. It holds in this campaign at once, and in every campaign once an organiser accepts it; a second proposal of the same page joins the first.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "propose_page",
+  "player_visible": false,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "dm_only": {
+     "description": "True when the players mustn't learn it.",
+     "type": "boolean"
+    },
+    "kind": {
+     "description": "place, realm, deity, character, organization, creature, item, plane, holiday, building or archfiend.",
+     "type": "string"
+    },
+    "mode": {
+     "description": "For an existing page: append (the default) adds the text, replace puts it in the page's place.",
+     "enum": [
+      "append",
+      "replace"
+     ],
+     "type": "string"
+    },
+    "text": {
+     "description": "The page's text in Markdown; for an existing page, what to add to it (or its new text).",
+     "type": "string"
+    },
+    "title": {
+     "description": "The page's title: 'Zzyzx Hollow' for a new page, or an existing page's, such as 'Hardby'.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "title",
+    "text"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [],
+  "description": "Propose a lasting fact of the world to the setting: a new village, an NPC's fate, a homebrew deity. Never what matters only to this table: use add_fact. It holds in this campaign at once, and in every campaign once an organiser accepts it.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "propose_fact",
+  "player_visible": false,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "category": {
+     "description": "Free-form: history, people, place.",
+     "type": "string"
+    },
+    "dm_only": {
+     "description": "True when the players mustn't learn it.",
+     "type": "boolean"
+    },
+    "text": {
+     "description": "The fact, in a sentence that reads well alone: 'The Gynarch of Hardby owes the party her life.'",
+     "type": "string"
+    }
+   },
+   "required": [
+    "text"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "Find words in what this campaign wrote down: the story (in English), your notes, the campaign's facts (debts, vows, gifts) and the event log, newest first. At most 20 hits, each with its source and about 100 characters around the match; each source has its share, so many story hits don't hide the notes, and `cut` says there were more than these.",
+  "dm_only_keys": [],
+  "mutates": false,
+  "name": "search_campaign",
+  "player_visible": false,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "query": {
+     "description": "The words to find, any case: a name, a place, 'the silver key'.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "query"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [],
+  "description": "Roll dice for anything the other tools don't cover. Every roll is logged; the same purpose again in this beat is the same roll, never a re-roll. At most 100 dice of at most 1000 sides. With `actor`, the roll is that character's: a PC's dice show to the players, as their other checks do (DEL-274).",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "roll",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "actor": {
+     "description": "Who rolls, by id or exact name, when it is a character's own roll (a PC's contest, an NPC's try): the party's dice show to the players. Leave it out for the DM's own rolls.",
+     "type": "string"
+    },
+    "hidden": {
+     "description": "A roll the players mustn't know failed: a search, listening, finding traps. It leaves no row in the story.",
+     "type": "boolean"
+    },
+    "notation": {
+     "description": "Dice notation: 1d20, 3d6+2, 4d6dl1 (drop the lowest), 2d20kh1 (keep the highest), d%.",
+     "type": "string"
+    },
+    "purpose": {
+     "description": "What the roll is for, for the log: 'find the hidden lever', 'wandering monster'.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "notation",
+    "purpose"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "combat"
+  ],
+  "description": "A saving throw for anyone: a character from its sheet, or the ruleset's save table by class and level when the sheet lacks it; a monster by its Hit Dice. In a fight it is that round's save, with the combatant's effects. Success is a d20 at or above the number needed.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "saving_throw",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "character": {
+     "description": "A character, or a combatant of the live fight by id or exact name (mon_1, Goblin 2).",
+     "type": "string"
+    },
+    "modifier": {
+     "description": "Added to the d20: magic items, spells, the DM's ruling.",
+     "type": "integer"
+    },
+    "save_type": {
+     "description": "One of the ruleset's saves, by its short name (para, poly, rsw, breath, spell) or its name.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "character",
+    "save_type"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [],
+  "description": "A thief's or other percentile skill from the character's sheet: d100 at or under the percentage.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "skill_check",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "character": {
+     "description": "The character.",
+     "type": "string"
+    },
+    "hidden": {
+     "description": "A roll the players mustn't know failed: a search, listening, finding traps. It leaves no row in the story.",
+     "type": "boolean"
+    },
+    "occasion": {
+     "description": "What this check is for this time ('jump the gap', 'tie the knot'); a new occasion rolls fresh, the same one again is the stored roll.",
+     "type": "string"
+    },
+    "secret": {
+     "description": "A check the character can't know the result of: a thief's Hide in Shadows, Move Silently or Detect Noise, a check to notice something. Its dice are never shown to the players; the row stays.",
+     "type": "boolean"
+    },
+    "skill": {
+     "description": "Part of the skill's name on the sheet: 'move silently', 'climb', 'pick'.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "character",
+    "skill"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [],
+  "description": "An ability check: a d20 at or under the ability score plus the modifier.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "ability_check",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "ability": {
+     "description": "str, dex, con, int, wis or cha.",
+     "type": "string"
+    },
+    "character": {
+     "description": "The character.",
+     "type": "string"
+    },
+    "hidden": {
+     "description": "A roll the players mustn't know failed: a search, listening, finding traps. It leaves no row in the story.",
+     "type": "boolean"
+    },
+    "modifier": {
+     "description": "Added to the score: +2 for an easy task, -4 for a hard one.",
+     "type": "integer"
+    },
+    "occasion": {
+     "description": "What this check is for this time ('jump the gap', 'tie the knot'); a new occasion rolls fresh, the same one again is the stored roll.",
+     "type": "string"
+    },
+    "secret": {
+     "description": "A check the character can't know the result of: a thief's Hide in Shadows, Move Silently or Detect Noise, a check to notice something. Its dice are never shown to the players; the row stays.",
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "character",
+    "ability"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [],
+  "description": "An encounter reaction: the ruleset's reaction roll plus the modifier, the NPC's disposition and their faction's reputation with the party (each scaled to the roll, truncated towards zero), read against the ruleset's bands from attacks to friendly.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "reaction",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "modifier": {
+     "description": "The situation: a bribe, a threat, the party's Charisma reaction adjustment.",
+     "type": "integer"
+    },
+    "npc": {
+     "description": "The NPC reacting; their disposition towards the party, and their faction's reputation, are added.",
+     "type": "string"
+    }
+   },
+   "required": [],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "combat"
+  ],
+  "description": "A morale check: the ruleset's morale roll plus the modifier; it holds at or under the rating and breaks above it.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "morale_check",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "group": {
+     "description": "Who checks, for the log: 'the goblins'.",
+     "type": "string"
+    },
+    "modifier": {
+     "description": "Situational adjustments: leader slain +2, outnumbered +2…",
+     "type": "integer"
+    },
+    "rating": {
+     "description": "The morale rating, as the monster's entry gives it: 2-20 on 2d10, or a percentage on 1d100.",
+     "type": "integer"
+    }
+   },
+   "required": [
+    "rating"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [],
+  "description": "Surprise: each side rolls the ruleset's surprise die, adjusted by its own modifier. A surprised side loses the first round. setup_combat rolls this itself; use this outside a fight.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "surprise_check",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "enemy_modifier": {
+     "description": "The enemies' adjustment: positive makes them harder to surprise.",
+     "type": "integer"
+    },
+    "party_modifier": {
+     "description": "The party's adjustment: positive makes them harder to surprise.",
+     "type": "integer"
+    }
+   },
+   "required": [],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [],
+  "description": "Check for a wandering encounter (a d6 at or under 1, a d20 in towns) and, when one comes, determine it, in one call: from the module's own wandering table for where the party is when it has one (`source` \"module\", its line's `creature` a ref for monster_lookup), else from the ruleset's tables for the terrain and the party's level. When several of the module's tables may apply, it names them in `choose`: call again with `table`. One check per interval of game time: a check after advance_time rolls fresh, a second at the same time is the stored one. The players never see it.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "encounter_check",
+  "player_visible": false,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "dungeon_level": {
+     "description": "The dungeon level, when the party's level isn't given.",
+     "minimum": 0,
+     "type": "integer"
+    },
+    "level": {
+     "description": "The party's average level, for the table band.",
+     "minimum": 0,
+     "type": "integer"
+    },
+    "table": {
+     "description": "The module's table to roll on, by its id, when the check names several (`choose`); 'ruleset' for the ruleset's tables. Leave it out otherwise.",
+     "type": "string"
+    },
+    "terrain": {
+     "description": "dungeon, wilderness, road, urban, forest, hills…",
+     "type": "string"
+    }
+   },
+   "required": [
+    "terrain"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters"
+  ],
+  "description": "System shock: d100 at or under the Constitution's percentage, for polymorph, petrification, magical ageing. Failing it kills.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "system_shock",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "character": {
+     "description": "The character.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "character"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters"
+  ],
+  "description": "Resurrection survival: d100 at or under the Constitution's percentage. Each attempt costs a point of Constitution, whatever the roll; the sheet is updated. On a success set hp with update_character.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "resurrection_check",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "character": {
+     "description": "The dead character.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "character"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters"
+  ],
+  "description": "Create a PC (at the back of the marching order) or an NPC, at full hit points. house_rules has the campaign's character-creation house rules for its race and class: apply them (ability rolls, starting hit points, races and classes the book doesn't have). A PC a player asked for is theirs to play at once (`played_by`); one nobody asked for is the host's until a player takes it. An NPC gets its portrait at once, as Preferences choose.",
+  "dm_only_keys": [
+   "notes_md"
+  ],
+  "mutates": true,
+  "name": "create_character",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "kind": {
+     "description": "pc (default) or npc.",
+     "enum": [
+      "pc",
+      "npc"
+     ],
+     "type": "string"
+    },
+    "name": {
+     "description": "The name the player or the book gives. Leave it out and the dice name the character for its sheet's race and gender.",
+     "type": "string"
+    },
+    "player": {
+     "description": "A PC's player, by their name as their act gives it. By default the one player in this beat who asked while playing no character; with several such, name each one's.",
+     "type": "string"
+    },
+    "sheet": {
+     "description": "The character's sheet: race, gender, pronouns (when not the gender's: 'they/them'), deity, cls ('Fighter/Thief'), level or levels, hp_max, ac, thac0, saves, ability_scores, attacks, weapon (the one in hand), weapon_profs, nwps, natural_abilities, skills, size ('S', 'M', 'L'), ac_vs_larger, movement_rate, alignment, background, portrait_prompt, spell_slots, spell_loadout, faction (its faction's id); an NPC's notes_md (its story, DM-only) and disposition (-100 to 100). The portrait tool sets its portrait.",
+     "properties": {
+      "ability_scores": {
+       "additionalProperties": {
+        "type": [
+         "integer",
+         "string"
+        ]
+       },
+       "description": "{'str': 16, 'dex': 12, …}; exceptional strength as '18/52'.",
+       "type": "object"
+      },
+      "attacks": {
+       "description": "Each attack: {name, speed, attacks (per round), thac0, damage_sm, damage_l, range}.",
+       "items": {
+        "type": "object"
+       },
+       "type": "array"
+      },
+      "levels": {
+       "additionalProperties": {
+        "type": "integer"
+       },
+       "description": "The level per lowercase class: {'fighter': 1, 'thief': 1}.",
+       "type": "object"
+      },
+      "natural_abilities": {
+       "description": "Racial and class abilities in words: ['infravision 60 ft', '+4 save vs poison'].",
+       "items": {
+        "type": "string"
+       },
+       "type": "array"
+      },
+      "nwps": {
+       "description": "Nonweapon proficiencies: ['riding, land-based', 'healing'].",
+       "items": {
+        "type": "string"
+       },
+       "type": "array"
+      },
+      "saves": {
+       "additionalProperties": {
+        "type": "integer"
+       },
+       "description": "Save targets by type; missing saves come from the class table.",
+       "type": "object"
+      },
+      "skills": {
+       "additionalProperties": {
+        "type": "integer"
+       },
+       "description": "Percentile skills: thief skills, dwarven detection: {'open locks': 25}.",
+       "type": "object"
+      },
+      "spell_slots": {
+       "additionalProperties": {
+        "type": "integer"
+       },
+       "description": "Spell slots per spell level: {'1': 2, '2': 1}.",
+       "type": "object"
+      },
+      "weapon_profs": {
+       "description": "Weapon proficiencies, by weapon: ['long sword', 'sling'].",
+       "items": {
+        "type": "string"
+       },
+       "type": "array"
+      }
+     },
+     "type": "object"
+    }
+   },
+   "required": [
+    "sheet"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "A character's sheet and state: everything, or with brief the numbers that matter in play.",
+  "dm_only_keys": [
+   "notes_md"
+  ],
+  "mutates": false,
+  "name": "get_character",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "brief": {
+     "description": "Only the numbers that matter in play: hp, AC, THAC0, levels, conditions.",
+     "type": "boolean"
+    },
+    "ref": {
+     "description": "The character's id or exact name.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "ref"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters"
+  ],
+  "description": "Change a character's sheet or state: a level gained, new ability scores, a curse among its conditions. In a fight its hit points, conditions and effects change in the fight too.",
+  "dm_only_keys": [
+   "notes_md"
+  ],
+  "mutates": true,
+  "name": "update_character",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "patch": {
+     "description": "The fields to change: name, level (or levels), any sheet field (race, gender, pronouns, deity, cls, hp_max, ac, thac0, saves, ability_scores, attacks, weapon, weapon_profs, nwps, natural_abilities, skills, size, ac_vs_larger, movement_rate, alignment, background, portrait_prompt, spell_slots, spell_loadout, notes_md, disposition, faction), or hp, xp, conditions, effects. The portrait tool sets the portrait.",
+     "properties": {
+      "ability_scores": {
+       "additionalProperties": {
+        "type": [
+         "integer",
+         "string"
+        ]
+       },
+       "description": "{'str': 16, 'dex': 12, …}; exceptional strength as '18/52'.",
+       "type": "object"
+      },
+      "attacks": {
+       "description": "Each attack: {name, speed, attacks (per round), thac0, damage_sm, damage_l, range}.",
+       "items": {
+        "type": "object"
+       },
+       "type": "array"
+      },
+      "levels": {
+       "additionalProperties": {
+        "type": "integer"
+       },
+       "description": "The level per lowercase class: {'fighter': 1, 'thief': 1}.",
+       "type": "object"
+      },
+      "natural_abilities": {
+       "description": "Racial and class abilities in words: ['infravision 60 ft', '+4 save vs poison'].",
+       "items": {
+        "type": "string"
+       },
+       "type": "array"
+      },
+      "nwps": {
+       "description": "Nonweapon proficiencies: ['riding, land-based', 'healing'].",
+       "items": {
+        "type": "string"
+       },
+       "type": "array"
+      },
+      "saves": {
+       "additionalProperties": {
+        "type": "integer"
+       },
+       "description": "Save targets by type; missing saves come from the class table.",
+       "type": "object"
+      },
+      "skills": {
+       "additionalProperties": {
+        "type": "integer"
+       },
+       "description": "Percentile skills: thief skills, dwarven detection: {'open locks': 25}.",
+       "type": "object"
+      },
+      "spell_slots": {
+       "additionalProperties": {
+        "type": "integer"
+       },
+       "description": "Spell slots per spell level: {'1': 2, '2': 1}.",
+       "type": "object"
+      },
+      "weapon_profs": {
+       "description": "Weapon proficiencies, by weapon: ['long sword', 'sling'].",
+       "items": {
+        "type": "string"
+       },
+       "type": "array"
+      }
+     },
+     "type": "object"
+    },
+    "reason": {
+     "description": "Why, for the log.",
+     "type": "string"
+    },
+    "ref": {
+     "description": "The character's id or exact name.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "ref",
+    "patch"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters"
+  ],
+  "description": "A new NPC the party meets, named for their race with the dice, so names don't repeat or drift. Give them stats with update_character when they matter. A faction's reputation with the party moves their reactions. They get their portrait at once, as Preferences choose for NPCs.",
+  "dm_only_keys": [
+   "notes_md"
+  ],
+  "mutates": true,
+  "name": "introduce_npc",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "description": {
+     "description": "Their role or look: 'innkeeper', 'guard captain'.",
+     "type": "string"
+    },
+    "faction": {
+     "description": "The faction they belong to, by id or exact name.",
+     "type": "string"
+    },
+    "gender": {
+     "description": "female or male; the name follows it.",
+     "type": "string"
+    },
+    "race": {
+     "description": "human, elf, dwarf, halfling, gnome, half-orc…",
+     "type": "string"
+    }
+   },
+   "required": [
+    "race"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters"
+  ],
+  "description": "Set an NPC's disposition towards the party. It becomes a reaction modifier of disposition / 20, truncated towards zero.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "set_disposition",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "npc": {
+     "description": "The NPC.",
+     "type": "string"
+    },
+    "reason": {
+     "description": "Why it changed, for the log.",
+     "type": "string"
+    },
+    "value": {
+     "description": "-100 (sworn enemy) to 100 (devoted ally).",
+     "maximum": 100,
+     "minimum": -100,
+     "type": "integer"
+    }
+   },
+   "required": [
+    "npc",
+    "value"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "The party in marching order, each with hp, AC, THAC0, levels, XP and conditions; the PCs who left it, apart; the NPCs met; and the party's coin.",
+  "dm_only_keys": [],
+  "mutates": false,
+  "name": "party_status",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {},
+   "required": [],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters"
+  ],
+  "description": "Set the marching order: the named PCs at the front in that order, the others behind in their current order.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "set_marching_order",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "order": {
+     "description": "The PCs from the front: names or ids. The others fall in behind.",
+     "items": {
+      "type": "string"
+     },
+     "type": "array"
+    }
+   },
+   "required": [
+    "order"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters"
+  ],
+  "description": "A PC leaves the party: they died, retired or left. Their sheet, items and story stay, and they are still found by name, but they are no longer in the party, the marching order or a new fight; a fight they are in, they leave. Their player can't act for them while they are away. Call it once the story has them gone, not for a PC who is only downed or out of the room.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "leave_party",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "character": {
+     "description": "The PC who leaves: name or id.",
+     "type": "string"
+    },
+    "reason": {
+     "description": "Why: died, retired (stays behind in the world) or left (walked away).",
+     "enum": [
+      "died",
+      "retired",
+      "left"
+     ],
+     "type": "string"
+    }
+   },
+   "required": [
+    "character",
+    "reason"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters"
+  ],
+  "description": "A PC who left the party comes back (raised from the dead, out of retirement, back from their errand), with the sheet they left with. They don't join a fight under way by themselves: add them with add_combatant.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "rejoin_party",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "character": {
+     "description": "The PC who comes back: name or id.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "character"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters",
+   "combat"
+  ],
+  "description": "Take hit points off a character (a trap, a fall, a poison) or a monster in the fight. 0 or below is downed, -10 dead. A character in the fight takes it through the fight, so nothing is lost when it ends.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "apply_damage",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "amount": {
+     "description": "Hit points lost.",
+     "minimum": 0,
+     "type": "integer"
+    },
+    "character": {
+     "description": "A character, or a monster of the live fight by id or exact name.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "character",
+    "amount"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters",
+   "combat"
+  ],
+  "description": "Heal a character or a monster in the fight, up to its maximum. The dead (-10) aren't healed: that takes raise dead or resurrection.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "apply_heal",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "amount": {
+     "description": "Hit points healed.",
+     "minimum": 0,
+     "type": "integer"
+    },
+    "character": {
+     "description": "A character, or a monster of the live fight by id or exact name.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "character",
+    "amount"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters"
+  ],
+  "description": "Award XP as earned; where the ruleset has it, the prime-requisite bonus is added (xp_bonus says so: don't add it yourself). A multi-class character's is split evenly between its classes. level_up_hints names each class that reached its next level, and then house_rules has the campaign's level-up rules. The level itself changes with update_character.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "award_xp",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "amount": {
+     "description": "The XP.",
+     "type": "integer"
+    },
+    "character": {
+     "description": "The character.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "character",
+    "amount"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters",
+   "combat"
+  ],
+  "description": "An energy drain: the character loses levels from its highest class, with their hit points (off the maximum), and its XP, THAC0, saves and spell slots drop to the new level's as the ruleset says, in or out of a fight. Apply the touch's damage separately with apply_damage. Drained below 1st level it dies (2e: at 0-level first).",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "drain_level",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "character": {
+     "description": "The character drained.",
+     "type": "string"
+    },
+    "levels": {
+     "description": "Levels drained (default 1; a spectre's touch takes 2).",
+     "maximum": 10,
+     "minimum": 1,
+     "type": "integer"
+    },
+    "reason": {
+     "description": "What drained it: 'wight's touch'.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "character"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters"
+  ],
+  "description": "Add or take the party's coin, one coin type at a time.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "update_coin",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "delta": {
+     "description": "+450pp, +50gp, -10sp, +3ep, +100cp.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "delta"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters",
+   "world"
+  ],
+  "description": "Rest and heal at the ruleset's natural rate (most: 1 hp a day; the result says the basis). A rest of a day or more makes memorized spells uncast again; with rememorize casters memorize their default loadout. The whole party's rest lets its days pass, keeping the time of day; one character's doesn't move the clock.",
+  "dm_only_keys": [
+   "clocks"
+  ],
+  "mutates": true,
+  "name": "rest",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "bed_rest": {
+     "description": "Complete bed rest, where the ruleset heals it faster than light activity.",
+     "type": "boolean"
+    },
+    "character": {
+     "description": "One character; the whole party when empty.",
+     "type": "string"
+    },
+    "days": {
+     "description": "Days of rest (default 1).",
+     "maximum": 3650,
+     "minimum": 0,
+     "type": "integer"
+    },
+    "full": {
+     "description": "The DM's override: everyone to maximum hit points (not the book rate).",
+     "type": "boolean"
+    },
+    "rememorize": {
+     "description": "Casters memorize their default loadout again.",
+     "type": "boolean"
+    }
+   },
+   "required": [],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters"
+  ],
+  "description": "Give a character an item; more of one it carries adds to it. Its weight comes from the equipment tables. house_rules has the campaign's house rules about the item: they override the book.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "add_item",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "character": {
+     "description": "Who gets it.",
+     "type": "string"
+    },
+    "dm_notes": {
+     "description": "What only you know of it, which the players never read: what it really is before it is identified, a curse, its charges: 'potion of neutralize poison, 2 doses'.",
+     "type": "string"
+    },
+    "item": {
+     "description": "The item: 'Long sword', 'Rope (50 ft.)', 'Potion of healing'.",
+     "type": "string"
+    },
+    "notes": {
+     "description": "What the characters know of this one, which the players read: 'engraved with a rose'.",
+     "type": "string"
+    },
+    "qty": {
+     "description": "How many (default 1).",
+     "minimum": 1,
+     "type": "integer"
+    }
+   },
+   "required": [
+    "character",
+    "item"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters"
+  ],
+  "description": "Take an item from a character: used up, lost, sold. Nothing changes if they have fewer.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "remove_item",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "character": {
+     "description": "Who loses it.",
+     "type": "string"
+    },
+    "item": {
+     "description": "The item.",
+     "type": "string"
+    },
+    "qty": {
+     "description": "How many (default 1).",
+     "minimum": 1,
+     "type": "integer"
+    }
+   },
+   "required": [
+    "character",
+    "item"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters"
+  ],
+  "description": "Move items between two characters, or between a character and the loot pile ('loot'). Nothing moves if the source has fewer.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "transfer",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "dest": {
+     "description": "Who takes it, or 'loot' for the loot pile.",
+     "type": "string"
+    },
+    "item": {
+     "description": "The item.",
+     "type": "string"
+    },
+    "qty": {
+     "description": "How many.",
+     "minimum": 1,
+     "type": "integer"
+    },
+    "source": {
+     "description": "Who gives it, or 'loot' for the loot pile.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "item",
+    "qty",
+    "source",
+    "dest"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "What a character carries, or everyone.",
+  "dm_only_keys": [],
+  "mutates": false,
+  "name": "inventory",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "character": {
+     "description": "One character; everyone who carries something when empty.",
+     "type": "string"
+    }
+   },
+   "required": [],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "What a character carries against their Strength (the ruleset's bands): the total weight, the band (unencumbered, light, moderate, heavy, severe), the movement left and the attack penalty, with each item's weight.",
+  "dm_only_keys": [],
+  "mutates": false,
+  "name": "encumbrance",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "character": {
+     "description": "The character.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "character"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters"
+  ],
+  "description": "Set the spells a caster knows (a wizard's spellbook) and the ones they memorize by default, each as spells by level. The default fits the caster's slots. What isn't given stays as it was.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "set_spell_loadout",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "character": {
+     "description": "The caster.",
+     "type": "string"
+    },
+    "default": {
+     "description": "Spells by level: {'1': ['Sleep', 'Magic Missile'], '2': ['Web']}.",
+     "type": "object"
+    },
+    "known": {
+     "description": "Spells by level: {'1': ['Sleep', 'Magic Missile'], '2': ['Web']}.",
+     "type": "object"
+    }
+   },
+   "required": [
+    "character"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters"
+  ],
+  "description": "Memorize spells, all uncast, in place of what was memorized; without spells, the default loadout. The slots of each level are the cap.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "memorize_spells",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "character": {
+     "description": "The caster.",
+     "type": "string"
+    },
+    "spells": {
+     "description": "The spells to memorize; the default loadout when not given.",
+     "items": {
+      "type": "string"
+     },
+     "type": "array"
+    }
+   },
+   "required": [
+    "character"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters",
+   "combat"
+  ],
+  "description": "Cast a memorized spell: its copy is spent until the next rest. A spell that isn't memorized, or is spent, is refused. In a fight, declare it in combat_round's actions instead.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "cast_spell",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "character": {
+     "description": "The caster.",
+     "type": "string"
+    },
+    "spell_name": {
+     "description": "The spell.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "character",
+    "spell_name"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "A caster's loadout, what is memorized and what is spent, and per level the slots left.",
+  "dm_only_keys": [],
+  "mutates": false,
+  "name": "spell_status",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "character": {
+     "description": "The caster.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "character"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters"
+  ],
+  "description": "Roll a hoard without awarding it, to describe what lies there, by the ruleset's treasure types: coins, gems, art and magic items. The same types and source in this beat are the same hoard, and so is award_treasure's. A lair's types are its hoard: only with in_lair and its monster, never for a monster of animal, semi- or no intelligence (its lair holds victims' leavings), unless from_module.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "generate_treasure",
+  "player_visible": false,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "from_module": {
+     "description": "The module's text places this treasure (its room key gives the types): rolled as given.",
+     "type": "boolean"
+    },
+    "in_lair": {
+     "description": "The hoard of the creatures' lair, where they live (needed for a lair's treasure).",
+     "type": "boolean"
+    },
+    "monster": {
+     "description": "Whose lair it is, as monster_lookup names it (needed with in_lair).",
+     "type": "string"
+    },
+    "source": {
+     "description": "Whose hoard it is ('the goblins', 'the crypt chest'); the types when empty.",
+     "type": "string"
+    },
+    "treasure_types": {
+     "description": "The treasure as the monster's entry gives it ('L,M', 'Qx5 S', 'Hoard 2'); 'Nil' is none.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "treasure_types"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters"
+  ],
+  "description": "Roll a hoard and award it in one go: the coins to the party's coin, the gems, art and magic items to the loot pile. Awarded once: the same source again in this beat is refused. Types A-I are a lair's hoard: after a fight, award what the defeated carry (J-Z); the lair's hoard only with in_lair and its monster, never for a monster of animal, semi- or no intelligence, unless from_module. When the campaign awards XP for gold, gold_xp says what each living PC was given.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "award_treasure",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "from_module": {
+     "description": "The module's text places this treasure (its room key gives the types): rolled as given.",
+     "type": "boolean"
+    },
+    "in_lair": {
+     "description": "The hoard of the creatures' lair, where they live (needed for a lair's treasure).",
+     "type": "boolean"
+    },
+    "log_note": {
+     "description": "A line for the log.",
+     "type": "string"
+    },
+    "monster": {
+     "description": "Whose lair it is, as monster_lookup names it (needed with in_lair).",
+     "type": "string"
+    },
+    "source": {
+     "description": "Whose hoard it is ('the goblins', 'the crypt chest'); the types when empty.",
+     "type": "string"
+    },
+    "treasure_types": {
+     "description": "The treasure as the monster's entry gives it ('L,M', 'Qx5 S', 'Hoard 2'); 'Nil' is none.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "treasure_types"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "The party's loot pile, by index, for claim_loot.",
+  "dm_only_keys": [],
+  "mutates": false,
+  "name": "loot_pile",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {},
+   "required": [],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters"
+  ],
+  "description": "Give a loot-pile entry to a character, into their inventory.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "claim_loot",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "character": {
+     "description": "Who takes it.",
+     "type": "string"
+    },
+    "index": {
+     "description": "The entry's index in loot_pile.",
+     "minimum": 0,
+     "type": "integer"
+    }
+   },
+   "required": [
+    "index",
+    "character"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters"
+  ],
+  "description": "Register something a character or the party owns: a mount, vehicle, ship, house, stronghold, domain or other. A mount of a species the ruleset knows gets its stats (stats overrides them); its mv and fly set the party's travel speed. An unknown species needs hp_max and thac0 in stats.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "add_possession",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "description": {
+     "description": "What it looks like, as the party knows it.",
+     "type": "string"
+    },
+    "inventory": {
+     "description": "What is kept in it or strapped to it: ['Saddlebags', 'Iron strongbox (locked)'].",
+     "items": {
+      "type": "string"
+     },
+     "type": "array"
+    },
+    "kind": {
+     "description": "What it is.",
+     "enum": [
+      "mount",
+      "vehicle",
+      "ship",
+      "house",
+      "stronghold",
+      "domain",
+      "other"
+     ],
+     "type": "string"
+    },
+    "location": {
+     "description": "Where it is: 'Hommlet, by the mill', 'the stable at the Welcome Wench'.",
+     "type": "string"
+    },
+    "name": {
+     "description": "Its name: 'Bess', 'The Gull', 'Oakhill Cottage'.",
+     "type": "string"
+    },
+    "notes": {
+     "description": "Your notes, DM-only: what the party doesn't know about it.",
+     "type": "string"
+    },
+    "owner": {
+     "description": "The character who owns it, by id or exact name; empty (or 'party') for the party's.",
+     "type": "string"
+    },
+    "species": {
+     "description": "A mount's species: 'riding horse', 'mule'. One the ruleset knows has defaults; any other needs stats (a refusal lists the known ones).",
+     "type": "string"
+    },
+    "stats": {
+     "description": "A mount's {hp, hp_max, ac, mv, fly, thac0, attacks, morale} (over its species' defaults); a vehicle's or a ship's {mv, capacity}; anything for the other kinds.",
+     "type": "object"
+    },
+    "value_gp": {
+     "description": "Its rough value in gp.",
+     "minimum": 0,
+     "type": "integer"
+    }
+   },
+   "required": [
+    "name",
+    "kind"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters"
+  ],
+  "description": "Change a possession: only the fields given. owner '' or 'party' gives it to the party; stats are merged over its current ones; inventory replaces the list; hp_change wounds or heals a mount.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "update_possession",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "description": {
+     "description": "What it looks like, as the party knows it.",
+     "type": "string"
+    },
+    "hp_change": {
+     "description": "Hit points lost (negative) or healed; never past hp_max.",
+     "type": "integer"
+    },
+    "id": {
+     "description": "The possession's id, or its exact name.",
+     "type": "string"
+    },
+    "inventory": {
+     "description": "What is kept in it or strapped to it: ['Saddlebags', 'Iron strongbox (locked)'].",
+     "items": {
+      "type": "string"
+     },
+     "type": "array"
+    },
+    "kind": {
+     "description": "What it is.",
+     "enum": [
+      "mount",
+      "vehicle",
+      "ship",
+      "house",
+      "stronghold",
+      "domain",
+      "other"
+     ],
+     "type": "string"
+    },
+    "location": {
+     "description": "Where it is: 'Hommlet, by the mill', 'the stable at the Welcome Wench'.",
+     "type": "string"
+    },
+    "name": {
+     "description": "Its name: 'Bess', 'The Gull', 'Oakhill Cottage'.",
+     "type": "string"
+    },
+    "notes": {
+     "description": "Your notes, DM-only: what the party doesn't know about it.",
+     "type": "string"
+    },
+    "owner": {
+     "description": "The character who owns it, by id or exact name; empty (or 'party') for the party's.",
+     "type": "string"
+    },
+    "species": {
+     "description": "A mount's species: 'riding horse', 'mule'. One the ruleset knows has defaults; any other needs stats (a refusal lists the known ones).",
+     "type": "string"
+    },
+    "stats": {
+     "description": "A mount's {hp, hp_max, ac, mv, fly, thac0, attacks, morale} (over its species' defaults); a vehicle's or a ship's {mv, capacity}; anything for the other kinds.",
+     "type": "object"
+    },
+    "value_gp": {
+     "description": "Its rough value in gp.",
+     "minimum": 0,
+     "type": "integer"
+    }
+   },
+   "required": [
+    "id"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters"
+  ],
+  "description": "Remove a possession that is sold, lost or dead.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "remove_possession",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "id": {
+     "description": "The possession's id, or its exact name.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "id"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "Everything the party and its characters own, with each one's owner, kind, location, value and stats, but not your notes on it (possession has them).",
+  "dm_only_keys": [],
+  "mutates": false,
+  "name": "possessions",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "owner": {
+     "description": "A character, by id or exact name, or 'party' for the party's own; empty for all.",
+     "type": "string"
+    }
+   },
+   "required": [],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "The whole record of one possession, with your DM-only notes on it.",
+  "dm_only_keys": [],
+  "mutates": false,
+  "name": "possession",
+  "player_visible": false,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "id": {
+     "description": "The possession's id, or its exact name.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "id"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters",
+   "combat"
+  ],
+  "description": "Start a fight in one call: the party where it stands on its map, the monsters looked up and added (each with its own id, mon_1 …), surprise, round 1's spell declarations, and round 1's initiative, in the campaign's mode (per combatant, or per side: the ruleset's die a side plus each one's own modifier). Tokens appear on the map. When the notes say the module states other numbers for a monster than the reference (AC 5 zombies), set it up again with the module's ac, hp or thac0 in its group. A spell can still be declared for round 1 in combat_round. Refused while a fight is live: end it first.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "setup_combat",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "enemies": {
+     "description": "The enemy groups: [{\"name\": \"goblin\", \"count\": 3, \"node\": \"room.guardroom\"}]. node defaults to where the party is; a group may override hp, ac, thac0, dmg, dmg_large, morale, weapon_speed, label, size and attacks_per_round, and take side \"ally\". When the module states a monster's numbers (the notes say so), pass them here: ac, hp, thac0. Pass weapon_speed for a monster wielding a weapon its entry doesn't name; without it, one fighting with claws or bites acts on its size.",
+     "items": {
+      "type": "object"
+     },
+     "minItems": 1,
+     "type": "array"
+    },
+    "enemy_modifier": {
+     "description": "The enemies' surprise adjustment: positive is harder to surprise.",
+     "type": "integer"
+    },
+    "party_modifier": {
+     "description": "The party's surprise adjustment: positive is harder to surprise.",
+     "type": "integer"
+    },
+    "spells": {
+     "description": "Spells declared for round 1, before its initiative: [{\"caster\": \"Corwin\", \"spell\": \"sleep\"}].",
+     "items": {
+      "type": "object"
+     },
+     "type": "array"
+    },
+    "surprise": {
+     "description": "Roll surprise (default true).",
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "enemies"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters",
+   "combat"
+  ],
+  "description": "Resolve a whole round: the declarations, initiative rolled again in the campaign's mode (the ruleset's die, plus casting time, the item's modifier and weapon speed where the ruleset counts it; per side, one die a side), the actions in initiative order (ties act simultaneously), downed and surprised combatants skipped, every attack the rate allows, then bleeding, effects ticking down and morale notices. Spells, scrolls, potions and long actions are ongoing until their count: a spell of a round or more takes effect at the end of its last round, and a hit or a failed save before then spoils a spell or scroll. The result's outcomes say who acted, went down, died or fled and which ongoing actions completed or broke; ongoing lists what carries over. Every roll is in the result.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "combat_round",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "actions": {
+     "description": "The round's declarations, one per combatant: {\"attacker\", \"target\", \"targets\"?, \"weapon\"?, \"condition\"?}, {\"attacker\", \"target\", \"missile\"} (a thrown flask of oil or vial of holy water), {\"caster\", \"spell\", \"target\"?}, {\"actor\", \"item\", \"kind\"} (kind potion, scroll, ring, rod, stave, wand or item; a scroll's \"spell\"), or {\"actor\", \"action\", \"rounds\"?} (rounds: an action that takes that long). A combatant busy with an ongoing action keeps at it unless you declare another. Empty ends the round.",
+     "items": {
+      "type": "object"
+     },
+     "type": "array"
+    }
+   },
+   "required": [
+    "actions"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters",
+   "combat"
+  ],
+  "description": "One attack in the current round, after its initiative, applied at once: the to-hit roll against the target's AC, the damage for its size, and the hit points. A downed or dead attacker can't swing.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "resolve_attack",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "attacker": {
+     "description": "A combatant by id (chr_…, mon_1) or exact name ('Goblin 2').",
+     "type": "string"
+    },
+    "condition": {
+     "description": "rear (+2), charging (+2, AC penalty), set_vs_charge (double damage) or fleeing (the ruleset's bonus against a foe fleeing melee).",
+     "type": "string"
+    },
+    "target": {
+     "description": "A combatant by id (chr_…, mon_1) or exact name ('Goblin 2').",
+     "type": "string"
+    },
+    "weapon": {
+     "description": "Part of the name of one of the attacker's attacks: 'bow', 'undead'.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "attacker",
+    "target"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters",
+   "combat"
+  ],
+  "description": "A grenade-like missile thrown in the current round, after its initiative, applied at once: the thrower's to-hit roll against the target's AC, then burning oil's 2d6 (and 1d6 the next round) or holy water's 2d4 to the undead. A miss shatters nearby: the notes say the splash for you to rule. In combat_round, declare it as {\"attacker\", \"target\", \"missile\"} instead.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "throw_missile",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "missile": {
+     "description": "What is thrown.",
+     "enum": [
+      "oil",
+      "holy water"
+     ],
+     "type": "string"
+    },
+    "target": {
+     "description": "A combatant by id (chr_…, mon_1) or exact name ('Goblin 2').",
+     "type": "string"
+    },
+    "thrower": {
+     "description": "A combatant by id (chr_…, mon_1) or exact name ('Goblin 2').",
+     "type": "string"
+    }
+   },
+   "required": [
+    "thrower",
+    "target",
+    "missile"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters",
+   "combat"
+  ],
+  "description": "Set a combatant's numbers to what the module or your ruling says: its hit points, AC, THAC0, morale and its attack's damage dice, in place of an effect that only approximates them. A PC's come from its sheet (update_character).",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "update_combatant",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "id": {
+     "description": "A combatant by id (chr_…, mon_1) or exact name ('Goblin 2').",
+     "type": "string"
+    },
+    "stats": {
+     "description": "What to set: hp, hp_max, ac, thac0, morale (whole numbers), dmg and dmg_large (dice, '1d6').",
+     "type": "object"
+    }
+   },
+   "required": [
+    "id",
+    "stats"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters",
+   "combat"
+  ],
+  "description": "Monsters joining the live fight (reinforcements), as setup_combat's enemy groups. They act from the next initiative.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "add_combatant",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "count": {
+     "description": "How many (default 1).",
+     "minimum": 1,
+     "type": "integer"
+    },
+    "hp_max": {
+     "description": "Its full hit points, when it joins wounded (defaults to hp).",
+     "minimum": 1,
+     "type": "integer"
+    },
+    "name": {
+     "description": "The monster, as monster_lookup names it: 'goblin'.",
+     "type": "string"
+    },
+    "node": {
+     "description": "The room it joins in; where the party is when empty.",
+     "type": "string"
+    },
+    "side": {
+     "description": "enemy (default), ally or party.",
+     "enum": [
+      "enemy",
+      "ally",
+      "party"
+     ],
+     "type": "string"
+    },
+    "stats": {
+     "description": "Overrides of its entry: hp, ac, thac0, dmg, dmg_large, morale, weapon_speed, label, size…",
+     "type": "object"
+    }
+   },
+   "required": [
+    "name"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters",
+   "combat"
+  ],
+  "description": "Take a combatant out of the fight: it no longer acts or can be attacked. A character keeps its state.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "remove_combatant",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "id": {
+     "description": "A combatant by id (chr_…, mon_1) or exact name ('Goblin 2').",
+     "type": "string"
+    },
+    "reason": {
+     "description": "Why: fled the map, banished, surrendered.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "id",
+    "reason"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters",
+   "combat"
+  ],
+  "description": "A lasting effect on a combatant, counted down at the end of each round; its modifiers apply by themselves to its attacks, AC, damage and saves. It outlives the fight on a character, and outside a fight it goes on the character itself. A worn magic item's bonus lasts until removed (duration 0); an unidentified one's is hidden: the sheet the players see doesn't change.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "apply_effect",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "ac": {
+     "description": "Added to its AC (negative is better).",
+     "type": "integer"
+    },
+    "dmg": {
+     "description": "Added to its damage.",
+     "type": "integer"
+    },
+    "duration": {
+     "description": "Rounds it lasts; 0 until removed (a worn item's).",
+     "minimum": 0,
+     "type": "integer"
+    },
+    "hidden": {
+     "description": "An unidentified item's: it applies, but the players don't see it and the sheet's AC and saves stay as they were, until it is identified (remove it and apply it again without hidden).",
+     "type": "boolean"
+    },
+    "name": {
+     "description": "The effect: bless, shield, prayer, poisoned…",
+     "type": "string"
+    },
+    "save": {
+     "description": "Added to its saving throws.",
+     "type": "integer"
+    },
+    "source": {
+     "description": "Who or what caused it.",
+     "type": "string"
+    },
+    "target": {
+     "description": "A combatant by id (chr_…, mon_1) or exact name ('Goblin 2').",
+     "type": "string"
+    },
+    "to_hit": {
+     "description": "Added to its attack rolls.",
+     "type": "integer"
+    }
+   },
+   "required": [
+    "target",
+    "name",
+    "duration"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters",
+   "combat"
+  ],
+  "description": "End an effect early: dispelled, cured; in a fight or out of one (a character's own effects).",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "remove_effect",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "name": {
+     "description": "The effect.",
+     "type": "string"
+    },
+    "target": {
+     "description": "A combatant by id (chr_…, mon_1) or exact name ('Goblin 2').",
+     "type": "string"
+    }
+   },
+   "required": [
+    "target",
+    "name"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters",
+   "combat"
+  ],
+  "description": "Put a condition on a combatant. fleeing is attacked from the rear (+2); downed and dead come from hit points; stabilized on a dying PC or ally whose wounds someone bound stops its bleeding (1 HP a round otherwise). Rule what any other condition does (asleep, held, prone) with adjudicate, or take the combatant out with remove_combatant.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "add_condition",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "condition": {
+     "description": "prone, stunned, blinded, held, fleeing…",
+     "type": "string"
+    },
+    "name": {
+     "description": "A combatant by id (chr_…, mon_1) or exact name ('Goblin 2').",
+     "type": "string"
+    }
+   },
+   "required": [
+    "name",
+    "condition"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters",
+   "combat"
+  ],
+  "description": "Take a condition off a combatant.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "remove_condition",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "condition": {
+     "description": "The condition.",
+     "type": "string"
+    },
+    "name": {
+     "description": "A combatant by id (chr_…, mon_1) or exact name ('Goblin 2').",
+     "type": "string"
+    }
+   },
+   "required": [
+    "name",
+    "condition"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters",
+   "combat"
+  ],
+  "description": "Your ruling on anything the rules here don't cover: a grapple, a called shot, a stunt. It is logged, never refused, and its effects are applied: in a fight to its combatants, outside one to the characters named. To break a combatant's ongoing action, use interrupt.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "adjudicate",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "effects": {
+     "description": "Effects of the ruling, each as apply_effect with its target: [{\"target\": \"mon_1\", \"name\": \"held\", \"duration\": 2, \"ac\": 4}].",
+     "items": {
+      "type": "object"
+     },
+     "type": "array"
+    },
+    "note": {
+     "description": "What you decided: 'Garrek grapples the goblin: it is held until it wins an opposed roll'.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "note"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters",
+   "combat"
+  ],
+  "description": "Break a combatant's ongoing action (a spell, a scroll, a potion, an item or a long action): it is lost, and the round's outcomes say why. A hit or a failed save already spoils a spell or scroll by itself; use this for what the rules leave to you (a potion knocked away, a caster grappled, a long action stopped). Refused when the combatant has nothing under way: combat_status shows each one's ongoing action.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "interrupt",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "combatant": {
+     "description": "A combatant by id (chr_…, mon_1) or exact name ('Goblin 2').",
+     "type": "string"
+    },
+    "reason": {
+     "description": "Why it breaks, as the table sees it: 'Mirela was hit', 'the potion is knocked from her hand'.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "combatant",
+    "reason"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "The live fight: the round, how its initiative is rolled (mode), the initiative order, and each combatant's hit points, AC, conditions, effects and ongoing action (what, when it started and completes, and whether it is under way, completed or interrupted).",
+  "dm_only_keys": [],
+  "mutates": false,
+  "name": "combat_status",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {},
+   "required": [],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters",
+   "combat"
+  ],
+  "description": "End the fight: each character's hit points, conditions and effects are written back, the tokens leave the map, and the defeated groups are listed for XP and treasure.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "end_combat",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {},
+   "required": [],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "map_state"
+  ],
+  "description": "Move the party, or some of its characters, into a room: adjacent or not (a chute is a move too). The map state is updated here, so they discover the room and its visible doors. Returns the room as they perceive it, what only you know (dm_only), your notes on the room, and where every group now is. Narrate from perceived only.",
+  "dm_only_keys": [
+   "room_notes"
+  ],
+  "mutates": true,
+  "name": "move_party",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "characters": {
+     "description": "Who: names or ids. The whole party when not given; name some to split the party.",
+     "items": {
+      "type": "string"
+     },
+     "type": "array"
+    },
+    "map": {
+     "description": "Another map of the module to go to; the map they are on when empty.",
+     "type": "string"
+    },
+    "to": {
+     "description": "The room: its id (room.entry_hall), bare name (entry_hall) or label (Entry Hall).",
+     "type": "string"
+    }
+   },
+   "required": [
+    "to"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "A room of the characters' map as they know it, read-only: the one they are in, or any by name, for \"what's through that door\" or the room again after a break. Undiscovered rooms have nothing perceived.",
+  "dm_only_keys": [
+   "room_notes"
+  ],
+  "mutates": false,
+  "name": "room",
+  "player_visible": false,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "characters": {
+     "description": "Who: names or ids. The whole party when not given; name some to split the party.",
+     "items": {
+      "type": "string"
+     },
+     "type": "array"
+    },
+    "query": {
+     "description": "A room by id, bare name or label; the characters' room when empty.",
+     "type": "string"
+    }
+   },
+   "required": [],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "map_state"
+  ],
+  "description": "Record a door opened, forced, locked or barred (the world's state, for everyone), a secret door found, or a secret exit or feature found (a trapdoor, a hidden way to another map), revealed on the players' map.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "door",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "door": {
+     "description": "The door's key from a room's exits ('15,10'), or the room it leads to from the party's room; with found, also a secret exit's or feature's key from a room's dm_only secrets.",
+     "type": "string"
+    },
+    "found": {
+     "description": "A secret door found: it becomes known to the characters at it. A secret exit or feature found: it is revealed on the players' map.",
+     "type": "boolean"
+    },
+    "state": {
+     "description": "What happened to it: open, closed, locked, barred, forced, broken.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "door"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [],
+  "description": "Remember what the party changed in a room. A DM-only note, returned by move_party and room every time.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "note_room",
+  "player_visible": false,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "query": {
+     "description": "Another room than the party's.",
+     "type": "string"
+    },
+    "text": {
+     "description": "What the party changed: cleared it, left the horse, barricaded a door, looted the chest.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "text"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "Search the text of the module this campaign plays: room keys, overviews, NPCs, wandering-monster tables. Each result is a paragraph with its section's anchor and heading path. DM-only: never read it out; narrate what the characters perceive in your own words. move_party and room already carry each room's boxed text and DM notes from the map, and module_key gives a room's keyed text; reach for this for what they don't hold.",
+  "dm_only_keys": [],
+  "mutates": false,
+  "name": "module_lookup",
+  "player_visible": false,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "limit": {
+     "description": "How many results; 5 by default.",
+     "maximum": 20,
+     "minimum": 1,
+     "type": "integer"
+    },
+    "query": {
+     "description": "Words to find, e.g. \"fire beetles\", \"the ritual\".",
+     "type": "string"
+    },
+    "section": {
+     "description": "Only results whose heading path contains this, e.g. \"C2\", \"Level Two\", \"Room Key\".",
+     "type": "string"
+    }
+   },
+   "required": [
+    "query"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "A keyed room of the module, by its key or as move_party names rooms: its read-aloud text (the boxed text, for the players, which read_aloud tells them), its DM text (never read it aloud), the NPCs there and its encounters, with their stats: `encounters` is every encounter keyed to the room, its main one (`encounter`) first. A key two parts of the module share (the house's 7 and the ship's 7) takes `part`, or the key as written (`sea-ghost-7`).",
+  "dm_only_keys": [],
+  "mutates": false,
+  "name": "module_key",
+  "player_visible": false,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "part": {
+     "description": "The part of the module the key is in, for a key two parts share: its name as module_key gives it (haunted-house), its text id or one word of its title (\"ship\").",
+     "type": "string"
+    },
+    "room": {
+     "description": "The room: its key (C2), its id (room.throne_chamber), bare name (throne_chamber) or label (Throne Room).",
+     "type": "string"
+    }
+   },
+   "required": [
+    "room"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "The module's pregenerated characters, as the book prints them: each pregen's id, name, audience (player, or gm for one the DM keeps back), the sheet it makes and its gear. When the players ask for the party from the pregens, call create_character with each chosen pregen's name and its sheet as given, the book's race and class included, then add_item for each line of its gear. Never tell the players about a pregen they didn't choose.",
+  "dm_only_keys": [],
+  "mutates": false,
+  "name": "module_pregens",
+  "player_visible": false,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {},
+   "required": [],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [],
+  "description": "Show the players one of the module's player images (session_primer lists them in module.images, each with a description of what it shows and when it fits), in the story after your narration. Show it when the characters see what it shows, once, at that moment. DM-only images and PDFs can't be shown: never describe what a DM-only image shows.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "show_image",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "asset": {
+     "description": "The image's id, as session_primer's module.images lists them.",
+     "type": "string"
+    },
+    "caption": {
+     "description": "A line under the image, in the characters' words; none by default.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "asset"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters"
+  ],
+  "description": "Give a character a portrait, or a possession (a mount, a ship, a house) its picture, for the party sidebar and the sheets. A character's portrait is free and instant (portraitgen) unless another painter is chosen for portraits, and either it is free or the host turned paid images on; then it is painted in the background and this answers at once with its image_id. A possession's picture needs paid images, unless its painter is free. Describe only what anyone looking at it would see.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "portrait",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "description": {
+     "description": "What it looks like, in plain words (\"a stout old male dwarf with a braided red beard\"); by default, from the sheet: gender, race and class.",
+     "type": "string"
+    },
+    "of": {
+     "description": "The character or possession, by id or exact name.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "of"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [],
+  "description": "Paint a scene: a picture of a moment worth keeping (a vista, a first sight of the dragon), shown in the story when it is done, after a while. It needs paid images, which the host turns on; it costs money, so paint rarely: at most two a beat, and the campaign has a limit for a day. Refused, tell the scene in words and go on. It answers at once with its image_id: go on narrating, never wait for it. With characters, only their players see it.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "paint_scene",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "brief": {
+     "description": "The painter's brief: one paragraph of 60 to 120 words of what the picture shows (subjects, action, setting, light, mood), with nothing the characters don't see.",
+     "minLength": 1,
+     "type": "string"
+    },
+    "caption": {
+     "description": "A line under the picture, in the characters' words; none by default.",
+     "type": "string"
+    },
+    "characters": {
+     "description": "The player characters who see it, by id or exact name; everyone by default.",
+     "items": {
+      "type": "string"
+     },
+     "type": "array"
+    }
+   },
+   "required": [
+    "brief"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "Tell some player characters what only they perceive: a private vision, what one character alone overhears, a split group's scene. Only the players of those characters read it, in the story after your narration so far; the others never learn it was said. Your reply's text is what every character at the table perceives, so never put there what you tell, and never tell everyone's characters: say it in the reply.",
+  "dm_only_keys": [],
+  "mutates": false,
+  "name": "tell",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "characters": {
+     "description": "The player characters who perceive it, by id or exact name.",
+     "items": {
+      "type": "string"
+     },
+     "minItems": 1,
+     "type": "array"
+    },
+    "text": {
+     "description": "What they alone perceive, narrated to them as you narrate a reply.",
+     "minLength": 1,
+     "type": "string"
+    }
+   },
+   "required": [
+    "characters",
+    "text"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "Give one quoted line of an NPC, with the mood it carries: it appears in the story after your narration so far, as its own entry beside the NPC's portrait, which talks and then shows the mood. Every character at the table hears it. One line per call; narration stays in your reply, a keyed room's read-aloud goes with read_aloud, and a line only some characters hear is `tell`'s. A player character speaks for itself, unless it is yours this beat: its player names it in their act and leaves its words to you, or the beat's fallback has you play it in character. An NPC without a portrait gets one the first time it speaks: portraitgen's, unless Preferences give NPCs no portrait.",
+  "dm_only_keys": [],
+  "mutates": false,
+  "name": "say",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "mood": {
+     "description": "The mood the line carries, one of: neutral, smile, laugh, wink, sneer, angry, afraid, upset, surprised, sigh, thinking, shout, cry, disgusted, nod, shake. Anything else is neutral.",
+     "type": "string"
+    },
+    "npc": {
+     "description": "The NPC who speaks, by id or exact name.",
+     "type": "string"
+    },
+    "text": {
+     "description": "The line, the NPC's own words, without quotes or narration.",
+     "minLength": 1,
+     "type": "string"
+    }
+   },
+   "required": [
+    "npc",
+    "text"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [],
+  "description": "Tell a keyed room's read-aloud text (its boxed text) to the players when play reaches it: it appears in the story word for word after your narration so far, songs, verse and inscriptions as written, and each quote that is a sentence of its own as the `speaker`'s say line, in the passage's order. Don't tell it again in your reply: go on from where it ends. Only the read-aloud reaches the players, never the key's DM text; the same passage again in this beat tells nothing.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "read_aloud",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "part": {
+     "description": "The part of the module the key is in, for a key two parts share, as module_key takes it.",
+     "type": "string"
+    },
+    "room": {
+     "description": "The keyed room, as module_key takes it: its key (C2), id, bare name or label.",
+     "type": "string"
+    },
+    "speaker": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "items": {
+        "type": "string"
+       },
+       "type": "array"
+      }
+     ],
+     "description": "Who speaks the passage's quotes, an NPC by id or exact name as say takes it (introduce_npc first); for several speakers, a list, one for each quoted line in order. Give it whenever the passage has quotes: left out, they stay in the narration, with no voice."
+    }
+   },
+   "required": [
+    "room"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [],
+  "description": "Record a hidden, DM-only note: a motive, a plan, foreshadowing. Never narrated; find it again with dm_secrets.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "dm_note",
+  "player_visible": false,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "related_to": {
+     "description": "The NPC, place or quest it concerns.",
+     "type": "string"
+    },
+    "tags": {
+     "description": "Free-form: motive, rumour, foreshadow, plot.",
+     "items": {
+      "type": "string"
+     },
+     "type": "array"
+    },
+    "text": {
+     "description": "The note.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "text"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "Your hidden notes, filtered by tag, subject or text (every one without filters).",
+  "dm_only_keys": [],
+  "mutates": false,
+  "name": "dm_secrets",
+  "player_visible": false,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "contains": {
+     "description": "Part of its text.",
+     "type": "string"
+    },
+    "related_to": {
+     "description": "Whom or what it concerns.",
+     "type": "string"
+    },
+    "tag": {
+     "description": "Part of a tag.",
+     "type": "string"
+    }
+   },
+   "required": [],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [],
+  "description": "Edit a hidden note, or mark it revealed once the players learn it. Only the fields given change.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "dm_secret_update",
+  "player_visible": false,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "related_to": {
+     "description": "Whom or what it concerns now.",
+     "type": "string"
+    },
+    "revealed": {
+     "description": "True when the players have learned it: it becomes a public event.",
+     "type": "boolean"
+    },
+    "secret_id": {
+     "description": "The note's id, from dm_secrets.",
+     "type": "string"
+    },
+    "tags": {
+     "description": "Its new tags.",
+     "items": {
+      "type": "string"
+     },
+     "type": "array"
+    },
+    "text": {
+     "description": "Its new text.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "secret_id"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [],
+  "description": "A public line of the session's chronicle: what happened, as the players know it.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "log_note",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "text": {
+     "description": "The line.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "text"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "state"
+  ],
+  "description": "Start a session of play: the campaign's first, or the next.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "new_session",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "title": {
+     "description": "The session's title.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "title"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "What the session recorded, oldest first, one line each: log notes, facts, quests, people met, fights and deaths, XP, treasure, coin and what changed hands, rulings, journeys and days. Read it before end_session, and write the recap from it: the whole session, not only its last scenes.",
+  "dm_only_keys": [],
+  "mutates": false,
+  "name": "session_summary",
+  "player_visible": false,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "session": {
+     "description": "The session's number; the current one when left out.",
+     "minimum": 1,
+     "type": "integer"
+    }
+   },
+   "required": [],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "state"
+  ],
+  "description": "End the session with its recap: what happened in the whole session (session_summary has it), for the next session's primer.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "end_session",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "recap": {
+     "description": "The session's recap, in Markdown: the whole session, from session_summary.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "recap"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "world"
+  ],
+  "description": "Move the clock on, into the next day past midnight. Long rests are rest, which heals.",
+  "dm_only_keys": [
+   "clocks"
+  ],
+  "mutates": true,
+  "name": "advance_time",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "minutes": {
+     "description": "Minutes: a search is 10 (a turn), a short rest 30.",
+     "maximum": 5256000,
+     "minimum": 0,
+     "type": "integer"
+    }
+   },
+   "required": [
+    "minutes"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "world"
+  ],
+  "description": "Set the clock without changing the day, for narrative jumps: 'they wake at dawn' is set_time(6).",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "set_time",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "hour": {
+     "description": "0-23.",
+     "maximum": 23,
+     "minimum": 0,
+     "type": "integer"
+    },
+    "minute": {
+     "description": "0-59.",
+     "maximum": 59,
+     "minimum": 0,
+     "type": "integer"
+    }
+   },
+   "required": [
+    "hour"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "world"
+  ],
+  "description": "Let whole days pass, keeping the time of day, as every new day does: the clocks tick and the weather turns. For hours use advance_time; a journey is travel, a party's rest is rest.",
+  "dm_only_keys": [
+   "clocks"
+  ],
+  "mutates": true,
+  "name": "advance_days",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "days": {
+     "description": "Whole days, at least 1.",
+     "maximum": 3650,
+     "minimum": 1,
+     "type": "integer"
+    },
+    "reason": {
+     "description": "Why they pass: waiting for the caravan, a week of study.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "days"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "world"
+  ],
+  "description": "Today's weather in a terrain (the last one asked, else wilderness), rolled once a day and terrain and kept for the day, on the date's season. Apply its effect to missile fire, travel pace and encounter checks; pace is the multiplier on a day's travel (0: the day is lost).",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "weather_check",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "terrain": {
+     "description": "dungeon, wilderness, road, urban, forest, hills, plains, mountain, swamp, desert…",
+     "type": "string"
+    }
+   },
+   "required": [],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "Today's date on the setting's calendar, its season, whether it is a festival, and the campaign day. The date is derived from the day: days pass with advance_time, advance_days, rest and travel.",
+  "dm_only_keys": [],
+  "mutates": false,
+  "name": "calendar",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {},
+   "required": [],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "What you need to pick the session up, in one call: the day, date and time, today's weather, the session and the last recap, the party (hit points, AC, THAC0, attacks, levels, conditions, spells, inventory, encumbrance), the marching order, where each group is, the last 8 events, the live fight, the module this campaign plays (title, opening, the headings of its text, and each map with the room where the party starts), and `history`: where a party carried on from an earlier campaign has been, or null.",
+  "dm_only_keys": [],
+  "mutates": false,
+  "name": "session_primer",
+  "player_visible": false,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {},
+   "required": [],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "world"
+  ],
+  "description": "Put the party at a place of a world map, without travelling: the start of a campaign, a teleport, a ship's landfall. The whole party shares one place on the world map.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "place_party",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "at": {
+     "description": "A place on the map, by name or label, or 'x,y'.",
+     "type": "string"
+    },
+    "map": {
+     "description": "The world map, by name; empty for the one the party is on.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "at"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "The distance between two places of a world map, in km and miles: the straight line, or with a mode the length of the route it would take (route gives its days and slowest stretches).",
+  "dm_only_keys": [],
+  "mutates": false,
+  "name": "distance",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "a": {
+     "description": "A place, by id or name, or 'x,y' in km.",
+     "type": "string"
+    },
+    "b": {
+     "description": "Another place.",
+     "type": "string"
+    },
+    "map": {
+     "description": "The world map, by name; empty for the one the party is on.",
+     "type": "string"
+    },
+    "mode": {
+     "description": "A mode, for the length of its route; empty for the straight line.",
+     "enum": [
+      "",
+      "foot",
+      "horse",
+      "cart",
+      "river",
+      "ship"
+     ],
+     "type": "string"
+    }
+   },
+   "required": [
+    "a",
+    "b"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "The places of a kind nearest the party, as the crow flies, but the one it is at. A place the players don't see yet is marked hidden.",
+  "dm_only_keys": [],
+  "mutates": false,
+  "name": "nearest",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "kind": {
+     "description": "What kind of place to look for.",
+     "enum": [
+      "city",
+      "town",
+      "village",
+      "castle",
+      "ruin",
+      "dungeon",
+      "port",
+      "other"
+     ],
+     "type": "string"
+    },
+    "map": {
+     "description": "The world map, by name; empty for the one the party is on.",
+     "type": "string"
+    },
+    "n": {
+     "description": "How many.",
+     "maximum": 20,
+     "minimum": 1,
+     "type": "integer"
+    }
+   },
+   "required": [],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "A world map of the campaign: its features, each marked hidden (yours until reveal_place) and known (on the players' map), and where the party is; or one feature with its description and its dm_notes, which are yours.",
+  "dm_only_keys": [],
+  "mutates": false,
+  "name": "world_map",
+  "player_visible": false,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "feature": {
+     "description": "One feature, by id or name: its description and your notes.",
+     "type": "string"
+    },
+    "name": {
+     "description": "The world map, by name; empty for the one the party is on.",
+     "type": "string"
+    }
+   },
+   "required": [],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "world"
+  ],
+  "description": "The party learns of a feature, wherever it lies: a hidden place, a road on a map they bought, a region whose land they now know. From now on their world map shows it.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "reveal_place",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "feature": {
+     "description": "Any feature, by id or name: a place, a road, a river, or a region (its land becomes known).",
+     "type": "string"
+    },
+    "map": {
+     "description": "The world map, by name; empty for the one the party is on.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "feature"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "world"
+  ],
+  "description": "The party forgets a place or a road: their world map no longer shows it, even where they know the land, until reveal_place.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "hide_place",
+  "player_visible": false,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "feature": {
+     "description": "A place or a road, by id or name.",
+     "type": "string"
+    },
+    "map": {
+     "description": "The world map, by name; empty for the one the party is on.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "feature"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "world"
+  ],
+  "description": "The party learns the land around a place (a map bought in a city, a rumour heard, a view from a tower): the places printed there come into sight, but never a hidden one. With forget, the area goes back into the fog. Travel reveals the land along the way by itself.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "reveal_area",
+  "player_visible": false,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "at": {
+     "description": "The middle of the area: a place, by id or name, or 'x,y' in km from the map's top left.",
+     "type": "string"
+    },
+    "forget": {
+     "description": "Hide the area instead: the party forgets it, or it was never theirs to know.",
+     "type": "boolean"
+    },
+    "map": {
+     "description": "The world map, by name; empty for the one the party is on.",
+     "type": "string"
+    },
+    "radius_km": {
+     "description": "How far around it, in km.",
+     "exclusiveMinimum": 0,
+     "maximum": 1000,
+     "type": "number"
+    }
+   },
+   "required": [
+    "at"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "world"
+  ],
+  "description": "Add a place the campaign needs to its world map: a village you make up, a ruin. It shows on the players' map where they know the land; make it hidden when the party shouldn't know of it yet.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "add_place",
+  "player_visible": false,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "at": {
+     "description": "Where: a place, by id or name, or 'x,y' in km from the map's top left.",
+     "type": "string"
+    },
+    "description": {
+     "description": "What the characters may learn of it.",
+     "type": "string"
+    },
+    "hidden": {
+     "description": "Keep it off the players' map until reveal_place.",
+     "type": "boolean"
+    },
+    "kind": {
+     "description": "What it is.",
+     "enum": [
+      "city",
+      "town",
+      "village",
+      "castle",
+      "ruin",
+      "dungeon",
+      "port",
+      "other"
+     ],
+     "type": "string"
+    },
+    "map": {
+     "description": "The world map, by name; empty for the one the party is on.",
+     "type": "string"
+    },
+    "name": {
+     "description": "The place's name.",
+     "type": "string"
+    },
+    "notes": {
+     "description": "Yours alone: the players never see them.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "name",
+    "kind",
+    "at"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters",
+   "world"
+  ],
+  "description": "One leg of a journey, by one mode: from the party's place to another by the cheapest route the mode allows (the roads on land, the rivers by river boat, the sea by ship), a day at a time. Each day the clocks tick and the date moves, the weather is rolled, the party covers the mode's miles × the terrain × the weather's pace, the land in sight becomes known, and one encounter is checked. Chain legs for a journey of several modes: ride to the port, then sail. An encounter stops the leg partway: narrate it, then go on with travel() and no destination. When a house rule changes a speed, pass its miles_per_day. Over 60 days, travel in legs. Answers each day's date, terrain, weather, miles and encounter, where the party is, the places that came into sight, the journey left, and the clocks that came due.",
+  "dm_only_keys": [
+   "clocks"
+  ],
+  "mutates": true,
+  "name": "travel",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "by": {
+     "description": "The possessions they travel on, by id or exact name: mounts (for their owners), a vehicle, a boat or a ship (its stats' mph sets its speed).",
+     "items": {
+      "type": "string"
+     },
+     "type": "array"
+    },
+    "forced_march": {
+     "description": "Push on: 1.5 × the miles, on land; call for the Constitution checks yourself.",
+     "type": "boolean"
+    },
+    "miles_per_day": {
+     "description": "A house rule's pace in miles a day, instead of the table's; 0 for the table's. The terrain, the roads and the weather still apply.",
+     "maximum": 1000,
+     "minimum": 0,
+     "type": "number"
+    },
+    "mode": {
+     "description": "How: foot, horse (on horseback), cart, river (by river boat, along the rivers and lakes) or ship (over the sea and the large lakes; the mode alone hires passage).",
+     "enum": [
+      "foot",
+      "horse",
+      "cart",
+      "river",
+      "ship"
+     ],
+     "type": "string"
+    },
+    "terrain": {
+     "description": "The terrain for the weather and the encounters of every day: road, plains, wilderness, urban, forest, hills, desert, arctic, swamp, jungle, mountain or ocean (by boat only). Empty: the map's under each day's start.",
+     "type": "string"
+    },
+    "to": {
+     "description": "Where to: a place on the party's world map, by id or name, or 'x,y' in km. Empty: on with the journey under way.",
+     "type": "string"
+    }
+   },
+   "required": [],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "The way one leg would take from the party's place, without travelling: its km and miles, the days at a clear day's pace, and its slowest stretches. Compare modes before you choose; a mode that can't get there is refused with the reason (an island on foot, an inland town by ship).",
+  "dm_only_keys": [],
+  "mutates": false,
+  "name": "route",
+  "player_visible": false,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "by": {
+     "description": "The possessions they travel on, by id or exact name: mounts (for their owners), a vehicle, a boat or a ship (its stats' mph sets its speed).",
+     "items": {
+      "type": "string"
+     },
+     "type": "array"
+    },
+    "miles_per_day": {
+     "description": "A house rule's pace in miles a day, instead of the table's; 0 for the table's. The terrain, the roads and the weather still apply.",
+     "maximum": 1000,
+     "minimum": 0,
+     "type": "number"
+    },
+    "mode": {
+     "description": "How: foot, horse (on horseback), cart, river (by river boat, along the rivers and lakes) or ship (over the sea and the large lakes; the mode alone hires passage).",
+     "enum": [
+      "foot",
+      "horse",
+      "cart",
+      "river",
+      "ship"
+     ],
+     "type": "string"
+    },
+    "to": {
+     "description": "Where to: a place, by id or name, or 'x,y' in km.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "to"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "The campaign's factions: alignment, goals, scope, whether the party knows of them, strength (0-100), the party's reputation (-100 to 100) and its standing word, and your notes.",
+  "dm_only_keys": [],
+  "mutates": false,
+  "name": "factions",
+  "player_visible": false,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "known_only": {
+     "description": "Only the factions the party knows of.",
+     "type": "boolean"
+    }
+   },
+   "required": [],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "world"
+  ],
+  "description": "Make a faction (an organisation, cult, guild, noble house, monster tribe) or change one: only the fields given change. The reputation clamps at -100 to 100; it adds reputation / 25 to the reaction of an NPC of the faction (±4 at the ends).",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "update_faction",
+  "player_visible": false,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "alignment": {
+     "description": "LE, CN, NG…",
+     "type": "string"
+    },
+    "goals": {
+     "description": "What they're after, in a line.",
+     "type": "string"
+    },
+    "id": {
+     "description": "The faction's id or exact name; a new id with a name makes the faction.",
+     "type": "string"
+    },
+    "known": {
+     "description": "True once the party has heard of them in the fiction.",
+     "type": "boolean"
+    },
+    "name": {
+     "description": "Its name.",
+     "type": "string"
+    },
+    "notes": {
+     "description": "Your notes on them, in Markdown: they replace the old ones.",
+     "type": "string"
+    },
+    "reason": {
+     "description": "Why the reputation changes, for the log.",
+     "type": "string"
+    },
+    "reputation_change": {
+     "description": "The change in the party's standing: +5 routine help, +10 a gift or public favour, +20 a significant favour, +40 saved their leader; -5 a slight, -10 a broken promise, -20 worked against them, -40 killed a member, -80 ruined them.",
+     "type": "integer"
+    },
+    "scope": {
+     "description": "local, regional or continental: it should match the stakes.",
+     "type": "string"
+    },
+    "strength": {
+     "description": "0-100, % of its original capacity.",
+     "maximum": 100,
+     "minimum": 0,
+     "type": "integer"
+    }
+   },
+   "required": [
+    "id"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "world"
+  ],
+  "description": "A clock: give days for 'X happens in N days unless…' (a ritual, a siege, a ransom deadline), which counts down as days pass, or segments for progress you move yourself. Exactly one of the two. A completed clock comes back with its on_complete from the call that completed it; nothing fires by itself.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "add_clock",
+  "player_visible": false,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "days": {
+     "description": "A countdown: the days until it happens. It ticks as days pass.",
+     "minimum": 1,
+     "type": "integer"
+    },
+    "faction": {
+     "description": "The faction behind it, by id or exact name.",
+     "type": "string"
+    },
+    "label": {
+     "description": "What happens: 'the cult finishes the ritual'.",
+     "type": "string"
+    },
+    "on_complete": {
+     "description": "What happens when it completes, to remind you.",
+     "type": "string"
+    },
+    "segments": {
+     "description": "A progress clock: its segments, which you fill with advance_clock.",
+     "minimum": 1,
+     "type": "integer"
+    }
+   },
+   "required": [
+    "label"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "world"
+  ],
+  "description": "Fill a progress clock's segments. When it is full it completes, and its on_complete comes back. Countdowns tick with the days instead.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "advance_clock",
+  "player_visible": false,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "id": {
+     "description": "The clock's id, from clocks.",
+     "type": "integer"
+    },
+    "segments": {
+     "description": "Segments to fill; negative to empty them (a setback).",
+     "type": "integer"
+    }
+   },
+   "required": [
+    "id"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "world"
+  ],
+  "description": "Remove a clock: the party stopped the threat, or it became moot.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "remove_clock",
+  "player_visible": false,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "id": {
+     "description": "The clock's id, from clocks.",
+     "type": "integer"
+    }
+   },
+   "required": [
+    "id"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "The running clocks, the countdowns with the fewest days left first, then the progress clocks; and the completed ones. Every new day, from advance_time, advance_days, rest or travel, returns the countdowns that completed and those within a week.",
+  "dm_only_keys": [],
+  "mutates": false,
+  "name": "clocks",
+  "player_visible": false,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {},
+   "required": [],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "world"
+  ],
+  "description": "A quest the party takes up: active and known from today. Its scope should match the party's level: local for levels 1-3, regional from 4, continental from 8; a mismatch comes back as a warning. The module's quests are already there (available, not yet known): take those up with update_quest.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "add_quest",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "giver": {
+     "description": "Who gave it, or empty for one the party found.",
+     "type": "string"
+    },
+    "id": {
+     "description": "Its id: 'rescue-old-henrik'.",
+     "type": "string"
+    },
+    "related": {
+     "description": "What it concerns, as refs: npc:miller, faction:cult, a place.",
+     "items": {
+      "type": "string"
+     },
+     "type": "array"
+    },
+    "scope": {
+     "description": "local, regional or continental.",
+     "enum": [
+      "local",
+      "regional",
+      "continental"
+     ],
+     "type": "string"
+    },
+    "stakes": {
+     "description": "What happens if the party fails or ignores it, in a line.",
+     "type": "string"
+    },
+    "title": {
+     "description": "Its title.",
+     "type": "string"
+    }
+   },
+   "required": [
+    "id",
+    "title"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "world"
+  ],
+  "description": "Change a quest's status or add a note to its log. Active makes it known to the characters; complete and failed end it today. The players see known quests and their known notes.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "update_quest",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "id": {
+     "description": "The quest's id or exact title.",
+     "type": "string"
+    },
+    "known": {
+     "description": "Whether the characters know of it.",
+     "type": "boolean"
+    },
+    "note": {
+     "description": "A line for its log: progress, an outcome, a reason it failed.",
+     "type": "string"
+    },
+    "note_known": {
+     "description": "False for a note the characters don't know.",
+     "type": "boolean"
+    },
+    "status": {
+     "description": "available, active, paused, complete or failed.",
+     "enum": [
+      "available",
+      "active",
+      "paused",
+      "complete",
+      "failed"
+     ],
+     "type": "string"
+    }
+   },
+   "required": [
+    "id"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "The campaign's quests (or those of one status) with their log and your notes, each open one with a warning when its scope is above the party's level, and the party's average level.",
+  "dm_only_keys": [],
+  "mutates": false,
+  "name": "quests",
+  "player_visible": false,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "status": {
+     "description": "Only those of one status.",
+     "enum": [
+      "",
+      "available",
+      "active",
+      "paused",
+      "complete",
+      "failed"
+     ],
+     "type": "string"
+    }
+   },
+   "required": [],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "The campaign's house rules: those of a phase (character-creation, level-up, combat, items, behaviour, always), or those always in force. They override the book.",
+  "dm_only_keys": [],
+  "mutates": false,
+  "name": "house_rules",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "phase": {
+     "description": "When they apply; without a phase, the ones always in force and those of the party's races and classes.",
+     "enum": [
+      "character-creation",
+      "level-up",
+      "combat",
+      "items",
+      "behaviour",
+      "always"
+     ],
+     "type": "string"
+    },
+    "query": {
+     "description": "Part of a rule's title, subject or text.",
+     "type": "string"
+    }
+   },
+   "required": [],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [],
+  "description": "A magic-item merchant's shelf: what is for sale, and at what price. A house rule: the rulebooks have no magic shops. The first call for a merchant rolls the stock and keeps it; later calls answer the same shelf until restock=true, and the items bought with buy_magic_item leave it. The shelf is for you only: describe what the characters see on it. Each item's price_source says where its list value came from. Haggling is a reaction roll; the agreed figure goes to buy_magic_item(price_gp=).",
+  "dm_only_keys": [
+   "items",
+   "sold"
+  ],
+  "mutates": true,
+  "name": "magic_merchant",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "cost": {
+     "description": "cheap (x1 list value) | moderate (x2) | expensive (x3.5) | very_expensive (x5).",
+     "enum": [
+      "cheap",
+      "moderate",
+      "expensive",
+      "very_expensive"
+     ],
+     "type": "string"
+    },
+    "merchant": {
+     "description": "The merchant's slug, such as 'ostler'; its shelf is kept under it.",
+     "type": "string"
+    },
+    "name": {
+     "description": "The shop's or dealer's name, as the characters know it.",
+     "type": "string"
+    },
+    "npc": {
+     "description": "The NPC who keeps the shop, by id or exact name.",
+     "type": "string"
+    },
+    "restock": {
+     "description": "Roll a new shelf; what was sold stays sold.",
+     "type": "boolean"
+    },
+    "settlement": {
+     "description": "hamlet | village | town | city | capital | pedlar (a travelling dealer: 1d4+2 items, no rare ones). Sets how many items are for sale and how rare they can be.",
+     "enum": [
+      "hamlet",
+      "village",
+      "town",
+      "city",
+      "capital",
+      "pedlar"
+     ],
+     "type": "string"
+    }
+   },
+   "required": [
+    "merchant"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters"
+  ],
+  "description": "Buy one item off a merchant's shelf (see magic_merchant), paid from the party's coin: gold first, and a larger coin broken for change. Refused when the party can't cover the price. The item goes into the character's inventory, with its notes, and off the shelf.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "buy_magic_item",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "character": {
+     "description": "Who takes it, by id or exact name; it goes into their inventory.",
+     "type": "string"
+    },
+    "item": {
+     "description": "The shelf's index of the item, or its exact name.",
+     "type": "string"
+    },
+    "merchant": {
+     "description": "The merchant's slug, as magic_merchant was called.",
+     "type": "string"
+    },
+    "price_gp": {
+     "description": "The haggled price in gp; the listed one by default.",
+     "minimum": 0,
+     "type": "number"
+    }
+   },
+   "required": [
+    "merchant",
+    "item",
+    "character"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": null,
+  "description": "Run several tool calls in one round trip, strictly in order, each step as its own call: steps [{\"tool\": \"advance_time\", \"args\": {\"minutes\": 10}}, {\"tool\": \"encounter_check\", \"args\": {\"terrain\": \"dungeon\"}}]. Use it when every step's arguments are known up front; when a later call needs an earlier result (damage after an attack), use the purpose-built composite instead (resolve_attack, combat_round, setup_combat, scout, council). With stop_on_error (the default) it halts at the first failing step and reports what ran. Not for batch itself. At most 25 steps.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "batch",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "steps": {
+     "description": "The calls, in order: [{\"tool\": \"advance_time\", \"args\": {\"minutes\": 10}}, …]. At most 25.",
+     "type": "array"
+    },
+    "stop_on_error": {
+     "description": "Stop at the first failing step (default true); false runs the rest regardless.",
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "steps"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [
+   "characters",
+   "world"
+  ],
+  "description": "Resolve a scouting move in one call: each named skill check, then the encounter check for the time spent, then the clock. checks are the character's skills, partly matched (default move silently, hide in shadows, detect noise); pass an explicit list to match the fiction. Rolls happen before you narrate, in this order; a failed stealth check is a failed approach. A check the character doesn't have is reported, never substituted. Its dice are secret by default: the players don't see them (DEL-273).",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "scout",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "character": {
+     "description": "The scout, a PC or NPC.",
+     "type": "string"
+    },
+    "checks": {
+     "description": "Skills to roll; default [\"move silently\", \"hide in shadows\", \"detect noise\"].",
+     "items": {
+      "type": "string"
+     },
+     "type": "array"
+    },
+    "minutes": {
+     "description": "The time the move takes (default 10, the dungeon turn).",
+     "minimum": 0,
+     "type": "integer"
+    },
+    "secret": {
+     "description": "Whether the checks' dice are kept from the players (default true: a scout can't know whether they were seen or heard). False for checks the character would know, such as climbing.",
+     "type": "boolean"
+    },
+    "terrain": {
+     "description": "dungeon, wilderness, road or urban, for the encounter check (default dungeon).",
+     "type": "string"
+    }
+   },
+   "required": [
+    "character"
+   ],
+   "type": "object"
+  }
+ },
+ {
+  "areas": [],
+  "description": "Roll a reaction for every NPC weighing in on a proposal: one call, one roll per NPC. Consensus is rolled, never assumed. Each NPC votes their own interest, so pass this proposal's modifier per NPC; their disposition is already folded in. interest is kept on the record, not used in the maths. If every roll comes back friendly, that is the dice talking.",
+  "dm_only_keys": [],
+  "mutates": true,
+  "name": "council",
+  "player_visible": true,
+  "schema": {
+   "additionalProperties": false,
+   "properties": {
+    "base_modifier": {
+     "description": "Added to every NPC's modifier: a persuasive speech, a shared threat.",
+     "type": "integer"
+    },
+    "npcs": {
+     "description": "The NPCs weighing in: [\"Tira\", \"Shalfey\"] or, better, [{\"npc\": \"Tira\", \"modifier\": -4, \"interest\": \"the relic leaves her temple\"}].",
+     "items": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "object"
+       }
+      ]
+     },
+     "type": "array"
+    }
+   },
+   "required": [
+    "npcs"
+   ],
+   "type": "object"
+  }
+ }
+]

@@ -25,8 +25,9 @@ export const getMonsterPicture = (name: string) =>
   apiFetch<MonsterPictureState>(`/api/monster-pictures?name=${encodeURIComponent(name)}`);
 
 /** Paint the kind (again), for everyone; `campaignId` is the table that asked, whose strip reads it again. */
-export const paintMonster = (name: string, campaignId?: string) =>
+/** Paint the kind; `rulesetId` is the book that asked, which the server refuses when it reuses pictures (DEL-384). */
+export const paintMonster = (name: string, campaignId?: string, rulesetId?: string) =>
   apiFetch<MonsterPictureState>("/api/monster-pictures", {
     method: "POST",
-    body: JSON.stringify({ name, campaign_id: campaignId ?? null }),
+    body: JSON.stringify({ name, campaign_id: campaignId ?? null, ...(rulesetId ? { ruleset: rulesetId } : {}) }),
   });

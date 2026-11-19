@@ -21,6 +21,8 @@ from delve.domain.campaigns import Campaign
 from delve.domain.reference import Entry, Facet
 from delve.play.context import NotFound
 from delve.play.rulebook import RulebookView, view_for
+from delve.rules.catalog import RulesetEntry
+from delve.rules.catalog import entry as ruleset_entry
 from delve.web.auth import Principal, current_principal
 from delve.web.seats import LEFT, NO_SEAT
 
@@ -128,11 +130,21 @@ def entry_json(entry: Entry) -> dict[str, Any]:
     }
 
 
+def _entry(request: Request, ruleset_id: str) -> RulesetEntry | None:
+    """The catalog's entry of the ruleset: whether it plays and how it takes pictures (DEL-384); None for the fake."""
+    return ruleset_entry(ruleset_id, request.app.state.registries.catalogs.rulesets)
+
+
+def _playable(request: Request, ruleset_id: str) -> bool:
+    found = _entry(request, ruleset_id)
+    return found is None or found.playable
+
+
 @router.get("/api/rulesets")
-def list_rulesets(request: Request, reader: RulesetReader) -> list[dict[str, str]]:
-    """The registered rulesets that have a book, in the registry's order."""
+def list_rulesets(request: Request, reader: RulesetReader) -> list[dict[str, Any]]:
+    """The registered rulesets that have a book, in the registry's order; `playable` false for a reference only."""
     return [
-        {"id": caps.id, "title": caps.title}
+        {"id": caps.id, "title": caps.title, "playable": _playable(request, caps.id)}
         for caps in request.app.state.registries.rulesets.capabilities()
         if _rulebook(request, caps.id) is not None
     ]
@@ -147,6 +159,8 @@ def get_ruleset(request: Request, reader: RulesetReader, ruleset_id: str) -> dic
         "sections": [{"key": s.key, "kind": s.kind, "count": s.count} for s in view.sections()],
         "campaign_id": reader.campaign.id if reader.campaign else None,
         "notice": request.app.state.registries.rulesets.get(ruleset_id).notice,
+        "playable": _playable(request, ruleset_id),
+        "monster_pictures": found.monster_pictures if (found := _entry(request, ruleset_id)) else "paint",
     }
 
 
