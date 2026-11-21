@@ -1,0 +1,7051 @@
+{
+ "answers": [
+  {
+   "answer": {
+    "id": "Dorna",
+    "kind": "pc",
+    "name": "Dorna",
+    "order": 1,
+    "sheet": {
+     "ability_scores": {
+      "cha": 12,
+      "con": 14,
+      "dex": 10,
+      "int": 10,
+      "str": 14,
+      "wis": 16
+     },
+     "ac": 10,
+     "ac_vs_larger": 0,
+     "alignment": "Lawful Good",
+     "attacks": [],
+     "background": "",
+     "cls": "Cleric",
+     "d20": {
+      "armor": "scale mail",
+      "derived": {
+       "ac": 16,
+       "acp": -6,
+       "bab": 4,
+       "casting": {
+        "cleric": {
+         "ability": "wis",
+         "caster_level": 6,
+         "dc": {
+          "0": 13,
+          "1": 14,
+          "2": 15,
+          "3": 16
+         },
+         "prepared": true,
+         "slots": {
+          "0": 5,
+          "1": 5,
+          "2": 5,
+          "3": 4
+         }
+        }
+       },
+       "dc": {
+        "0": 13,
+        "1": 14,
+        "2": 15,
+        "3": 16
+       },
+       "ecl": 6,
+       "features": [
+        {
+         "ability": "wis",
+         "class": "cleric",
+         "id": "casting",
+         "kind": "casting",
+         "name": "Spells",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "cleric",
+         "id": "proficiency",
+         "kind": "proficiency",
+         "name": "Weapon and armour proficiency",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "ability": "cha",
+         "class": "cleric",
+         "id": "turn-undead",
+         "kind": "uses",
+         "name": "Turn or rebuke undead",
+         "per_day": 4,
+         "value": 3
+        }
+       ],
+       "flat_footed": 16,
+       "fort": 7,
+       "init": 0,
+       "max_dex": 3,
+       "ref": 2,
+       "skill_notes": {},
+       "skills": {
+        "concentration": 11
+       },
+       "slots": {
+        "0": 5,
+        "1": 5,
+        "2": 5,
+        "3": 4
+       },
+       "sneak": "",
+       "speed": 20,
+       "spell_failure": 0,
+       "touch": 10,
+       "turning_per_day": 4,
+       "will": 8,
+       "xp_penalty": 0
+      },
+      "domains": [
+       "war",
+       "good"
+      ],
+      "feats": [
+       {
+        "id": "toughness"
+       },
+       {
+        "id": "combat-casting"
+       }
+      ],
+      "level_up": {
+       "class": "cleric",
+       "hints": [
+        "2 skill points",
+        "a feat"
+       ],
+       "hit_points": 5,
+       "level": 6
+      },
+      "shield": "shield, heavy steel",
+      "skills": {
+       "concentration": 9
+      },
+      "weapon": "warhammer"
+     },
+     "deity": "",
+     "disposition": 0,
+     "faction": "",
+     "gender": "",
+     "hp_max": 43,
+     "kind": "pc",
+     "label": "Dorna",
+     "levels": {
+      "cleric": 6
+     },
+     "movement_rate": 20,
+     "natural_abilities": [],
+     "notes_md": "",
+     "nwps": [],
+     "portrait": null,
+     "portrait_prompt": "",
+     "pronouns": "",
+     "race": "Dwarf",
+     "saves": {},
+     "size": "M",
+     "skills": {},
+     "spell_loadout": {
+      "default": {},
+      "known": {}
+     },
+     "spell_slots": {
+      "0": 5,
+      "1": 5,
+      "2": 5,
+      "3": 4
+     },
+     "thac0": 20,
+     "weapon": "",
+     "weapon_profs": []
+    },
+    "state": {
+     "conditions": [],
+     "effects": [],
+     "hp": 43,
+     "inventory": [],
+     "memorized": [],
+     "xp": 15000
+    }
+   },
+   "args": {
+    "patch": {
+     "alignment": "Lawful Good"
+    },
+    "reason": "a cleric of the Good domain",
+    "ref": "Dorna"
+   },
+   "tool": "update_character"
+  },
+  {
+   "answer": {
+    "by_level": {
+     "0": [
+      "Detect Magic",
+      "Light"
+     ],
+     "1": [
+      "Magic Missile",
+      "Magic Missile",
+      "Shield",
+      "Sleep"
+     ],
+     "2": [
+      "Web",
+      "Glitterdust",
+      "Invisibility",
+      "Mirror Image"
+     ],
+     "3": [
+      "Fireball",
+      "Lightning Bolt",
+      "Haste"
+     ]
+    },
+    "character_id": "Elowen",
+    "memorized": [
+     "Detect Magic",
+     "Light",
+     "Magic Missile",
+     "Magic Missile",
+     "Shield",
+     "Sleep",
+     "Web",
+     "Glitterdust",
+     "Invisibility",
+     "Mirror Image",
+     "Fireball",
+     "Lightning Bolt",
+     "Haste"
+    ],
+    "name": "Elowen"
+   },
+   "args": {
+    "character": "Elowen",
+    "spells": [
+     "Detect Magic",
+     "Light",
+     "Magic Missile",
+     "Magic Missile",
+     "Shield",
+     "Sleep",
+     "Web",
+     "Glitterdust",
+     "Invisibility",
+     "Mirror Image",
+     "Fireball",
+     "Lightning Bolt",
+     "Haste"
+    ]
+   },
+   "tool": "memorize_spells"
+  },
+  {
+   "answer": {
+    "by_level": {
+     "1": [
+      "Bless",
+      "Bless",
+      "Divine Favor",
+      "Magic Weapon"
+     ],
+     "2": [
+      "Hold Person",
+      "Aid",
+      "Bull’s Strength",
+      "Spiritual Weapon"
+     ],
+     "3": [
+      "Prayer",
+      "Dispel Magic",
+      "Searing Light",
+      "Magic Vestment"
+     ]
+    },
+    "character_id": "Dorna",
+    "memorized": [
+     "Bless",
+     "Bless",
+     "Divine Favor",
+     "Magic Weapon",
+     "Hold Person",
+     "Aid",
+     "Bull’s Strength",
+     "Spiritual Weapon",
+     "Prayer",
+     "Dispel Magic",
+     "Searing Light",
+     "Magic Vestment"
+    ],
+    "name": "Dorna"
+   },
+   "args": {
+    "character": "Dorna",
+    "spells": [
+     "Bless",
+     "Bless",
+     "Divine Favor",
+     "Magic Weapon",
+     "Hold Person",
+     "Aid",
+     "Bull's Strength",
+     "Spiritual Weapon",
+     "Prayer",
+     "Dispel Magic",
+     "Searing Light",
+     "Magic Vestment"
+    ]
+   },
+   "tool": "memorize_spells"
+  },
+  {
+   "answer": {
+    "combat": {
+     "combatants": [
+      {
+       "conditions": [],
+       "d20": {
+        "ac": 17,
+        "aoo": {
+         "round": 0,
+         "used": 0
+        },
+        "attacks": [
+         {
+          "bonus": 8,
+          "count": 1,
+          "damage": "1d4+1",
+          "hands": 1,
+          "mult": 2,
+          "name": "sword, short",
+          "ranged": false,
+          "threat": 19,
+          "touch": false
+         }
+        ],
+        "bab": 4,
+        "crit_immune": false,
+        "dex": 3,
+        "flat_footed": 17,
+        "init_bonus": 7,
+        "saves": {
+         "fort": 4,
+         "ref": 9,
+         "will": 3
+        },
+        "sneak": "3d6",
+        "sneak_level": 6,
+        "stance": {
+         "defensive": false,
+         "power_attack": 0
+        },
+        "touch": 15,
+        "type": "humanoid",
+        "uncanny_dodge": true
+       },
+       "damage_l": "1d4+1",
+       "damage_sm": "1d4+1",
+       "effects": [],
+       "hp": 25,
+       "hp_max": 25,
+       "id": "Pip",
+       "init": 25,
+       "name": "Pip",
+       "node": null,
+       "ongoing": null,
+       "side": "party",
+       "size": "S",
+       "status": "active",
+       "weapon": "sword, short"
+      },
+      {
+       "attacks_per_round": 2.0,
+       "attacks_remaining_this_round": 2,
+       "conditions": [],
+       "d20": {
+        "ac": 19,
+        "aoo": {
+         "round": 0,
+         "used": 0
+        },
+        "attacks": [
+         {
+          "bonus": 10,
+          "count": 2,
+          "damage": "1d8+5",
+          "hands": 1,
+          "iterative": true,
+          "mult": 2,
+          "name": "longsword",
+          "ranged": false,
+          "threat": 19,
+          "touch": false
+         }
+        ],
+        "bab": 6,
+        "cleave": "great cleave",
+        "crit_immune": false,
+        "dex": 1,
+        "flat_footed": 18,
+        "init_bonus": 5,
+        "saves": {
+         "fort": 9,
+         "ref": 3,
+         "will": 5
+        },
+        "sneak": "",
+        "stance": {
+         "defensive": false,
+         "power_attack": 0
+        },
+        "touch": 11,
+        "type": "humanoid"
+       },
+       "damage_l": "1d8+5",
+       "damage_sm": "1d8+5",
+       "effects": [],
+       "hp": 55,
+       "hp_max": 55,
+       "id": "Bram",
+       "init": 23,
+       "name": "Bram",
+       "node": null,
+       "ongoing": null,
+       "side": "party",
+       "size": "M",
+       "status": "active",
+       "weapon": "longsword"
+      },
+      {
+       "conditions": [],
+       "d20": {
+        "ac": 16,
+        "aoo": {
+         "round": 0,
+         "used": 0
+        },
+        "attacks": [
+         {
+          "bonus": 8,
+          "count": 1,
+          "damage": "2d8+7",
+          "hands": 2,
+          "mult": 2,
+          "name": "greatclub",
+          "ranged": false,
+          "threat": 20,
+          "touch": false
+         },
+         {
+          "bonus": 1,
+          "count": 1,
+          "damage": "1d8+5",
+          "hands": 1,
+          "mult": 2,
+          "name": "javelin",
+          "ranged": true,
+          "threat": 20,
+          "touch": false
+         }
+        ],
+        "bab": 3,
+        "cr": "3",
+        "crit_immune": false,
+        "dex": -1,
+        "flat_footed": 16,
+        "init_bonus": -1,
+        "monster": "ogre",
+        "saves": {
+         "fort": 6,
+         "ref": 0,
+         "will": 1
+        },
+        "sneak": "",
+        "stance": {
+         "defensive": false,
+         "power_attack": 0
+        },
+        "touch": 8,
+        "type": "giant"
+       },
+       "damage_l": "2d8+7",
+       "damage_sm": "2d8+7",
+       "effects": [],
+       "hp": 60,
+       "hp_max": 60,
+       "id": "mon_1",
+       "init": 17,
+       "morale": 10,
+       "name": "Ogre 1",
+       "node": null,
+       "ongoing": null,
+       "side": "enemy",
+       "size": "L",
+       "status": "active",
+       "weapon": "greatclub"
+      },
+      {
+       "conditions": [],
+       "d20": {
+        "ac": 13,
+        "aoo": {
+         "round": 0,
+         "used": 0
+        },
+        "attacks": [
+         {
+          "bonus": 2,
+          "count": 1,
+          "damage": "1d4-1",
+          "hands": 1,
+          "mult": 2,
+          "name": "dagger",
+          "ranged": false,
+          "threat": 19,
+          "touch": false
+         },
+         {
+          "bonus": 2,
+          "count": 1,
+          "damage": "0",
+          "hands": 1,
+          "mult": 2,
+          "name": "touch",
+          "ranged": false,
+          "threat": 20,
+          "touch": true
+         },
+         {
+          "bonus": 6,
+          "count": 1,
+          "damage": "0",
+          "hands": 1,
+          "mult": 2,
+          "name": "ranged touch",
+          "ranged": true,
+          "threat": 20,
+          "touch": true
+         }
+        ],
+        "bab": 3,
+        "crit_immune": false,
+        "dex": 3,
+        "flat_footed": 10,
+        "init_bonus": 7,
+        "saves": {
+         "fort": 2,
+         "ref": 7,
+         "will": 6
+        },
+        "sneak": "",
+        "stance": {
+         "defensive": false,
+         "power_attack": 0
+        },
+        "touch": 13,
+        "type": "humanoid"
+       },
+       "damage_l": "1d4-1",
+       "damage_sm": "1d4-1",
+       "effects": [],
+       "hp": 19,
+       "hp_max": 19,
+       "id": "Elowen",
+       "init": 12,
+       "name": "Elowen",
+       "node": null,
+       "ongoing": null,
+       "side": "party",
+       "size": "M",
+       "status": "active",
+       "weapon": "dagger"
+      },
+      {
+       "conditions": [],
+       "d20": {
+        "ac": 16,
+        "alignment": "lawful good",
+        "aoo": {
+         "round": 0,
+         "used": 0
+        },
+        "attacks": [
+         {
+          "bonus": 7,
+          "count": 1,
+          "damage": "1d8+2",
+          "hands": 1,
+          "mult": 3,
+          "name": "warhammer",
+          "ranged": false,
+          "threat": 20,
+          "touch": false
+         },
+         {
+          "bonus": 6,
+          "count": 1,
+          "damage": "0",
+          "hands": 1,
+          "mult": 2,
+          "name": "touch",
+          "ranged": false,
+          "threat": 20,
+          "touch": true
+         },
+         {
+          "bonus": 4,
+          "count": 1,
+          "damage": "0",
+          "hands": 1,
+          "mult": 2,
+          "name": "ranged touch",
+          "ranged": true,
+          "threat": 20,
+          "touch": true
+         }
+        ],
+        "bab": 4,
+        "crit_immune": false,
+        "dex": 0,
+        "flat_footed": 16,
+        "init_bonus": 0,
+        "saves": {
+         "fort": 7,
+         "ref": 2,
+         "will": 8
+        },
+        "sneak": "",
+        "stance": {
+         "defensive": false,
+         "power_attack": 0
+        },
+        "touch": 10,
+        "type": "humanoid"
+       },
+       "damage_l": "1d8+2",
+       "damage_sm": "1d8+2",
+       "effects": [],
+       "hp": 43,
+       "hp_max": 43,
+       "id": "Dorna",
+       "init": 11,
+       "name": "Dorna",
+       "node": null,
+       "ongoing": null,
+       "side": "party",
+       "size": "M",
+       "status": "active",
+       "weapon": "warhammer"
+      },
+      {
+       "conditions": [],
+       "d20": {
+        "ac": 16,
+        "aoo": {
+         "round": 0,
+         "used": 0
+        },
+        "attacks": [
+         {
+          "bonus": 8,
+          "count": 1,
+          "damage": "2d8+7",
+          "hands": 2,
+          "mult": 2,
+          "name": "greatclub",
+          "ranged": false,
+          "threat": 20,
+          "touch": false
+         },
+         {
+          "bonus": 1,
+          "count": 1,
+          "damage": "1d8+5",
+          "hands": 1,
+          "mult": 2,
+          "name": "javelin",
+          "ranged": true,
+          "threat": 20,
+          "touch": false
+         }
+        ],
+        "bab": 3,
+        "cr": "3",
+        "crit_immune": false,
+        "dex": -1,
+        "flat_footed": 16,
+        "init_bonus": -1,
+        "monster": "ogre",
+        "saves": {
+         "fort": 6,
+         "ref": 0,
+         "will": 1
+        },
+        "sneak": "",
+        "stance": {
+         "defensive": false,
+         "power_attack": 0
+        },
+        "touch": 8,
+        "type": "giant"
+       },
+       "damage_l": "2d8+7",
+       "damage_sm": "2d8+7",
+       "effects": [],
+       "hp": 60,
+       "hp_max": 60,
+       "id": "mon_2",
+       "init": 9,
+       "morale": 10,
+       "name": "Ogre 2",
+       "node": null,
+       "ongoing": null,
+       "side": "enemy",
+       "size": "L",
+       "status": "active",
+       "weapon": "greatclub"
+      }
+     ],
+     "current": "Pip",
+     "declared": {},
+     "map": null,
+     "mode": "combatant",
+     "phase": "round",
+     "round": 1,
+     "started": true
+    },
+    "enemies": [
+     {
+      "ac": 16,
+      "alignment": "Usually chaotic evil",
+      "attacks": [
+       {
+        "bonus": 8,
+        "critical": "×2",
+        "damage": "2d8+7",
+        "name": "greatclub"
+       },
+       {
+        "bonus": 1,
+        "critical": "×2",
+        "damage": "1d8+5",
+        "name": "javelin"
+       }
+      ],
+      "attacks_per_round": 1.0,
+      "count": 2,
+      "flat_footed": 16,
+      "hit_dice": "4d8+11",
+      "individuals": [
+       {
+        "hp": 60,
+        "id": "mon_1",
+        "name": "Ogre 1"
+       },
+       {
+        "hp": 60,
+        "id": "mon_2",
+        "name": "Ogre 2"
+       }
+      ],
+      "matched": "Ogre",
+      "morale_rating": 10,
+      "saves": {
+       "fort": 6,
+       "ref": 0,
+       "will": 1
+      },
+      "size": "Large",
+      "size_code": "L",
+      "special_attacks": "-",
+      "touch": 8,
+      "type": "Ogre"
+     }
+    ],
+    "order": [
+     {
+      "bonus": 7,
+      "id": "Pip",
+      "name": "Pip",
+      "roll": 18,
+      "side": "party",
+      "total": 25
+     },
+     {
+      "bonus": 5,
+      "id": "Bram",
+      "name": "Bram",
+      "roll": 18,
+      "side": "party",
+      "total": 23
+     },
+     {
+      "bonus": -1,
+      "id": "mon_1",
+      "name": "Ogre 1",
+      "roll": 18,
+      "side": "enemy",
+      "total": 17
+     },
+     {
+      "bonus": 7,
+      "id": "Elowen",
+      "name": "Elowen",
+      "roll": 5,
+      "side": "party",
+      "total": 12
+     },
+     {
+      "bonus": 0,
+      "id": "Dorna",
+      "name": "Dorna",
+      "roll": 11,
+      "side": "party",
+      "total": 11
+     },
+     {
+      "bonus": -1,
+      "id": "mon_2",
+      "name": "Ogre 2",
+      "roll": 10,
+      "side": "enemy",
+      "total": 9
+     }
+    ],
+    "party_attacks": {
+     "Bram": {
+      "ac": 19,
+      "alternates": [],
+      "attacks": [
+       {
+        "bonus": 10,
+        "critical": "19–20/×2",
+        "damage": "1d8+5",
+        "name": "longsword"
+       }
+      ],
+      "flat_footed": 18,
+      "per_round": 2.0,
+      "saves": {
+       "fort": 9,
+       "ref": 3,
+       "will": 5
+      },
+      "touch": 11,
+      "weapon": "longsword"
+     },
+     "Dorna": {
+      "ac": 16,
+      "alternates": [
+       "touch",
+       "ranged touch"
+      ],
+      "attacks": [
+       {
+        "bonus": 7,
+        "critical": "×3",
+        "damage": "1d8+2",
+        "name": "warhammer"
+       },
+       {
+        "bonus": 6,
+        "critical": "×2",
+        "damage": "0",
+        "name": "touch"
+       },
+       {
+        "bonus": 4,
+        "critical": "×2",
+        "damage": "0",
+        "name": "ranged touch"
+       }
+      ],
+      "flat_footed": 16,
+      "per_round": 1.0,
+      "saves": {
+       "fort": 7,
+       "ref": 2,
+       "will": 8
+      },
+      "touch": 10,
+      "weapon": "warhammer"
+     },
+     "Elowen": {
+      "ac": 13,
+      "alternates": [
+       "touch",
+       "ranged touch"
+      ],
+      "attacks": [
+       {
+        "bonus": 2,
+        "critical": "19–20/×2",
+        "damage": "1d4-1",
+        "name": "dagger"
+       },
+       {
+        "bonus": 2,
+        "critical": "×2",
+        "damage": "0",
+        "name": "touch"
+       },
+       {
+        "bonus": 6,
+        "critical": "×2",
+        "damage": "0",
+        "name": "ranged touch"
+       }
+      ],
+      "flat_footed": 10,
+      "per_round": 1.0,
+      "saves": {
+       "fort": 2,
+       "ref": 7,
+       "will": 6
+      },
+      "touch": 13,
+      "weapon": "dagger"
+     },
+     "Pip": {
+      "ac": 17,
+      "alternates": [],
+      "attacks": [
+       {
+        "bonus": 8,
+        "critical": "19–20/×2",
+        "damage": "1d4+1",
+        "name": "sword, short"
+       }
+      ],
+      "flat_footed": 17,
+      "per_round": 1.0,
+      "saves": {
+       "fort": 4,
+       "ref": 9,
+       "will": 3
+      },
+      "touch": 15,
+      "weapon": "sword, short"
+     }
+    },
+    "party_loaded": [
+     "Bram",
+     "Dorna",
+     "Elowen",
+     "Pip"
+    ]
+   },
+   "args": {
+    "enemies": [
+     {
+      "count": 2,
+      "hp": 60,
+      "name": "ogre"
+     }
+    ],
+    "surprise": false
+   },
+   "tool": "setup_combat"
+  },
+  {
+   "answer": {
+    "actions": [
+     {
+      "attacker": "Pip",
+      "attacker_id": "Pip",
+      "attacks_per_round": 1.0,
+      "attacks_remaining_this_round": 0,
+      "damage": null,
+      "damage_die": null,
+      "dead": false,
+      "downed": false,
+      "hit": false,
+      "hp_after": null,
+      "notes": [
+       "flat-footed"
+      ],
+      "roll": 3,
+      "spell_disrupted": false,
+      "target": "Ogre 2",
+      "target_id": "mon_2",
+      "weapon": "sword, short"
+     },
+     {
+      "attacker": "Bram",
+      "attacker_id": "Bram",
+      "attacks_per_round": 2.0,
+      "attacks_remaining_this_round": 1,
+      "damage": 12,
+      "damage_die": "1d8+5",
+      "dead": false,
+      "downed": false,
+      "hit": true,
+      "hp_after": 48,
+      "notes": [
+       "flat-footed"
+      ],
+      "roll": 12,
+      "spell_disrupted": false,
+      "target": "Ogre 1",
+      "target_id": "mon_1",
+      "weapon": "longsword"
+     },
+     {
+      "attacker": "Bram",
+      "attacker_id": "Bram",
+      "attacks_per_round": 2.0,
+      "attacks_remaining_this_round": 0,
+      "damage": null,
+      "damage_die": null,
+      "dead": false,
+      "downed": false,
+      "follow_up": true,
+      "hit": false,
+      "hp_after": null,
+      "notes": [
+       "flat-footed",
+       "iterative attack (-5)"
+      ],
+      "roll": 4,
+      "spell_disrupted": false,
+      "target": "Ogre 1",
+      "target_id": "mon_1",
+      "weapon": "longsword"
+     },
+     {
+      "attacker": "Ogre 1",
+      "attacker_id": "mon_1",
+      "attacks_per_round": 1.0,
+      "attacks_remaining_this_round": 0,
+      "damage": 9,
+      "damage_die": "2d8+7",
+      "dead": false,
+      "downed": false,
+      "hit": true,
+      "hp_after": 46,
+      "notes": [],
+      "roll": 11,
+      "spell_disrupted": false,
+      "target": "Bram",
+      "target_id": "Bram",
+      "weapon": "greatclub"
+     },
+     {
+      "cast": true,
+      "caster": "Elowen",
+      "caster_id": "Elowen",
+      "dc": 18,
+      "save": "Reflex half",
+      "school": "Evocation",
+      "spell": "Fireball",
+      "target": "Ogre 2",
+      "target_id": "mon_2"
+     },
+     {
+      "attacker": "Dorna",
+      "attacker_id": "Dorna",
+      "attacks_per_round": 1.0,
+      "attacks_remaining_this_round": 0,
+      "damage": 5,
+      "damage_die": "1d8+2",
+      "dead": false,
+      "downed": false,
+      "hit": true,
+      "hp_after": 43,
+      "notes": [],
+      "roll": 9,
+      "spell_disrupted": false,
+      "target": "Ogre 1",
+      "target_id": "mon_1",
+      "weapon": "warhammer"
+     },
+     {
+      "attacker": "Ogre 2",
+      "attacker_id": "mon_2",
+      "attacks_per_round": 1.0,
+      "attacks_remaining_this_round": 0,
+      "damage": 12,
+      "damage_die": "2d8+7",
+      "dead": false,
+      "downed": false,
+      "hit": true,
+      "hp_after": 13,
+      "notes": [],
+      "roll": 15,
+      "spell_disrupted": false,
+      "target": "Pip",
+      "target_id": "Pip",
+      "weapon": "greatclub"
+     }
+    ],
+    "end_of_round": [],
+    "outcomes": {
+     "acted": [
+      "Pip",
+      "Bram",
+      "mon_1",
+      "Elowen",
+      "Dorna",
+      "mon_2"
+     ],
+     "completed": [
+      {
+       "id": "Elowen",
+       "what": "Fireball"
+      }
+     ],
+     "dead": [],
+     "downed": [],
+     "fled": [],
+     "interrupted": []
+    },
+    "round": 1,
+    "spells_spent": [
+     {
+      "caster": "Elowen",
+      "dc": 18,
+      "remaining": {
+       "0": 2,
+       "1": 4,
+       "2": 4,
+       "3": 2
+      },
+      "save": "Reflex half",
+      "school": "Evocation",
+      "spell": "Fireball"
+     }
+    ],
+    "status": {
+     "combatants": [
+      {
+       "hp": 13,
+       "hp_max": 25,
+       "id": "Pip",
+       "name": "Pip",
+       "side": "party",
+       "status": "active"
+      },
+      {
+       "attacks_remaining_this_round": 2,
+       "hp": 46,
+       "hp_max": 55,
+       "id": "Bram",
+       "name": "Bram",
+       "side": "party",
+       "status": "active"
+      },
+      {
+       "hp": 43,
+       "hp_max": 60,
+       "id": "mon_1",
+       "name": "Ogre 1",
+       "side": "enemy",
+       "status": "active"
+      },
+      {
+       "hp": 19,
+       "hp_max": 19,
+       "id": "Elowen",
+       "name": "Elowen",
+       "side": "party",
+       "status": "active"
+      },
+      {
+       "hp": 43,
+       "hp_max": 43,
+       "id": "Dorna",
+       "name": "Dorna",
+       "side": "party",
+       "status": "active"
+      },
+      {
+       "hp": 60,
+       "hp_max": 60,
+       "id": "mon_2",
+       "name": "Ogre 2",
+       "side": "enemy",
+       "status": "active"
+      }
+     ],
+     "current": "Pip",
+     "phase": "round",
+     "round": 2
+    }
+   },
+   "args": {
+    "actions": [
+     {
+      "attacker": "Bram",
+      "target": "Ogre 1"
+     },
+     {
+      "attacker": "Pip",
+      "target": "Ogre 2"
+     },
+     {
+      "caster": "Elowen",
+      "spell": "Fireball",
+      "target": "Ogre 2"
+     },
+     {
+      "attacker": "Dorna",
+      "target": "Ogre 1"
+     },
+     {
+      "attacker": "Ogre 1",
+      "target": "Bram"
+     },
+     {
+      "attacker": "Ogre 2",
+      "target": "Pip"
+     }
+    ]
+   },
+   "tool": "combat_round"
+  },
+  {
+   "answer": {
+    "actions": [
+     {
+      "attacker": "Pip",
+      "attacker_id": "Pip",
+      "attacks_per_round": 1.0,
+      "attacks_remaining_this_round": 0,
+      "damage": 15,
+      "damage_die": "1d4+1",
+      "dead": false,
+      "downed": false,
+      "hit": true,
+      "hp_after": 28,
+      "notes": [
+       "+2 to hit (flanking).",
+       "sneak attack +3d6"
+      ],
+      "roll": 16,
+      "spell_disrupted": false,
+      "target": "Ogre 1",
+      "target_id": "mon_1",
+      "weapon": "sword, short"
+     },
+     {
+      "attacker": "Bram",
+      "attacker_id": "Bram",
+      "attacks_per_round": 2.0,
+      "attacks_remaining_this_round": 1,
+      "damage": 11,
+      "damage_die": "1d8+5",
+      "dead": false,
+      "downed": false,
+      "hit": true,
+      "hp_after": 17,
+      "notes": [
+       "+2 to hit (flanking)."
+      ],
+      "roll": 16,
+      "spell_disrupted": false,
+      "target": "Ogre 1",
+      "target_id": "mon_1",
+      "weapon": "longsword"
+     },
+     {
+      "attacker": "Bram",
+      "attacker_id": "Bram",
+      "attacks_per_round": 2.0,
+      "attacks_remaining_this_round": 0,
+      "damage": null,
+      "damage_die": null,
+      "dead": false,
+      "downed": false,
+      "follow_up": true,
+      "hit": false,
+      "hp_after": null,
+      "notes": [
+       "+2 to hit (flanking).",
+       "iterative attack (-5)"
+      ],
+      "roll": 3,
+      "spell_disrupted": false,
+      "target": "Ogre 1",
+      "target_id": "mon_1",
+      "weapon": "longsword"
+     },
+     {
+      "attacker": "Ogre 1",
+      "attacker_id": "mon_1",
+      "attacks_per_round": 1.0,
+      "attacks_remaining_this_round": 0,
+      "damage": 17,
+      "damage_die": "2d8+7",
+      "dead": false,
+      "downed": false,
+      "hit": true,
+      "hp_after": 29,
+      "notes": [],
+      "roll": 18,
+      "spell_disrupted": false,
+      "target": "Bram",
+      "target_id": "Bram",
+      "weapon": "greatclub"
+     },
+     {
+      "attacker": "Ogre 2",
+      "attacker_id": "mon_2",
+      "attacks_per_round": 1.0,
+      "attacks_remaining_this_round": 0,
+      "damage": 12,
+      "damage_die": "2d8+7",
+      "dead": false,
+      "downed": false,
+      "hit": true,
+      "hp_after": 31,
+      "notes": [],
+      "roll": 18,
+      "spell_disrupted": false,
+      "target": "Dorna",
+      "target_id": "Dorna",
+      "weapon": "greatclub"
+     }
+    ],
+    "end_of_round": [],
+    "outcomes": {
+     "acted": [
+      "Pip",
+      "Bram",
+      "mon_1",
+      "mon_2"
+     ],
+     "completed": [],
+     "dead": [],
+     "downed": [],
+     "fled": [],
+     "interrupted": []
+    },
+    "round": 2,
+    "status": {
+     "combatants": [
+      {
+       "hp": 13,
+       "hp_max": 25,
+       "id": "Pip",
+       "name": "Pip",
+       "side": "party",
+       "status": "active"
+      },
+      {
+       "attacks_remaining_this_round": 2,
+       "hp": 29,
+       "hp_max": 55,
+       "id": "Bram",
+       "name": "Bram",
+       "side": "party",
+       "status": "active"
+      },
+      {
+       "hp": 17,
+       "hp_max": 60,
+       "id": "mon_1",
+       "name": "Ogre 1",
+       "side": "enemy",
+       "status": "active"
+      },
+      {
+       "hp": 19,
+       "hp_max": 19,
+       "id": "Elowen",
+       "name": "Elowen",
+       "side": "party",
+       "status": "active"
+      },
+      {
+       "hp": 31,
+       "hp_max": 43,
+       "id": "Dorna",
+       "name": "Dorna",
+       "side": "party",
+       "status": "active"
+      },
+      {
+       "hp": 60,
+       "hp_max": 60,
+       "id": "mon_2",
+       "name": "Ogre 2",
+       "side": "enemy",
+       "status": "active"
+      }
+     ],
+     "current": "Pip",
+     "phase": "round",
+     "round": 3
+    }
+   },
+   "args": {
+    "actions": [
+     {
+      "attacker": "Pip",
+      "condition": "flanking",
+      "target": "Ogre 1"
+     },
+     {
+      "attacker": "Bram",
+      "condition": "flanking",
+      "target": "Ogre 1"
+     },
+     {
+      "attacker": "Ogre 1",
+      "target": "Bram"
+     },
+     {
+      "attacker": "Ogre 2",
+      "target": "Dorna"
+     }
+    ]
+   },
+   "tool": "combat_round"
+  },
+  {
+   "answer": {
+    "characters": {
+     "Bram": {
+      "conditions": [],
+      "effects": [],
+      "hp": 29
+     },
+     "Dorna": {
+      "conditions": [],
+      "effects": [],
+      "hp": 31
+     },
+     "Elowen": {
+      "conditions": [],
+      "effects": [],
+      "hp": 19
+     },
+     "Pip": {
+      "conditions": [],
+      "effects": [],
+      "hp": 13
+     }
+    },
+    "defeated": {},
+    "enemies": [
+     {
+      "fate": "standing",
+      "hp": 17,
+      "hp_max": 60,
+      "id": "mon_1",
+      "name": "Ogre 1",
+      "side": "enemy"
+     },
+     {
+      "fate": "standing",
+      "hp": 60,
+      "hp_max": 60,
+      "id": "mon_2",
+      "name": "Ogre 2",
+      "side": "enemy"
+     }
+    ],
+    "groups": [
+     {
+      "defeated": 0,
+      "group": "Ogre",
+      "total": 2,
+      "treasure_type": "",
+      "xp_value": ""
+     }
+    ],
+    "rounds": 2,
+    "saved": {
+     "Bram": 29,
+     "Dorna": 31,
+     "Elowen": 19,
+     "Pip": 13
+    }
+   },
+   "args": {},
+   "tool": "end_combat"
+  },
+  {
+   "answer": {
+    "character_id": "Bram",
+    "house_rules": [],
+    "level": 7,
+    "level_up_hints": [
+     "fighter"
+    ],
+    "name": "Bram",
+    "xp_gained": 9000,
+    "xp_next": 24000,
+    "xp_note": "15,000 XP was below 6th level's 16,000: raised to 16,000 before the award.",
+    "xp_total": 25000
+   },
+   "args": {
+    "amount": 9000,
+    "character": "Bram"
+   },
+   "tool": "award_xp"
+  },
+  {
+   "answer": {
+    "id": "Bram",
+    "kind": "pc",
+    "name": "Bram",
+    "order": 0,
+    "sheet": {
+     "ability_scores": {
+      "cha": 8,
+      "con": 14,
+      "dex": 13,
+      "int": 10,
+      "str": 17,
+      "wis": 12
+     },
+     "ac": 10,
+     "ac_vs_larger": 0,
+     "alignment": "",
+     "attacks": [],
+     "background": "",
+     "cls": "Fighter",
+     "d20": {
+      "armor": "banded mail",
+      "derived": {
+       "ac": 19,
+       "acp": -8,
+       "bab": 7,
+       "base_speed": 30,
+       "casting": {},
+       "dc": {},
+       "ecl": 7,
+       "features": [
+        {
+         "class": "fighter",
+         "id": "bonus-feat",
+         "kind": "feat",
+         "name": "Bonus feat",
+         "per_day": null,
+         "value": 4
+        },
+        {
+         "class": "fighter",
+         "id": "proficiency",
+         "kind": "proficiency",
+         "name": "Weapon and armour proficiency",
+         "per_day": null,
+         "value": null
+        }
+       ],
+       "flat_footed": 18,
+       "fort": 9,
+       "init": 5,
+       "max_dex": 1,
+       "ref": 3,
+       "run_multiplier": 3,
+       "skill_notes": {},
+       "skills": {
+        "climb": 4,
+        "intimidate": 8,
+        "jump": -2
+       },
+       "slots": {},
+       "sneak": "",
+       "speed": 20,
+       "spell_failure": 0,
+       "touch": 11,
+       "turning_per_day": 0,
+       "will": 5,
+       "xp_penalty": 0
+      },
+      "feats": [
+       {
+        "id": "power-attack"
+       },
+       {
+        "id": "cleave"
+       },
+       {
+        "choice": "longsword",
+        "id": "weapon-focus"
+       },
+       {
+        "id": "improved-initiative"
+       },
+       {
+        "id": "great-fortitude"
+       },
+       {
+        "choice": "longsword",
+        "id": "weapon-specialization"
+       },
+       {
+        "id": "great-cleave"
+       },
+       {
+        "id": "iron-will"
+       }
+      ],
+      "level_up": {
+       "class": "fighter",
+       "hints": [
+        "3 skill points"
+       ],
+       "hit_points": 12,
+       "level": 7
+      },
+      "shield": "shield, heavy steel",
+      "skills": {
+       "climb": 9,
+       "intimidate": 9,
+       "jump": 9
+      },
+      "weapon": "longsword"
+     },
+     "deity": "",
+     "disposition": 0,
+     "faction": "",
+     "gender": "",
+     "hp_max": 67,
+     "kind": "pc",
+     "label": "Bram",
+     "levels": {
+      "fighter": 7
+     },
+     "movement_rate": 20,
+     "natural_abilities": [],
+     "notes_md": "",
+     "nwps": [],
+     "portrait": null,
+     "portrait_prompt": "",
+     "pronouns": "",
+     "race": "Human",
+     "saves": {},
+     "size": "M",
+     "skills": {},
+     "spell_loadout": {
+      "default": {},
+      "known": {}
+     },
+     "spell_slots": {},
+     "thac0": 20,
+     "weapon": "",
+     "weapon_profs": []
+    },
+    "state": {
+     "conditions": [],
+     "effects": [],
+     "hp": 41,
+     "inventory": [],
+     "memorized": [],
+     "xp": 25000
+    }
+   },
+   "args": {
+    "patch": {
+     "level": 7
+    },
+    "reason": "level 7",
+    "ref": "Bram"
+   },
+   "tool": "update_character"
+  },
+  {
+   "answer": {
+    "character_id": "Dorna",
+    "house_rules": [],
+    "level": 7,
+    "level_up_hints": [
+     "cleric"
+    ],
+    "name": "Dorna",
+    "xp_gained": 9000,
+    "xp_next": 24000,
+    "xp_note": "15,000 XP was below 6th level's 16,000: raised to 16,000 before the award.",
+    "xp_total": 25000
+   },
+   "args": {
+    "amount": 9000,
+    "character": "Dorna"
+   },
+   "tool": "award_xp"
+  },
+  {
+   "answer": {
+    "id": "Dorna",
+    "kind": "pc",
+    "name": "Dorna",
+    "order": 1,
+    "sheet": {
+     "ability_scores": {
+      "cha": 12,
+      "con": 14,
+      "dex": 10,
+      "int": 10,
+      "str": 14,
+      "wis": 16
+     },
+     "ac": 10,
+     "ac_vs_larger": 0,
+     "alignment": "Lawful Good",
+     "attacks": [],
+     "background": "",
+     "cls": "Cleric",
+     "d20": {
+      "armor": "scale mail",
+      "derived": {
+       "ac": 16,
+       "acp": -6,
+       "bab": 5,
+       "casting": {
+        "cleric": {
+         "ability": "wis",
+         "caster_level": 7,
+         "dc": {
+          "0": 13,
+          "1": 14,
+          "2": 15,
+          "3": 16,
+          "4": 17
+         },
+         "prepared": true,
+         "slots": {
+          "0": 6,
+          "1": 6,
+          "2": 5,
+          "3": 4,
+          "4": 2
+         }
+        }
+       },
+       "dc": {
+        "0": 13,
+        "1": 14,
+        "2": 15,
+        "3": 16,
+        "4": 17
+       },
+       "ecl": 7,
+       "features": [
+        {
+         "ability": "wis",
+         "class": "cleric",
+         "id": "casting",
+         "kind": "casting",
+         "name": "Spells",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "cleric",
+         "id": "proficiency",
+         "kind": "proficiency",
+         "name": "Weapon and armour proficiency",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "ability": "cha",
+         "class": "cleric",
+         "id": "turn-undead",
+         "kind": "uses",
+         "name": "Turn or rebuke undead",
+         "per_day": 4,
+         "value": 3
+        }
+       ],
+       "flat_footed": 16,
+       "fort": 7,
+       "init": 0,
+       "max_dex": 3,
+       "ref": 2,
+       "skill_notes": {},
+       "skills": {
+        "concentration": 11
+       },
+       "slots": {
+        "0": 6,
+        "1": 6,
+        "2": 5,
+        "3": 4,
+        "4": 2
+       },
+       "sneak": "",
+       "speed": 20,
+       "spell_failure": 0,
+       "touch": 10,
+       "turning_per_day": 4,
+       "will": 8,
+       "xp_penalty": 0
+      },
+      "domains": [
+       "war",
+       "good"
+      ],
+      "feats": [
+       {
+        "id": "toughness"
+       },
+       {
+        "id": "combat-casting"
+       }
+      ],
+      "level_up": {
+       "class": "cleric",
+       "hints": [
+        "2 skill points"
+       ],
+       "hit_points": 4,
+       "level": 7
+      },
+      "shield": "shield, heavy steel",
+      "skills": {
+       "concentration": 9
+      },
+      "weapon": "warhammer"
+     },
+     "deity": "",
+     "disposition": 0,
+     "faction": "",
+     "gender": "",
+     "hp_max": 47,
+     "kind": "pc",
+     "label": "Dorna",
+     "levels": {
+      "cleric": 7
+     },
+     "movement_rate": 20,
+     "natural_abilities": [],
+     "notes_md": "",
+     "nwps": [],
+     "portrait": null,
+     "portrait_prompt": "",
+     "pronouns": "",
+     "race": "Dwarf",
+     "saves": {},
+     "size": "M",
+     "skills": {},
+     "spell_loadout": {
+      "default": {},
+      "known": {}
+     },
+     "spell_slots": {
+      "0": 6,
+      "1": 6,
+      "2": 5,
+      "3": 4,
+      "4": 2
+     },
+     "thac0": 20,
+     "weapon": "",
+     "weapon_profs": []
+    },
+    "state": {
+     "conditions": [],
+     "effects": [],
+     "hp": 35,
+     "inventory": [],
+     "memorized": [
+      {
+       "cast": false,
+       "level": 1,
+       "name": "Bless"
+      },
+      {
+       "cast": false,
+       "level": 1,
+       "name": "Bless"
+      },
+      {
+       "cast": false,
+       "level": 1,
+       "name": "Divine Favor"
+      },
+      {
+       "cast": false,
+       "level": 1,
+       "name": "Magic Weapon"
+      },
+      {
+       "cast": false,
+       "level": 2,
+       "name": "Hold Person"
+      },
+      {
+       "cast": false,
+       "level": 2,
+       "name": "Aid"
+      },
+      {
+       "cast": false,
+       "level": 2,
+       "name": "Bull’s Strength"
+      },
+      {
+       "cast": false,
+       "level": 2,
+       "name": "Spiritual Weapon"
+      },
+      {
+       "cast": false,
+       "level": 3,
+       "name": "Prayer"
+      },
+      {
+       "cast": false,
+       "level": 3,
+       "name": "Dispel Magic"
+      },
+      {
+       "cast": false,
+       "level": 3,
+       "name": "Searing Light"
+      },
+      {
+       "cast": false,
+       "level": 3,
+       "name": "Magic Vestment"
+      }
+     ],
+     "xp": 25000
+    }
+   },
+   "args": {
+    "patch": {
+     "level": 7
+    },
+    "reason": "level 7",
+    "ref": "Dorna"
+   },
+   "tool": "update_character"
+  },
+  {
+   "answer": {
+    "character_id": "Elowen",
+    "house_rules": [],
+    "level": 7,
+    "level_up_hints": [
+     "wizard"
+    ],
+    "name": "Elowen",
+    "xp_gained": 9000,
+    "xp_next": 24000,
+    "xp_note": "15,000 XP was below 6th level's 16,000: raised to 16,000 before the award.",
+    "xp_total": 25000
+   },
+   "args": {
+    "amount": 9000,
+    "character": "Elowen"
+   },
+   "tool": "award_xp"
+  },
+  {
+   "answer": {
+    "id": "Elowen",
+    "kind": "pc",
+    "name": "Elowen",
+    "order": 2,
+    "sheet": {
+     "ability_scores": {
+      "cha": 10,
+      "con": 10,
+      "dex": 16,
+      "int": 18,
+      "str": 8,
+      "wis": 12
+     },
+     "ac": 10,
+     "ac_vs_larger": 0,
+     "alignment": "",
+     "attacks": [],
+     "background": "",
+     "cls": "Wizard",
+     "d20": {
+      "derived": {
+       "ac": 13,
+       "acp": 0,
+       "bab": 3,
+       "casting": {
+        "wizard": {
+         "ability": "int",
+         "caster_level": 7,
+         "dc": {
+          "0": 14,
+          "1": 15,
+          "2": 16,
+          "3": 17,
+          "4": 18
+         },
+         "prepared": true,
+         "slots": {
+          "0": 4,
+          "1": 5,
+          "2": 4,
+          "3": 3,
+          "4": 2
+         }
+        }
+       },
+       "dc": {
+        "0": 14,
+        "1": 15,
+        "2": 16,
+        "3": 17,
+        "4": 18
+       },
+       "ecl": 7,
+       "features": [
+        {
+         "ability": "int",
+         "class": "wizard",
+         "id": "casting",
+         "kind": "casting",
+         "name": "Spells",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "wizard",
+         "id": "proficiency",
+         "kind": "proficiency",
+         "name": "Weapon and armour proficiency",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "wizard",
+         "feat": "scribe-scroll",
+         "id": "scribe-scroll",
+         "kind": "feat",
+         "name": "Scribe Scroll",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "wizard",
+         "id": "summon-familiar",
+         "kind": "note",
+         "name": "Summon familiar",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "wizard",
+         "id": "bonus-feat",
+         "kind": "feat",
+         "name": "Bonus feat",
+         "per_day": null,
+         "value": 1
+        }
+       ],
+       "flat_footed": 10,
+       "fort": 2,
+       "init": 7,
+       "max_dex": null,
+       "ref": 7,
+       "skill_notes": {
+        "use-magic-device": [
+         "+2 on Use Magic Device checks related to scrolls (Spellcraft 5+ ranks)"
+        ]
+       },
+       "skills": {
+        "concentration": 9,
+        "knowledge-arcana": 13,
+        "spellcraft": 15
+       },
+       "slots": {
+        "0": 4,
+        "1": 5,
+        "2": 4,
+        "3": 3,
+        "4": 2
+       },
+       "sneak": "",
+       "speed": 30,
+       "spell_failure": 0,
+       "touch": 13,
+       "turning_per_day": 0,
+       "will": 6,
+       "xp_penalty": 0
+      },
+      "feats": [
+       {
+        "id": "improved-initiative"
+       },
+       {
+        "choice": "evocation",
+        "id": "spell-focus"
+       },
+       {
+        "id": "lightning-reflexes"
+       }
+      ],
+      "level_up": {
+       "class": "wizard",
+       "hints": [
+        "6 skill points"
+       ],
+       "hit_points": 1,
+       "level": 7
+      },
+      "skills": {
+       "concentration": 9,
+       "knowledge-arcana": 9,
+       "spellcraft": 9
+      },
+      "weapon": "dagger"
+     },
+     "deity": "",
+     "disposition": 0,
+     "faction": "",
+     "gender": "",
+     "hp_max": 20,
+     "kind": "pc",
+     "label": "Elowen",
+     "levels": {
+      "wizard": 7
+     },
+     "movement_rate": 30,
+     "natural_abilities": [],
+     "notes_md": "",
+     "nwps": [],
+     "portrait": null,
+     "portrait_prompt": "",
+     "pronouns": "",
+     "race": "Elf",
+     "saves": {},
+     "size": "M",
+     "skills": {},
+     "spell_loadout": {
+      "default": {},
+      "known": {}
+     },
+     "spell_slots": {
+      "0": 4,
+      "1": 5,
+      "2": 4,
+      "3": 3,
+      "4": 2
+     },
+     "thac0": 20,
+     "weapon": "",
+     "weapon_profs": []
+    },
+    "state": {
+     "conditions": [],
+     "effects": [],
+     "hp": 20,
+     "inventory": [],
+     "memorized": [
+      {
+       "cast": false,
+       "level": 0,
+       "name": "Detect Magic"
+      },
+      {
+       "cast": false,
+       "level": 0,
+       "name": "Light"
+      },
+      {
+       "cast": false,
+       "level": 1,
+       "name": "Magic Missile"
+      },
+      {
+       "cast": false,
+       "level": 1,
+       "name": "Magic Missile"
+      },
+      {
+       "cast": false,
+       "level": 1,
+       "name": "Shield"
+      },
+      {
+       "cast": false,
+       "level": 1,
+       "name": "Sleep"
+      },
+      {
+       "cast": false,
+       "level": 2,
+       "name": "Web"
+      },
+      {
+       "cast": false,
+       "level": 2,
+       "name": "Glitterdust"
+      },
+      {
+       "cast": false,
+       "level": 2,
+       "name": "Invisibility"
+      },
+      {
+       "cast": false,
+       "level": 2,
+       "name": "Mirror Image"
+      },
+      {
+       "cast": true,
+       "level": 3,
+       "name": "Fireball"
+      },
+      {
+       "cast": false,
+       "level": 3,
+       "name": "Lightning Bolt"
+      },
+      {
+       "cast": false,
+       "level": 3,
+       "name": "Haste"
+      }
+     ],
+     "xp": 25000
+    }
+   },
+   "args": {
+    "patch": {
+     "level": 7
+    },
+    "reason": "level 7",
+    "ref": "Elowen"
+   },
+   "tool": "update_character"
+  },
+  {
+   "answer": {
+    "character_id": "Pip",
+    "house_rules": [],
+    "level": 7,
+    "level_up_hints": [
+     "rogue"
+    ],
+    "name": "Pip",
+    "xp_gained": 9000,
+    "xp_next": 24000,
+    "xp_note": "15,000 XP was below 6th level's 16,000: raised to 16,000 before the award.",
+    "xp_total": 25000
+   },
+   "args": {
+    "amount": 9000,
+    "character": "Pip"
+   },
+   "tool": "award_xp"
+  },
+  {
+   "answer": {
+    "id": "Pip",
+    "kind": "pc",
+    "name": "Pip",
+    "order": 3,
+    "sheet": {
+     "ability_scores": {
+      "cha": 13,
+      "con": 12,
+      "dex": 17,
+      "int": 14,
+      "str": 12,
+      "wis": 10
+     },
+     "ac": 10,
+     "ac_vs_larger": 0,
+     "alignment": "",
+     "attacks": [],
+     "background": "",
+     "cls": "Rogue",
+     "d20": {
+      "armor": "leather",
+      "derived": {
+       "ac": 17,
+       "acp": 0,
+       "bab": 5,
+       "casting": {},
+       "dc": {},
+       "ecl": 7,
+       "evasion": "evasion",
+       "features": [
+        {
+         "class": "rogue",
+         "id": "proficiency",
+         "kind": "proficiency",
+         "name": "Weapon and armour proficiency",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "rogue",
+         "id": "sneak-attack",
+         "kind": "dice",
+         "name": "Sneak attack",
+         "per_day": null,
+         "value": "4d6"
+        },
+        {
+         "class": "rogue",
+         "id": "trapfinding",
+         "kind": "note",
+         "name": "Trapfinding",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "rogue",
+         "id": "evasion",
+         "kind": "note",
+         "name": "Evasion",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "rogue",
+         "condition": "vs:traps",
+         "id": "trap-sense",
+         "kind": "note",
+         "name": "Trap sense",
+         "per_day": null,
+         "targets": [
+          "ref",
+          "ac"
+         ],
+         "value": 2
+        },
+        {
+         "class": "rogue",
+         "feat": "uncanny-dodge",
+         "id": "uncanny-dodge",
+         "kind": "feat",
+         "name": "Uncanny dodge",
+         "per_day": null,
+         "value": null
+        }
+       ],
+       "flat_footed": 17,
+       "fort": 4,
+       "init": 7,
+       "max_dex": 6,
+       "ref": 9,
+       "skill_notes": {
+        "survival": [
+         "+2 on Survival checks to find or follow tracks (Search 5+ ranks)"
+        ]
+       },
+       "skills": {
+        "disable-device": 11,
+        "hide": 16,
+        "listen": 11,
+        "move-silently": 14,
+        "open-lock": 12,
+        "search": 11,
+        "spot": 9,
+        "tumble": 12
+       },
+       "slots": {},
+       "sneak": "4d6",
+       "speed": 20,
+       "spell_failure": 0,
+       "touch": 15,
+       "turning_per_day": 0,
+       "uncanny_dodge": true,
+       "will": 3,
+       "xp_penalty": 0
+      },
+      "feats": [
+       {
+        "id": "improved-initiative"
+       },
+       {
+        "id": "weapon-finesse"
+       },
+       {
+        "id": "dodge"
+       }
+      ],
+      "level_up": {
+       "class": "rogue",
+       "hints": [
+        "10 skill points"
+       ],
+       "hit_points": 3,
+       "level": 7
+      },
+      "skills": {
+       "disable-device": 9,
+       "hide": 9,
+       "listen": 9,
+       "move-silently": 9,
+       "open-lock": 9,
+       "search": 9,
+       "spot": 9,
+       "tumble": 9
+      },
+      "weapon": "sword, short"
+     },
+     "deity": "",
+     "disposition": 0,
+     "faction": "",
+     "gender": "",
+     "hp_max": 28,
+     "kind": "pc",
+     "label": "Pip",
+     "levels": {
+      "rogue": 7
+     },
+     "movement_rate": 20,
+     "natural_abilities": [],
+     "notes_md": "",
+     "nwps": [],
+     "portrait": null,
+     "portrait_prompt": "",
+     "pronouns": "",
+     "race": "Halfling",
+     "saves": {},
+     "size": "M",
+     "skills": {},
+     "spell_loadout": {
+      "default": {},
+      "known": {}
+     },
+     "spell_slots": {},
+     "thac0": 20,
+     "weapon": "",
+     "weapon_profs": []
+    },
+    "state": {
+     "conditions": [],
+     "effects": [],
+     "hp": 16,
+     "inventory": [],
+     "memorized": [],
+     "xp": 25000
+    }
+   },
+   "args": {
+    "patch": {
+     "level": 7
+    },
+    "reason": "level 7",
+    "ref": "Pip"
+   },
+   "tool": "update_character"
+  },
+  {
+   "answer": {
+    "basis": "level × days (×2 complete bed rest)",
+    "date": "2 Planting 576 CY",
+    "days": 1,
+    "days_passed": 1,
+    "healing": {
+     "Bram": {
+      "at_max": false,
+      "d20": {
+       "basis": "level × days (×2 complete bed rest)",
+       "healed": 7
+      },
+      "healed": 7,
+      "hp_after": 48,
+      "hp_before": 41
+     },
+     "Dorna": {
+      "at_max": false,
+      "d20": {
+       "basis": "level × days (×2 complete bed rest)",
+       "healed": 7
+      },
+      "healed": 7,
+      "hp_after": 42,
+      "hp_before": 35
+     },
+     "Elowen": {
+      "at_max": true,
+      "d20": {
+       "basis": "level × days (×2 complete bed rest)",
+       "healed": 0
+      },
+      "healed": 0,
+      "hp_after": 20,
+      "hp_before": 20
+     },
+     "Pip": {
+      "at_max": false,
+      "d20": {
+       "basis": "level × days (×2 complete bed rest)",
+       "healed": 7
+      },
+      "healed": 7,
+      "hp_after": 23,
+      "hp_before": 16
+     }
+    },
+    "reminder": "Spells are uncast again. Call memorize_spells to change what Dorna, Elowen memorize.",
+    "rested": [
+     "Bram",
+     "Dorna",
+     "Elowen",
+     "Pip"
+    ],
+    "still_wounded": [
+     "Bram",
+     "Dorna",
+     "Pip"
+    ]
+   },
+   "args": {
+    "days": 1
+   },
+   "tool": "rest"
+  },
+  {
+   "answer": {
+    "by_level": {
+     "0": [
+      "Detect Magic",
+      "Light"
+     ],
+     "1": [
+      "Magic Missile",
+      "Magic Missile",
+      "Shield",
+      "Sleep"
+     ],
+     "2": [
+      "Web",
+      "Glitterdust",
+      "Invisibility",
+      "Mirror Image"
+     ],
+     "3": [
+      "Fireball",
+      "Lightning Bolt",
+      "Haste"
+     ],
+     "4": [
+      "Ice Storm",
+      "Stoneskin"
+     ]
+    },
+    "character_id": "Elowen",
+    "memorized": [
+     "Detect Magic",
+     "Light",
+     "Magic Missile",
+     "Magic Missile",
+     "Shield",
+     "Sleep",
+     "Web",
+     "Glitterdust",
+     "Invisibility",
+     "Mirror Image",
+     "Fireball",
+     "Lightning Bolt",
+     "Haste",
+     "Ice Storm",
+     "Stoneskin"
+    ],
+    "name": "Elowen"
+   },
+   "args": {
+    "character": "Elowen",
+    "spells": [
+     "Detect Magic",
+     "Light",
+     "Magic Missile",
+     "Magic Missile",
+     "Shield",
+     "Sleep",
+     "Web",
+     "Glitterdust",
+     "Invisibility",
+     "Mirror Image",
+     "Fireball",
+     "Lightning Bolt",
+     "Haste",
+     "Ice Storm",
+     "Stoneskin"
+    ]
+   },
+   "tool": "memorize_spells"
+  },
+  {
+   "answer": {
+    "character_id": "Elowen",
+    "dc": 19,
+    "level": 4,
+    "name": "Elowen",
+    "remaining": {
+     "0": 2,
+     "1": 4,
+     "2": 4,
+     "3": 3,
+     "4": 1
+    },
+    "save": "None",
+    "school": "Evocation",
+    "spell": "Ice Storm"
+   },
+   "args": {
+    "character": "Elowen",
+    "spell_name": "Ice Storm"
+   },
+   "tool": "cast_spell"
+  },
+  {
+   "answer": {
+    "character": "Dorna",
+    "character_id": "Dorna",
+    "converted": "Dispel Magic",
+    "converted_level": 3,
+    "dc": 16,
+    "level": 3,
+    "remaining": {
+     "3": 3
+    },
+    "save": "Will half (harmless); see text",
+    "school": "Conjuration",
+    "spell": "Cure Serious Wounds"
+   },
+   "args": {
+    "character": "Dorna",
+    "into": "Cure Serious Wounds",
+    "prepared": "Dispel Magic"
+   },
+   "tool": "convert_spell"
+  },
+  {
+   "answer": {
+    "error": "Magic Vestment holds the level-3 domain slot (the other level-3 spells fill the rest): a domain spell doesn't convert.",
+    "hint": "Name an uncast prepared spell of the cleric or druid."
+   },
+   "args": {
+    "character": "Dorna",
+    "prepared": "Magic Vestment"
+   },
+   "tool": "convert_spell"
+  },
+  {
+   "answer": {
+    "house_rules": [],
+    "id": "Sela",
+    "kind": "pc",
+    "name": "Sela",
+    "named_by": "given",
+    "order": 4,
+    "sheet": {
+     "ability_scores": {
+      "cha": 13,
+      "con": 12,
+      "dex": 14,
+      "int": 10,
+      "str": 8,
+      "wis": 10
+     },
+     "ac": 10,
+     "ac_vs_larger": 0,
+     "alignment": "",
+     "attacks": [],
+     "background": "",
+     "cls": "Sorcerer",
+     "d20": {
+      "derived": {
+       "ac": 12,
+       "acp": 0,
+       "bab": 3,
+       "casting": {
+        "sorcerer": {
+         "ability": "cha",
+         "caster_level": 6,
+         "dc": {
+          "0": 11,
+          "1": 12,
+          "2": 13,
+          "3": 14
+         },
+         "known": {
+          "0": 7,
+          "1": 4,
+          "2": 2,
+          "3": 1
+         },
+         "per_day": {
+          "0": 6,
+          "1": 7,
+          "2": 5,
+          "3": 3
+         },
+         "prepared": false
+        }
+       },
+       "dc": {},
+       "ecl": 6,
+       "features": [
+        {
+         "ability": "cha",
+         "class": "sorcerer",
+         "id": "casting",
+         "kind": "casting",
+         "name": "Spells",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "sorcerer",
+         "id": "proficiency",
+         "kind": "proficiency",
+         "name": "Weapon and armour proficiency",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "sorcerer",
+         "id": "summon-familiar",
+         "kind": "note",
+         "name": "Summon familiar",
+         "per_day": null,
+         "value": null
+        }
+       ],
+       "flat_footed": 10,
+       "fort": 3,
+       "init": 2,
+       "max_dex": null,
+       "ref": 4,
+       "skill_notes": {},
+       "skills": {},
+       "slots": {},
+       "sneak": "",
+       "speed": 30,
+       "spell_failure": 0,
+       "touch": 12,
+       "turning_per_day": 0,
+       "will": 5,
+       "xp_penalty": 0
+      }
+     },
+     "deity": "",
+     "disposition": 0,
+     "faction": "",
+     "gender": "",
+     "hp_max": 27,
+     "kind": "pc",
+     "label": "Sela",
+     "levels": {
+      "sorcerer": 6
+     },
+     "movement_rate": 30,
+     "natural_abilities": [],
+     "notes_md": "",
+     "nwps": [],
+     "portrait": null,
+     "portrait_prompt": "",
+     "pronouns": "",
+     "race": "Human",
+     "saves": {},
+     "size": "M",
+     "skills": {},
+     "spell_loadout": {
+      "default": {},
+      "known": {}
+     },
+     "spell_slots": {},
+     "thac0": 20,
+     "weapon": "",
+     "weapon_profs": []
+    },
+    "state": {
+     "conditions": [],
+     "effects": [],
+     "hp": 27,
+     "inventory": [],
+     "memorized": [],
+     "xp": 0
+    }
+   },
+   "args": {
+    "name": "Sela",
+    "sheet": {
+     "ability_scores": {
+      "cha": 13,
+      "con": 12,
+      "dex": 14,
+      "int": 10,
+      "str": 8,
+      "wis": 10
+     },
+     "cls": "Sorcerer",
+     "hp_max": 27,
+     "level": 6,
+     "race": "Human"
+    }
+   },
+   "tool": "create_character"
+  },
+  {
+   "answer": {
+    "build": {
+     "known": {
+      "sorcerer": [
+       "Light",
+       "Detect Magic",
+       "Ray of Frost",
+       "Mage Hand",
+       "Daze",
+       "Flare",
+       "Read Magic",
+       "Magic Missile",
+       "Shield",
+       "Sleep",
+       "Mage Armor",
+       "Scorching Ray",
+       "Invisibility",
+       "Fireball"
+      ]
+     }
+    },
+    "character": "Sela",
+    "character_id": "Sela",
+    "derived": {
+     "ac": 12,
+     "acp": 0,
+     "bab": 3,
+     "casting": {
+      "sorcerer": {
+       "ability": "cha",
+       "caster_level": 6,
+       "dc": {
+        "0": 11,
+        "1": 12,
+        "2": 13,
+        "3": 14
+       },
+       "known": {
+        "0": 7,
+        "1": 4,
+        "2": 2,
+        "3": 1
+       },
+       "per_day": {
+        "0": 6,
+        "1": 7,
+        "2": 5,
+        "3": 3
+       },
+       "prepared": false
+      }
+     },
+     "dc": {},
+     "ecl": 6,
+     "features": [
+      {
+       "ability": "cha",
+       "class": "sorcerer",
+       "id": "casting",
+       "kind": "casting",
+       "name": "Spells",
+       "per_day": null,
+       "value": null
+      },
+      {
+       "class": "sorcerer",
+       "id": "proficiency",
+       "kind": "proficiency",
+       "name": "Weapon and armour proficiency",
+       "per_day": null,
+       "value": null
+      },
+      {
+       "class": "sorcerer",
+       "id": "summon-familiar",
+       "kind": "note",
+       "name": "Summon familiar",
+       "per_day": null,
+       "value": null
+      }
+     ],
+     "flat_footed": 10,
+     "fort": 3,
+     "init": 2,
+     "max_dex": null,
+     "ref": 4,
+     "skill_notes": {},
+     "skills": {},
+     "slots": {},
+     "sneak": "",
+     "speed": 30,
+     "spell_failure": 0,
+     "touch": 12,
+     "turning_per_day": 0,
+     "will": 5,
+     "xp_penalty": 0
+    }
+   },
+   "args": {
+    "character": "Sela",
+    "known": {
+     "sorcerer": [
+      "Light",
+      "Detect Magic",
+      "Ray of Frost",
+      "Mage Hand",
+      "Daze",
+      "Flare",
+      "Read Magic",
+      "Magic Missile",
+      "Shield",
+      "Sleep",
+      "Mage Armor",
+      "Scorching Ray",
+      "Invisibility",
+      "Fireball"
+     ]
+    }
+   },
+   "tool": "set_build"
+  },
+  {
+   "answer": {
+    "character_id": "Sela",
+    "dc": 14,
+    "left_today": 2,
+    "level": 3,
+    "name": "Sela",
+    "save": "Reflex half",
+    "school": "Evocation",
+    "spell": "Fireball"
+   },
+   "args": {
+    "character": "Sela",
+    "spell_name": "Fireball"
+   },
+   "tool": "cast_spell"
+  },
+  {
+   "answer": {
+    "character_id": "Sela",
+    "dc": 14,
+    "left_today": 1,
+    "level": 3,
+    "name": "Sela",
+    "save": "Reflex half",
+    "school": "Evocation",
+    "spell": "Fireball"
+   },
+   "args": {
+    "character": "Sela",
+    "spell_name": "Fireball"
+   },
+   "tool": "cast_spell"
+  },
+  {
+   "answer": {
+    "character_id": "Sela",
+    "dc": 14,
+    "left_today": 0,
+    "level": 3,
+    "name": "Sela",
+    "save": "Reflex half",
+    "school": "Evocation",
+    "spell": "Fireball"
+   },
+   "args": {
+    "character": "Sela",
+    "spell_name": "Fireball"
+   },
+   "tool": "cast_spell"
+  },
+  {
+   "answer": {
+    "error": "Sela has cast all 3 of the sorcerer's level-3 spells today: they come back with a rest of a day."
+   },
+   "args": {
+    "character": "Sela",
+    "spell_name": "Fireball"
+   },
+   "tool": "cast_spell"
+  },
+  {
+   "answer": {
+    "character_id": "Sela",
+    "dc": 12,
+    "left_today": 6,
+    "level": 1,
+    "name": "Sela",
+    "save": "None",
+    "school": "Evocation",
+    "spell": "Magic Missile"
+   },
+   "args": {
+    "character": "Sela",
+    "spell_name": "Magic Missile"
+   },
+   "tool": "cast_spell"
+  },
+  {
+   "answer": {
+    "house_rules": [],
+    "id": "Ansel",
+    "kind": "pc",
+    "name": "Ansel",
+    "named_by": "given",
+    "order": 5,
+    "sheet": {
+     "ability_scores": {
+      "cha": 10,
+      "con": 12,
+      "dex": 10,
+      "int": 16,
+      "str": 10,
+      "wis": 14
+     },
+     "ac": 10,
+     "ac_vs_larger": 0,
+     "alignment": "Neutral Good",
+     "attacks": [],
+     "background": "",
+     "cls": "Cleric/Wizard",
+     "d20": {
+      "derived": {
+       "ac": 10,
+       "acp": 0,
+       "bab": 3,
+       "casting": {
+        "cleric": {
+         "ability": "wis",
+         "caster_level": 3,
+         "dc": {
+          "0": 12,
+          "1": 13,
+          "2": 14
+         },
+         "prepared": true,
+         "slots": {
+          "0": 4,
+          "1": 4,
+          "2": 3
+         }
+        },
+        "wizard": {
+         "ability": "int",
+         "caster_level": 3,
+         "dc": {
+          "0": 13,
+          "1": 14,
+          "2": 15
+         },
+         "prepared": true,
+         "slots": {
+          "0": 4,
+          "1": 3,
+          "2": 2
+         }
+        }
+       },
+       "dc": {
+        "0": 12,
+        "1": 13,
+        "2": 14
+       },
+       "ecl": 6,
+       "features": [
+        {
+         "ability": "wis",
+         "class": "cleric",
+         "id": "casting",
+         "kind": "casting",
+         "name": "Spells",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "cleric",
+         "id": "proficiency",
+         "kind": "proficiency",
+         "name": "Weapon and armour proficiency",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "ability": "cha",
+         "class": "cleric",
+         "id": "turn-undead",
+         "kind": "uses",
+         "name": "Turn or rebuke undead",
+         "per_day": 3,
+         "value": 3
+        },
+        {
+         "ability": "int",
+         "class": "wizard",
+         "id": "casting",
+         "kind": "casting",
+         "name": "Spells",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "wizard",
+         "id": "proficiency",
+         "kind": "proficiency",
+         "name": "Weapon and armour proficiency",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "wizard",
+         "feat": "scribe-scroll",
+         "id": "scribe-scroll",
+         "kind": "feat",
+         "name": "Scribe Scroll",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "wizard",
+         "id": "summon-familiar",
+         "kind": "note",
+         "name": "Summon familiar",
+         "per_day": null,
+         "value": null
+        }
+       ],
+       "flat_footed": 10,
+       "fort": 5,
+       "init": 0,
+       "max_dex": null,
+       "ref": 2,
+       "skill_notes": {},
+       "skills": {},
+       "slots": {
+        "0": 4,
+        "1": 4,
+        "2": 3
+       },
+       "sneak": "",
+       "speed": 30,
+       "spell_failure": 0,
+       "touch": 10,
+       "turning_per_day": 3,
+       "will": 8,
+       "xp_penalty": 0
+      }
+     },
+     "deity": "",
+     "disposition": 0,
+     "faction": "",
+     "gender": "",
+     "hp_max": 24,
+     "kind": "pc",
+     "label": "Ansel",
+     "levels": {
+      "cleric": 3,
+      "wizard": 3
+     },
+     "movement_rate": 30,
+     "natural_abilities": [],
+     "notes_md": "",
+     "nwps": [],
+     "portrait": null,
+     "portrait_prompt": "",
+     "pronouns": "",
+     "race": "Human",
+     "saves": {},
+     "size": "M",
+     "skills": {},
+     "spell_loadout": {
+      "default": {},
+      "known": {}
+     },
+     "spell_slots": {
+      "0": 8,
+      "1": 7,
+      "2": 5
+     },
+     "thac0": 20,
+     "weapon": "",
+     "weapon_profs": []
+    },
+    "state": {
+     "conditions": [],
+     "effects": [],
+     "hp": 24,
+     "inventory": [],
+     "memorized": [],
+     "xp": 0
+    }
+   },
+   "args": {
+    "name": "Ansel",
+    "sheet": {
+     "ability_scores": {
+      "cha": 10,
+      "con": 12,
+      "dex": 10,
+      "int": 16,
+      "str": 10,
+      "wis": 14
+     },
+     "alignment": "Neutral Good",
+     "cls": "Cleric/Wizard",
+     "hp_max": 24,
+     "levels": {
+      "cleric": 3,
+      "wizard": 3
+     },
+     "race": "Human"
+    }
+   },
+   "tool": "create_character"
+  },
+  {
+   "answer": {
+    "build": {
+     "domains": [
+      "war",
+      "good"
+     ]
+    },
+    "character": "Ansel",
+    "character_id": "Ansel",
+    "derived": {
+     "ac": 10,
+     "acp": 0,
+     "bab": 3,
+     "casting": {
+      "cleric": {
+       "ability": "wis",
+       "caster_level": 3,
+       "dc": {
+        "0": 12,
+        "1": 13,
+        "2": 14
+       },
+       "prepared": true,
+       "slots": {
+        "0": 4,
+        "1": 4,
+        "2": 3
+       }
+      },
+      "wizard": {
+       "ability": "int",
+       "caster_level": 3,
+       "dc": {
+        "0": 13,
+        "1": 14,
+        "2": 15
+       },
+       "prepared": true,
+       "slots": {
+        "0": 4,
+        "1": 3,
+        "2": 2
+       }
+      }
+     },
+     "dc": {
+      "0": 12,
+      "1": 13,
+      "2": 14
+     },
+     "ecl": 6,
+     "features": [
+      {
+       "ability": "wis",
+       "class": "cleric",
+       "id": "casting",
+       "kind": "casting",
+       "name": "Spells",
+       "per_day": null,
+       "value": null
+      },
+      {
+       "class": "cleric",
+       "id": "proficiency",
+       "kind": "proficiency",
+       "name": "Weapon and armour proficiency",
+       "per_day": null,
+       "value": null
+      },
+      {
+       "ability": "cha",
+       "class": "cleric",
+       "id": "turn-undead",
+       "kind": "uses",
+       "name": "Turn or rebuke undead",
+       "per_day": 3,
+       "value": 3
+      },
+      {
+       "ability": "int",
+       "class": "wizard",
+       "id": "casting",
+       "kind": "casting",
+       "name": "Spells",
+       "per_day": null,
+       "value": null
+      },
+      {
+       "class": "wizard",
+       "id": "proficiency",
+       "kind": "proficiency",
+       "name": "Weapon and armour proficiency",
+       "per_day": null,
+       "value": null
+      },
+      {
+       "class": "wizard",
+       "feat": "scribe-scroll",
+       "id": "scribe-scroll",
+       "kind": "feat",
+       "name": "Scribe Scroll",
+       "per_day": null,
+       "value": null
+      },
+      {
+       "class": "wizard",
+       "id": "summon-familiar",
+       "kind": "note",
+       "name": "Summon familiar",
+       "per_day": null,
+       "value": null
+      }
+     ],
+     "flat_footed": 10,
+     "fort": 5,
+     "init": 0,
+     "max_dex": null,
+     "ref": 2,
+     "skill_notes": {},
+     "skills": {},
+     "slots": {
+      "0": 4,
+      "1": 4,
+      "2": 3
+     },
+     "sneak": "",
+     "speed": 30,
+     "spell_failure": 0,
+     "touch": 10,
+     "turning_per_day": 3,
+     "will": 8,
+     "xp_penalty": 0
+    }
+   },
+   "args": {
+    "character": "Ansel",
+    "domains": [
+     "war",
+     "good"
+    ]
+   },
+   "tool": "set_build"
+  },
+  {
+   "answer": {
+    "by_level": {
+     "1": [
+      "Bless",
+      "Bless",
+      "Bless",
+      "Magic Weapon",
+      "Magic Missile",
+      "Shield",
+      "Sleep"
+     ],
+     "2": [
+      "Hold Person",
+      "Aid",
+      "Spiritual Weapon",
+      "Web",
+      "Glitterdust"
+     ]
+    },
+    "character_id": "Ansel",
+    "memorized": [
+     "Bless",
+     "Bless",
+     "Bless",
+     "Magic Weapon",
+     "Magic Missile",
+     "Shield",
+     "Sleep",
+     "Hold Person",
+     "Aid",
+     "Spiritual Weapon",
+     "Web",
+     "Glitterdust"
+    ],
+    "name": "Ansel"
+   },
+   "args": {
+    "character": "Ansel",
+    "spells": [
+     "Bless",
+     "Bless",
+     "Bless",
+     "Magic Weapon",
+     "Magic Missile",
+     "Shield",
+     "Sleep",
+     "Hold Person",
+     "Aid",
+     "Spiritual Weapon",
+     "Web",
+     "Glitterdust"
+    ]
+   },
+   "tool": "memorize_spells"
+  },
+  {
+   "answer": {
+    "caster_level": 3,
+    "character_id": "Ansel",
+    "class": "cleric",
+    "dc": 14,
+    "level": 2,
+    "name": "Ansel",
+    "remaining": {
+     "1": 7,
+     "2": 4
+    },
+    "save": "Will negates; see text",
+    "school": "Enchantment",
+    "spell": "Hold Person"
+   },
+   "args": {
+    "character": "Ansel",
+    "spell_name": "Hold Person"
+   },
+   "tool": "cast_spell"
+  },
+  {
+   "answer": {
+    "caster_level": 3,
+    "character_id": "Ansel",
+    "class": "wizard",
+    "dc": 15,
+    "level": 2,
+    "name": "Ansel",
+    "remaining": {
+     "1": 7,
+     "2": 3
+    },
+    "save": "Reflex negates; see text",
+    "school": "Conjuration",
+    "spell": "Web"
+   },
+   "args": {
+    "character": "Ansel",
+    "spell_name": "Web"
+   },
+   "tool": "cast_spell"
+  },
+  {
+   "answer": {
+    "house_rules": [],
+    "id": "Krug",
+    "kind": "pc",
+    "name": "Krug",
+    "named_by": "given",
+    "order": 6,
+    "sheet": {
+     "ability_scores": {
+      "cha": 10,
+      "con": 14,
+      "dex": 14,
+      "int": 8,
+      "str": 18,
+      "wis": 10
+     },
+     "ac": 10,
+     "ac_vs_larger": 0,
+     "alignment": "",
+     "attacks": [],
+     "background": "",
+     "cls": "Barbarian",
+     "d20": {
+      "derived": {
+       "ac": 12,
+       "acp": 0,
+       "bab": 11,
+       "casting": {},
+       "dc": {},
+       "dr": "2/—",
+       "ecl": 11,
+       "features": [
+        {
+         "class": "barbarian",
+         "condition": "no_heavy_load",
+         "id": "fast-movement",
+         "kind": "bonus",
+         "name": "Fast movement",
+         "per_day": null,
+         "target": "speed",
+         "value": 10
+        },
+        {
+         "class": "barbarian",
+         "id": "illiteracy",
+         "kind": "note",
+         "name": "Illiteracy",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "barbarian",
+         "id": "proficiency",
+         "kind": "proficiency",
+         "name": "Weapon and armour proficiency",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "barbarian",
+         "id": "rage",
+         "kind": "uses",
+         "name": "Rage",
+         "per_day": 3,
+         "value": 3
+        },
+        {
+         "class": "barbarian",
+         "feat": "uncanny-dodge",
+         "id": "uncanny-dodge",
+         "kind": "feat",
+         "name": "Uncanny dodge",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "barbarian",
+         "condition": "vs:traps",
+         "id": "trap-sense",
+         "kind": "note",
+         "name": "Trap sense",
+         "per_day": null,
+         "targets": [
+          "ref",
+          "ac"
+         ],
+         "value": 3
+        },
+        {
+         "class": "barbarian",
+         "id": "improved-uncanny-dodge",
+         "kind": "note",
+         "name": "Improved uncanny dodge",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "bypass": "—",
+         "class": "barbarian",
+         "id": "damage-reduction",
+         "kind": "reduction",
+         "name": "Damage reduction",
+         "per_day": null,
+         "value": 2
+        },
+        {
+         "class": "barbarian",
+         "id": "greater-rage",
+         "kind": "note",
+         "name": "Greater rage",
+         "per_day": null,
+         "value": null
+        }
+       ],
+       "flat_footed": 12,
+       "fort": 9,
+       "improved_uncanny_dodge": 11,
+       "init": 2,
+       "max_dex": null,
+       "ref": 5,
+       "skill_notes": {},
+       "skills": {},
+       "slots": {},
+       "sneak": "",
+       "speed": 40,
+       "spell_failure": 0,
+       "touch": 12,
+       "turning_per_day": 0,
+       "uncanny_dodge": true,
+       "will": 3,
+       "xp_penalty": 0
+      }
+     },
+     "deity": "",
+     "disposition": 0,
+     "faction": "",
+     "gender": "",
+     "hp_max": 110,
+     "kind": "pc",
+     "label": "Krug",
+     "levels": {
+      "barbarian": 11
+     },
+     "movement_rate": 40,
+     "natural_abilities": [],
+     "notes_md": "",
+     "nwps": [],
+     "portrait": null,
+     "portrait_prompt": "",
+     "pronouns": "",
+     "race": "Human",
+     "saves": {},
+     "size": "M",
+     "skills": {},
+     "spell_loadout": {
+      "default": {},
+      "known": {}
+     },
+     "spell_slots": {},
+     "thac0": 20,
+     "weapon": "",
+     "weapon_profs": []
+    },
+    "state": {
+     "conditions": [],
+     "effects": [],
+     "hp": 110,
+     "inventory": [],
+     "memorized": [],
+     "xp": 0
+    }
+   },
+   "args": {
+    "name": "Krug",
+    "sheet": {
+     "ability_scores": {
+      "cha": 10,
+      "con": 14,
+      "dex": 14,
+      "int": 8,
+      "str": 18,
+      "wis": 10
+     },
+     "cls": "Barbarian",
+     "hp_max": 110,
+     "level": 11,
+     "race": "Human"
+    }
+   },
+   "tool": "create_character"
+  },
+  {
+   "answer": {
+    "build": {
+     "armor": "chain shirt",
+     "weapon": "greataxe"
+    },
+    "character": "Krug",
+    "character_id": "Krug",
+    "derived": {
+     "ac": 16,
+     "acp": -2,
+     "bab": 11,
+     "casting": {},
+     "dc": {},
+     "dr": "2/—",
+     "ecl": 11,
+     "features": [
+      {
+       "class": "barbarian",
+       "condition": "no_heavy_load",
+       "id": "fast-movement",
+       "kind": "bonus",
+       "name": "Fast movement",
+       "per_day": null,
+       "target": "speed",
+       "value": 10
+      },
+      {
+       "class": "barbarian",
+       "id": "illiteracy",
+       "kind": "note",
+       "name": "Illiteracy",
+       "per_day": null,
+       "value": null
+      },
+      {
+       "class": "barbarian",
+       "id": "proficiency",
+       "kind": "proficiency",
+       "name": "Weapon and armour proficiency",
+       "per_day": null,
+       "value": null
+      },
+      {
+       "class": "barbarian",
+       "id": "rage",
+       "kind": "uses",
+       "name": "Rage",
+       "per_day": 3,
+       "value": 3
+      },
+      {
+       "class": "barbarian",
+       "feat": "uncanny-dodge",
+       "id": "uncanny-dodge",
+       "kind": "feat",
+       "name": "Uncanny dodge",
+       "per_day": null,
+       "value": null
+      },
+      {
+       "class": "barbarian",
+       "condition": "vs:traps",
+       "id": "trap-sense",
+       "kind": "note",
+       "name": "Trap sense",
+       "per_day": null,
+       "targets": [
+        "ref",
+        "ac"
+       ],
+       "value": 3
+      },
+      {
+       "class": "barbarian",
+       "id": "improved-uncanny-dodge",
+       "kind": "note",
+       "name": "Improved uncanny dodge",
+       "per_day": null,
+       "value": null
+      },
+      {
+       "bypass": "—",
+       "class": "barbarian",
+       "id": "damage-reduction",
+       "kind": "reduction",
+       "name": "Damage reduction",
+       "per_day": null,
+       "value": 2
+      },
+      {
+       "class": "barbarian",
+       "id": "greater-rage",
+       "kind": "note",
+       "name": "Greater rage",
+       "per_day": null,
+       "value": null
+      }
+     ],
+     "flat_footed": 16,
+     "fort": 9,
+     "improved_uncanny_dodge": 11,
+     "init": 2,
+     "max_dex": 4,
+     "ref": 5,
+     "skill_notes": {},
+     "skills": {},
+     "slots": {},
+     "sneak": "",
+     "speed": 40,
+     "spell_failure": 0,
+     "touch": 12,
+     "turning_per_day": 0,
+     "uncanny_dodge": true,
+     "will": 3,
+     "xp_penalty": 0
+    }
+   },
+   "args": {
+    "armor": "chain shirt",
+    "character": "Krug",
+    "weapon": "greataxe"
+   },
+   "tool": "set_build"
+  },
+  {
+   "answer": {
+    "house_rules": [],
+    "id": "Mei",
+    "kind": "pc",
+    "name": "Mei",
+    "named_by": "given",
+    "order": 7,
+    "sheet": {
+     "ability_scores": {
+      "cha": 8,
+      "con": 12,
+      "dex": 15,
+      "int": 10,
+      "str": 14,
+      "wis": 15
+     },
+     "ac": 10,
+     "ac_vs_larger": 0,
+     "alignment": "",
+     "attacks": [],
+     "background": "",
+     "cls": "Monk",
+     "d20": {
+      "derived": {
+       "ac": 16,
+       "acp": 0,
+       "bab": 8,
+       "casting": {},
+       "dc": {},
+       "ecl": 11,
+       "evasion": "improved evasion",
+       "features": [
+        {
+         "ability": "wis",
+         "class": "monk",
+         "condition": "unarmoured_unencumbered",
+         "id": "ac-bonus",
+         "kind": "bonus",
+         "name": "AC bonus",
+         "per_day": null,
+         "target": "ac",
+         "value": 2
+        },
+        {
+         "class": "monk",
+         "id": "bonus-feat",
+         "kind": "feat",
+         "name": "Bonus feat",
+         "per_day": null,
+         "value": 3
+        },
+        {
+         "class": "monk",
+         "condition": "unarmoured_unencumbered",
+         "id": "flurry-of-blows",
+         "kind": "note",
+         "name": "Flurry of blows",
+         "per_day": null,
+         "value": 0
+        },
+        {
+         "class": "monk",
+         "feat": "improved-unarmed-strike",
+         "id": "improved-unarmed-strike",
+         "kind": "feat",
+         "name": "Improved Unarmed Strike",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "monk",
+         "id": "proficiency",
+         "kind": "proficiency",
+         "name": "Weapon and armour proficiency",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "monk",
+         "id": "unarmed-strike",
+         "kind": "dice",
+         "name": "Unarmed strike",
+         "per_day": null,
+         "value": "1d10"
+        },
+        {
+         "class": "monk",
+         "id": "evasion",
+         "kind": "note",
+         "name": "Evasion",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "monk",
+         "condition": "unarmoured_unencumbered",
+         "id": "fast-movement",
+         "kind": "bonus",
+         "name": "Fast movement",
+         "per_day": null,
+         "target": "speed",
+         "value": 30
+        },
+        {
+         "class": "monk",
+         "id": "still-mind",
+         "kind": "note",
+         "name": "Still mind",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "monk",
+         "id": "ki-strike",
+         "kind": "note",
+         "name": "Ki strike",
+         "per_day": null,
+         "value": "lawful"
+        },
+        {
+         "class": "monk",
+         "id": "slow-fall",
+         "kind": "note",
+         "name": "Slow fall",
+         "per_day": null,
+         "value": 50
+        },
+        {
+         "class": "monk",
+         "id": "purity-of-body",
+         "kind": "note",
+         "name": "Purity of body",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "monk",
+         "id": "wholeness-of-body",
+         "kind": "note",
+         "name": "Wholeness of body",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "monk",
+         "id": "improved-evasion",
+         "kind": "note",
+         "name": "Improved evasion",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "monk",
+         "id": "diamond-body",
+         "kind": "note",
+         "name": "Diamond body",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "monk",
+         "id": "greater-flurry",
+         "kind": "note",
+         "name": "Greater flurry",
+         "per_day": null,
+         "value": null
+        }
+       ],
+       "flat_footed": 14,
+       "fort": 8,
+       "init": 2,
+       "max_dex": null,
+       "ref": 9,
+       "skill_notes": {},
+       "skills": {},
+       "slots": {},
+       "sneak": "",
+       "speed": 60,
+       "spell_failure": 0,
+       "touch": 16,
+       "turning_per_day": 0,
+       "will": 9,
+       "xp_penalty": 0
+      }
+     },
+     "deity": "",
+     "disposition": 0,
+     "faction": "",
+     "gender": "",
+     "hp_max": 70,
+     "kind": "pc",
+     "label": "Mei",
+     "levels": {
+      "monk": 11
+     },
+     "movement_rate": 60,
+     "natural_abilities": [],
+     "notes_md": "",
+     "nwps": [],
+     "portrait": null,
+     "portrait_prompt": "",
+     "pronouns": "",
+     "race": "Human",
+     "saves": {},
+     "size": "M",
+     "skills": {},
+     "spell_loadout": {
+      "default": {},
+      "known": {}
+     },
+     "spell_slots": {},
+     "thac0": 20,
+     "weapon": "",
+     "weapon_profs": []
+    },
+    "state": {
+     "conditions": [],
+     "effects": [],
+     "hp": 70,
+     "inventory": [],
+     "memorized": [],
+     "xp": 0
+    }
+   },
+   "args": {
+    "name": "Mei",
+    "sheet": {
+     "ability_scores": {
+      "cha": 8,
+      "con": 12,
+      "dex": 15,
+      "int": 10,
+      "str": 14,
+      "wis": 15
+     },
+     "cls": "Monk",
+     "hp_max": 70,
+     "level": 11,
+     "race": "Human"
+    }
+   },
+   "tool": "create_character"
+  },
+  {
+   "answer": {
+    "combat": {
+     "combatants": [
+      {
+       "conditions": [],
+       "d20": {
+        "ac": 13,
+        "aoo": {
+         "round": 0,
+         "used": 0
+        },
+        "attacks": [
+         {
+          "bonus": 2,
+          "count": 1,
+          "damage": "1d4-1",
+          "hands": 1,
+          "mult": 2,
+          "name": "dagger",
+          "ranged": false,
+          "threat": 19,
+          "touch": false
+         },
+         {
+          "bonus": 2,
+          "count": 1,
+          "damage": "0",
+          "hands": 1,
+          "mult": 2,
+          "name": "touch",
+          "ranged": false,
+          "threat": 20,
+          "touch": true
+         },
+         {
+          "bonus": 6,
+          "count": 1,
+          "damage": "0",
+          "hands": 1,
+          "mult": 2,
+          "name": "ranged touch",
+          "ranged": true,
+          "threat": 20,
+          "touch": true
+         }
+        ],
+        "bab": 3,
+        "crit_immune": false,
+        "dex": 3,
+        "flat_footed": 10,
+        "init_bonus": 7,
+        "saves": {
+         "fort": 2,
+         "ref": 7,
+         "will": 6
+        },
+        "sneak": "",
+        "stance": {
+         "defensive": false,
+         "power_attack": 0
+        },
+        "touch": 13,
+        "type": "humanoid"
+       },
+       "damage_l": "1d4-1",
+       "damage_sm": "1d4-1",
+       "effects": [],
+       "hp": 20,
+       "hp_max": 20,
+       "id": "Elowen",
+       "init": 25,
+       "name": "Elowen",
+       "node": null,
+       "ongoing": null,
+       "side": "party",
+       "size": "M",
+       "status": "active",
+       "weapon": "dagger"
+      },
+      {
+       "conditions": [],
+       "d20": {
+        "ac": 17,
+        "aoo": {
+         "round": 0,
+         "used": 0
+        },
+        "attacks": [
+         {
+          "bonus": 9,
+          "count": 1,
+          "damage": "1d4+1",
+          "hands": 1,
+          "mult": 2,
+          "name": "sword, short",
+          "ranged": false,
+          "threat": 19,
+          "touch": false
+         }
+        ],
+        "bab": 5,
+        "crit_immune": false,
+        "dex": 3,
+        "flat_footed": 17,
+        "init_bonus": 7,
+        "saves": {
+         "fort": 4,
+         "ref": 9,
+         "will": 3
+        },
+        "sneak": "4d6",
+        "sneak_level": 7,
+        "stance": {
+         "defensive": false,
+         "power_attack": 0
+        },
+        "touch": 15,
+        "type": "humanoid",
+        "uncanny_dodge": true
+       },
+       "damage_l": "1d4+1",
+       "damage_sm": "1d4+1",
+       "effects": [],
+       "hp": 23,
+       "hp_max": 28,
+       "id": "Pip",
+       "init": 21,
+       "name": "Pip",
+       "node": null,
+       "ongoing": null,
+       "side": "party",
+       "size": "S",
+       "status": "active",
+       "weapon": "sword, short"
+      },
+      {
+       "attacks_per_round": 3.0,
+       "attacks_remaining_this_round": 3,
+       "conditions": [],
+       "d20": {
+        "ac": 16,
+        "aoo": {
+         "round": 0,
+         "used": 0
+        },
+        "attacks": [
+         {
+          "bonus": 15,
+          "count": 3,
+          "damage": "1d12+6",
+          "hands": 2,
+          "iterative": true,
+          "mult": 3,
+          "name": "greataxe",
+          "ranged": false,
+          "threat": 20,
+          "touch": false
+         }
+        ],
+        "bab": 11,
+        "crit_immune": false,
+        "dex": 2,
+        "dr": [
+         {
+          "bypass": [
+           "—"
+          ],
+          "value": 2
+         }
+        ],
+        "flat_footed": 16,
+        "improved_uncanny_dodge": 11,
+        "init_bonus": 2,
+        "saves": {
+         "fort": 9,
+         "ref": 5,
+         "will": 3
+        },
+        "sneak": "",
+        "stance": {
+         "defensive": false,
+         "power_attack": 0
+        },
+        "touch": 12,
+        "type": "humanoid",
+        "uncanny_dodge": true
+       },
+       "damage_l": "1d12+6",
+       "damage_sm": "1d12+6",
+       "effects": [],
+       "hp": 110,
+       "hp_max": 110,
+       "id": "Krug",
+       "init": 20,
+       "name": "Krug",
+       "node": null,
+       "ongoing": null,
+       "side": "party",
+       "size": "M",
+       "status": "active",
+       "weapon": "greataxe"
+      },
+      {
+       "attacks_per_round": 2.0,
+       "attacks_remaining_this_round": 2,
+       "conditions": [],
+       "d20": {
+        "ac": 16,
+        "aoo": {
+         "round": 0,
+         "used": 0
+        },
+        "attacks": [
+         {
+          "armed": true,
+          "bonus": 10,
+          "bypasses": [
+           "magic",
+           "lawful"
+          ],
+          "count": 2,
+          "damage": "1d10+2",
+          "hands": 1,
+          "iterative": true,
+          "mult": 2,
+          "name": "unarmed strike",
+          "ranged": false,
+          "threat": 20,
+          "touch": false
+         }
+        ],
+        "bab": 8,
+        "crit_immune": false,
+        "dex": 2,
+        "flat_footed": 14,
+        "init_bonus": 2,
+        "saves": {
+         "fort": 8,
+         "ref": 9,
+         "will": 9
+        },
+        "sneak": "",
+        "stance": {
+         "defensive": false,
+         "power_attack": 0
+        },
+        "touch": 16,
+        "type": "humanoid"
+       },
+       "damage_l": "1d10+2",
+       "damage_sm": "1d10+2",
+       "effects": [],
+       "hp": 70,
+       "hp_max": 70,
+       "id": "Mei",
+       "init": 15,
+       "name": "Mei",
+       "node": null,
+       "ongoing": null,
+       "side": "party",
+       "size": "M",
+       "status": "active",
+       "weapon": "unarmed strike"
+      },
+      {
+       "attacks_per_round": 2.0,
+       "attacks_remaining_this_round": 2,
+       "conditions": [],
+       "d20": {
+        "ac": 19,
+        "aoo": {
+         "round": 0,
+         "used": 0
+        },
+        "attacks": [
+         {
+          "bonus": 11,
+          "count": 2,
+          "damage": "1d8+5",
+          "hands": 1,
+          "iterative": true,
+          "mult": 2,
+          "name": "longsword",
+          "ranged": false,
+          "threat": 19,
+          "touch": false
+         }
+        ],
+        "bab": 7,
+        "cleave": "great cleave",
+        "crit_immune": false,
+        "dex": 1,
+        "flat_footed": 18,
+        "init_bonus": 5,
+        "saves": {
+         "fort": 9,
+         "ref": 3,
+         "will": 5
+        },
+        "sneak": "",
+        "stance": {
+         "defensive": false,
+         "power_attack": 0
+        },
+        "touch": 11,
+        "type": "humanoid"
+       },
+       "damage_l": "1d8+5",
+       "damage_sm": "1d8+5",
+       "effects": [],
+       "hp": 48,
+       "hp_max": 67,
+       "id": "Bram",
+       "init": 14,
+       "name": "Bram",
+       "node": null,
+       "ongoing": null,
+       "side": "party",
+       "size": "M",
+       "status": "active",
+       "weapon": "longsword"
+      },
+      {
+       "conditions": [],
+       "d20": {
+        "ac": 12,
+        "aoo": {
+         "round": 0,
+         "used": 0
+        },
+        "attacks": [
+         {
+          "bonus": 2,
+          "count": 1,
+          "damage": "1d3-1",
+          "hands": 1,
+          "mult": 2,
+          "name": "unarmed strike",
+          "ranged": false,
+          "threat": 20,
+          "touch": false
+         },
+         {
+          "bonus": 2,
+          "count": 1,
+          "damage": "0",
+          "hands": 1,
+          "mult": 2,
+          "name": "touch",
+          "ranged": false,
+          "threat": 20,
+          "touch": true
+         },
+         {
+          "bonus": 5,
+          "count": 1,
+          "damage": "0",
+          "hands": 1,
+          "mult": 2,
+          "name": "ranged touch",
+          "ranged": true,
+          "threat": 20,
+          "touch": true
+         }
+        ],
+        "bab": 3,
+        "crit_immune": false,
+        "dex": 2,
+        "flat_footed": 10,
+        "init_bonus": 2,
+        "saves": {
+         "fort": 3,
+         "ref": 4,
+         "will": 5
+        },
+        "sneak": "",
+        "stance": {
+         "defensive": false,
+         "power_attack": 0
+        },
+        "touch": 12,
+        "type": "humanoid"
+       },
+       "damage_l": "1d3-1",
+       "damage_sm": "1d3-1",
+       "effects": [],
+       "hp": 27,
+       "hp_max": 27,
+       "id": "Sela",
+       "init": 14,
+       "name": "Sela",
+       "node": null,
+       "ongoing": null,
+       "side": "party",
+       "size": "M",
+       "status": "active",
+       "weapon": "unarmed strike"
+      },
+      {
+       "conditions": [],
+       "d20": {
+        "ac": 16,
+        "alignment": "lawful good",
+        "aoo": {
+         "round": 0,
+         "used": 0
+        },
+        "attacks": [
+         {
+          "bonus": 8,
+          "count": 1,
+          "damage": "1d8+2",
+          "hands": 1,
+          "mult": 3,
+          "name": "warhammer",
+          "ranged": false,
+          "threat": 20,
+          "touch": false
+         },
+         {
+          "bonus": 7,
+          "count": 1,
+          "damage": "0",
+          "hands": 1,
+          "mult": 2,
+          "name": "touch",
+          "ranged": false,
+          "threat": 20,
+          "touch": true
+         },
+         {
+          "bonus": 5,
+          "count": 1,
+          "damage": "0",
+          "hands": 1,
+          "mult": 2,
+          "name": "ranged touch",
+          "ranged": true,
+          "threat": 20,
+          "touch": true
+         }
+        ],
+        "bab": 5,
+        "crit_immune": false,
+        "dex": 0,
+        "flat_footed": 16,
+        "init_bonus": 0,
+        "saves": {
+         "fort": 7,
+         "ref": 2,
+         "will": 8
+        },
+        "sneak": "",
+        "stance": {
+         "defensive": false,
+         "power_attack": 0
+        },
+        "touch": 10,
+        "type": "humanoid"
+       },
+       "damage_l": "1d8+2",
+       "damage_sm": "1d8+2",
+       "effects": [],
+       "hp": 42,
+       "hp_max": 47,
+       "id": "Dorna",
+       "init": 13,
+       "name": "Dorna",
+       "node": null,
+       "ongoing": null,
+       "side": "party",
+       "size": "M",
+       "status": "active",
+       "weapon": "warhammer"
+      },
+      {
+       "conditions": [],
+       "d20": {
+        "ac": 10,
+        "alignment": "neutral good",
+        "aoo": {
+         "round": 0,
+         "used": 0
+        },
+        "attacks": [
+         {
+          "bonus": 4,
+          "count": 1,
+          "damage": "1d3",
+          "hands": 1,
+          "mult": 2,
+          "name": "unarmed strike",
+          "ranged": false,
+          "threat": 20,
+          "touch": false
+         },
+         {
+          "bonus": 3,
+          "count": 1,
+          "damage": "0",
+          "hands": 1,
+          "mult": 2,
+          "name": "touch",
+          "ranged": false,
+          "threat": 20,
+          "touch": true
+         },
+         {
+          "bonus": 3,
+          "count": 1,
+          "damage": "0",
+          "hands": 1,
+          "mult": 2,
+          "name": "ranged touch",
+          "ranged": true,
+          "threat": 20,
+          "touch": true
+         }
+        ],
+        "bab": 3,
+        "crit_immune": false,
+        "dex": 0,
+        "flat_footed": 10,
+        "init_bonus": 0,
+        "saves": {
+         "fort": 5,
+         "ref": 2,
+         "will": 8
+        },
+        "sneak": "",
+        "stance": {
+         "defensive": false,
+         "power_attack": 0
+        },
+        "touch": 10,
+        "type": "humanoid"
+       },
+       "damage_l": "1d3",
+       "damage_sm": "1d3",
+       "effects": [],
+       "hp": 24,
+       "hp_max": 24,
+       "id": "Ansel",
+       "init": 12,
+       "name": "Ansel",
+       "node": null,
+       "ongoing": null,
+       "side": "party",
+       "size": "M",
+       "status": "active",
+       "weapon": "unarmed strike"
+      },
+      {
+       "attacks_per_round": 2.0,
+       "attacks_remaining_this_round": 2,
+       "conditions": [],
+       "d20": {
+        "ac": 20,
+        "aoo": {
+         "round": 0,
+         "used": 0
+        },
+        "attacks": [
+         {
+          "bonus": 16,
+          "count": 2,
+          "damage": "2d8+10",
+          "hands": 2,
+          "iterative": true,
+          "mult": 2,
+          "name": "greatclub",
+          "ranged": false,
+          "threat": 20,
+          "touch": false
+         },
+         {
+          "bonus": 15,
+          "count": 2,
+          "damage": "1d4+7",
+          "hands": 1,
+          "mult": 2,
+          "name": "slam",
+          "ranged": false,
+          "threat": 20,
+          "touch": false
+         },
+         {
+          "bonus": 8,
+          "count": 1,
+          "damage": "2d6+7",
+          "hands": 1,
+          "mult": 2,
+          "name": "rock",
+          "ranged": true,
+          "threat": 20,
+          "touch": false
+         }
+        ],
+        "bab": 9,
+        "cleave": "cleave",
+        "cr": "7",
+        "crit_immune": false,
+        "dex": -1,
+        "flat_footed": 20,
+        "init_bonus": -1,
+        "monster": "hill-giant",
+        "saves": {
+         "fort": 12,
+         "ref": 3,
+         "will": 4
+        },
+        "sneak": "",
+        "stance": {
+         "defensive": false,
+         "power_attack": 0
+        },
+        "touch": 8,
+        "type": "giant"
+       },
+       "damage_l": "2d8+10",
+       "damage_sm": "2d8+10",
+       "effects": [],
+       "hp": 200,
+       "hp_max": 200,
+       "id": "mon_1",
+       "init": 11,
+       "morale": 10,
+       "name": "Hill Giant",
+       "node": null,
+       "ongoing": null,
+       "side": "enemy",
+       "size": "L",
+       "status": "active",
+       "weapon": "greatclub"
+      }
+     ],
+     "current": "Elowen",
+     "declared": {},
+     "map": null,
+     "mode": "combatant",
+     "phase": "round",
+     "round": 1,
+     "started": true
+    },
+    "enemies": [
+     {
+      "ac": 20,
+      "alignment": "Often chaotic evil",
+      "attacks": [
+       {
+        "bonus": 16,
+        "critical": "×2",
+        "damage": "2d8+10",
+        "name": "greatclub"
+       },
+       {
+        "bonus": 15,
+        "critical": "×2",
+        "damage": "1d4+7",
+        "name": "slam"
+       },
+       {
+        "bonus": 8,
+        "critical": "×2",
+        "damage": "2d6+7",
+        "name": "rock"
+       }
+      ],
+      "attacks_per_round": 2.0,
+      "count": 1,
+      "flat_footed": 20,
+      "hit_dice": "12d8+48",
+      "individuals": [
+       {
+        "hp": 200,
+        "id": "mon_1",
+        "name": "Hill Giant"
+       }
+      ],
+      "matched": "Hill Giant",
+      "morale_rating": 10,
+      "saves": {
+       "fort": 12,
+       "ref": 3,
+       "will": 4
+      },
+      "size": "Large",
+      "size_code": "L",
+      "special_attacks": "Rock throwing",
+      "touch": 8,
+      "type": "Hill Giant"
+     }
+    ],
+    "order": [
+     {
+      "bonus": 7,
+      "id": "Elowen",
+      "name": "Elowen",
+      "roll": 18,
+      "side": "party",
+      "total": 25
+     },
+     {
+      "bonus": 7,
+      "id": "Pip",
+      "name": "Pip",
+      "roll": 14,
+      "side": "party",
+      "total": 21
+     },
+     {
+      "bonus": 2,
+      "id": "Krug",
+      "name": "Krug",
+      "roll": 18,
+      "side": "party",
+      "total": 20
+     },
+     {
+      "bonus": 2,
+      "id": "Mei",
+      "name": "Mei",
+      "roll": 13,
+      "side": "party",
+      "total": 15
+     },
+     {
+      "bonus": 5,
+      "id": "Bram",
+      "name": "Bram",
+      "roll": 9,
+      "side": "party",
+      "total": 14
+     },
+     {
+      "bonus": 2,
+      "id": "Sela",
+      "name": "Sela",
+      "roll": 12,
+      "side": "party",
+      "total": 14
+     },
+     {
+      "bonus": 0,
+      "id": "Dorna",
+      "name": "Dorna",
+      "roll": 13,
+      "side": "party",
+      "total": 13
+     },
+     {
+      "bonus": 0,
+      "id": "Ansel",
+      "name": "Ansel",
+      "roll": 12,
+      "side": "party",
+      "total": 12
+     },
+     {
+      "bonus": -1,
+      "id": "mon_1",
+      "name": "Hill Giant",
+      "roll": 12,
+      "side": "enemy",
+      "total": 11
+     }
+    ],
+    "party_attacks": {
+     "Ansel": {
+      "ac": 10,
+      "alternates": [
+       "touch",
+       "ranged touch"
+      ],
+      "attacks": [
+       {
+        "bonus": 4,
+        "critical": "×2",
+        "damage": "1d3",
+        "name": "unarmed strike"
+       },
+       {
+        "bonus": 3,
+        "critical": "×2",
+        "damage": "0",
+        "name": "touch"
+       },
+       {
+        "bonus": 3,
+        "critical": "×2",
+        "damage": "0",
+        "name": "ranged touch"
+       }
+      ],
+      "flat_footed": 10,
+      "per_round": 1.0,
+      "saves": {
+       "fort": 5,
+       "ref": 2,
+       "will": 8
+      },
+      "touch": 10,
+      "weapon": "unarmed strike"
+     },
+     "Bram": {
+      "ac": 19,
+      "alternates": [],
+      "attacks": [
+       {
+        "bonus": 11,
+        "critical": "19–20/×2",
+        "damage": "1d8+5",
+        "name": "longsword"
+       }
+      ],
+      "flat_footed": 18,
+      "per_round": 2.0,
+      "saves": {
+       "fort": 9,
+       "ref": 3,
+       "will": 5
+      },
+      "touch": 11,
+      "weapon": "longsword"
+     },
+     "Dorna": {
+      "ac": 16,
+      "alternates": [
+       "touch",
+       "ranged touch"
+      ],
+      "attacks": [
+       {
+        "bonus": 8,
+        "critical": "×3",
+        "damage": "1d8+2",
+        "name": "warhammer"
+       },
+       {
+        "bonus": 7,
+        "critical": "×2",
+        "damage": "0",
+        "name": "touch"
+       },
+       {
+        "bonus": 5,
+        "critical": "×2",
+        "damage": "0",
+        "name": "ranged touch"
+       }
+      ],
+      "flat_footed": 16,
+      "per_round": 1.0,
+      "saves": {
+       "fort": 7,
+       "ref": 2,
+       "will": 8
+      },
+      "touch": 10,
+      "weapon": "warhammer"
+     },
+     "Elowen": {
+      "ac": 13,
+      "alternates": [
+       "touch",
+       "ranged touch"
+      ],
+      "attacks": [
+       {
+        "bonus": 2,
+        "critical": "19–20/×2",
+        "damage": "1d4-1",
+        "name": "dagger"
+       },
+       {
+        "bonus": 2,
+        "critical": "×2",
+        "damage": "0",
+        "name": "touch"
+       },
+       {
+        "bonus": 6,
+        "critical": "×2",
+        "damage": "0",
+        "name": "ranged touch"
+       }
+      ],
+      "flat_footed": 10,
+      "per_round": 1.0,
+      "saves": {
+       "fort": 2,
+       "ref": 7,
+       "will": 6
+      },
+      "touch": 13,
+      "weapon": "dagger"
+     },
+     "Krug": {
+      "ac": 16,
+      "alternates": [],
+      "attacks": [
+       {
+        "bonus": 15,
+        "critical": "×3",
+        "damage": "1d12+6",
+        "name": "greataxe"
+       }
+      ],
+      "flat_footed": 16,
+      "per_round": 3.0,
+      "saves": {
+       "fort": 9,
+       "ref": 5,
+       "will": 3
+      },
+      "touch": 12,
+      "weapon": "greataxe"
+     },
+     "Mei": {
+      "ac": 16,
+      "alternates": [],
+      "attacks": [
+       {
+        "bonus": 10,
+        "critical": "×2",
+        "damage": "1d10+2",
+        "name": "unarmed strike"
+       }
+      ],
+      "flat_footed": 14,
+      "per_round": 2.0,
+      "saves": {
+       "fort": 8,
+       "ref": 9,
+       "will": 9
+      },
+      "touch": 16,
+      "weapon": "unarmed strike"
+     },
+     "Pip": {
+      "ac": 17,
+      "alternates": [],
+      "attacks": [
+       {
+        "bonus": 9,
+        "critical": "19–20/×2",
+        "damage": "1d4+1",
+        "name": "sword, short"
+       }
+      ],
+      "flat_footed": 17,
+      "per_round": 1.0,
+      "saves": {
+       "fort": 4,
+       "ref": 9,
+       "will": 3
+      },
+      "touch": 15,
+      "weapon": "sword, short"
+     },
+     "Sela": {
+      "ac": 12,
+      "alternates": [
+       "touch",
+       "ranged touch"
+      ],
+      "attacks": [
+       {
+        "bonus": 2,
+        "critical": "×2",
+        "damage": "1d3-1",
+        "name": "unarmed strike"
+       },
+       {
+        "bonus": 2,
+        "critical": "×2",
+        "damage": "0",
+        "name": "touch"
+       },
+       {
+        "bonus": 5,
+        "critical": "×2",
+        "damage": "0",
+        "name": "ranged touch"
+       }
+      ],
+      "flat_footed": 10,
+      "per_round": 1.0,
+      "saves": {
+       "fort": 3,
+       "ref": 4,
+       "will": 5
+      },
+      "touch": 12,
+      "weapon": "unarmed strike"
+     }
+    },
+    "party_loaded": [
+     "Bram",
+     "Dorna",
+     "Elowen",
+     "Pip",
+     "Sela",
+     "Ansel",
+     "Krug",
+     "Mei"
+    ]
+   },
+   "args": {
+    "enemies": [
+     {
+      "count": 1,
+      "hp": 200,
+      "name": "hill giant"
+     }
+    ],
+    "surprise": false
+   },
+   "tool": "setup_combat"
+  },
+  {
+   "answer": {
+    "character": "Krug",
+    "character_id": "Krug",
+    "effect": {
+     "ac": 2,
+     "duration": 8,
+     "name": "Rage",
+     "source": "rage"
+    },
+    "feature": "rage",
+    "hp": 143,
+    "hp_gained": 33,
+    "notes": [
+     "+3 on Fortitude and Will saves while raging (the effect's save stays 0); +3 on melee attack rolls, +3 damage in melee and thrown (+4 two-handed), by the swing. Rage lasts 8 rounds: when it ends, or Krug stops early, call use_feature(rage, amount=-1), which takes the 33 hp off again; a rest ends it too. It leaves Krug fatigued when it ends.",
+     "While raging: no Charisma-, Dexterity- or Intelligence-based skills but Balance, Escape Artist, Intimidate and Ride; no Concentration, no spells, no items that need concentration."
+    ],
+    "rounds": 8,
+    "uses_left": 2
+   },
+   "args": {
+    "character": "Krug",
+    "feature": "rage"
+   },
+   "tool": "use_feature"
+  },
+  {
+   "answer": {
+    "attacks_this_round": [
+     {
+      "bonus": 10,
+      "name": "unarmed strike"
+     },
+     {
+      "bonus": 10,
+      "name": "unarmed strike"
+     },
+     {
+      "bonus": 10,
+      "name": "unarmed strike"
+     },
+     {
+      "bonus": 5,
+      "name": "unarmed strike"
+     }
+    ],
+    "id": "Mei",
+    "name": "Mei",
+    "stance": {
+     "defensive": false,
+     "flurry": true,
+     "power_attack": 0
+    }
+   },
+   "args": {
+    "combatant": "Mei",
+    "flurry": true
+   },
+   "tool": "set_stance"
+  },
+  {
+   "answer": {
+    "actions": [
+     {
+      "attacker": "Krug",
+      "attacker_id": "Krug",
+      "attacks_per_round": 3.0,
+      "attacks_remaining_this_round": 2,
+      "damage": 18,
+      "damage_die": "1d12+6",
+      "dead": false,
+      "downed": false,
+      "hit": true,
+      "hp_after": 182,
+      "notes": [
+       "flat-footed",
+       "rage: +3 to hit, +4 damage"
+      ],
+      "roll": 16,
+      "spell_disrupted": false,
+      "target": "Hill Giant",
+      "target_id": "mon_1",
+      "weapon": "greataxe"
+     },
+     {
+      "attacker": "Krug",
+      "attacker_id": "Krug",
+      "attacks_per_round": 3.0,
+      "attacks_remaining_this_round": 1,
+      "damage": null,
+      "damage_die": null,
+      "dead": false,
+      "downed": false,
+      "follow_up": true,
+      "hit": false,
+      "hp_after": null,
+      "notes": [
+       "flat-footed",
+       "iterative attack (-5)",
+       "rage: +3 to hit, +4 damage"
+      ],
+      "roll": 3,
+      "spell_disrupted": false,
+      "target": "Hill Giant",
+      "target_id": "mon_1",
+      "weapon": "greataxe"
+     },
+     {
+      "attacker": "Krug",
+      "attacker_id": "Krug",
+      "attacks_per_round": 3.0,
+      "attacks_remaining_this_round": 0,
+      "damage": null,
+      "damage_die": null,
+      "dead": false,
+      "downed": false,
+      "follow_up": true,
+      "hit": false,
+      "hp_after": null,
+      "notes": [
+       "flat-footed",
+       "iterative attack (-10)",
+       "rage: +3 to hit, +4 damage"
+      ],
+      "roll": 5,
+      "spell_disrupted": false,
+      "target": "Hill Giant",
+      "target_id": "mon_1",
+      "weapon": "greataxe"
+     },
+     {
+      "attacker": "Mei",
+      "attacker_id": "Mei",
+      "attacks_per_round": 4.0,
+      "attacks_remaining_this_round": 3,
+      "damage": 3,
+      "damage_die": "1d10+2",
+      "dead": false,
+      "downed": false,
+      "hit": true,
+      "hp_after": 179,
+      "notes": [
+       "flat-footed",
+       "flurry of blows (+0)"
+      ],
+      "roll": 13,
+      "spell_disrupted": false,
+      "target": "Hill Giant",
+      "target_id": "mon_1",
+      "weapon": "unarmed strike"
+     },
+     {
+      "attacker": "Mei",
+      "attacker_id": "Mei",
+      "attacks_per_round": 4.0,
+      "attacks_remaining_this_round": 2,
+      "damage": null,
+      "damage_die": null,
+      "dead": false,
+      "downed": false,
+      "follow_up": true,
+      "hit": false,
+      "hp_after": null,
+      "notes": [
+       "flat-footed",
+       "flurry of blows (+0)"
+      ],
+      "roll": 2,
+      "spell_disrupted": false,
+      "target": "Hill Giant",
+      "target_id": "mon_1",
+      "weapon": "unarmed strike"
+     },
+     {
+      "attacker": "Mei",
+      "attacker_id": "Mei",
+      "attacks_per_round": 4.0,
+      "attacks_remaining_this_round": 1,
+      "damage": null,
+      "damage_die": null,
+      "dead": false,
+      "downed": false,
+      "follow_up": true,
+      "hit": false,
+      "hp_after": null,
+      "notes": [
+       "flat-footed",
+       "flurry of blows (+0)"
+      ],
+      "roll": 7,
+      "spell_disrupted": false,
+      "target": "Hill Giant",
+      "target_id": "mon_1",
+      "weapon": "unarmed strike"
+     },
+     {
+      "attacker": "Mei",
+      "attacker_id": "Mei",
+      "attacks_per_round": 4.0,
+      "attacks_remaining_this_round": 0,
+      "damage": null,
+      "damage_die": null,
+      "dead": false,
+      "downed": false,
+      "follow_up": true,
+      "hit": false,
+      "hp_after": null,
+      "notes": [
+       "flat-footed",
+       "flurry of blows (+0)",
+       "iterative attack (-5)"
+      ],
+      "roll": 7,
+      "spell_disrupted": false,
+      "target": "Hill Giant",
+      "target_id": "mon_1",
+      "weapon": "unarmed strike"
+     },
+     {
+      "attacker": "Hill Giant",
+      "attacker_id": "mon_1",
+      "attacks_per_round": 2.0,
+      "attacks_remaining_this_round": 1,
+      "damage": 15,
+      "damage_die": "2d8+10",
+      "dead": false,
+      "downed": false,
+      "hit": true,
+      "hp_after": 128,
+      "notes": [
+       "+2 AC modifier on Krug (active effects).",
+       "DR 2/— (-2)"
+      ],
+      "roll": 6,
+      "spell_disrupted": false,
+      "target": "Krug",
+      "target_id": "Krug",
+      "weapon": "greatclub"
+     },
+     {
+      "attacker": "Hill Giant",
+      "attacker_id": "mon_1",
+      "attacks_per_round": 2.0,
+      "attacks_remaining_this_round": 0,
+      "damage": null,
+      "damage_die": null,
+      "dead": false,
+      "downed": false,
+      "follow_up": true,
+      "hit": false,
+      "hp_after": null,
+      "notes": [
+       "+2 AC modifier on Krug (active effects).",
+       "iterative attack (-5)"
+      ],
+      "roll": 2,
+      "spell_disrupted": false,
+      "target": "Krug",
+      "target_id": "Krug",
+      "weapon": "greatclub"
+     }
+    ],
+    "end_of_round": [],
+    "outcomes": {
+     "acted": [
+      "Krug",
+      "Mei",
+      "mon_1"
+     ],
+     "completed": [],
+     "dead": [],
+     "downed": [],
+     "fled": [],
+     "interrupted": []
+    },
+    "round": 1,
+    "status": {
+     "combatants": [
+      {
+       "hp": 20,
+       "hp_max": 20,
+       "id": "Elowen",
+       "name": "Elowen",
+       "side": "party",
+       "status": "active"
+      },
+      {
+       "hp": 23,
+       "hp_max": 28,
+       "id": "Pip",
+       "name": "Pip",
+       "side": "party",
+       "status": "active"
+      },
+      {
+       "attacks_remaining_this_round": 3,
+       "effects": [
+        {
+         "ac": 2,
+         "duration": 7,
+         "lasts_through_round": 8,
+         "name": "Rage",
+         "source": "rage"
+        }
+       ],
+       "hp": 128,
+       "hp_max": 143,
+       "id": "Krug",
+       "name": "Krug",
+       "side": "party",
+       "status": "active"
+      },
+      {
+       "attacks_remaining_this_round": 4,
+       "hp": 70,
+       "hp_max": 70,
+       "id": "Mei",
+       "name": "Mei",
+       "side": "party",
+       "status": "active"
+      },
+      {
+       "attacks_remaining_this_round": 2,
+       "hp": 48,
+       "hp_max": 67,
+       "id": "Bram",
+       "name": "Bram",
+       "side": "party",
+       "status": "active"
+      },
+      {
+       "hp": 27,
+       "hp_max": 27,
+       "id": "Sela",
+       "name": "Sela",
+       "side": "party",
+       "status": "active"
+      },
+      {
+       "hp": 42,
+       "hp_max": 47,
+       "id": "Dorna",
+       "name": "Dorna",
+       "side": "party",
+       "status": "active"
+      },
+      {
+       "hp": 24,
+       "hp_max": 24,
+       "id": "Ansel",
+       "name": "Ansel",
+       "side": "party",
+       "status": "active"
+      },
+      {
+       "attacks_remaining_this_round": 2,
+       "hp": 179,
+       "hp_max": 200,
+       "id": "mon_1",
+       "name": "Hill Giant",
+       "side": "enemy",
+       "status": "active"
+      }
+     ],
+     "current": "Elowen",
+     "phase": "round",
+     "round": 2
+    }
+   },
+   "args": {
+    "actions": [
+     {
+      "attacker": "Krug",
+      "target": "Hill Giant"
+     },
+     {
+      "attacker": "Mei",
+      "target": "Hill Giant"
+     },
+     {
+      "attacker": "Hill Giant",
+      "target": "Krug"
+     }
+    ]
+   },
+   "tool": "combat_round"
+  },
+  {
+   "answer": {
+    "characters": {
+     "Ansel": {
+      "conditions": [],
+      "effects": [],
+      "hp": 24
+     },
+     "Bram": {
+      "conditions": [],
+      "effects": [],
+      "hp": 48
+     },
+     "Dorna": {
+      "conditions": [],
+      "effects": [],
+      "hp": 42
+     },
+     "Elowen": {
+      "conditions": [],
+      "effects": [],
+      "hp": 20
+     },
+     "Krug": {
+      "conditions": [],
+      "effects": [
+       {
+        "ac": 2,
+        "duration": 7,
+        "name": "Rage",
+        "source": "rage"
+       }
+      ],
+      "hp": 128
+     },
+     "Mei": {
+      "conditions": [],
+      "effects": [],
+      "hp": 70
+     },
+     "Pip": {
+      "conditions": [],
+      "effects": [],
+      "hp": 23
+     },
+     "Sela": {
+      "conditions": [],
+      "effects": [],
+      "hp": 27
+     }
+    },
+    "defeated": {},
+    "enemies": [
+     {
+      "fate": "standing",
+      "hp": 179,
+      "hp_max": 200,
+      "id": "mon_1",
+      "name": "Hill Giant",
+      "side": "enemy"
+     }
+    ],
+    "groups": [
+     {
+      "defeated": 0,
+      "group": "Hill Giant",
+      "total": 1,
+      "treasure_type": "",
+      "xp_value": ""
+     }
+    ],
+    "rounds": 1,
+    "saved": {
+     "Ansel": 24,
+     "Bram": 48,
+     "Dorna": 42,
+     "Elowen": 20,
+     "Krug": 128,
+     "Mei": 70,
+     "Pip": 23,
+     "Sela": 27
+    }
+   },
+   "args": {},
+   "tool": "end_combat"
+  },
+  {
+   "answer": {
+    "house_rules": [],
+    "id": "Vorn",
+    "kind": "pc",
+    "name": "Vorn",
+    "named_by": "given",
+    "order": 8,
+    "sheet": {
+     "ability_scores": {
+      "cha": 8,
+      "con": 14,
+      "dex": 14,
+      "int": 10,
+      "str": 18,
+      "wis": 10
+     },
+     "ac": 10,
+     "ac_vs_larger": 0,
+     "alignment": "",
+     "attacks": [],
+     "background": "",
+     "cls": "Fighter",
+     "d20": {
+      "derived": {
+       "ac": 12,
+       "acp": 0,
+       "bab": 20,
+       "casting": {},
+       "dc": {},
+       "ecl": 20,
+       "features": [
+        {
+         "class": "fighter",
+         "id": "bonus-feat",
+         "kind": "feat",
+         "name": "Bonus feat",
+         "per_day": null,
+         "value": 11
+        },
+        {
+         "class": "fighter",
+         "id": "proficiency",
+         "kind": "proficiency",
+         "name": "Weapon and armour proficiency",
+         "per_day": null,
+         "value": null
+        }
+       ],
+       "flat_footed": 10,
+       "fort": 14,
+       "init": 2,
+       "max_dex": null,
+       "ref": 8,
+       "skill_notes": {},
+       "skills": {},
+       "slots": {},
+       "sneak": "",
+       "speed": 30,
+       "spell_failure": 0,
+       "touch": 12,
+       "turning_per_day": 0,
+       "will": 6,
+       "xp_penalty": 0
+      }
+     },
+     "deity": "",
+     "disposition": 0,
+     "faction": "",
+     "gender": "",
+     "hp_max": 180,
+     "kind": "pc",
+     "label": "Vorn",
+     "levels": {
+      "fighter": 20
+     },
+     "movement_rate": 30,
+     "natural_abilities": [],
+     "notes_md": "",
+     "nwps": [],
+     "portrait": null,
+     "portrait_prompt": "",
+     "pronouns": "",
+     "race": "Human",
+     "saves": {},
+     "size": "M",
+     "skills": {},
+     "spell_loadout": {
+      "default": {},
+      "known": {}
+     },
+     "spell_slots": {},
+     "thac0": 20,
+     "weapon": "",
+     "weapon_profs": []
+    },
+    "state": {
+     "conditions": [],
+     "effects": [],
+     "hp": 180,
+     "inventory": [],
+     "memorized": [],
+     "xp": 0
+    }
+   },
+   "args": {
+    "name": "Vorn",
+    "sheet": {
+     "ability_scores": {
+      "cha": 8,
+      "con": 14,
+      "dex": 14,
+      "int": 10,
+      "str": 18,
+      "wis": 10
+     },
+     "cls": "Fighter",
+     "hp_max": 180,
+     "level": 20,
+     "race": "Human"
+    }
+   },
+   "tool": "create_character"
+  },
+  {
+   "answer": {
+    "id": "Vorn",
+    "kind": "pc",
+    "name": "Vorn",
+    "order": 8,
+    "sheet": {
+     "ability_scores": {
+      "cha": 8,
+      "con": 14,
+      "dex": 14,
+      "int": 10,
+      "str": 18,
+      "wis": 10
+     },
+     "ac": 10,
+     "ac_vs_larger": 0,
+     "alignment": "",
+     "attacks": [],
+     "background": "",
+     "cls": "Fighter",
+     "d20": {
+      "derived": {
+       "ac": 12,
+       "acp": 0,
+       "bab": 20,
+       "casting": {},
+       "dc": {},
+       "ecl": 20,
+       "features": [
+        {
+         "class": "fighter",
+         "id": "bonus-feat",
+         "kind": "feat",
+         "name": "Bonus feat",
+         "per_day": null,
+         "value": 11
+        },
+        {
+         "class": "fighter",
+         "id": "proficiency",
+         "kind": "proficiency",
+         "name": "Weapon and armour proficiency",
+         "per_day": null,
+         "value": null
+        }
+       ],
+       "flat_footed": 10,
+       "fort": 14,
+       "init": 2,
+       "max_dex": null,
+       "ref": 8,
+       "skill_notes": {},
+       "skills": {},
+       "slots": {},
+       "sneak": "",
+       "speed": 30,
+       "spell_failure": 0,
+       "touch": 12,
+       "turning_per_day": 0,
+       "will": 6,
+       "xp_penalty": 0
+      }
+     },
+     "deity": "",
+     "disposition": 0,
+     "faction": "",
+     "gender": "",
+     "hp_max": 180,
+     "kind": "pc",
+     "label": "Vorn",
+     "levels": {
+      "fighter": 20
+     },
+     "movement_rate": 30,
+     "natural_abilities": [],
+     "notes_md": "",
+     "nwps": [],
+     "portrait": null,
+     "portrait_prompt": "",
+     "pronouns": "",
+     "race": "Human",
+     "saves": {},
+     "size": "M",
+     "skills": {},
+     "spell_loadout": {
+      "default": {},
+      "known": {}
+     },
+     "spell_slots": {},
+     "thac0": 20,
+     "weapon": "",
+     "weapon_profs": []
+    },
+    "state": {
+     "conditions": [],
+     "effects": [],
+     "hp": 180,
+     "inventory": [],
+     "memorized": [],
+     "xp": 2600000
+    }
+   },
+   "args": {
+    "patch": {
+     "xp": 2600000
+    },
+    "reason": "20th level's XP",
+    "ref": "Vorn"
+   },
+   "tool": "update_character"
+  },
+  {
+   "answer": {
+    "character_id": "Vorn",
+    "level": 20,
+    "level_up_hints": [],
+    "name": "Vorn",
+    "xp_gained": 50000,
+    "xp_next": null,
+    "xp_note": "20th level is the top: the XP still adds up, but there is no level after it.",
+    "xp_total": 2650000
+   },
+   "args": {
+    "amount": 50000,
+    "character": "Vorn"
+   },
+   "tool": "award_xp"
+  },
+  {
+   "answer": {
+    "basis": "level × days (×2 complete bed rest)",
+    "date": "3 Planting 576 CY",
+    "days": 1,
+    "days_passed": 1,
+    "fatigue_cleared": [
+     "Krug"
+    ],
+    "healing": {
+     "Ansel": {
+      "at_max": true,
+      "d20": {
+       "basis": "level × days (×2 complete bed rest)",
+       "healed": 0
+      },
+      "healed": 0,
+      "hp_after": 24,
+      "hp_before": 24
+     },
+     "Bram": {
+      "at_max": false,
+      "d20": {
+       "basis": "level × days (×2 complete bed rest)",
+       "healed": 7
+      },
+      "healed": 7,
+      "hp_after": 55,
+      "hp_before": 48
+     },
+     "Dorna": {
+      "at_max": true,
+      "d20": {
+       "basis": "level × days (×2 complete bed rest)",
+       "healed": 5
+      },
+      "healed": 5,
+      "hp_after": 47,
+      "hp_before": 42
+     },
+     "Elowen": {
+      "at_max": true,
+      "d20": {
+       "basis": "level × days (×2 complete bed rest)",
+       "healed": 0
+      },
+      "healed": 0,
+      "hp_after": 20,
+      "hp_before": 20
+     },
+     "Krug": {
+      "at_max": false,
+      "d20": {
+       "basis": "level × days (×2 complete bed rest)",
+       "fatigue_cleared": true,
+       "healed": 11
+      },
+      "healed": 11,
+      "hp_after": 106,
+      "hp_before": 95
+     },
+     "Mei": {
+      "at_max": true,
+      "d20": {
+       "basis": "level × days (×2 complete bed rest)",
+       "healed": 0
+      },
+      "healed": 0,
+      "hp_after": 70,
+      "hp_before": 70
+     },
+     "Pip": {
+      "at_max": true,
+      "d20": {
+       "basis": "level × days (×2 complete bed rest)",
+       "healed": 5
+      },
+      "healed": 5,
+      "hp_after": 28,
+      "hp_before": 23
+     },
+     "Sela": {
+      "at_max": true,
+      "d20": {
+       "basis": "level × days (×2 complete bed rest)",
+       "healed": 0
+      },
+      "healed": 0,
+      "hp_after": 27,
+      "hp_before": 27
+     },
+     "Vorn": {
+      "at_max": true,
+      "d20": {
+       "basis": "level × days (×2 complete bed rest)",
+       "healed": 0
+      },
+      "healed": 0,
+      "hp_after": 180,
+      "hp_before": 180
+     }
+    },
+    "rage_ended": [
+     {
+      "character": "Krug",
+      "character_id": "Krug",
+      "ended": true,
+      "fatigued": true,
+      "feature": "rage",
+      "hp": 95,
+      "hp_lost": 33,
+      "notes": [
+       "Krug is fatigued (-2 Str and Dex, can't charge or run) for the rest of the encounter."
+      ]
+     }
+    ],
+    "reminder": "Spells are uncast again. Call memorize_spells to change what Dorna, Elowen, Ansel memorize.",
+    "rested": [
+     "Bram",
+     "Dorna",
+     "Elowen",
+     "Pip",
+     "Sela",
+     "Ansel",
+     "Krug",
+     "Mei",
+     "Vorn"
+    ],
+    "still_wounded": [
+     "Bram",
+     "Krug"
+    ]
+   },
+   "args": {
+    "days": 1
+   },
+   "tool": "rest"
+  },
+  {
+   "answer": {
+    "character_id": "Sela",
+    "dc": 14,
+    "left_today": 2,
+    "level": 3,
+    "name": "Sela",
+    "save": "Reflex half",
+    "school": "Evocation",
+    "spell": "Fireball"
+   },
+   "args": {
+    "character": "Sela",
+    "spell_name": "Fireball"
+   },
+   "tool": "cast_spell"
+  },
+  {
+   "answer": {
+    "character": "Krug",
+    "character_id": "Krug",
+    "effect": {
+     "ac": 2,
+     "dmg": 0,
+     "duration": 8,
+     "hidden": false,
+     "name": "Rage",
+     "save": 0,
+     "source": "rage",
+     "to_hit": 0
+    },
+    "feature": "rage",
+    "hp": 139,
+    "hp_gained": 33,
+    "notes": [
+     "+3 on Fortitude and Will saves while raging (the effect's save stays 0); +3 on melee attack rolls, +3 damage in melee and thrown (+4 two-handed), by the swing. Rage lasts 8 rounds: when it ends, or Krug stops early, call use_feature(rage, amount=-1), which takes the 33 hp off again; a rest ends it too. It leaves Krug fatigued when it ends.",
+     "While raging: no Charisma-, Dexterity- or Intelligence-based skills but Balance, Escape Artist, Intimidate and Ride; no Concentration, no spells, no items that need concentration."
+    ],
+    "rounds": 8,
+    "uses_left": 2
+   },
+   "args": {
+    "character": "Krug",
+    "feature": "rage"
+   },
+   "tool": "use_feature"
+  },
+  {
+   "answer": {
+    "id": "Dorna",
+    "kind": "pc",
+    "name": "Dorna",
+    "order": 1,
+    "sheet": {
+     "ability_scores": {
+      "cha": 12,
+      "con": 14,
+      "dex": 10,
+      "int": 10,
+      "str": 14,
+      "wis": 16
+     },
+     "ac": 10,
+     "ac_vs_larger": 0,
+     "alignment": "Lawful Good",
+     "attacks": [],
+     "background": "",
+     "cls": "Cleric",
+     "d20": {
+      "armor": "scale mail",
+      "derived": {
+       "ac": 16,
+       "acp": -6,
+       "bab": 5,
+       "casting": {
+        "cleric": {
+         "ability": "wis",
+         "caster_level": 7,
+         "dc": {
+          "0": 13,
+          "1": 14,
+          "2": 15,
+          "3": 16,
+          "4": 17
+         },
+         "prepared": true,
+         "slots": {
+          "0": 6,
+          "1": 6,
+          "2": 5,
+          "3": 4,
+          "4": 2
+         }
+        }
+       },
+       "dc": {
+        "0": 13,
+        "1": 14,
+        "2": 15,
+        "3": 16,
+        "4": 17
+       },
+       "ecl": 7,
+       "features": [
+        {
+         "ability": "wis",
+         "class": "cleric",
+         "id": "casting",
+         "kind": "casting",
+         "name": "Spells",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "cleric",
+         "id": "proficiency",
+         "kind": "proficiency",
+         "name": "Weapon and armour proficiency",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "ability": "cha",
+         "class": "cleric",
+         "id": "turn-undead",
+         "kind": "uses",
+         "name": "Turn or rebuke undead",
+         "per_day": 4,
+         "value": 3
+        }
+       ],
+       "flat_footed": 16,
+       "fort": 7,
+       "init": 0,
+       "max_dex": 3,
+       "ref": 2,
+       "skill_notes": {},
+       "skills": {
+        "concentration": 11
+       },
+       "slots": {
+        "0": 6,
+        "1": 6,
+        "2": 5,
+        "3": 4,
+        "4": 2
+       },
+       "sneak": "",
+       "speed": 20,
+       "spell_failure": 0,
+       "touch": 10,
+       "turning_per_day": 4,
+       "will": 8,
+       "xp_penalty": 0
+      },
+      "domains": [
+       "war",
+       "good"
+      ],
+      "feats": [
+       {
+        "id": "toughness"
+       },
+       {
+        "id": "combat-casting"
+       }
+      ],
+      "level_up": {
+       "class": "cleric",
+       "hints": [
+        "2 skill points"
+       ],
+       "hit_points": 4,
+       "level": 7
+      },
+      "shield": "shield, heavy steel",
+      "skills": {
+       "concentration": 9
+      },
+      "weapon": "warhammer"
+     },
+     "deity": "",
+     "disposition": 0,
+     "faction": "",
+     "gender": "",
+     "hp_max": 47,
+     "kind": "pc",
+     "label": "Dorna",
+     "levels": {
+      "cleric": 7
+     },
+     "movement_rate": 20,
+     "natural_abilities": [],
+     "notes_md": "",
+     "nwps": [],
+     "portrait": null,
+     "portrait_prompt": "",
+     "pronouns": "",
+     "race": "Dwarf",
+     "saves": {},
+     "size": "M",
+     "skills": {},
+     "spell_loadout": {
+      "default": {},
+      "known": {}
+     },
+     "spell_slots": {
+      "0": 6,
+      "1": 6,
+      "2": 5,
+      "3": 4,
+      "4": 2
+     },
+     "thac0": 20,
+     "weapon": "",
+     "weapon_profs": []
+    },
+    "state": {
+     "conditions": [],
+     "d20": {
+      "turning_used": 0
+     },
+     "effects": [],
+     "hp": 47,
+     "inventory": [],
+     "memorized": [
+      {
+       "cast": false,
+       "level": 1,
+       "name": "Bless"
+      },
+      {
+       "cast": false,
+       "level": 1,
+       "name": "Bless"
+      },
+      {
+       "cast": false,
+       "level": 1,
+       "name": "Divine Favor"
+      },
+      {
+       "cast": false,
+       "level": 1,
+       "name": "Magic Weapon"
+      },
+      {
+       "cast": false,
+       "level": 2,
+       "name": "Hold Person"
+      },
+      {
+       "cast": false,
+       "level": 2,
+       "name": "Aid"
+      },
+      {
+       "cast": false,
+       "level": 2,
+       "name": "Bull’s Strength"
+      },
+      {
+       "cast": false,
+       "level": 2,
+       "name": "Spiritual Weapon"
+      },
+      {
+       "cast": false,
+       "level": 3,
+       "name": "Prayer"
+      },
+      {
+       "cast": false,
+       "level": 3,
+       "name": "Dispel Magic"
+      },
+      {
+       "cast": false,
+       "level": 3,
+       "name": "Searing Light"
+      },
+      {
+       "cast": false,
+       "level": 3,
+       "name": "Magic Vestment"
+      }
+     ],
+     "xp": 25000
+    }
+   },
+   "args": {
+    "ref": "Dorna"
+   },
+   "tool": "get_character"
+  }
+ ],
+ "rolls": [
+  {
+   "actor": "Bram",
+   "beat": "beat-10",
+   "faces": [
+    10
+   ],
+   "notation": "1d10",
+   "purpose": "level_up:hp:fighter:2",
+   "round": null,
+   "target": null,
+   "total": 10
+  },
+  {
+   "actor": "Bram",
+   "beat": "beat-11",
+   "faces": [
+    8
+   ],
+   "notation": "1d10",
+   "purpose": "level_up:hp:fighter:3",
+   "round": null,
+   "target": null,
+   "total": 8
+  },
+  {
+   "actor": "Bram",
+   "beat": "beat-12",
+   "faces": [
+    8
+   ],
+   "notation": "1d10",
+   "purpose": "level_up:hp:fighter:4",
+   "round": null,
+   "target": null,
+   "total": 8
+  },
+  {
+   "actor": "Bram",
+   "beat": "beat-13",
+   "faces": [
+    5
+   ],
+   "notation": "1d10",
+   "purpose": "level_up:hp:fighter:5",
+   "round": null,
+   "target": null,
+   "total": 5
+  },
+  {
+   "actor": "Bram",
+   "beat": "beat-14",
+   "faces": [
+    2
+   ],
+   "notation": "1d10",
+   "purpose": "level_up:hp:fighter:6",
+   "round": null,
+   "target": null,
+   "total": 2
+  },
+  {
+   "actor": "Dorna",
+   "beat": "beat-16",
+   "faces": [
+    6
+   ],
+   "notation": "1d8",
+   "purpose": "level_up:hp:cleric:2",
+   "round": null,
+   "target": null,
+   "total": 6
+  },
+  {
+   "actor": "Dorna",
+   "beat": "beat-17",
+   "faces": [
+    7
+   ],
+   "notation": "1d8",
+   "purpose": "level_up:hp:cleric:3",
+   "round": null,
+   "target": null,
+   "total": 7
+  },
+  {
+   "actor": "Dorna",
+   "beat": "beat-18",
+   "faces": [
+    3
+   ],
+   "notation": "1d8",
+   "purpose": "level_up:hp:cleric:4",
+   "round": null,
+   "target": null,
+   "total": 3
+  },
+  {
+   "actor": "Dorna",
+   "beat": "beat-19",
+   "faces": [
+    1
+   ],
+   "notation": "1d8",
+   "purpose": "level_up:hp:cleric:5",
+   "round": null,
+   "target": null,
+   "total": 1
+  },
+  {
+   "actor": "Dorna",
+   "beat": "beat-20",
+   "faces": [
+    3
+   ],
+   "notation": "1d8",
+   "purpose": "level_up:hp:cleric:6",
+   "round": null,
+   "target": null,
+   "total": 3
+  },
+  {
+   "actor": "Elowen",
+   "beat": "beat-22",
+   "faces": [
+    2
+   ],
+   "notation": "1d4",
+   "purpose": "level_up:hp:wizard:2",
+   "round": null,
+   "target": null,
+   "total": 2
+  },
+  {
+   "actor": "Elowen",
+   "beat": "beat-23",
+   "faces": [
+    3
+   ],
+   "notation": "1d4",
+   "purpose": "level_up:hp:wizard:3",
+   "round": null,
+   "target": null,
+   "total": 3
+  },
+  {
+   "actor": "Elowen",
+   "beat": "beat-24",
+   "faces": [
+    4
+   ],
+   "notation": "1d4",
+   "purpose": "level_up:hp:wizard:4",
+   "round": null,
+   "target": null,
+   "total": 4
+  },
+  {
+   "actor": "Elowen",
+   "beat": "beat-25",
+   "faces": [
+    4
+   ],
+   "notation": "1d4",
+   "purpose": "level_up:hp:wizard:5",
+   "round": null,
+   "target": null,
+   "total": 4
+  },
+  {
+   "actor": "Elowen",
+   "beat": "beat-26",
+   "faces": [
+    2
+   ],
+   "notation": "1d4",
+   "purpose": "level_up:hp:wizard:6",
+   "round": null,
+   "target": null,
+   "total": 2
+  },
+  {
+   "actor": "Pip",
+   "beat": "beat-28",
+   "faces": [
+    1
+   ],
+   "notation": "1d6",
+   "purpose": "level_up:hp:rogue:2",
+   "round": null,
+   "target": null,
+   "total": 1
+  },
+  {
+   "actor": "Pip",
+   "beat": "beat-29",
+   "faces": [
+    5
+   ],
+   "notation": "1d6",
+   "purpose": "level_up:hp:rogue:3",
+   "round": null,
+   "target": null,
+   "total": 5
+  },
+  {
+   "actor": "Pip",
+   "beat": "beat-30",
+   "faces": [
+    5
+   ],
+   "notation": "1d6",
+   "purpose": "level_up:hp:rogue:4",
+   "round": null,
+   "target": null,
+   "total": 5
+  },
+  {
+   "actor": "Pip",
+   "beat": "beat-31",
+   "faces": [
+    1
+   ],
+   "notation": "1d6",
+   "purpose": "level_up:hp:rogue:5",
+   "round": null,
+   "target": null,
+   "total": 1
+  },
+  {
+   "actor": "Pip",
+   "beat": "beat-32",
+   "faces": [
+    1
+   ],
+   "notation": "1d6",
+   "purpose": "level_up:hp:rogue:6",
+   "round": null,
+   "target": null,
+   "total": 1
+  },
+  {
+   "actor": "Bram",
+   "beat": "beat-48/<fight>",
+   "faces": [
+    18
+   ],
+   "notation": "1d20",
+   "purpose": "initiative",
+   "round": 1,
+   "target": null,
+   "total": 18
+  },
+  {
+   "actor": "Dorna",
+   "beat": "beat-48/<fight>",
+   "faces": [
+    11
+   ],
+   "notation": "1d20",
+   "purpose": "initiative",
+   "round": 1,
+   "target": null,
+   "total": 11
+  },
+  {
+   "actor": "Elowen",
+   "beat": "beat-48/<fight>",
+   "faces": [
+    5
+   ],
+   "notation": "1d20",
+   "purpose": "initiative",
+   "round": 1,
+   "target": null,
+   "total": 5
+  },
+  {
+   "actor": "Pip",
+   "beat": "beat-48/<fight>",
+   "faces": [
+    18
+   ],
+   "notation": "1d20",
+   "purpose": "initiative",
+   "round": 1,
+   "target": null,
+   "total": 18
+  },
+  {
+   "actor": "mon_1",
+   "beat": "beat-48/<fight>",
+   "faces": [
+    18
+   ],
+   "notation": "1d20",
+   "purpose": "initiative",
+   "round": 1,
+   "target": null,
+   "total": 18
+  },
+  {
+   "actor": "mon_2",
+   "beat": "beat-48/<fight>",
+   "faces": [
+    10
+   ],
+   "notation": "1d20",
+   "purpose": "initiative",
+   "round": 1,
+   "target": null,
+   "total": 10
+  },
+  {
+   "actor": "Pip",
+   "beat": "beat-49/<fight>",
+   "faces": [
+    3
+   ],
+   "notation": "1d20",
+   "purpose": "attack#1",
+   "round": 1,
+   "target": "mon_2",
+   "total": 3
+  },
+  {
+   "actor": "Bram",
+   "beat": "beat-49/<fight>",
+   "faces": [
+    12
+   ],
+   "notation": "1d20",
+   "purpose": "attack#1",
+   "round": 1,
+   "target": "mon_1",
+   "total": 12
+  },
+  {
+   "actor": "Bram",
+   "beat": "beat-49/<fight>",
+   "faces": [
+    7
+   ],
+   "notation": "1d8+5",
+   "purpose": "damage#1",
+   "round": 1,
+   "target": "mon_1",
+   "total": 12
+  },
+  {
+   "actor": "Bram",
+   "beat": "beat-49/<fight>",
+   "faces": [
+    4
+   ],
+   "notation": "1d20",
+   "purpose": "attack#2",
+   "round": 1,
+   "target": "mon_1",
+   "total": 4
+  },
+  {
+   "actor": "mon_1",
+   "beat": "beat-49/<fight>",
+   "faces": [
+    11
+   ],
+   "notation": "1d20",
+   "purpose": "attack#1",
+   "round": 1,
+   "target": "Bram",
+   "total": 11
+  },
+  {
+   "actor": "mon_1",
+   "beat": "beat-49/<fight>",
+   "faces": [
+    1,
+    1
+   ],
+   "notation": "2d8+7",
+   "purpose": "damage#1",
+   "round": 1,
+   "target": "Bram",
+   "total": 9
+  },
+  {
+   "actor": "Dorna",
+   "beat": "beat-49/<fight>",
+   "faces": [
+    9
+   ],
+   "notation": "1d20",
+   "purpose": "attack#1",
+   "round": 1,
+   "target": "mon_1",
+   "total": 9
+  },
+  {
+   "actor": "Dorna",
+   "beat": "beat-49/<fight>",
+   "faces": [
+    3
+   ],
+   "notation": "1d8+2",
+   "purpose": "damage#1",
+   "round": 1,
+   "target": "mon_1",
+   "total": 5
+  },
+  {
+   "actor": "mon_2",
+   "beat": "beat-49/<fight>",
+   "faces": [
+    15
+   ],
+   "notation": "1d20",
+   "purpose": "attack#1",
+   "round": 1,
+   "target": "Pip",
+   "total": 15
+  },
+  {
+   "actor": "mon_2",
+   "beat": "beat-49/<fight>",
+   "faces": [
+    1,
+    4
+   ],
+   "notation": "2d8+7",
+   "purpose": "damage#1",
+   "round": 1,
+   "target": "Pip",
+   "total": 12
+  },
+  {
+   "actor": "Pip",
+   "beat": "beat-50/<fight>",
+   "faces": [
+    16
+   ],
+   "notation": "1d20",
+   "purpose": "attack#1",
+   "round": 2,
+   "target": "mon_1",
+   "total": 16
+  },
+  {
+   "actor": "Pip",
+   "beat": "beat-50/<fight>",
+   "faces": [
+    3
+   ],
+   "notation": "1d4+1",
+   "purpose": "damage#1",
+   "round": 2,
+   "target": "mon_1",
+   "total": 4
+  },
+  {
+   "actor": "Pip",
+   "beat": "beat-50/<fight>",
+   "faces": [
+    3,
+    6,
+    2
+   ],
+   "notation": "3d6",
+   "purpose": "sneak#1",
+   "round": 2,
+   "target": "mon_1",
+   "total": 11
+  },
+  {
+   "actor": "Bram",
+   "beat": "beat-50/<fight>",
+   "faces": [
+    16
+   ],
+   "notation": "1d20",
+   "purpose": "attack#1",
+   "round": 2,
+   "target": "mon_1",
+   "total": 16
+  },
+  {
+   "actor": "Bram",
+   "beat": "beat-50/<fight>",
+   "faces": [
+    6
+   ],
+   "notation": "1d8+5",
+   "purpose": "damage#1",
+   "round": 2,
+   "target": "mon_1",
+   "total": 11
+  },
+  {
+   "actor": "Bram",
+   "beat": "beat-50/<fight>",
+   "faces": [
+    3
+   ],
+   "notation": "1d20",
+   "purpose": "attack#2",
+   "round": 2,
+   "target": "mon_1",
+   "total": 3
+  },
+  {
+   "actor": "mon_1",
+   "beat": "beat-50/<fight>",
+   "faces": [
+    18
+   ],
+   "notation": "1d20",
+   "purpose": "attack#1",
+   "round": 2,
+   "target": "Bram",
+   "total": 18
+  },
+  {
+   "actor": "mon_1",
+   "beat": "beat-50/<fight>",
+   "faces": [
+    6,
+    4
+   ],
+   "notation": "2d8+7",
+   "purpose": "damage#1",
+   "round": 2,
+   "target": "Bram",
+   "total": 17
+  },
+  {
+   "actor": "mon_2",
+   "beat": "beat-50/<fight>",
+   "faces": [
+    18
+   ],
+   "notation": "1d20",
+   "purpose": "attack#1",
+   "round": 2,
+   "target": "Dorna",
+   "total": 18
+  },
+  {
+   "actor": "mon_2",
+   "beat": "beat-50/<fight>",
+   "faces": [
+    2,
+    3
+   ],
+   "notation": "2d8+7",
+   "purpose": "damage#1",
+   "round": 2,
+   "target": "Dorna",
+   "total": 12
+  },
+  {
+   "actor": "Bram",
+   "beat": "beat-53",
+   "faces": [
+    10
+   ],
+   "notation": "1d10",
+   "purpose": "level_up:hp:fighter:7",
+   "round": null,
+   "target": null,
+   "total": 10
+  },
+  {
+   "actor": "Dorna",
+   "beat": "beat-55",
+   "faces": [
+    2
+   ],
+   "notation": "1d8",
+   "purpose": "level_up:hp:cleric:7",
+   "round": null,
+   "target": null,
+   "total": 2
+  },
+  {
+   "actor": "Elowen",
+   "beat": "beat-57",
+   "faces": [
+    1
+   ],
+   "notation": "1d4",
+   "purpose": "level_up:hp:wizard:7",
+   "round": null,
+   "target": null,
+   "total": 1
+  },
+  {
+   "actor": "Pip",
+   "beat": "beat-59",
+   "faces": [
+    2
+   ],
+   "notation": "1d6",
+   "purpose": "level_up:hp:rogue:7",
+   "round": null,
+   "target": null,
+   "total": 2
+  },
+  {
+   "actor": "Bram",
+   "beat": "beat-80/<fight>",
+   "faces": [
+    9
+   ],
+   "notation": "1d20",
+   "purpose": "initiative",
+   "round": 1,
+   "target": null,
+   "total": 9
+  },
+  {
+   "actor": "Dorna",
+   "beat": "beat-80/<fight>",
+   "faces": [
+    13
+   ],
+   "notation": "1d20",
+   "purpose": "initiative",
+   "round": 1,
+   "target": null,
+   "total": 13
+  },
+  {
+   "actor": "Elowen",
+   "beat": "beat-80/<fight>",
+   "faces": [
+    18
+   ],
+   "notation": "1d20",
+   "purpose": "initiative",
+   "round": 1,
+   "target": null,
+   "total": 18
+  },
+  {
+   "actor": "Pip",
+   "beat": "beat-80/<fight>",
+   "faces": [
+    14
+   ],
+   "notation": "1d20",
+   "purpose": "initiative",
+   "round": 1,
+   "target": null,
+   "total": 14
+  },
+  {
+   "actor": "Sela",
+   "beat": "beat-80/<fight>",
+   "faces": [
+    12
+   ],
+   "notation": "1d20",
+   "purpose": "initiative",
+   "round": 1,
+   "target": null,
+   "total": 12
+  },
+  {
+   "actor": "Ansel",
+   "beat": "beat-80/<fight>",
+   "faces": [
+    12
+   ],
+   "notation": "1d20",
+   "purpose": "initiative",
+   "round": 1,
+   "target": null,
+   "total": 12
+  },
+  {
+   "actor": "Krug",
+   "beat": "beat-80/<fight>",
+   "faces": [
+    18
+   ],
+   "notation": "1d20",
+   "purpose": "initiative",
+   "round": 1,
+   "target": null,
+   "total": 18
+  },
+  {
+   "actor": "Mei",
+   "beat": "beat-80/<fight>",
+   "faces": [
+    13
+   ],
+   "notation": "1d20",
+   "purpose": "initiative",
+   "round": 1,
+   "target": null,
+   "total": 13
+  },
+  {
+   "actor": "mon_1",
+   "beat": "beat-80/<fight>",
+   "faces": [
+    12
+   ],
+   "notation": "1d20",
+   "purpose": "initiative",
+   "round": 1,
+   "target": null,
+   "total": 12
+  },
+  {
+   "actor": "Krug",
+   "beat": "beat-83/<fight>",
+   "faces": [
+    16
+   ],
+   "notation": "1d20",
+   "purpose": "attack#1",
+   "round": 1,
+   "target": "mon_1",
+   "total": 16
+  },
+  {
+   "actor": "Krug",
+   "beat": "beat-83/<fight>",
+   "faces": [
+    8
+   ],
+   "notation": "1d12+6",
+   "purpose": "damage#1",
+   "round": 1,
+   "target": "mon_1",
+   "total": 14
+  },
+  {
+   "actor": "Krug",
+   "beat": "beat-83/<fight>",
+   "faces": [
+    3
+   ],
+   "notation": "1d20",
+   "purpose": "attack#2",
+   "round": 1,
+   "target": "mon_1",
+   "total": 3
+  },
+  {
+   "actor": "Krug",
+   "beat": "beat-83/<fight>",
+   "faces": [
+    5
+   ],
+   "notation": "1d20",
+   "purpose": "attack#3",
+   "round": 1,
+   "target": "mon_1",
+   "total": 5
+  },
+  {
+   "actor": "Mei",
+   "beat": "beat-83/<fight>",
+   "faces": [
+    13
+   ],
+   "notation": "1d20",
+   "purpose": "attack#1",
+   "round": 1,
+   "target": "mon_1",
+   "total": 13
+  },
+  {
+   "actor": "Mei",
+   "beat": "beat-83/<fight>",
+   "faces": [
+    1
+   ],
+   "notation": "1d10+2",
+   "purpose": "damage#1",
+   "round": 1,
+   "target": "mon_1",
+   "total": 3
+  },
+  {
+   "actor": "Mei",
+   "beat": "beat-83/<fight>",
+   "faces": [
+    2
+   ],
+   "notation": "1d20",
+   "purpose": "attack#2",
+   "round": 1,
+   "target": "mon_1",
+   "total": 2
+  },
+  {
+   "actor": "Mei",
+   "beat": "beat-83/<fight>",
+   "faces": [
+    7
+   ],
+   "notation": "1d20",
+   "purpose": "attack#3",
+   "round": 1,
+   "target": "mon_1",
+   "total": 7
+  },
+  {
+   "actor": "Mei",
+   "beat": "beat-83/<fight>",
+   "faces": [
+    7
+   ],
+   "notation": "1d20",
+   "purpose": "attack#4",
+   "round": 1,
+   "target": "mon_1",
+   "total": 7
+  },
+  {
+   "actor": "mon_1",
+   "beat": "beat-83/<fight>",
+   "faces": [
+    6
+   ],
+   "notation": "1d20",
+   "purpose": "attack#1",
+   "round": 1,
+   "target": "Krug",
+   "total": 6
+  },
+  {
+   "actor": "mon_1",
+   "beat": "beat-83/<fight>",
+   "faces": [
+    5,
+    2
+   ],
+   "notation": "2d8+10",
+   "purpose": "damage#1",
+   "round": 1,
+   "target": "Krug",
+   "total": 17
+  },
+  {
+   "actor": "mon_1",
+   "beat": "beat-83/<fight>",
+   "faces": [
+    2
+   ],
+   "notation": "1d20",
+   "purpose": "attack#2",
+   "round": 1,
+   "target": "Krug",
+   "total": 2
+  }
+ ]
+}

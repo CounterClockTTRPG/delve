@@ -495,3 +495,44 @@ def test_carrying_capacity_has_the_sizes_and_the_reduced_speeds(extracted):  # D
 def test_carrying_capacity_needs_its_table():
     with pytest.raises(ValueError, match="Carrying Capacity"):
         kinds.carrying([("03-01-carrying-capacity.md", '---\ntitle: "Carrying Capacity"\n---\nNo table.\n')])
+
+
+def test_the_class_lists_are_read_from_the_class_text():
+    """The step `extract.py` runs: the adept's, assassin's and blackguard's spell lists into the spells' levels, from
+    the shipped classes alone, gives the shipped spells back (deterministic; no class text, no change)."""
+    from delve_srd35 import data as shipped
+
+    classes, spells = shipped.load("classes"), json.loads(json.dumps(shipped.load("spells")))
+    for row in spells:
+        for cls in kinds.CLASS_LISTS:
+            row["levels"].pop(cls, None)
+    assert kinds.class_list_levels(classes, spells) == ["corrupt weapon"]  # only in the blackguard's text
+    assert spells == shipped.load("spells")
+    assert kinds.class_list_levels([], spells) == []
+    assert {cls for row in spells for cls in row["levels"]} >= {"adept", "assassin", "blackguard"}
+
+
+def test_the_spells_known_are_read_from_the_class_text():
+    """The step `extract.py` runs (DEL-389): each Table: … Spells Known into its class's level rows, from the shipped
+    classes alone, gives the shipped classes back (deterministic); "—" is none and a footnote mark goes."""
+    from delve_srd35 import data as shipped
+
+    classes = json.loads(json.dumps(shipped.load("classes")))
+    for row in classes:
+        for level in row["levels"]:
+            level.pop("spells_known", None)
+    assert kinds.spells_known(classes) == ["assassin", "bard", "sorcerer"]
+    assert classes == shipped.load("classes")
+    by = {row["id"]: {level["level"]: level for level in row["levels"]} for row in classes}
+    # Table: Sorcerer Spells Known, 1st: 4 / 2; 20th: 9 / 5 / 5 / 4 / 4 / 4 / 3 / 3 / 3 / 3. Table: Bard Spells Known,
+    # 1st: 4 (— above); 2nd: 5 / 2¹.
+    assert by["sorcerer"][1]["spells_known"] == {"0": "4", "1": "2"}
+    assert by["sorcerer"][20]["spells_known"] == dict(zip("0123456789", "9554443333", strict=True))
+    assert by["bard"][1]["spells_known"] == {"0": "4"} and by["bard"][2]["spells_known"] == {"0": "5", "1": "2"}
+    assert "spells_known" not in by["wizard"][1]
+    text = "**Table: Test Spells Known**\n\n| Level | 0 | 1st |\n| --- | --- | --- |\n"
+    text += "| 1st | 3 | — |\n| 2nd | 4 | 1¹ |\n"
+    row = {"id": "test", "text": text, "levels": [{"level": 1}, {"level": 2}, {"level": 3}]}
+    assert kinds.spells_known([row]) == ["test"]
+    assert row["levels"] == [{"level": 1, "spells_known": {"0": "3"}}, {"level": 2, "spells_known": {"0": "4", "1": "1"}},
+                             {"level": 3}]  # fmt: skip

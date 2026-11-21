@@ -37,7 +37,18 @@ def reset() -> None:
     """Forget the packs loaded so far, so the next `load_packs` reads the folders again (for tests)."""
     _loaded.clear()
     for package in list(_imported):
-        _forget(package)
+        if _held_elsewhere(package):
+            _unpath(_imported.pop(package))
+        else:
+            _forget(package)
+
+
+def _held_elsewhere(package: str) -> bool:
+    """Whether `package` was imported from outside the `src` the loader put on the path: a pack's own tests import it
+    from the pack's tree and hold its classes, which an import made after dropping it would no longer be (tests only)."""
+    module = sys.modules.get(package)
+    where = getattr(module, "__file__", None)
+    return where is not None and not Path(where).is_relative_to(_imported[package])
 
 
 def _forget(package: str) -> None:
@@ -45,6 +56,10 @@ def _forget(package: str) -> None:
     src = _imported.pop(package)
     for name in [n for n in sys.modules if n == package or n.startswith(package + ".")]:
         del sys.modules[name]
+    _unpath(src)
+
+
+def _unpath(src: str) -> None:
     while src in sys.path:
         sys.path.remove(src)
 

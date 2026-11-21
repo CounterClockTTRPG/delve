@@ -176,7 +176,9 @@ def test_sheet_numbers_and_prompt_terms():
     s = engine.fill_derived(sheet("Cleric", "Human", {"cleric": 1}, {"wis": 15}, {"domains": ["war"]}), REF)
     out = engine.sheet_numbers(s)
     assert set(out) == {"bab", "fort", "ref", "will", "ac", "touch", "flat_footed", "init", "skills", "feats",
-                        "domains", "slots", "dc"}  # fmt: skip
+                        "domains", "slots", "dc", "features"}  # fmt: skip
+    assert [(f["id"], f["per_day"]) for f in out["features"]] == [("casting", None), ("proficiency", None),
+                                                                   ("turn-undead", 3)]  # fmt: skip
     assert (out["will"], out["slots"], out["domains"], out["feats"]) == (4, {"0": 3, "1": 3}, ["war"], [])
     assert engine.sheet_numbers(Sheet(cls="Fighter", race="Human", levels={"fighter": 1}))["bab"] == 1
     assert engine.prompt_terms() == {"attack_number": "attack bonus against AC",
@@ -188,3 +190,26 @@ def test_the_ruleset_carries_the_engine():
 
     ruleset = Srd35Ruleset()
     assert isinstance(ruleset.d20, Srd35Engine) and ruleset.d20.reference is ruleset.reference
+
+
+def test_a_two_handed_weapon_gets_no_shields_ac():
+    # The dwarf fighter 3 in scale mail +4 with a heavy steel shield +2 (Dex 12, +1): AC 17, flat-footed 16, ACP -6.
+    # With a greatsword or a longbow both hands are on the weapon: the heavy shield's +2 is lost (AC 15, flat-footed
+    # 14), its armour check penalty still on him (carried, -6). A longsword keeps it; so does a hand crossbow.
+    for weapon in ("greatsword", "longbow", "light crossbow"):
+        d = numbers.derived(dwarf_fighter_3(weapon=weapon), REF)
+        assert (d["ac"], d["touch"], d["flat_footed"], d["acp"]) == (15, 11, 14, -6), weapon
+    for weapon in ("longsword", "hand crossbow"):
+        assert numbers.derived(dwarf_fighter_3(weapon=weapon), REF)["ac"] == 17, weapon
+    assert "both hands" in numbers.shield_use(dwarf_fighter_3(weapon="greatsword"), REF)["note"]
+    assert numbers.shield_use(dwarf_fighter_3(weapon="longsword"), REF) == {"counts": True, "attack": 0, "note": None}
+
+
+def test_a_buckler_with_a_two_handed_weapon():
+    # A buckler +1: with a greatsword, -1 to attack and no buckler AC (AC 10 + 4 + 1 = 15); with a longbow, "without
+    # penalty", its +1 kept (AC 16).
+    use = numbers.shield_use(dwarf_fighter_3(shield="buckler", weapon="greatsword"), REF)
+    assert (use["counts"], use["attack"]) == (False, -1)
+    assert numbers.derived(dwarf_fighter_3(shield="buckler", weapon="greatsword"), REF)["ac"] == 15
+    assert numbers.derived(dwarf_fighter_3(shield="buckler", weapon="longbow"), REF)["ac"] == 16
+    assert numbers.shield_use(dwarf_fighter_3(shield="buckler", weapon="longbow"), REF)["attack"] == 0

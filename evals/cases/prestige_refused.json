@@ -1,0 +1,20 @@
+{
+  "id": "prestige_refused",
+  "description": "SRD 3.5: Ilse, a wizard 5 with the XP for 6th level, wants to be an eldritch knight and lacks its martial weapons: the refusal is told in the story and the closing choices never offer the class.",
+  "module": "crypt-of-saint-vellis",
+  "ruleset": "srd35",
+  "setting": "aun",
+  "setup": [
+    {"tool": "create_character", "args": {"name": "Ilse", "sheet": {
+      "race": "Human", "gender": "female", "cls": "Wizard", "level": 5, "hp_max": 22,
+      "alignment": "Neutral Good",
+      "ability_scores": {"str": 10, "dex": 14, "con": 12, "int": 16, "wis": 12, "cha": 10}}}},
+    {"tool": "update_character", "args": {"ref": "Ilse", "patch": {"xp": 16000}, "reason": "the XP of the next level"}},
+    {"tool": "move_party", "args": {"to": "entry_hall"}}
+  ],
+  "secrets": [],
+  "beats": [
+    {"player": "Ilse wants to become an eldritch knight.",
+     "expect": {"hidden_terms": ["eldritch knight"]}}
+  ]
+}

@@ -51,7 +51,12 @@ def test_the_slice_names_only_real_ids():
         assert set(s[kind]) <= ids, kind
     assert len(s["skills"]) == 20 and 25 <= len(s["feats"]) <= 35 and 50 <= len(s["monsters"]) <= 70
     assert {"orc", "goblin", "kobold", "wolf", "human-warrior-skeleton"} <= set(s["monsters"])
-    assert s["max_level"] == 5 and s["spell_levels"] == [0, 1, 2, 3]
+    assert s["max_level"] == 20 and s["spell_levels"] == [0, 1, 2, 3]
+    # DEL-389 part 1: the 16 base and NPC classes with feature rows (part 4's prestige classes have rows too, and are
+    # entered from them), and the seven core races.
+    prestige = {c["id"] for c in data.load("classes") if c["type"] == "prestige"}
+    assert sorted(s["classes"]) == sorted(set(data.load("features")) - prestige) and len(s["classes"]) == 16
+    assert sorted(s["races"]) == ["dwarves", "elves", "gnomes", "half-elves", "half-orcs", "halflings", "humans"]
     assert {"weapon-focus", "toughness", "improved-initiative", "alertness", "spell-focus"} <= set(s["feats"])
     for key in ("skills", "feats", "monsters"):
         assert len(set(s[key])) == len(s[key]), key
@@ -70,3 +75,12 @@ def test_slice_spells_have_their_components():
     empty = [s["name"] for s in data.load("spells")
              if any(s["levels"].get(cls, 9) <= 3 for cls in ("cleric", "wizard")) and not s["components"].strip()]  # fmt: skip
     assert empty == []
+
+
+def test_the_adept_list_is_in_the_spells_levels():
+    """DEL-389: the adept's list, 0 to 5th, from its class text ("Adept Spell List"), as `"adept": N`."""
+    spells = {s["id"]: s for s in data.load("spells")}
+    adept = [s for s in spells.values() if "adept" in s["levels"]]
+    assert len(adept) == 10 + 17 + 14 + 12 + 6 + 8
+    assert spells["bless"]["levels"]["adept"] == 1 and spells["cure-minor-wounds"]["levels"]["adept"] == 0
+    assert spells["bears-endurance"]["levels"]["adept"] == 2 and spells["wall-of-stone"]["levels"]["adept"] == 5

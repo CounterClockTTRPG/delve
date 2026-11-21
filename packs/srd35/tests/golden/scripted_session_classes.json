@@ -1,0 +1,5015 @@
+{
+ "answers": [
+  {
+   "answer": {
+    "house_rules": [],
+    "id": "Krug",
+    "kind": "pc",
+    "name": "Krug",
+    "named_by": "given",
+    "order": 0,
+    "sheet": {
+     "ability_scores": {
+      "cha": 10,
+      "con": 14,
+      "dex": 14,
+      "int": 8,
+      "str": 16,
+      "wis": 10
+     },
+     "ac": 10,
+     "ac_vs_larger": 0,
+     "alignment": "",
+     "attacks": [],
+     "background": "",
+     "cls": "Barbarian",
+     "d20": {
+      "derived": {
+       "ac": 12,
+       "acp": 0,
+       "bab": 1,
+       "casting": {},
+       "dc": {},
+       "ecl": 1,
+       "features": [
+        {
+         "class": "barbarian",
+         "condition": "no_heavy_load",
+         "id": "fast-movement",
+         "kind": "bonus",
+         "name": "Fast movement",
+         "per_day": null,
+         "target": "speed",
+         "value": 10
+        },
+        {
+         "class": "barbarian",
+         "id": "illiteracy",
+         "kind": "note",
+         "name": "Illiteracy",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "barbarian",
+         "id": "proficiency",
+         "kind": "proficiency",
+         "name": "Weapon and armour proficiency",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "barbarian",
+         "id": "rage",
+         "kind": "uses",
+         "name": "Rage",
+         "per_day": 1,
+         "value": 1
+        }
+       ],
+       "flat_footed": 10,
+       "fort": 4,
+       "init": 2,
+       "max_dex": null,
+       "ref": 2,
+       "skill_notes": {},
+       "skills": {},
+       "slots": {},
+       "sneak": "",
+       "speed": 40,
+       "spell_failure": 0,
+       "touch": 12,
+       "turning_per_day": 0,
+       "will": 0,
+       "xp_penalty": 0
+      }
+     },
+     "deity": "",
+     "disposition": 0,
+     "faction": "",
+     "gender": "",
+     "hp_max": 14,
+     "kind": "pc",
+     "label": "Krug",
+     "levels": {
+      "barbarian": 1
+     },
+     "movement_rate": 40,
+     "natural_abilities": [],
+     "notes_md": "",
+     "nwps": [],
+     "portrait": null,
+     "portrait_prompt": "",
+     "pronouns": "",
+     "race": "Human",
+     "saves": {},
+     "size": "M",
+     "skills": {},
+     "spell_loadout": {
+      "default": {},
+      "known": {}
+     },
+     "spell_slots": {},
+     "thac0": 20,
+     "weapon": "",
+     "weapon_profs": []
+    },
+    "state": {
+     "conditions": [],
+     "effects": [],
+     "hp": 14,
+     "inventory": [],
+     "memorized": [],
+     "xp": 0
+    }
+   },
+   "args": {
+    "name": "Krug",
+    "sheet": {
+     "ability_scores": {
+      "cha": 10,
+      "con": 14,
+      "dex": 14,
+      "int": 8,
+      "str": 16,
+      "wis": 10
+     },
+     "cls": "Barbarian",
+     "hp_max": 14,
+     "level": 1,
+     "race": "Human"
+    }
+   },
+   "tool": "create_character"
+  },
+  {
+   "answer": {
+    "build": {
+     "armor": "studded leather",
+     "feats": [
+      {
+       "id": "power-attack"
+      },
+      {
+       "id": "cleave"
+      }
+     ],
+     "weapon": "greataxe"
+    },
+    "character": "Krug",
+    "character_id": "Krug",
+    "derived": {
+     "ac": 15,
+     "acp": -1,
+     "bab": 1,
+     "casting": {},
+     "dc": {},
+     "ecl": 1,
+     "features": [
+      {
+       "class": "barbarian",
+       "condition": "no_heavy_load",
+       "id": "fast-movement",
+       "kind": "bonus",
+       "name": "Fast movement",
+       "per_day": null,
+       "target": "speed",
+       "value": 10
+      },
+      {
+       "class": "barbarian",
+       "id": "illiteracy",
+       "kind": "note",
+       "name": "Illiteracy",
+       "per_day": null,
+       "value": null
+      },
+      {
+       "class": "barbarian",
+       "id": "proficiency",
+       "kind": "proficiency",
+       "name": "Weapon and armour proficiency",
+       "per_day": null,
+       "value": null
+      },
+      {
+       "class": "barbarian",
+       "id": "rage",
+       "kind": "uses",
+       "name": "Rage",
+       "per_day": 1,
+       "value": 1
+      }
+     ],
+     "flat_footed": 13,
+     "fort": 4,
+     "init": 2,
+     "max_dex": 5,
+     "ref": 2,
+     "skill_notes": {},
+     "skills": {},
+     "slots": {},
+     "sneak": "",
+     "speed": 40,
+     "spell_failure": 0,
+     "touch": 12,
+     "turning_per_day": 0,
+     "will": 0,
+     "xp_penalty": 0
+    }
+   },
+   "args": {
+    "armor": "studded leather",
+    "character": "Krug",
+    "feats": [
+     "power attack",
+     "cleave"
+    ],
+    "weapon": "greataxe"
+   },
+   "tool": "set_build"
+  },
+  {
+   "answer": {
+    "house_rules": [],
+    "id": "Mei",
+    "kind": "pc",
+    "name": "Mei",
+    "named_by": "given",
+    "order": 1,
+    "sheet": {
+     "ability_scores": {
+      "cha": 8,
+      "con": 12,
+      "dex": 15,
+      "int": 10,
+      "str": 14,
+      "wis": 15
+     },
+     "ac": 10,
+     "ac_vs_larger": 0,
+     "alignment": "",
+     "attacks": [],
+     "background": "",
+     "cls": "Monk",
+     "d20": {
+      "derived": {
+       "ac": 14,
+       "acp": 0,
+       "bab": 0,
+       "casting": {},
+       "dc": {},
+       "ecl": 1,
+       "features": [
+        {
+         "ability": "wis",
+         "class": "monk",
+         "condition": "unarmoured_unencumbered",
+         "id": "ac-bonus",
+         "kind": "bonus",
+         "name": "AC bonus",
+         "per_day": null,
+         "target": "ac",
+         "value": 0
+        },
+        {
+         "class": "monk",
+         "id": "bonus-feat",
+         "kind": "feat",
+         "name": "Bonus feat",
+         "per_day": null,
+         "value": 1
+        },
+        {
+         "class": "monk",
+         "condition": "unarmoured_unencumbered",
+         "id": "flurry-of-blows",
+         "kind": "note",
+         "name": "Flurry of blows",
+         "per_day": null,
+         "value": -2
+        },
+        {
+         "class": "monk",
+         "feat": "improved-unarmed-strike",
+         "id": "improved-unarmed-strike",
+         "kind": "feat",
+         "name": "Improved Unarmed Strike",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "monk",
+         "id": "proficiency",
+         "kind": "proficiency",
+         "name": "Weapon and armour proficiency",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "monk",
+         "id": "unarmed-strike",
+         "kind": "dice",
+         "name": "Unarmed strike",
+         "per_day": null,
+         "value": "1d6"
+        }
+       ],
+       "flat_footed": 12,
+       "fort": 3,
+       "init": 2,
+       "max_dex": null,
+       "ref": 4,
+       "skill_notes": {},
+       "skills": {},
+       "slots": {},
+       "sneak": "",
+       "speed": 30,
+       "spell_failure": 0,
+       "touch": 14,
+       "turning_per_day": 0,
+       "will": 4,
+       "xp_penalty": 0
+      }
+     },
+     "deity": "",
+     "disposition": 0,
+     "faction": "",
+     "gender": "",
+     "hp_max": 9,
+     "kind": "pc",
+     "label": "Mei",
+     "levels": {
+      "monk": 1
+     },
+     "movement_rate": 30,
+     "natural_abilities": [],
+     "notes_md": "",
+     "nwps": [],
+     "portrait": null,
+     "portrait_prompt": "",
+     "pronouns": "",
+     "race": "Human",
+     "saves": {},
+     "size": "M",
+     "skills": {},
+     "spell_loadout": {
+      "default": {},
+      "known": {}
+     },
+     "spell_slots": {},
+     "thac0": 20,
+     "weapon": "",
+     "weapon_profs": []
+    },
+    "state": {
+     "conditions": [],
+     "effects": [],
+     "hp": 9,
+     "inventory": [],
+     "memorized": [],
+     "xp": 0
+    }
+   },
+   "args": {
+    "name": "Mei",
+    "sheet": {
+     "ability_scores": {
+      "cha": 8,
+      "con": 12,
+      "dex": 15,
+      "int": 10,
+      "str": 14,
+      "wis": 15
+     },
+     "cls": "Monk",
+     "hp_max": 9,
+     "level": 1,
+     "race": "Human"
+    }
+   },
+   "tool": "create_character"
+  },
+  {
+   "answer": {
+    "build": {
+     "skills": {
+      "listen": 4,
+      "tumble": 4
+     }
+    },
+    "character": "Mei",
+    "character_id": "Mei",
+    "derived": {
+     "ac": 14,
+     "acp": 0,
+     "bab": 0,
+     "casting": {},
+     "dc": {},
+     "ecl": 1,
+     "features": [
+      {
+       "ability": "wis",
+       "class": "monk",
+       "condition": "unarmoured_unencumbered",
+       "id": "ac-bonus",
+       "kind": "bonus",
+       "name": "AC bonus",
+       "per_day": null,
+       "target": "ac",
+       "value": 0
+      },
+      {
+       "class": "monk",
+       "id": "bonus-feat",
+       "kind": "feat",
+       "name": "Bonus feat",
+       "per_day": null,
+       "value": 1
+      },
+      {
+       "class": "monk",
+       "condition": "unarmoured_unencumbered",
+       "id": "flurry-of-blows",
+       "kind": "note",
+       "name": "Flurry of blows",
+       "per_day": null,
+       "value": -2
+      },
+      {
+       "class": "monk",
+       "feat": "improved-unarmed-strike",
+       "id": "improved-unarmed-strike",
+       "kind": "feat",
+       "name": "Improved Unarmed Strike",
+       "per_day": null,
+       "value": null
+      },
+      {
+       "class": "monk",
+       "id": "proficiency",
+       "kind": "proficiency",
+       "name": "Weapon and armour proficiency",
+       "per_day": null,
+       "value": null
+      },
+      {
+       "class": "monk",
+       "id": "unarmed-strike",
+       "kind": "dice",
+       "name": "Unarmed strike",
+       "per_day": null,
+       "value": "1d6"
+      }
+     ],
+     "flat_footed": 12,
+     "fort": 3,
+     "init": 2,
+     "max_dex": null,
+     "ref": 4,
+     "skill_notes": {},
+     "skills": {
+      "listen": 6,
+      "tumble": 6
+     },
+     "slots": {},
+     "sneak": "",
+     "speed": 30,
+     "spell_failure": 0,
+     "touch": 14,
+     "turning_per_day": 0,
+     "will": 4,
+     "xp_penalty": 0
+    },
+    "skill_points": {
+     "spent": 8.0,
+     "total": 20
+    }
+   },
+   "args": {
+    "character": "Mei",
+    "skills": {
+     "listen": 4,
+     "tumble": 4
+    }
+   },
+   "tool": "set_build"
+  },
+  {
+   "answer": {
+    "house_rules": [],
+    "id": "Aldra",
+    "kind": "pc",
+    "name": "Aldra",
+    "named_by": "given",
+    "order": 2,
+    "sheet": {
+     "ability_scores": {
+      "cha": 14,
+      "con": 12,
+      "dex": 10,
+      "int": 8,
+      "str": 15,
+      "wis": 12
+     },
+     "ac": 10,
+     "ac_vs_larger": 0,
+     "alignment": "",
+     "attacks": [],
+     "background": "",
+     "cls": "Paladin",
+     "d20": {
+      "derived": {
+       "ac": 10,
+       "acp": 0,
+       "bab": 2,
+       "casting": {},
+       "dc": {},
+       "ecl": 2,
+       "features": [
+        {
+         "class": "paladin",
+         "id": "aura-of-good",
+         "kind": "note",
+         "name": "Aura of good",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "paladin",
+         "id": "detect-evil",
+         "kind": "note",
+         "name": "Detect evil",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "paladin",
+         "id": "proficiency",
+         "kind": "proficiency",
+         "name": "Weapon and armour proficiency",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "paladin",
+         "id": "smite-evil",
+         "kind": "uses",
+         "name": "Smite evil",
+         "per_day": 1,
+         "value": 1
+        },
+        {
+         "ability": "cha",
+         "class": "paladin",
+         "id": "divine-grace",
+         "kind": "bonus",
+         "name": "Divine grace",
+         "per_day": null,
+         "target": "saves",
+         "value": null
+        },
+        {
+         "ability": "cha",
+         "class": "paladin",
+         "id": "lay-on-hands",
+         "kind": "uses",
+         "name": "Lay on hands",
+         "per_day": 0,
+         "value": null
+        }
+       ],
+       "flat_footed": 10,
+       "fort": 6,
+       "init": 0,
+       "max_dex": null,
+       "ref": 2,
+       "skill_notes": {},
+       "skills": {},
+       "slots": {},
+       "sneak": "",
+       "speed": 30,
+       "spell_failure": 0,
+       "touch": 10,
+       "turning_per_day": 0,
+       "will": 3,
+       "xp_penalty": 0
+      }
+     },
+     "deity": "",
+     "disposition": 0,
+     "faction": "",
+     "gender": "",
+     "hp_max": 18,
+     "kind": "pc",
+     "label": "Aldra",
+     "levels": {
+      "paladin": 2
+     },
+     "movement_rate": 30,
+     "natural_abilities": [],
+     "notes_md": "",
+     "nwps": [],
+     "portrait": null,
+     "portrait_prompt": "",
+     "pronouns": "",
+     "race": "Human",
+     "saves": {},
+     "size": "M",
+     "skills": {},
+     "spell_loadout": {
+      "default": {},
+      "known": {}
+     },
+     "spell_slots": {},
+     "thac0": 20,
+     "weapon": "",
+     "weapon_profs": []
+    },
+    "state": {
+     "conditions": [],
+     "effects": [],
+     "hp": 18,
+     "inventory": [],
+     "memorized": [],
+     "xp": 0
+    }
+   },
+   "args": {
+    "name": "Aldra",
+    "sheet": {
+     "ability_scores": {
+      "cha": 14,
+      "con": 12,
+      "dex": 10,
+      "int": 8,
+      "str": 15,
+      "wis": 12
+     },
+     "cls": "Paladin",
+     "hp_max": 18,
+     "level": 2,
+     "race": "Human"
+    }
+   },
+   "tool": "create_character"
+  },
+  {
+   "answer": {
+    "build": {
+     "armor": "chainmail",
+     "shield": "shield, heavy steel",
+     "weapon": "longsword"
+    },
+    "character": "Aldra",
+    "character_id": "Aldra",
+    "derived": {
+     "ac": 17,
+     "acp": -7,
+     "bab": 2,
+     "base_speed": 30,
+     "casting": {},
+     "dc": {},
+     "ecl": 2,
+     "features": [
+      {
+       "class": "paladin",
+       "id": "aura-of-good",
+       "kind": "note",
+       "name": "Aura of good",
+       "per_day": null,
+       "value": null
+      },
+      {
+       "class": "paladin",
+       "id": "detect-evil",
+       "kind": "note",
+       "name": "Detect evil",
+       "per_day": null,
+       "value": null
+      },
+      {
+       "class": "paladin",
+       "id": "proficiency",
+       "kind": "proficiency",
+       "name": "Weapon and armour proficiency",
+       "per_day": null,
+       "value": null
+      },
+      {
+       "class": "paladin",
+       "id": "smite-evil",
+       "kind": "uses",
+       "name": "Smite evil",
+       "per_day": 1,
+       "value": 1
+      },
+      {
+       "ability": "cha",
+       "class": "paladin",
+       "id": "divine-grace",
+       "kind": "bonus",
+       "name": "Divine grace",
+       "per_day": null,
+       "target": "saves",
+       "value": null
+      },
+      {
+       "ability": "cha",
+       "class": "paladin",
+       "id": "lay-on-hands",
+       "kind": "uses",
+       "name": "Lay on hands",
+       "per_day": 0,
+       "value": null
+      }
+     ],
+     "flat_footed": 17,
+     "fort": 6,
+     "init": 0,
+     "max_dex": 2,
+     "ref": 2,
+     "skill_notes": {},
+     "skills": {},
+     "slots": {},
+     "sneak": "",
+     "speed": 20,
+     "spell_failure": 0,
+     "touch": 10,
+     "turning_per_day": 0,
+     "will": 3,
+     "xp_penalty": 0
+    }
+   },
+   "args": {
+    "armor": "chainmail",
+    "character": "Aldra",
+    "shield": "heavy steel shield",
+    "weapon": "longsword"
+   },
+   "tool": "set_build"
+  },
+  {
+   "answer": {
+    "house_rules": [],
+    "id": "Ash",
+    "kind": "pc",
+    "name": "Ash",
+    "named_by": "given",
+    "order": 3,
+    "sheet": {
+     "ability_scores": {
+      "cha": 10,
+      "con": 12,
+      "dex": 12,
+      "int": 10,
+      "str": 10,
+      "wis": 15
+     },
+     "ac": 10,
+     "ac_vs_larger": 0,
+     "alignment": "",
+     "attacks": [],
+     "background": "",
+     "cls": "Druid",
+     "d20": {
+      "derived": {
+       "ac": 11,
+       "acp": 0,
+       "bab": 0,
+       "casting": {
+        "druid": {
+         "ability": "wis",
+         "caster_level": 1,
+         "dc": {
+          "0": 12,
+          "1": 13
+         },
+         "prepared": true,
+         "slots": {
+          "0": 3,
+          "1": 2
+         }
+        }
+       },
+       "dc": {
+        "0": 12,
+        "1": 13
+       },
+       "ecl": 1,
+       "features": [
+        {
+         "class": "druid",
+         "id": "animal-companion",
+         "kind": "note",
+         "name": "Animal companion",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "ability": "wis",
+         "class": "druid",
+         "id": "casting",
+         "kind": "casting",
+         "name": "Spells",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "druid",
+         "id": "nature-sense",
+         "kind": "bonus",
+         "name": "Nature sense",
+         "per_day": null,
+         "targets": [
+          "skill:knowledge-nature",
+          "skill:survival"
+         ],
+         "value": 2
+        },
+        {
+         "class": "druid",
+         "id": "proficiency",
+         "kind": "proficiency",
+         "name": "Weapon and armour proficiency",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "druid",
+         "id": "wild-empathy",
+         "kind": "note",
+         "name": "Wild empathy",
+         "per_day": null,
+         "value": null
+        }
+       ],
+       "flat_footed": 10,
+       "fort": 3,
+       "init": 1,
+       "max_dex": null,
+       "ref": 1,
+       "skill_notes": {},
+       "skills": {},
+       "slots": {
+        "0": 3,
+        "1": 2
+       },
+       "sneak": "",
+       "speed": 30,
+       "spell_failure": 0,
+       "touch": 11,
+       "turning_per_day": 0,
+       "will": 4,
+       "xp_penalty": 0
+      }
+     },
+     "deity": "",
+     "disposition": 0,
+     "faction": "",
+     "gender": "",
+     "hp_max": 9,
+     "kind": "pc",
+     "label": "Ash",
+     "levels": {
+      "druid": 1
+     },
+     "movement_rate": 30,
+     "natural_abilities": [],
+     "notes_md": "",
+     "nwps": [],
+     "portrait": null,
+     "portrait_prompt": "",
+     "pronouns": "",
+     "race": "Human",
+     "saves": {},
+     "size": "M",
+     "skills": {},
+     "spell_loadout": {
+      "default": {},
+      "known": {}
+     },
+     "spell_slots": {
+      "0": 3,
+      "1": 2
+     },
+     "thac0": 20,
+     "weapon": "",
+     "weapon_profs": []
+    },
+    "state": {
+     "conditions": [],
+     "effects": [],
+     "hp": 9,
+     "inventory": [],
+     "memorized": [],
+     "xp": 0
+    }
+   },
+   "args": {
+    "name": "Ash",
+    "sheet": {
+     "ability_scores": {
+      "cha": 10,
+      "con": 12,
+      "dex": 12,
+      "int": 10,
+      "str": 10,
+      "wis": 15
+     },
+     "cls": "Druid",
+     "hp_max": 9,
+     "level": 1,
+     "race": "Human"
+    }
+   },
+   "tool": "create_character"
+  },
+  {
+   "answer": {
+    "build": {
+     "armor": "hide",
+     "weapon": "scimitar"
+    },
+    "character": "Ash",
+    "character_id": "Ash",
+    "derived": {
+     "ac": 14,
+     "acp": -3,
+     "bab": 0,
+     "base_speed": 30,
+     "casting": {
+      "druid": {
+       "ability": "wis",
+       "caster_level": 1,
+       "dc": {
+        "0": 12,
+        "1": 13
+       },
+       "prepared": true,
+       "slots": {
+        "0": 3,
+        "1": 2
+       }
+      }
+     },
+     "dc": {
+      "0": 12,
+      "1": 13
+     },
+     "ecl": 1,
+     "features": [
+      {
+       "class": "druid",
+       "id": "animal-companion",
+       "kind": "note",
+       "name": "Animal companion",
+       "per_day": null,
+       "value": null
+      },
+      {
+       "ability": "wis",
+       "class": "druid",
+       "id": "casting",
+       "kind": "casting",
+       "name": "Spells",
+       "per_day": null,
+       "value": null
+      },
+      {
+       "class": "druid",
+       "id": "nature-sense",
+       "kind": "bonus",
+       "name": "Nature sense",
+       "per_day": null,
+       "targets": [
+        "skill:knowledge-nature",
+        "skill:survival"
+       ],
+       "value": 2
+      },
+      {
+       "class": "druid",
+       "id": "proficiency",
+       "kind": "proficiency",
+       "name": "Weapon and armour proficiency",
+       "per_day": null,
+       "value": null
+      },
+      {
+       "class": "druid",
+       "id": "wild-empathy",
+       "kind": "note",
+       "name": "Wild empathy",
+       "per_day": null,
+       "value": null
+      }
+     ],
+     "flat_footed": 13,
+     "fort": 3,
+     "init": 1,
+     "max_dex": 4,
+     "ref": 1,
+     "skill_notes": {},
+     "skills": {},
+     "slots": {
+      "0": 3,
+      "1": 2
+     },
+     "sneak": "",
+     "speed": 20,
+     "spell_failure": 0,
+     "touch": 11,
+     "turning_per_day": 0,
+     "will": 4,
+     "xp_penalty": 0
+    }
+   },
+   "args": {
+    "armor": "hide",
+    "character": "Ash",
+    "weapon": "scimitar"
+   },
+   "tool": "set_build"
+  },
+  {
+   "answer": {
+    "animal": "wolf",
+    "character": "Grey",
+    "character_id": "Grey",
+    "companion": {
+     "bonus_hd": 0,
+     "dex": 0,
+     "feature": "animal-companion",
+     "level": 1,
+     "natural_armour": 0,
+     "special": [
+      "link",
+      "share spells"
+     ],
+     "str": 0,
+     "tricks": 1
+    },
+    "derived": {
+     "ac": 14,
+     "acp": 0,
+     "bab": 1,
+     "casting": {},
+     "companion": {
+      "bonus_hd": 0,
+      "dex": 0,
+      "feature": "animal-companion",
+      "level": 1,
+      "natural_armour": 0,
+      "special": [
+       "link",
+       "share spells"
+      ],
+      "str": 0,
+      "tricks": 1
+     },
+     "dc": {},
+     "ecl": 0,
+     "features": [],
+     "flat_footed": 12,
+     "fort": 5,
+     "hit_dice": 2,
+     "init": 2,
+     "max_dex": null,
+     "ref": 5,
+     "skill_notes": {},
+     "skills": {},
+     "slots": {},
+     "sneak": "",
+     "speed": 50,
+     "spell_failure": 0,
+     "touch": 12,
+     "turning_per_day": 0,
+     "will": 1,
+     "xp_penalty": 0
+    },
+    "hp_max": 13,
+    "master": "Ash",
+    "notes": [
+     "Grey is a PC in the party, played by Ash's player; it fights on the party's side. It takes no share of XP and gains no levels: it grows with its master's.",
+     "It knows 1 bonus tricks (Handle Animal) its master chooses, besides any taught."
+    ]
+   },
+   "args": {
+    "animal": "wolf",
+    "master": "Ash",
+    "name": "Grey"
+   },
+   "tool": "add_companion"
+  },
+  {
+   "answer": {
+    "house_rules": [],
+    "id": "Lyra",
+    "kind": "pc",
+    "name": "Lyra",
+    "named_by": "given",
+    "order": 5,
+    "sheet": {
+     "ability_scores": {
+      "cha": 15,
+      "con": 10,
+      "dex": 14,
+      "int": 12,
+      "str": 10,
+      "wis": 8
+     },
+     "ac": 10,
+     "ac_vs_larger": 0,
+     "alignment": "",
+     "attacks": [],
+     "background": "",
+     "cls": "Bard",
+     "d20": {
+      "derived": {
+       "ac": 12,
+       "acp": 0,
+       "bab": 0,
+       "casting": {
+        "bard": {
+         "ability": "cha",
+         "caster_level": 1,
+         "dc": {
+          "0": 12
+         },
+         "known": {
+          "0": 4
+         },
+         "per_day": {
+          "0": 2
+         },
+         "prepared": false
+        }
+       },
+       "dc": {},
+       "ecl": 1,
+       "features": [
+        {
+         "ability": "int",
+         "class": "bard",
+         "id": "bardic-knowledge",
+         "kind": "note",
+         "name": "Bardic knowledge",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "bard",
+         "id": "bardic-music",
+         "kind": "uses",
+         "name": "Bardic music",
+         "per_day": 1,
+         "value": 1
+        },
+        {
+         "ability": "cha",
+         "class": "bard",
+         "id": "casting",
+         "kind": "casting",
+         "name": "Spells",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "bard",
+         "id": "countersong",
+         "kind": "note",
+         "name": "Countersong",
+         "per_day": null,
+         "spends": "bardic-music",
+         "value": null
+        },
+        {
+         "class": "bard",
+         "id": "fascinate",
+         "kind": "note",
+         "name": "Fascinate",
+         "per_day": null,
+         "spends": "bardic-music",
+         "value": null
+        },
+        {
+         "class": "bard",
+         "id": "inspire-courage",
+         "kind": "note",
+         "name": "Inspire courage",
+         "per_day": null,
+         "spends": "bardic-music",
+         "value": 1
+        },
+        {
+         "class": "bard",
+         "id": "proficiency",
+         "kind": "proficiency",
+         "name": "Weapon and armour proficiency",
+         "per_day": null,
+         "value": null
+        }
+       ],
+       "flat_footed": 10,
+       "fort": 0,
+       "init": 2,
+       "max_dex": null,
+       "ref": 4,
+       "skill_notes": {},
+       "skills": {},
+       "slots": {},
+       "sneak": "",
+       "speed": 30,
+       "spell_failure": 0,
+       "touch": 12,
+       "turning_per_day": 0,
+       "will": 1,
+       "xp_penalty": 0
+      }
+     },
+     "deity": "",
+     "disposition": 0,
+     "faction": "",
+     "gender": "",
+     "hp_max": 6,
+     "kind": "pc",
+     "label": "Lyra",
+     "levels": {
+      "bard": 1
+     },
+     "movement_rate": 30,
+     "natural_abilities": [],
+     "notes_md": "",
+     "nwps": [],
+     "portrait": null,
+     "portrait_prompt": "",
+     "pronouns": "",
+     "race": "Human",
+     "saves": {},
+     "size": "M",
+     "skills": {},
+     "spell_loadout": {
+      "default": {},
+      "known": {}
+     },
+     "spell_slots": {},
+     "thac0": 20,
+     "weapon": "",
+     "weapon_profs": []
+    },
+    "state": {
+     "conditions": [],
+     "effects": [],
+     "hp": 6,
+     "inventory": [],
+     "memorized": [],
+     "xp": 0
+    }
+   },
+   "args": {
+    "name": "Lyra",
+    "sheet": {
+     "ability_scores": {
+      "cha": 15,
+      "con": 10,
+      "dex": 14,
+      "int": 12,
+      "str": 10,
+      "wis": 8
+     },
+     "cls": "Bard",
+     "hp_max": 6,
+     "level": 1,
+     "race": "Human"
+    }
+   },
+   "tool": "create_character"
+  },
+  {
+   "answer": {
+    "build": {
+     "skills": {
+      "perform": 4
+     },
+     "weapon": "rapier"
+    },
+    "character": "Lyra",
+    "character_id": "Lyra",
+    "derived": {
+     "ac": 12,
+     "acp": 0,
+     "bab": 0,
+     "casting": {
+      "bard": {
+       "ability": "cha",
+       "caster_level": 1,
+       "dc": {
+        "0": 12
+       },
+       "known": {
+        "0": 4
+       },
+       "per_day": {
+        "0": 2
+       },
+       "prepared": false
+      }
+     },
+     "dc": {},
+     "ecl": 1,
+     "features": [
+      {
+       "ability": "int",
+       "class": "bard",
+       "id": "bardic-knowledge",
+       "kind": "note",
+       "name": "Bardic knowledge",
+       "per_day": null,
+       "value": null
+      },
+      {
+       "class": "bard",
+       "id": "bardic-music",
+       "kind": "uses",
+       "name": "Bardic music",
+       "per_day": 1,
+       "value": 1
+      },
+      {
+       "ability": "cha",
+       "class": "bard",
+       "id": "casting",
+       "kind": "casting",
+       "name": "Spells",
+       "per_day": null,
+       "value": null
+      },
+      {
+       "class": "bard",
+       "id": "countersong",
+       "kind": "note",
+       "name": "Countersong",
+       "per_day": null,
+       "spends": "bardic-music",
+       "value": null
+      },
+      {
+       "class": "bard",
+       "id": "fascinate",
+       "kind": "note",
+       "name": "Fascinate",
+       "per_day": null,
+       "spends": "bardic-music",
+       "value": null
+      },
+      {
+       "class": "bard",
+       "id": "inspire-courage",
+       "kind": "note",
+       "name": "Inspire courage",
+       "per_day": null,
+       "spends": "bardic-music",
+       "value": 1
+      },
+      {
+       "class": "bard",
+       "id": "proficiency",
+       "kind": "proficiency",
+       "name": "Weapon and armour proficiency",
+       "per_day": null,
+       "value": null
+      }
+     ],
+     "flat_footed": 10,
+     "fort": 0,
+     "init": 2,
+     "max_dex": null,
+     "ref": 4,
+     "skill_notes": {},
+     "skills": {
+      "perform": 6
+     },
+     "slots": {},
+     "sneak": "",
+     "speed": 30,
+     "spell_failure": 0,
+     "touch": 12,
+     "turning_per_day": 0,
+     "will": 1,
+     "xp_penalty": 0
+    },
+    "skill_points": {
+     "spent": 4.0,
+     "total": 32
+    }
+   },
+   "args": {
+    "character": "Lyra",
+    "skills": {
+     "perform": 4
+    },
+    "weapon": "rapier"
+   },
+   "tool": "set_build"
+  },
+  {
+   "answer": {
+    "house_rules": [],
+    "id": "Watch",
+    "kind": "pc",
+    "name": "Watch",
+    "named_by": "given",
+    "order": 6,
+    "sheet": {
+     "ability_scores": {
+      "cha": 8,
+      "con": 12,
+      "dex": 11,
+      "int": 9,
+      "str": 13,
+      "wis": 10
+     },
+     "ac": 10,
+     "ac_vs_larger": 0,
+     "alignment": "",
+     "attacks": [],
+     "background": "",
+     "cls": "Warrior",
+     "d20": {
+      "derived": {
+       "ac": 10,
+       "acp": 0,
+       "bab": 1,
+       "casting": {},
+       "dc": {},
+       "ecl": 1,
+       "features": [
+        {
+         "class": "warrior",
+         "id": "proficiency",
+         "kind": "proficiency",
+         "name": "Weapon and armour proficiency",
+         "per_day": null,
+         "value": null
+        }
+       ],
+       "flat_footed": 10,
+       "fort": 3,
+       "init": 0,
+       "max_dex": null,
+       "ref": 0,
+       "skill_notes": {},
+       "skills": {},
+       "slots": {},
+       "sneak": "",
+       "speed": 30,
+       "spell_failure": 0,
+       "touch": 10,
+       "turning_per_day": 0,
+       "will": 0,
+       "xp_penalty": 0
+      }
+     },
+     "deity": "",
+     "disposition": 0,
+     "faction": "",
+     "gender": "",
+     "hp_max": 9,
+     "kind": "pc",
+     "label": "Watch",
+     "levels": {
+      "warrior": 1
+     },
+     "movement_rate": 30,
+     "natural_abilities": [],
+     "notes_md": "",
+     "nwps": [],
+     "portrait": null,
+     "portrait_prompt": "",
+     "pronouns": "",
+     "race": "Human",
+     "saves": {},
+     "size": "M",
+     "skills": {},
+     "spell_loadout": {
+      "default": {},
+      "known": {}
+     },
+     "spell_slots": {},
+     "thac0": 20,
+     "weapon": "",
+     "weapon_profs": []
+    },
+    "state": {
+     "conditions": [],
+     "effects": [],
+     "hp": 9,
+     "inventory": [],
+     "memorized": [],
+     "xp": 0
+    }
+   },
+   "args": {
+    "name": "Watch",
+    "sheet": {
+     "ability_scores": {
+      "cha": 8,
+      "con": 12,
+      "dex": 11,
+      "int": 9,
+      "str": 13,
+      "wis": 10
+     },
+     "cls": "Warrior",
+     "hp_max": 9,
+     "level": 1,
+     "race": "Human"
+    }
+   },
+   "tool": "create_character"
+  },
+  {
+   "answer": {
+    "build": {
+     "armor": "scale mail",
+     "shield": "shield, heavy wooden",
+     "weapon": "longsword"
+    },
+    "character": "Watch",
+    "character_id": "Watch",
+    "derived": {
+     "ac": 16,
+     "acp": -6,
+     "bab": 1,
+     "base_speed": 30,
+     "casting": {},
+     "dc": {},
+     "ecl": 1,
+     "features": [
+      {
+       "class": "warrior",
+       "id": "proficiency",
+       "kind": "proficiency",
+       "name": "Weapon and armour proficiency",
+       "per_day": null,
+       "value": null
+      }
+     ],
+     "flat_footed": 16,
+     "fort": 3,
+     "init": 0,
+     "max_dex": 3,
+     "ref": 0,
+     "skill_notes": {},
+     "skills": {},
+     "slots": {},
+     "sneak": "",
+     "speed": 20,
+     "spell_failure": 0,
+     "touch": 10,
+     "turning_per_day": 0,
+     "will": 0,
+     "xp_penalty": 0
+    }
+   },
+   "args": {
+    "armor": "scale mail",
+    "character": "Watch",
+    "shield": "heavy wooden shield",
+    "weapon": "longsword"
+   },
+   "tool": "set_build"
+  },
+  {
+   "answer": {
+    "combat": {
+     "combatants": [
+      {
+       "conditions": [],
+       "d20": {
+        "ac": 14,
+        "aoo": {
+         "round": 0,
+         "used": 0
+        },
+        "attacks": [
+         {
+          "armed": true,
+          "bonus": 2,
+          "count": 1,
+          "damage": "1d6+2",
+          "hands": 1,
+          "mult": 2,
+          "name": "unarmed strike",
+          "ranged": false,
+          "threat": 20,
+          "touch": false
+         }
+        ],
+        "bab": 0,
+        "crit_immune": false,
+        "dex": 2,
+        "flat_footed": 12,
+        "init_bonus": 2,
+        "saves": {
+         "fort": 3,
+         "ref": 4,
+         "will": 4
+        },
+        "sneak": "",
+        "stance": {
+         "defensive": false,
+         "power_attack": 0
+        },
+        "touch": 14,
+        "type": "humanoid"
+       },
+       "damage_l": "1d6+2",
+       "damage_sm": "1d6+2",
+       "effects": [],
+       "hp": 9,
+       "hp_max": 9,
+       "id": "Mei",
+       "init": 22,
+       "name": "Mei",
+       "node": null,
+       "ongoing": null,
+       "side": "party",
+       "size": "M",
+       "status": "active",
+       "weapon": "unarmed strike"
+      },
+      {
+       "conditions": [],
+       "d20": {
+        "ac": 17,
+        "aoo": {
+         "round": 0,
+         "used": 0
+        },
+        "attacks": [
+         {
+          "bonus": 4,
+          "count": 1,
+          "damage": "1d8+2",
+          "hands": 1,
+          "mult": 2,
+          "name": "longsword",
+          "ranged": false,
+          "threat": 19,
+          "touch": false
+         }
+        ],
+        "bab": 2,
+        "crit_immune": false,
+        "dex": 0,
+        "flat_footed": 17,
+        "init_bonus": 0,
+        "saves": {
+         "fort": 6,
+         "ref": 2,
+         "will": 3
+        },
+        "sneak": "",
+        "stance": {
+         "defensive": false,
+         "power_attack": 0
+        },
+        "touch": 10,
+        "type": "humanoid"
+       },
+       "damage_l": "1d8+2",
+       "damage_sm": "1d8+2",
+       "effects": [],
+       "hp": 18,
+       "hp_max": 18,
+       "id": "Aldra",
+       "init": 17,
+       "name": "Aldra",
+       "node": null,
+       "ongoing": null,
+       "side": "party",
+       "size": "M",
+       "status": "active",
+       "weapon": "longsword"
+      },
+      {
+       "conditions": [],
+       "d20": {
+        "ac": 13,
+        "aoo": {
+         "round": 0,
+         "used": 0
+        },
+        "attacks": [
+         {
+          "bonus": 4,
+          "count": 1,
+          "damage": "2d4+4",
+          "hands": 2,
+          "mult": 2,
+          "name": "falchion",
+          "ranged": false,
+          "threat": 18,
+          "touch": false
+         },
+         {
+          "bonus": 1,
+          "count": 1,
+          "damage": "1d6+3",
+          "hands": 1,
+          "mult": 2,
+          "name": "javelin",
+          "ranged": true,
+          "threat": 20,
+          "touch": false
+         }
+        ],
+        "bab": 1,
+        "cr": "1/2",
+        "crit_immune": false,
+        "dex": 0,
+        "flat_footed": 13,
+        "init_bonus": 0,
+        "monster": "orc",
+        "saves": {
+         "fort": 3,
+         "ref": 0,
+         "will": -2
+        },
+        "sneak": "",
+        "stance": {
+         "defensive": false,
+         "power_attack": 0
+        },
+        "touch": 10,
+        "type": "humanoid"
+       },
+       "damage_l": "2d4+4",
+       "damage_sm": "2d4+4",
+       "effects": [],
+       "hp": 20,
+       "hp_max": 20,
+       "id": "mon_2",
+       "init": 15,
+       "morale": 10,
+       "name": "Orc 2",
+       "node": null,
+       "ongoing": null,
+       "side": "enemy",
+       "size": "M",
+       "status": "active",
+       "weapon": "falchion"
+      },
+      {
+       "conditions": [],
+       "d20": {
+        "ac": 14,
+        "aoo": {
+         "round": 0,
+         "used": 0
+        },
+        "attacks": [
+         {
+          "bonus": 3,
+          "count": 1,
+          "damage": "1d6+1",
+          "hands": 1,
+          "mult": 2,
+          "name": "bite",
+          "ranged": false,
+          "threat": 20,
+          "touch": false
+         }
+        ],
+        "bab": 1,
+        "companion": "animal-companion",
+        "crit_immune": false,
+        "dex": 2,
+        "flat_footed": 12,
+        "init_bonus": 2,
+        "monster": "wolf",
+        "saves": {
+         "fort": 5,
+         "ref": 5,
+         "will": 1
+        },
+        "sneak": "",
+        "stance": {
+         "defensive": false,
+         "power_attack": 0
+        },
+        "touch": 12,
+        "type": "animal"
+       },
+       "damage_l": "1d6+1",
+       "damage_sm": "1d6+1",
+       "effects": [],
+       "hp": 13,
+       "hp_max": 13,
+       "id": "Grey",
+       "init": 11,
+       "name": "Grey",
+       "node": null,
+       "ongoing": null,
+       "side": "party",
+       "size": "M",
+       "status": "active",
+       "weapon": "bite"
+      },
+      {
+       "conditions": [],
+       "d20": {
+        "ac": 12,
+        "aoo": {
+         "round": 0,
+         "used": 0
+        },
+        "attacks": [
+         {
+          "bonus": 0,
+          "count": 1,
+          "damage": "1d6",
+          "hands": 1,
+          "mult": 2,
+          "name": "rapier",
+          "ranged": false,
+          "threat": 18,
+          "touch": false
+         },
+         {
+          "bonus": 0,
+          "count": 1,
+          "damage": "0",
+          "hands": 1,
+          "mult": 2,
+          "name": "touch",
+          "ranged": false,
+          "threat": 20,
+          "touch": true
+         },
+         {
+          "bonus": 2,
+          "count": 1,
+          "damage": "0",
+          "hands": 1,
+          "mult": 2,
+          "name": "ranged touch",
+          "ranged": true,
+          "threat": 20,
+          "touch": true
+         }
+        ],
+        "bab": 0,
+        "crit_immune": false,
+        "dex": 2,
+        "flat_footed": 10,
+        "init_bonus": 2,
+        "saves": {
+         "fort": 0,
+         "ref": 4,
+         "will": 1
+        },
+        "sneak": "",
+        "stance": {
+         "defensive": false,
+         "power_attack": 0
+        },
+        "touch": 12,
+        "type": "humanoid"
+       },
+       "damage_l": "1d6",
+       "damage_sm": "1d6",
+       "effects": [],
+       "hp": 6,
+       "hp_max": 6,
+       "id": "Lyra",
+       "init": 11,
+       "name": "Lyra",
+       "node": null,
+       "ongoing": null,
+       "side": "party",
+       "size": "M",
+       "status": "active",
+       "weapon": "rapier"
+      },
+      {
+       "conditions": [],
+       "d20": {
+        "ac": 16,
+        "aoo": {
+         "round": 0,
+         "used": 0
+        },
+        "attacks": [
+         {
+          "bonus": 2,
+          "count": 1,
+          "damage": "1d8+1",
+          "hands": 1,
+          "mult": 2,
+          "name": "longsword",
+          "ranged": false,
+          "threat": 19,
+          "touch": false
+         }
+        ],
+        "bab": 1,
+        "crit_immune": false,
+        "dex": 0,
+        "flat_footed": 16,
+        "init_bonus": 0,
+        "saves": {
+         "fort": 3,
+         "ref": 0,
+         "will": 0
+        },
+        "sneak": "",
+        "stance": {
+         "defensive": false,
+         "power_attack": 0
+        },
+        "touch": 10,
+        "type": "humanoid"
+       },
+       "damage_l": "1d8+1",
+       "damage_sm": "1d8+1",
+       "effects": [],
+       "hp": 9,
+       "hp_max": 9,
+       "id": "Watch",
+       "init": 10,
+       "name": "Watch",
+       "node": null,
+       "ongoing": null,
+       "side": "party",
+       "size": "M",
+       "status": "active",
+       "weapon": "longsword"
+      },
+      {
+       "conditions": [],
+       "d20": {
+        "ac": 14,
+        "aoo": {
+         "round": 0,
+         "used": 0
+        },
+        "attacks": [
+         {
+          "bonus": 0,
+          "count": 1,
+          "damage": "1d6",
+          "hands": 1,
+          "mult": 2,
+          "name": "scimitar",
+          "ranged": false,
+          "threat": 18,
+          "touch": false
+         },
+         {
+          "bonus": 0,
+          "count": 1,
+          "damage": "0",
+          "hands": 1,
+          "mult": 2,
+          "name": "touch",
+          "ranged": false,
+          "threat": 20,
+          "touch": true
+         },
+         {
+          "bonus": 1,
+          "count": 1,
+          "damage": "0",
+          "hands": 1,
+          "mult": 2,
+          "name": "ranged touch",
+          "ranged": true,
+          "threat": 20,
+          "touch": true
+         }
+        ],
+        "bab": 0,
+        "crit_immune": false,
+        "dex": 1,
+        "flat_footed": 13,
+        "init_bonus": 1,
+        "saves": {
+         "fort": 3,
+         "ref": 1,
+         "will": 4
+        },
+        "sneak": "",
+        "stance": {
+         "defensive": false,
+         "power_attack": 0
+        },
+        "touch": 11,
+        "type": "humanoid"
+       },
+       "damage_l": "1d6",
+       "damage_sm": "1d6",
+       "effects": [],
+       "hp": 9,
+       "hp_max": 9,
+       "id": "Ash",
+       "init": 9,
+       "name": "Ash",
+       "node": null,
+       "ongoing": null,
+       "side": "party",
+       "size": "M",
+       "status": "active",
+       "weapon": "scimitar"
+      },
+      {
+       "conditions": [],
+       "d20": {
+        "ac": 15,
+        "aoo": {
+         "round": 0,
+         "used": 0
+        },
+        "attacks": [
+         {
+          "bonus": 4,
+          "count": 1,
+          "damage": "1d12+4",
+          "hands": 2,
+          "mult": 3,
+          "name": "greataxe",
+          "ranged": false,
+          "threat": 20,
+          "touch": false
+         }
+        ],
+        "bab": 1,
+        "cleave": "cleave",
+        "crit_immune": false,
+        "dex": 2,
+        "flat_footed": 13,
+        "init_bonus": 2,
+        "saves": {
+         "fort": 4,
+         "ref": 2,
+         "will": 0
+        },
+        "sneak": "",
+        "stance": {
+         "defensive": false,
+         "power_attack": 0
+        },
+        "touch": 12,
+        "type": "humanoid"
+       },
+       "damage_l": "1d12+4",
+       "damage_sm": "1d12+4",
+       "effects": [],
+       "hp": 14,
+       "hp_max": 14,
+       "id": "Krug",
+       "init": 6,
+       "name": "Krug",
+       "node": null,
+       "ongoing": null,
+       "side": "party",
+       "size": "M",
+       "status": "active",
+       "weapon": "greataxe"
+      },
+      {
+       "conditions": [],
+       "d20": {
+        "ac": 13,
+        "aoo": {
+         "round": 0,
+         "used": 0
+        },
+        "attacks": [
+         {
+          "bonus": 4,
+          "count": 1,
+          "damage": "2d4+4",
+          "hands": 2,
+          "mult": 2,
+          "name": "falchion",
+          "ranged": false,
+          "threat": 18,
+          "touch": false
+         },
+         {
+          "bonus": 1,
+          "count": 1,
+          "damage": "1d6+3",
+          "hands": 1,
+          "mult": 2,
+          "name": "javelin",
+          "ranged": true,
+          "threat": 20,
+          "touch": false
+         }
+        ],
+        "bab": 1,
+        "cr": "1/2",
+        "crit_immune": false,
+        "dex": 0,
+        "flat_footed": 13,
+        "init_bonus": 0,
+        "monster": "orc",
+        "saves": {
+         "fort": 3,
+         "ref": 0,
+         "will": -2
+        },
+        "sneak": "",
+        "stance": {
+         "defensive": false,
+         "power_attack": 0
+        },
+        "touch": 10,
+        "type": "humanoid"
+       },
+       "damage_l": "2d4+4",
+       "damage_sm": "2d4+4",
+       "effects": [],
+       "hp": 20,
+       "hp_max": 20,
+       "id": "mon_1",
+       "init": 3,
+       "morale": 10,
+       "name": "Orc 1",
+       "node": null,
+       "ongoing": null,
+       "side": "enemy",
+       "size": "M",
+       "status": "active",
+       "weapon": "falchion"
+      }
+     ],
+     "current": "Mei",
+     "declared": {},
+     "map": null,
+     "mode": "combatant",
+     "phase": "round",
+     "round": 1,
+     "started": true
+    },
+    "enemies": [
+     {
+      "ac": 13,
+      "alignment": "Often chaotic evil",
+      "attacks": [
+       {
+        "bonus": 4,
+        "critical": "18–20/×2",
+        "damage": "2d4+4",
+        "name": "falchion"
+       },
+       {
+        "bonus": 1,
+        "critical": "×2",
+        "damage": "1d6+3",
+        "name": "javelin"
+       }
+      ],
+      "attacks_per_round": 1.0,
+      "count": 2,
+      "flat_footed": 13,
+      "hit_dice": "1d8+1",
+      "individuals": [
+       {
+        "hp": 20,
+        "id": "mon_1",
+        "name": "Orc 1"
+       },
+       {
+        "hp": 20,
+        "id": "mon_2",
+        "name": "Orc 2"
+       }
+      ],
+      "matched": "Orc",
+      "morale_rating": 10,
+      "saves": {
+       "fort": 3,
+       "ref": 0,
+       "will": -2
+      },
+      "size": "Medium",
+      "size_code": "M",
+      "special_attacks": "—",
+      "touch": 10,
+      "type": "Orc"
+     }
+    ],
+    "order": [
+     {
+      "bonus": 2,
+      "id": "Mei",
+      "name": "Mei",
+      "roll": 20,
+      "side": "party",
+      "total": 22
+     },
+     {
+      "bonus": 0,
+      "id": "Aldra",
+      "name": "Aldra",
+      "roll": 17,
+      "side": "party",
+      "total": 17
+     },
+     {
+      "bonus": 0,
+      "id": "mon_2",
+      "name": "Orc 2",
+      "roll": 15,
+      "side": "enemy",
+      "total": 15
+     },
+     {
+      "bonus": 2,
+      "id": "Lyra",
+      "name": "Lyra",
+      "roll": 9,
+      "side": "party",
+      "total": 11
+     },
+     {
+      "bonus": 2,
+      "id": "Grey",
+      "name": "Grey",
+      "roll": 9,
+      "side": "party",
+      "total": 11
+     },
+     {
+      "bonus": 0,
+      "id": "Watch",
+      "name": "Watch",
+      "roll": 10,
+      "side": "party",
+      "total": 10
+     },
+     {
+      "bonus": 1,
+      "id": "Ash",
+      "name": "Ash",
+      "roll": 8,
+      "side": "party",
+      "total": 9
+     },
+     {
+      "bonus": 2,
+      "id": "Krug",
+      "name": "Krug",
+      "roll": 4,
+      "side": "party",
+      "total": 6
+     },
+     {
+      "bonus": 0,
+      "id": "mon_1",
+      "name": "Orc 1",
+      "roll": 3,
+      "side": "enemy",
+      "total": 3
+     }
+    ],
+    "party_attacks": {
+     "Aldra": {
+      "ac": 17,
+      "alternates": [],
+      "attacks": [
+       {
+        "bonus": 4,
+        "critical": "19–20/×2",
+        "damage": "1d8+2",
+        "name": "longsword"
+       }
+      ],
+      "flat_footed": 17,
+      "per_round": 1.0,
+      "saves": {
+       "fort": 6,
+       "ref": 2,
+       "will": 3
+      },
+      "touch": 10,
+      "weapon": "longsword"
+     },
+     "Ash": {
+      "ac": 14,
+      "alternates": [
+       "touch",
+       "ranged touch"
+      ],
+      "attacks": [
+       {
+        "bonus": 0,
+        "critical": "18–20/×2",
+        "damage": "1d6",
+        "name": "scimitar"
+       },
+       {
+        "bonus": 0,
+        "critical": "×2",
+        "damage": "0",
+        "name": "touch"
+       },
+       {
+        "bonus": 1,
+        "critical": "×2",
+        "damage": "0",
+        "name": "ranged touch"
+       }
+      ],
+      "flat_footed": 13,
+      "per_round": 1.0,
+      "saves": {
+       "fort": 3,
+       "ref": 1,
+       "will": 4
+      },
+      "touch": 11,
+      "weapon": "scimitar"
+     },
+     "Grey": {
+      "ac": 14,
+      "alternates": [],
+      "attacks": [
+       {
+        "bonus": 3,
+        "critical": "×2",
+        "damage": "1d6+1",
+        "name": "bite"
+       }
+      ],
+      "flat_footed": 12,
+      "per_round": 1.0,
+      "saves": {
+       "fort": 5,
+       "ref": 5,
+       "will": 1
+      },
+      "touch": 12,
+      "weapon": "bite"
+     },
+     "Krug": {
+      "ac": 15,
+      "alternates": [],
+      "attacks": [
+       {
+        "bonus": 4,
+        "critical": "×3",
+        "damage": "1d12+4",
+        "name": "greataxe"
+       }
+      ],
+      "flat_footed": 13,
+      "per_round": 1.0,
+      "saves": {
+       "fort": 4,
+       "ref": 2,
+       "will": 0
+      },
+      "touch": 12,
+      "weapon": "greataxe"
+     },
+     "Lyra": {
+      "ac": 12,
+      "alternates": [
+       "touch",
+       "ranged touch"
+      ],
+      "attacks": [
+       {
+        "bonus": 0,
+        "critical": "18–20/×2",
+        "damage": "1d6",
+        "name": "rapier"
+       },
+       {
+        "bonus": 0,
+        "critical": "×2",
+        "damage": "0",
+        "name": "touch"
+       },
+       {
+        "bonus": 2,
+        "critical": "×2",
+        "damage": "0",
+        "name": "ranged touch"
+       }
+      ],
+      "flat_footed": 10,
+      "per_round": 1.0,
+      "saves": {
+       "fort": 0,
+       "ref": 4,
+       "will": 1
+      },
+      "touch": 12,
+      "weapon": "rapier"
+     },
+     "Mei": {
+      "ac": 14,
+      "alternates": [],
+      "attacks": [
+       {
+        "bonus": 2,
+        "critical": "×2",
+        "damage": "1d6+2",
+        "name": "unarmed strike"
+       }
+      ],
+      "flat_footed": 12,
+      "per_round": 1.0,
+      "saves": {
+       "fort": 3,
+       "ref": 4,
+       "will": 4
+      },
+      "touch": 14,
+      "weapon": "unarmed strike"
+     },
+     "Watch": {
+      "ac": 16,
+      "alternates": [],
+      "attacks": [
+       {
+        "bonus": 2,
+        "critical": "19–20/×2",
+        "damage": "1d8+1",
+        "name": "longsword"
+       }
+      ],
+      "flat_footed": 16,
+      "per_round": 1.0,
+      "saves": {
+       "fort": 3,
+       "ref": 0,
+       "will": 0
+      },
+      "touch": 10,
+      "weapon": "longsword"
+     }
+    },
+    "party_loaded": [
+     "Krug",
+     "Mei",
+     "Aldra",
+     "Ash",
+     "Grey",
+     "Lyra",
+     "Watch"
+    ]
+   },
+   "args": {
+    "enemies": [
+     {
+      "count": 2,
+      "hp": 20,
+      "name": "orc"
+     }
+    ],
+    "surprise": false
+   },
+   "tool": "setup_combat"
+  },
+  {
+   "answer": {
+    "character": "Krug",
+    "character_id": "Krug",
+    "effect": {
+     "ac": 2,
+     "duration": 7,
+     "name": "Rage",
+     "source": "rage"
+    },
+    "feature": "rage",
+    "hp": 16,
+    "hp_gained": 2,
+    "notes": [
+     "+2 on Fortitude and Will saves while raging (the effect's save stays 0); +2 on melee attack rolls, +2 damage in melee and thrown (+3 two-handed), by the swing. Rage lasts 7 rounds: when it ends, or Krug stops early, call use_feature(rage, amount=-1), which takes the 2 hp off again; a rest ends it too. It leaves Krug fatigued when it ends.",
+     "While raging: no Charisma-, Dexterity- or Intelligence-based skills but Balance, Escape Artist, Intimidate and Ride; no Concentration, no spells, no items that need concentration."
+    ],
+    "rounds": 7,
+    "uses_left": 0
+   },
+   "args": {
+    "character": "Krug",
+    "feature": "rage"
+   },
+   "tool": "use_feature"
+  },
+  {
+   "answer": {
+    "attacks_this_round": [
+     {
+      "bonus": 0,
+      "name": "unarmed strike"
+     },
+     {
+      "bonus": 0,
+      "name": "unarmed strike"
+     }
+    ],
+    "id": "Mei",
+    "name": "Mei",
+    "stance": {
+     "defensive": false,
+     "flurry": true,
+     "power_attack": 0
+    }
+   },
+   "args": {
+    "combatant": "Mei",
+    "flurry": true
+   },
+   "tool": "set_stance"
+  },
+  {
+   "answer": {
+    "character": "Aldra",
+    "character_id": "Aldra",
+    "feature": "smite-evil",
+    "notes": [
+     "Aldra's next swing (resolve_attack) smites: +2 to hit and +2 damage if the target is evil, on a melee attack: a ranged or touch attack leaves it waiting. On a melee attack at a target that isn't evil it does nothing, and is spent all the same."
+    ],
+    "smite": {
+     "damage": 2,
+     "to_hit": 2
+    },
+    "uses_left": 0
+   },
+   "args": {
+    "character": "Aldra",
+    "feature": "smite evil"
+   },
+   "tool": "use_feature"
+  },
+  {
+   "answer": {
+    "character": "Lyra",
+    "character_id": "Lyra",
+    "effect": "Inspire Courage +1",
+    "feature": "inspire-courage",
+    "inspired": [
+     "Krug",
+     "Mei",
+     "Aldra",
+     "Ash",
+     "Grey",
+     "Lyra",
+     "Watch"
+    ],
+    "notes": [
+     "Inspire Courage +1 to hit and damage; +1 on saves against charm and fear, which you add as the save's modifier. Both are morale bonuses: on a save they don't stack with another morale bonus, such as a rage's +2 on Will (only the larger counts). It lasts while the bard performs and 5 rounds after: when the song stops, remove_effect 'Inspire Courage +1' from each 5 rounds later."
+    ],
+    "uses_left": 0
+   },
+   "args": {
+    "character": "Lyra",
+    "feature": "inspire courage"
+   },
+   "tool": "use_feature"
+  },
+  {
+   "answer": {
+    "actions": [
+     {
+      "attacker": "Mei",
+      "attacker_id": "Mei",
+      "attacks_per_round": 2.0,
+      "attacks_remaining_this_round": 1,
+      "damage": null,
+      "damage_die": null,
+      "dead": false,
+      "downed": false,
+      "hit": false,
+      "hp_after": null,
+      "notes": [
+       "flat-footed",
+       "flurry of blows (-2)"
+      ],
+      "roll": 2,
+      "spell_disrupted": false,
+      "target": "Orc 1",
+      "target_id": "mon_1",
+      "weapon": "unarmed strike"
+     },
+     {
+      "attacker": "Mei",
+      "attacker_id": "Mei",
+      "attacks_per_round": 2.0,
+      "attacks_remaining_this_round": 0,
+      "damage": 4,
+      "damage_die": "1d6+2",
+      "dead": false,
+      "downed": false,
+      "follow_up": true,
+      "hit": true,
+      "hp_after": 16,
+      "notes": [
+       "flat-footed",
+       "flurry of blows (-2)"
+      ],
+      "roll": 17,
+      "spell_disrupted": false,
+      "target": "Orc 1",
+      "target_id": "mon_1",
+      "weapon": "unarmed strike"
+     },
+     {
+      "attacker": "Aldra",
+      "attacker_id": "Aldra",
+      "attacks_per_round": 1.0,
+      "attacks_remaining_this_round": 0,
+      "damage": 9,
+      "damage_die": "1d8+2",
+      "dead": false,
+      "downed": false,
+      "hit": true,
+      "hp_after": 11,
+      "notes": [
+       "flat-footed",
+       "smite evil: +2 to hit, +2 damage"
+      ],
+      "roll": 17,
+      "spell_disrupted": false,
+      "target": "Orc 2",
+      "target_id": "mon_2",
+      "weapon": "longsword"
+     },
+     {
+      "attacker": "Orc 2",
+      "attacker_id": "mon_2",
+      "attacks_per_round": 1.0,
+      "attacks_remaining_this_round": 0,
+      "damage": 10,
+      "damage_die": "2d4+4",
+      "dead": false,
+      "downed": true,
+      "hit": true,
+      "hp_after": -1,
+      "notes": [
+       "flat-footed",
+       "Watch is unconscious!",
+       "Dying: each round 10% to become stable, else loses 1 HP; dead at -10."
+      ],
+      "roll": 13,
+      "spell_disrupted": false,
+      "target": "Watch",
+      "target_id": "Watch",
+      "weapon": "falchion"
+     },
+     {
+      "attacker": "Grey",
+      "attacker_id": "Grey",
+      "attacks_per_round": 1.0,
+      "attacks_remaining_this_round": 0,
+      "damage": 4,
+      "damage_die": "1d6+1",
+      "dead": false,
+      "downed": false,
+      "hit": true,
+      "hp_after": 7,
+      "notes": [],
+      "roll": 19,
+      "spell_disrupted": false,
+      "target": "Orc 2",
+      "target_id": "mon_2",
+      "weapon": "bite"
+     },
+     {
+      "attacker": "Watch",
+      "attacker_id": "Watch",
+      "skipped": "down — cannot act"
+     },
+     {
+      "attacker": "Ash",
+      "attacker_id": "Ash",
+      "attacks_per_round": 1.0,
+      "attacks_remaining_this_round": 0,
+      "damage": 2,
+      "damage_die": "1d6",
+      "dead": false,
+      "downed": false,
+      "hit": true,
+      "hp_after": 14,
+      "notes": [
+       "flat-footed",
+       "critical threat"
+      ],
+      "roll": 20,
+      "spell_disrupted": false,
+      "target": "Orc 1",
+      "target_id": "mon_1",
+      "weapon": "scimitar"
+     },
+     {
+      "attacker": "Krug",
+      "attacker_id": "Krug",
+      "attacks_per_round": 1.0,
+      "attacks_remaining_this_round": 0,
+      "damage": 15,
+      "damage_die": "1d12+4",
+      "dead": true,
+      "downed": true,
+      "hit": true,
+      "hp_after": -1,
+      "notes": [
+       "flat-footed",
+       "rage: +2 to hit, +3 damage",
+       "cleave: an extra attack is due; name an adjacent foe in targets",
+       "Orc 1 is dead!"
+      ],
+      "roll": 9,
+      "spell_disrupted": false,
+      "target": "Orc 1",
+      "target_id": "mon_1",
+      "weapon": "greataxe"
+     },
+     {
+      "attacker": "Orc 1",
+      "attacker_id": "mon_1",
+      "skipped": "dead — cannot act"
+     }
+    ],
+    "end_of_round": [
+     "Watch bleeds 1 HP (hp now -2; d% 42, not stable)"
+    ],
+    "morale_due": [
+     {
+      "down": 1,
+      "message": "Morale check due: 1/2 of side 'enemy' down. Call morale_check(rating) using the group's morale rating (monster_lookup → 'morale').",
+      "ratings": {
+       "Orc": 10
+      },
+      "side": "enemy",
+      "total": 2
+     }
+    ],
+    "outcomes": {
+     "acted": [
+      "Mei",
+      "Aldra",
+      "mon_2",
+      "Grey",
+      "Ash",
+      "Krug"
+     ],
+     "completed": [],
+     "dead": [
+      "mon_1"
+     ],
+     "downed": [
+      "Watch"
+     ],
+     "fled": [],
+     "interrupted": []
+    },
+    "round": 1,
+    "status": {
+     "combatants": [
+      {
+       "attacks_remaining_this_round": 2,
+       "effects": [
+        {
+         "dmg": 1,
+         "duration": 0,
+         "lasts_through_round": null,
+         "name": "Inspire Courage +1",
+         "source": "inspire-courage",
+         "to_hit": 1
+        }
+       ],
+       "hp": 9,
+       "hp_max": 9,
+       "id": "Mei",
+       "name": "Mei",
+       "side": "party",
+       "status": "active"
+      },
+      {
+       "effects": [
+        {
+         "dmg": 1,
+         "duration": 0,
+         "lasts_through_round": null,
+         "name": "Inspire Courage +1",
+         "source": "inspire-courage",
+         "to_hit": 1
+        }
+       ],
+       "hp": 18,
+       "hp_max": 18,
+       "id": "Aldra",
+       "name": "Aldra",
+       "side": "party",
+       "status": "active"
+      },
+      {
+       "hp": 7,
+       "hp_max": 20,
+       "id": "mon_2",
+       "name": "Orc 2",
+       "side": "enemy",
+       "status": "active"
+      },
+      {
+       "effects": [
+        {
+         "dmg": 1,
+         "duration": 0,
+         "lasts_through_round": null,
+         "name": "Inspire Courage +1",
+         "source": "inspire-courage",
+         "to_hit": 1
+        }
+       ],
+       "hp": 13,
+       "hp_max": 13,
+       "id": "Grey",
+       "name": "Grey",
+       "side": "party",
+       "status": "active"
+      },
+      {
+       "effects": [
+        {
+         "dmg": 1,
+         "duration": 0,
+         "lasts_through_round": null,
+         "name": "Inspire Courage +1",
+         "source": "inspire-courage",
+         "to_hit": 1
+        }
+       ],
+       "hp": 6,
+       "hp_max": 6,
+       "id": "Lyra",
+       "name": "Lyra",
+       "side": "party",
+       "status": "active"
+      },
+      {
+       "conditions": [
+        "downed"
+       ],
+       "effects": [
+        {
+         "dmg": 1,
+         "duration": 0,
+         "lasts_through_round": null,
+         "name": "Inspire Courage +1",
+         "source": "inspire-courage",
+         "to_hit": 1
+        }
+       ],
+       "hp": -2,
+       "hp_max": 9,
+       "id": "Watch",
+       "name": "Watch",
+       "side": "party",
+       "status": "unconscious"
+      },
+      {
+       "effects": [
+        {
+         "dmg": 1,
+         "duration": 0,
+         "lasts_through_round": null,
+         "name": "Inspire Courage +1",
+         "source": "inspire-courage",
+         "to_hit": 1
+        }
+       ],
+       "hp": 9,
+       "hp_max": 9,
+       "id": "Ash",
+       "name": "Ash",
+       "side": "party",
+       "status": "active"
+      },
+      {
+       "effects": [
+        {
+         "ac": 2,
+         "duration": 6,
+         "lasts_through_round": 7,
+         "name": "Rage",
+         "source": "rage"
+        },
+        {
+         "dmg": 1,
+         "duration": 0,
+         "lasts_through_round": null,
+         "name": "Inspire Courage +1",
+         "source": "inspire-courage",
+         "to_hit": 1
+        }
+       ],
+       "hp": 16,
+       "hp_max": 16,
+       "id": "Krug",
+       "name": "Krug",
+       "side": "party",
+       "status": "active"
+      },
+      {
+       "conditions": [
+        "downed"
+       ],
+       "hp": -1,
+       "hp_max": 20,
+       "id": "mon_1",
+       "name": "Orc 1",
+       "side": "enemy",
+       "status": "dead"
+      }
+     ],
+     "current": "Mei",
+     "phase": "round",
+     "round": 2
+    }
+   },
+   "args": {
+    "actions": [
+     {
+      "attacker": "Krug",
+      "target": "Orc 1"
+     },
+     {
+      "attacker": "Mei",
+      "target": "Orc 1"
+     },
+     {
+      "attacker": "Aldra",
+      "target": "Orc 2"
+     },
+     {
+      "attacker": "Grey",
+      "target": "Orc 2"
+     },
+     {
+      "attacker": "Watch",
+      "target": "Orc 2"
+     },
+     {
+      "attacker": "Ash",
+      "target": "Orc 1"
+     },
+     {
+      "attacker": "Orc 1",
+      "target": "Krug"
+     },
+     {
+      "attacker": "Orc 2",
+      "target": "Watch"
+     }
+    ]
+   },
+   "tool": "combat_round"
+  },
+  {
+   "answer": {
+    "base": 0,
+    "basis": "sheet: Will +0",
+    "dc": 12,
+    "id": "Krug",
+    "modifier": 2,
+    "name": "Krug",
+    "needed": 10,
+    "roll": {
+     "actor": "Krug",
+     "combat_round": 2,
+     "faces": [
+      5
+     ],
+     "id": "<roll id>",
+     "notation": "1d20",
+     "purpose": "save:will",
+     "target": null,
+     "total": 5
+    },
+    "round": 2,
+    "save": "Will",
+    "save_type": "will",
+    "success": false,
+    "total": 7
+   },
+   "args": {
+    "character": "Krug",
+    "dc": 12,
+    "save_type": "will"
+   },
+   "tool": "saving_throw"
+  },
+  {
+   "answer": {
+    "character": "Aldra",
+    "character_id": "Aldra",
+    "feature": "lay-on-hands",
+    "healed": {
+     "character_id": "Watch",
+     "healed": 3,
+     "hp_after": 1,
+     "hp_before": -2,
+     "in_combat": true,
+     "name": "Watch",
+     "notes": [
+      "Watch regains consciousness."
+     ]
+    },
+    "left": 1,
+    "notes": [
+     "On an undead lay on hands deals the damage instead (a touch attack, no attack of opportunity): rule it with apply_damage."
+    ],
+    "pool": 4
+   },
+   "args": {
+    "amount": 3,
+    "character": "Aldra",
+    "feature": "lay on hands",
+    "target": "Watch"
+   },
+   "tool": "use_feature"
+  },
+  {
+   "answer": {
+    "actions": [
+     {
+      "attacker": "Mei",
+      "attacker_id": "Mei",
+      "attacks_per_round": 2.0,
+      "attacks_remaining_this_round": 1,
+      "damage": null,
+      "damage_die": null,
+      "dead": false,
+      "downed": false,
+      "hit": false,
+      "hp_after": null,
+      "notes": [
+       "flurry of blows (-2)"
+      ],
+      "roll": 5,
+      "spell_disrupted": false,
+      "target": "Orc 2",
+      "target_id": "mon_2",
+      "weapon": "unarmed strike"
+     },
+     {
+      "attacker": "Mei",
+      "attacker_id": "Mei",
+      "attacks_per_round": 2.0,
+      "attacks_remaining_this_round": 0,
+      "damage": null,
+      "damage_die": null,
+      "dead": false,
+      "downed": false,
+      "follow_up": true,
+      "hit": false,
+      "hp_after": null,
+      "notes": [
+       "flurry of blows (-2)"
+      ],
+      "roll": 8,
+      "spell_disrupted": false,
+      "target": "Orc 2",
+      "target_id": "mon_2",
+      "weapon": "unarmed strike"
+     },
+     {
+      "attacker": "Orc 2",
+      "attacker_id": "mon_2",
+      "attacks_per_round": 1.0,
+      "attacks_remaining_this_round": 0,
+      "damage": null,
+      "damage_die": null,
+      "dead": false,
+      "downed": false,
+      "hit": false,
+      "hp_after": null,
+      "notes": [
+       "+2 AC modifier on Krug (active effects)."
+      ],
+      "roll": 1,
+      "spell_disrupted": false,
+      "target": "Krug",
+      "target_id": "Krug",
+      "weapon": "falchion"
+     },
+     {
+      "attacker": "Watch",
+      "attacker_id": "Watch",
+      "attacks_per_round": 1.0,
+      "attacks_remaining_this_round": 0,
+      "damage": 9,
+      "damage_die": "1d8+1",
+      "dead": true,
+      "downed": true,
+      "hit": true,
+      "hp_after": -2,
+      "notes": [
+       "critical threat",
+       "confirmed ×2",
+       "Orc 2 is dead!"
+      ],
+      "roll": 20,
+      "spell_disrupted": false,
+      "target": "Orc 2",
+      "target_id": "mon_2",
+      "weapon": "longsword"
+     },
+     {
+      "attacker": "Krug",
+      "attacker_id": "Krug",
+      "living_foes": [],
+      "skipped": "target already dead — attack not rolled",
+      "target": "Orc 2",
+      "target_id": "mon_2"
+     }
+    ],
+    "end_of_round": [],
+    "outcomes": {
+     "acted": [
+      "Mei",
+      "mon_2",
+      "Watch"
+     ],
+     "completed": [],
+     "dead": [
+      "mon_2"
+     ],
+     "downed": [],
+     "fled": [],
+     "interrupted": []
+    },
+    "round": 2,
+    "status": {
+     "combatants": [
+      {
+       "attacks_remaining_this_round": 2,
+       "effects": [
+        {
+         "dmg": 1,
+         "duration": 0,
+         "lasts_through_round": null,
+         "name": "Inspire Courage +1",
+         "source": "inspire-courage",
+         "to_hit": 1
+        }
+       ],
+       "hp": 9,
+       "hp_max": 9,
+       "id": "Mei",
+       "name": "Mei",
+       "side": "party",
+       "status": "active"
+      },
+      {
+       "effects": [
+        {
+         "dmg": 1,
+         "duration": 0,
+         "lasts_through_round": null,
+         "name": "Inspire Courage +1",
+         "source": "inspire-courage",
+         "to_hit": 1
+        }
+       ],
+       "hp": 18,
+       "hp_max": 18,
+       "id": "Aldra",
+       "name": "Aldra",
+       "side": "party",
+       "status": "active"
+      },
+      {
+       "conditions": [
+        "downed"
+       ],
+       "hp": -2,
+       "hp_max": 20,
+       "id": "mon_2",
+       "name": "Orc 2",
+       "side": "enemy",
+       "status": "dead"
+      },
+      {
+       "effects": [
+        {
+         "dmg": 1,
+         "duration": 0,
+         "lasts_through_round": null,
+         "name": "Inspire Courage +1",
+         "source": "inspire-courage",
+         "to_hit": 1
+        }
+       ],
+       "hp": 13,
+       "hp_max": 13,
+       "id": "Grey",
+       "name": "Grey",
+       "side": "party",
+       "status": "active"
+      },
+      {
+       "effects": [
+        {
+         "dmg": 1,
+         "duration": 0,
+         "lasts_through_round": null,
+         "name": "Inspire Courage +1",
+         "source": "inspire-courage",
+         "to_hit": 1
+        }
+       ],
+       "hp": 6,
+       "hp_max": 6,
+       "id": "Lyra",
+       "name": "Lyra",
+       "side": "party",
+       "status": "active"
+      },
+      {
+       "effects": [
+        {
+         "dmg": 1,
+         "duration": 0,
+         "lasts_through_round": null,
+         "name": "Inspire Courage +1",
+         "source": "inspire-courage",
+         "to_hit": 1
+        }
+       ],
+       "hp": 1,
+       "hp_max": 9,
+       "id": "Watch",
+       "name": "Watch",
+       "side": "party",
+       "status": "active"
+      },
+      {
+       "effects": [
+        {
+         "dmg": 1,
+         "duration": 0,
+         "lasts_through_round": null,
+         "name": "Inspire Courage +1",
+         "source": "inspire-courage",
+         "to_hit": 1
+        }
+       ],
+       "hp": 9,
+       "hp_max": 9,
+       "id": "Ash",
+       "name": "Ash",
+       "side": "party",
+       "status": "active"
+      },
+      {
+       "effects": [
+        {
+         "ac": 2,
+         "duration": 5,
+         "lasts_through_round": 7,
+         "name": "Rage",
+         "source": "rage"
+        },
+        {
+         "dmg": 1,
+         "duration": 0,
+         "lasts_through_round": null,
+         "name": "Inspire Courage +1",
+         "source": "inspire-courage",
+         "to_hit": 1
+        }
+       ],
+       "hp": 16,
+       "hp_max": 16,
+       "id": "Krug",
+       "name": "Krug",
+       "side": "party",
+       "status": "active"
+      },
+      {
+       "conditions": [
+        "downed"
+       ],
+       "hp": -1,
+       "hp_max": 20,
+       "id": "mon_1",
+       "name": "Orc 1",
+       "side": "enemy",
+       "status": "dead"
+      }
+     ],
+     "current": "Mei",
+     "phase": "round",
+     "round": 3
+    }
+   },
+   "args": {
+    "actions": [
+     {
+      "attacker": "Mei",
+      "target": "Orc 2"
+     },
+     {
+      "attacker": "Orc 2",
+      "target": "Krug"
+     },
+     {
+      "attacker": "Watch",
+      "target": "Orc 2"
+     },
+     {
+      "attacker": "Krug",
+      "target": "Orc 2"
+     }
+    ]
+   },
+   "tool": "combat_round"
+  },
+  {
+   "answer": {
+    "character": "Krug",
+    "character_id": "Krug",
+    "ended": true,
+    "fatigued": true,
+    "feature": "rage",
+    "hp": 14,
+    "hp_lost": 2,
+    "notes": [
+     "Krug is fatigued (-2 Str and Dex, can't charge or run) for the rest of the encounter."
+    ]
+   },
+   "args": {
+    "amount": -1,
+    "character": "Krug",
+    "feature": "rage"
+   },
+   "tool": "use_feature"
+  },
+  {
+   "answer": {
+    "characters": {
+     "Aldra": {
+      "conditions": [],
+      "effects": [
+       {
+        "dmg": 1,
+        "duration": 0,
+        "name": "Inspire Courage +1",
+        "source": "inspire-courage",
+        "to_hit": 1
+       }
+      ],
+      "hp": 18
+     },
+     "Ash": {
+      "conditions": [],
+      "effects": [
+       {
+        "dmg": 1,
+        "duration": 0,
+        "name": "Inspire Courage +1",
+        "source": "inspire-courage",
+        "to_hit": 1
+       }
+      ],
+      "hp": 9
+     },
+     "Grey": {
+      "conditions": [],
+      "effects": [
+       {
+        "dmg": 1,
+        "duration": 0,
+        "name": "Inspire Courage +1",
+        "source": "inspire-courage",
+        "to_hit": 1
+       }
+      ],
+      "hp": 13
+     },
+     "Krug": {
+      "conditions": [],
+      "effects": [
+       {
+        "dmg": 1,
+        "duration": 0,
+        "name": "Inspire Courage +1",
+        "source": "inspire-courage",
+        "to_hit": 1
+       }
+      ],
+      "hp": 14
+     },
+     "Lyra": {
+      "conditions": [],
+      "effects": [
+       {
+        "dmg": 1,
+        "duration": 0,
+        "name": "Inspire Courage +1",
+        "source": "inspire-courage",
+        "to_hit": 1
+       }
+      ],
+      "hp": 6
+     },
+     "Mei": {
+      "conditions": [],
+      "effects": [
+       {
+        "dmg": 1,
+        "duration": 0,
+        "name": "Inspire Courage +1",
+        "source": "inspire-courage",
+        "to_hit": 1
+       }
+      ],
+      "hp": 9
+     },
+     "Watch": {
+      "conditions": [],
+      "effects": [
+       {
+        "dmg": 1,
+        "duration": 0,
+        "name": "Inspire Courage +1",
+        "source": "inspire-courage",
+        "to_hit": 1
+       }
+      ],
+      "hp": 1
+     }
+    },
+    "defeated": {
+     "orc": 2
+    },
+    "enemies": [
+     {
+      "fate": "slain",
+      "hp": -1,
+      "hp_max": 20,
+      "id": "mon_1",
+      "name": "Orc 1",
+      "side": "enemy"
+     },
+     {
+      "fate": "slain",
+      "hp": -2,
+      "hp_max": 20,
+      "id": "mon_2",
+      "name": "Orc 2",
+      "side": "enemy"
+     }
+    ],
+    "groups": [
+     {
+      "defeated": 2,
+      "group": "Orc",
+      "total": 2,
+      "treasure_type": "",
+      "xp_earned": 300,
+      "xp_value": ""
+     }
+    ],
+    "rounds": 2,
+    "saved": {
+     "Aldra": 18,
+     "Ash": 9,
+     "Grey": 13,
+     "Krug": 14,
+     "Lyra": 6,
+     "Mei": 9,
+     "Watch": 1
+    }
+   },
+   "args": {},
+   "tool": "end_combat"
+  },
+  {
+   "answer": {
+    "removed": {
+     "ac": 0,
+     "dmg": 1,
+     "duration": 0,
+     "hidden": false,
+     "name": "Inspire Courage +1",
+     "save": 0,
+     "source": "inspire-courage",
+     "to_hit": 1
+    },
+    "target": "Krug",
+    "target_id": "Krug"
+   },
+   "args": {
+    "name": "Inspire Courage +1",
+    "target": "Krug"
+   },
+   "tool": "remove_effect"
+  },
+  {
+   "answer": {
+    "removed": {
+     "ac": 0,
+     "dmg": 1,
+     "duration": 0,
+     "hidden": false,
+     "name": "Inspire Courage +1",
+     "save": 0,
+     "source": "inspire-courage",
+     "to_hit": 1
+    },
+    "target": "Mei",
+    "target_id": "Mei"
+   },
+   "args": {
+    "name": "Inspire Courage +1",
+    "target": "Mei"
+   },
+   "tool": "remove_effect"
+  },
+  {
+   "answer": {
+    "removed": {
+     "ac": 0,
+     "dmg": 1,
+     "duration": 0,
+     "hidden": false,
+     "name": "Inspire Courage +1",
+     "save": 0,
+     "source": "inspire-courage",
+     "to_hit": 1
+    },
+    "target": "Aldra",
+    "target_id": "Aldra"
+   },
+   "args": {
+    "name": "Inspire Courage +1",
+    "target": "Aldra"
+   },
+   "tool": "remove_effect"
+  },
+  {
+   "answer": {
+    "removed": {
+     "ac": 0,
+     "dmg": 1,
+     "duration": 0,
+     "hidden": false,
+     "name": "Inspire Courage +1",
+     "save": 0,
+     "source": "inspire-courage",
+     "to_hit": 1
+    },
+    "target": "Ash",
+    "target_id": "Ash"
+   },
+   "args": {
+    "name": "Inspire Courage +1",
+    "target": "Ash"
+   },
+   "tool": "remove_effect"
+  },
+  {
+   "answer": {
+    "removed": {
+     "ac": 0,
+     "dmg": 1,
+     "duration": 0,
+     "hidden": false,
+     "name": "Inspire Courage +1",
+     "save": 0,
+     "source": "inspire-courage",
+     "to_hit": 1
+    },
+    "target": "Grey",
+    "target_id": "Grey"
+   },
+   "args": {
+    "name": "Inspire Courage +1",
+    "target": "Grey"
+   },
+   "tool": "remove_effect"
+  },
+  {
+   "answer": {
+    "removed": {
+     "ac": 0,
+     "dmg": 1,
+     "duration": 0,
+     "hidden": false,
+     "name": "Inspire Courage +1",
+     "save": 0,
+     "source": "inspire-courage",
+     "to_hit": 1
+    },
+    "target": "Lyra",
+    "target_id": "Lyra"
+   },
+   "args": {
+    "name": "Inspire Courage +1",
+    "target": "Lyra"
+   },
+   "tool": "remove_effect"
+  },
+  {
+   "answer": {
+    "removed": {
+     "ac": 0,
+     "dmg": 1,
+     "duration": 0,
+     "hidden": false,
+     "name": "Inspire Courage +1",
+     "save": 0,
+     "source": "inspire-courage",
+     "to_hit": 1
+    },
+    "target": "Watch",
+    "target_id": "Watch"
+   },
+   "args": {
+    "name": "Inspire Courage +1",
+    "target": "Watch"
+   },
+   "tool": "remove_effect"
+  },
+  {
+   "answer": {
+    "house_rules": [],
+    "id": "Durin",
+    "kind": "pc",
+    "name": "Durin",
+    "named_by": "given",
+    "order": 7,
+    "sheet": {
+     "ability_scores": {
+      "cha": 8,
+      "con": 14,
+      "dex": 14,
+      "int": 14,
+      "str": 10,
+      "wis": 10
+     },
+     "ac": 10,
+     "ac_vs_larger": 0,
+     "alignment": "",
+     "attacks": [],
+     "background": "",
+     "cls": "Rogue/Wizard",
+     "d20": {
+      "derived": {
+       "ac": 12,
+       "acp": 0,
+       "bab": 2,
+       "casting": {
+        "wizard": {
+         "ability": "int",
+         "caster_level": 1,
+         "dc": {
+          "0": 12,
+          "1": 13
+         },
+         "prepared": true,
+         "slots": {
+          "0": 3,
+          "1": 2
+         }
+        }
+       },
+       "dc": {
+        "0": 12,
+        "1": 13
+       },
+       "ecl": 4,
+       "evasion": "evasion",
+       "features": [
+        {
+         "class": "rogue",
+         "id": "proficiency",
+         "kind": "proficiency",
+         "name": "Weapon and armour proficiency",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "rogue",
+         "id": "sneak-attack",
+         "kind": "dice",
+         "name": "Sneak attack",
+         "per_day": null,
+         "value": "2d6"
+        },
+        {
+         "class": "rogue",
+         "id": "trapfinding",
+         "kind": "note",
+         "name": "Trapfinding",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "rogue",
+         "id": "evasion",
+         "kind": "note",
+         "name": "Evasion",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "rogue",
+         "condition": "vs:traps",
+         "id": "trap-sense",
+         "kind": "note",
+         "name": "Trap sense",
+         "per_day": null,
+         "targets": [
+          "ref",
+          "ac"
+         ],
+         "value": 1
+        },
+        {
+         "ability": "int",
+         "class": "wizard",
+         "id": "casting",
+         "kind": "casting",
+         "name": "Spells",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "wizard",
+         "id": "proficiency",
+         "kind": "proficiency",
+         "name": "Weapon and armour proficiency",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "wizard",
+         "feat": "scribe-scroll",
+         "id": "scribe-scroll",
+         "kind": "feat",
+         "name": "Scribe Scroll",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "wizard",
+         "id": "summon-familiar",
+         "kind": "note",
+         "name": "Summon familiar",
+         "per_day": null,
+         "value": null
+        }
+       ],
+       "flat_footed": 10,
+       "fort": 3,
+       "init": 2,
+       "max_dex": null,
+       "ref": 5,
+       "skill_notes": {},
+       "skills": {},
+       "slots": {
+        "0": 3,
+        "1": 2
+       },
+       "sneak": "2d6",
+       "speed": 20,
+       "spell_failure": 0,
+       "touch": 12,
+       "turning_per_day": 0,
+       "will": 3,
+       "xp_penalty": 20
+      }
+     },
+     "deity": "",
+     "disposition": 0,
+     "faction": "",
+     "gender": "",
+     "hp_max": 20,
+     "kind": "pc",
+     "label": "Durin",
+     "levels": {
+      "rogue": 3,
+      "wizard": 1
+     },
+     "movement_rate": 20,
+     "natural_abilities": [],
+     "notes_md": "",
+     "nwps": [],
+     "portrait": null,
+     "portrait_prompt": "",
+     "pronouns": "",
+     "race": "Dwarf",
+     "saves": {},
+     "size": "M",
+     "skills": {},
+     "spell_loadout": {
+      "default": {},
+      "known": {}
+     },
+     "spell_slots": {
+      "0": 3,
+      "1": 2
+     },
+     "thac0": 20,
+     "weapon": "",
+     "weapon_profs": []
+    },
+    "state": {
+     "conditions": [],
+     "effects": [],
+     "hp": 20,
+     "inventory": [],
+     "memorized": [],
+     "xp": 0
+    }
+   },
+   "args": {
+    "name": "Durin",
+    "sheet": {
+     "ability_scores": {
+      "cha": 8,
+      "con": 14,
+      "dex": 14,
+      "int": 14,
+      "str": 10,
+      "wis": 10
+     },
+     "cls": "Rogue/Wizard",
+     "hp_max": 20,
+     "levels": {
+      "rogue": 3,
+      "wizard": 1
+     },
+     "race": "Dwarf"
+    }
+   },
+   "tool": "create_character"
+  },
+  {
+   "answer": {
+    "id": "Durin",
+    "kind": "pc",
+    "name": "Durin",
+    "order": 7,
+    "sheet": {
+     "ability_scores": {
+      "cha": 8,
+      "con": 14,
+      "dex": 14,
+      "int": 14,
+      "str": 10,
+      "wis": 10
+     },
+     "ac": 10,
+     "ac_vs_larger": 0,
+     "alignment": "",
+     "attacks": [],
+     "background": "",
+     "cls": "Rogue/Wizard",
+     "d20": {
+      "derived": {
+       "ac": 12,
+       "acp": 0,
+       "bab": 2,
+       "casting": {
+        "wizard": {
+         "ability": "int",
+         "caster_level": 1,
+         "dc": {
+          "0": 12,
+          "1": 13
+         },
+         "prepared": true,
+         "slots": {
+          "0": 3,
+          "1": 2
+         }
+        }
+       },
+       "dc": {
+        "0": 12,
+        "1": 13
+       },
+       "ecl": 4,
+       "evasion": "evasion",
+       "features": [
+        {
+         "class": "rogue",
+         "id": "proficiency",
+         "kind": "proficiency",
+         "name": "Weapon and armour proficiency",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "rogue",
+         "id": "sneak-attack",
+         "kind": "dice",
+         "name": "Sneak attack",
+         "per_day": null,
+         "value": "2d6"
+        },
+        {
+         "class": "rogue",
+         "id": "trapfinding",
+         "kind": "note",
+         "name": "Trapfinding",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "rogue",
+         "id": "evasion",
+         "kind": "note",
+         "name": "Evasion",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "rogue",
+         "condition": "vs:traps",
+         "id": "trap-sense",
+         "kind": "note",
+         "name": "Trap sense",
+         "per_day": null,
+         "targets": [
+          "ref",
+          "ac"
+         ],
+         "value": 1
+        },
+        {
+         "ability": "int",
+         "class": "wizard",
+         "id": "casting",
+         "kind": "casting",
+         "name": "Spells",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "wizard",
+         "id": "proficiency",
+         "kind": "proficiency",
+         "name": "Weapon and armour proficiency",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "wizard",
+         "feat": "scribe-scroll",
+         "id": "scribe-scroll",
+         "kind": "feat",
+         "name": "Scribe Scroll",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "wizard",
+         "id": "summon-familiar",
+         "kind": "note",
+         "name": "Summon familiar",
+         "per_day": null,
+         "value": null
+        }
+       ],
+       "flat_footed": 10,
+       "fort": 3,
+       "init": 2,
+       "max_dex": null,
+       "ref": 5,
+       "skill_notes": {},
+       "skills": {},
+       "slots": {
+        "0": 3,
+        "1": 2
+       },
+       "sneak": "2d6",
+       "speed": 20,
+       "spell_failure": 0,
+       "touch": 12,
+       "turning_per_day": 0,
+       "will": 3,
+       "xp_penalty": 20
+      }
+     },
+     "deity": "",
+     "disposition": 0,
+     "faction": "",
+     "gender": "",
+     "hp_max": 20,
+     "kind": "pc",
+     "label": "Durin",
+     "levels": {
+      "rogue": 3,
+      "wizard": 1
+     },
+     "movement_rate": 20,
+     "natural_abilities": [],
+     "notes_md": "",
+     "nwps": [],
+     "portrait": null,
+     "portrait_prompt": "",
+     "pronouns": "",
+     "race": "Dwarf",
+     "saves": {},
+     "size": "M",
+     "skills": {},
+     "spell_loadout": {
+      "default": {},
+      "known": {}
+     },
+     "spell_slots": {
+      "0": 3,
+      "1": 2
+     },
+     "thac0": 20,
+     "weapon": "",
+     "weapon_profs": []
+    },
+    "state": {
+     "conditions": [],
+     "effects": [],
+     "hp": 20,
+     "inventory": [],
+     "memorized": [],
+     "xp": 6000
+    }
+   },
+   "args": {
+    "patch": {
+     "xp": 6000
+    },
+    "reason": "4th level's XP",
+    "ref": "Durin"
+   },
+   "tool": "update_character"
+  },
+  {
+   "answer": {
+    "character_id": "Durin",
+    "level": 4,
+    "level_up_hints": [],
+    "name": "Durin",
+    "xp_awarded": 1000,
+    "xp_gained": 800,
+    "xp_next": 10000,
+    "xp_penalty": "−20% (multiclass)",
+    "xp_total": 6800
+   },
+   "args": {
+    "amount": 1000,
+    "character": "Durin"
+   },
+   "tool": "award_xp"
+  },
+  {
+   "answer": {
+    "house_rules": [],
+    "id": "Grak",
+    "kind": "pc",
+    "name": "Grak",
+    "named_by": "given",
+    "order": 8,
+    "sheet": {
+     "ability_scores": {
+      "cha": 8,
+      "con": 13,
+      "dex": 10,
+      "int": 10,
+      "str": 15,
+      "wis": 11
+     },
+     "ac": 10,
+     "ac_vs_larger": 0,
+     "alignment": "",
+     "attacks": [],
+     "background": "",
+     "cls": "Fighter",
+     "d20": {
+      "derived": {
+       "ac": 11,
+       "acp": 0,
+       "bab": 2,
+       "casting": {},
+       "dc": {},
+       "ecl": 4,
+       "features": [
+        {
+         "class": "fighter",
+         "id": "bonus-feat",
+         "kind": "feat",
+         "name": "Bonus feat",
+         "per_day": null,
+         "value": 1
+        },
+        {
+         "class": "fighter",
+         "id": "proficiency",
+         "kind": "proficiency",
+         "name": "Weapon and armour proficiency",
+         "per_day": null,
+         "value": null
+        }
+       ],
+       "flat_footed": 11,
+       "fort": 6,
+       "init": 0,
+       "max_dex": null,
+       "ref": 0,
+       "skill_notes": {},
+       "skills": {},
+       "slots": {},
+       "sneak": "",
+       "speed": 30,
+       "spell_failure": 0,
+       "touch": 10,
+       "turning_per_day": 0,
+       "will": 0,
+       "xp_penalty": 0
+      }
+     },
+     "deity": "",
+     "disposition": 0,
+     "faction": "",
+     "gender": "",
+     "hp_max": 22,
+     "kind": "pc",
+     "label": "Grak",
+     "levels": {
+      "fighter": 1
+     },
+     "movement_rate": 30,
+     "natural_abilities": [],
+     "notes_md": "",
+     "nwps": [],
+     "portrait": null,
+     "portrait_prompt": "",
+     "pronouns": "",
+     "race": "Gnoll",
+     "saves": {},
+     "size": "M",
+     "skills": {},
+     "spell_loadout": {
+      "default": {},
+      "known": {}
+     },
+     "spell_slots": {},
+     "thac0": 20,
+     "weapon": "",
+     "weapon_profs": []
+    },
+    "state": {
+     "conditions": [],
+     "effects": [],
+     "hp": 22,
+     "inventory": [],
+     "memorized": [],
+     "xp": 0
+    }
+   },
+   "args": {
+    "name": "Grak",
+    "sheet": {
+     "ability_scores": {
+      "cha": 8,
+      "con": 13,
+      "dex": 10,
+      "int": 10,
+      "str": 15,
+      "wis": 11
+     },
+     "cls": "Fighter",
+     "hp_max": 22,
+     "level": 1,
+     "race": "Gnoll"
+    }
+   },
+   "tool": "create_character"
+  },
+  {
+   "answer": {
+    "build": {
+     "armor": "studded leather",
+     "feats": [
+      {
+       "id": "power-attack"
+      },
+      {
+       "id": "cleave"
+      },
+      {
+       "choice": "battleaxe",
+       "id": "weapon-focus"
+      }
+     ],
+     "skills": {
+      "climb": 4,
+      "listen": 4,
+      "spot": 4
+     },
+     "weapon": "battleaxe"
+    },
+    "character": "Grak",
+    "character_id": "Grak",
+    "derived": {
+     "ac": 14,
+     "acp": -1,
+     "bab": 2,
+     "casting": {},
+     "dc": {},
+     "ecl": 4,
+     "features": [
+      {
+       "class": "fighter",
+       "id": "bonus-feat",
+       "kind": "feat",
+       "name": "Bonus feat",
+       "per_day": null,
+       "value": 1
+      },
+      {
+       "class": "fighter",
+       "id": "proficiency",
+       "kind": "proficiency",
+       "name": "Weapon and armour proficiency",
+       "per_day": null,
+       "value": null
+      }
+     ],
+     "flat_footed": 14,
+     "fort": 6,
+     "init": 0,
+     "max_dex": 5,
+     "ref": 0,
+     "skill_notes": {},
+     "skills": {
+      "climb": 5,
+      "listen": 4,
+      "spot": 4
+     },
+     "slots": {},
+     "sneak": "",
+     "speed": 30,
+     "spell_failure": 0,
+     "touch": 10,
+     "turning_per_day": 0,
+     "will": 0,
+     "xp_penalty": 0
+    },
+    "skill_points": {
+     "spent": 12.0,
+     "total": 12
+    }
+   },
+   "args": {
+    "armor": "studded leather",
+    "character": "Grak",
+    "feats": [
+     "power attack",
+     "cleave",
+     {
+      "choice": "battleaxe",
+      "id": "weapon focus"
+     }
+    ],
+    "skills": {
+     "climb": 4,
+     "listen": 4,
+     "spot": 4
+    },
+    "weapon": "battleaxe"
+   },
+   "tool": "set_build"
+  },
+  {
+   "answer": {
+    "basis": "level × days (×2 complete bed rest)",
+    "date": "2 Planting 576 CY",
+    "days": 1,
+    "days_passed": 1,
+    "healing": {
+     "Aldra": {
+      "at_max": true,
+      "d20": {
+       "basis": "level × days (×2 complete bed rest)",
+       "healed": 0
+      },
+      "healed": 0,
+      "hp_after": 18,
+      "hp_before": 18
+     },
+     "Ash": {
+      "at_max": true,
+      "d20": {
+       "basis": "level × days (×2 complete bed rest)",
+       "healed": 0
+      },
+      "healed": 0,
+      "hp_after": 9,
+      "hp_before": 9
+     },
+     "Durin": {
+      "at_max": true,
+      "d20": {
+       "basis": "level × days (×2 complete bed rest)",
+       "healed": 0
+      },
+      "healed": 0,
+      "hp_after": 20,
+      "hp_before": 20
+     },
+     "Grak": {
+      "at_max": true,
+      "d20": {
+       "basis": "level × days (×2 complete bed rest)",
+       "healed": 0
+      },
+      "healed": 0,
+      "hp_after": 22,
+      "hp_before": 22
+     },
+     "Grey": {
+      "at_max": true,
+      "d20": {
+       "basis": "level × days (×2 complete bed rest)",
+       "healed": 0
+      },
+      "healed": 0,
+      "hp_after": 13,
+      "hp_before": 13
+     },
+     "Krug": {
+      "at_max": true,
+      "d20": {
+       "basis": "level × days (×2 complete bed rest)",
+       "healed": 0
+      },
+      "healed": 0,
+      "hp_after": 14,
+      "hp_before": 14
+     },
+     "Lyra": {
+      "at_max": true,
+      "d20": {
+       "basis": "level × days (×2 complete bed rest)",
+       "healed": 0
+      },
+      "healed": 0,
+      "hp_after": 6,
+      "hp_before": 6
+     },
+     "Mei": {
+      "at_max": true,
+      "d20": {
+       "basis": "level × days (×2 complete bed rest)",
+       "healed": 0
+      },
+      "healed": 0,
+      "hp_after": 9,
+      "hp_before": 9
+     },
+     "Watch": {
+      "at_max": false,
+      "d20": {
+       "basis": "level × days (×2 complete bed rest)",
+       "healed": 1
+      },
+      "healed": 1,
+      "hp_after": 2,
+      "hp_before": 1
+     }
+    },
+    "reminder": "Spells are uncast again. Call memorize_spells to change what Ash, Durin memorize.",
+    "rested": [
+     "Krug",
+     "Mei",
+     "Aldra",
+     "Ash",
+     "Grey",
+     "Lyra",
+     "Watch",
+     "Durin",
+     "Grak"
+    ],
+    "still_wounded": [
+     "Watch"
+    ]
+   },
+   "args": {
+    "days": 1
+   },
+   "tool": "rest"
+  },
+  {
+   "answer": {
+    "character": "Krug",
+    "character_id": "Krug",
+    "effect": {
+     "ac": 2,
+     "dmg": 0,
+     "duration": 7,
+     "hidden": false,
+     "name": "Rage",
+     "save": 0,
+     "source": "rage",
+     "to_hit": 0
+    },
+    "feature": "rage",
+    "hp": 16,
+    "hp_gained": 2,
+    "notes": [
+     "+2 on Fortitude and Will saves while raging (the effect's save stays 0); +2 on melee attack rolls, +2 damage in melee and thrown (+3 two-handed), by the swing. Rage lasts 7 rounds: when it ends, or Krug stops early, call use_feature(rage, amount=-1), which takes the 2 hp off again; a rest ends it too. It leaves Krug fatigued when it ends.",
+     "While raging: no Charisma-, Dexterity- or Intelligence-based skills but Balance, Escape Artist, Intimidate and Ride; no Concentration, no spells, no items that need concentration."
+    ],
+    "rounds": 7,
+    "uses_left": 0
+   },
+   "args": {
+    "character": "Krug",
+    "feature": "rage"
+   },
+   "tool": "use_feature"
+  },
+  {
+   "answer": {
+    "id": "Krug",
+    "kind": "pc",
+    "name": "Krug",
+    "order": 0,
+    "sheet": {
+     "ability_scores": {
+      "cha": 10,
+      "con": 14,
+      "dex": 14,
+      "int": 8,
+      "str": 16,
+      "wis": 10
+     },
+     "ac": 10,
+     "ac_vs_larger": 0,
+     "alignment": "",
+     "attacks": [],
+     "background": "",
+     "cls": "Barbarian",
+     "d20": {
+      "armor": "studded leather",
+      "derived": {
+       "ac": 15,
+       "acp": -1,
+       "bab": 1,
+       "casting": {},
+       "dc": {},
+       "ecl": 1,
+       "features": [
+        {
+         "class": "barbarian",
+         "condition": "no_heavy_load",
+         "id": "fast-movement",
+         "kind": "bonus",
+         "name": "Fast movement",
+         "per_day": null,
+         "target": "speed",
+         "value": 10
+        },
+        {
+         "class": "barbarian",
+         "id": "illiteracy",
+         "kind": "note",
+         "name": "Illiteracy",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "barbarian",
+         "id": "proficiency",
+         "kind": "proficiency",
+         "name": "Weapon and armour proficiency",
+         "per_day": null,
+         "value": null
+        },
+        {
+         "class": "barbarian",
+         "id": "rage",
+         "kind": "uses",
+         "name": "Rage",
+         "per_day": 1,
+         "value": 1
+        }
+       ],
+       "flat_footed": 13,
+       "fort": 4,
+       "init": 2,
+       "max_dex": 5,
+       "ref": 2,
+       "skill_notes": {},
+       "skills": {},
+       "slots": {},
+       "sneak": "",
+       "speed": 40,
+       "spell_failure": 0,
+       "touch": 12,
+       "turning_per_day": 0,
+       "will": 0,
+       "xp_penalty": 0
+      },
+      "feats": [
+       {
+        "id": "power-attack"
+       },
+       {
+        "id": "cleave"
+       }
+      ],
+      "weapon": "greataxe"
+     },
+     "deity": "",
+     "disposition": 0,
+     "faction": "",
+     "gender": "",
+     "hp_max": 16,
+     "kind": "pc",
+     "label": "Krug",
+     "levels": {
+      "barbarian": 1
+     },
+     "movement_rate": 40,
+     "natural_abilities": [],
+     "notes_md": "",
+     "nwps": [],
+     "portrait": null,
+     "portrait_prompt": "",
+     "pronouns": "",
+     "race": "Human",
+     "saves": {},
+     "size": "M",
+     "skills": {},
+     "spell_loadout": {
+      "default": {},
+      "known": {}
+     },
+     "spell_slots": {},
+     "thac0": 20,
+     "weapon": "",
+     "weapon_profs": []
+    },
+    "state": {
+     "conditions": [],
+     "d20": {
+      "rage": {
+       "hp": 2
+      },
+      "turning_used": 0,
+      "used": {
+       "rage": 1
+      }
+     },
+     "effects": [
+      {
+       "ac": 2,
+       "dmg": 0,
+       "duration": 7,
+       "hidden": false,
+       "name": "Rage",
+       "save": 0,
+       "source": "rage",
+       "to_hit": 0
+      }
+     ],
+     "hp": 16,
+     "inventory": [],
+     "memorized": [],
+     "xp": 0
+    }
+   },
+   "args": {
+    "ref": "Krug"
+   },
+   "tool": "get_character"
+  }
+ ],
+ "rolls": [
+  {
+   "actor": "Krug",
+   "beat": "beat-14/<fight>",
+   "faces": [
+    4
+   ],
+   "notation": "1d20",
+   "purpose": "initiative",
+   "round": 1,
+   "target": null,
+   "total": 4
+  },
+  {
+   "actor": "Mei",
+   "beat": "beat-14/<fight>",
+   "faces": [
+    20
+   ],
+   "notation": "1d20",
+   "purpose": "initiative",
+   "round": 1,
+   "target": null,
+   "total": 20
+  },
+  {
+   "actor": "Aldra",
+   "beat": "beat-14/<fight>",
+   "faces": [
+    17
+   ],
+   "notation": "1d20",
+   "purpose": "initiative",
+   "round": 1,
+   "target": null,
+   "total": 17
+  },
+  {
+   "actor": "Ash",
+   "beat": "beat-14/<fight>",
+   "faces": [
+    8
+   ],
+   "notation": "1d20",
+   "purpose": "initiative",
+   "round": 1,
+   "target": null,
+   "total": 8
+  },
+  {
+   "actor": "Grey",
+   "beat": "beat-14/<fight>",
+   "faces": [
+    9
+   ],
+   "notation": "1d20",
+   "purpose": "initiative",
+   "round": 1,
+   "target": null,
+   "total": 9
+  },
+  {
+   "actor": "Lyra",
+   "beat": "beat-14/<fight>",
+   "faces": [
+    9
+   ],
+   "notation": "1d20",
+   "purpose": "initiative",
+   "round": 1,
+   "target": null,
+   "total": 9
+  },
+  {
+   "actor": "Watch",
+   "beat": "beat-14/<fight>",
+   "faces": [
+    10
+   ],
+   "notation": "1d20",
+   "purpose": "initiative",
+   "round": 1,
+   "target": null,
+   "total": 10
+  },
+  {
+   "actor": "mon_1",
+   "beat": "beat-14/<fight>",
+   "faces": [
+    3
+   ],
+   "notation": "1d20",
+   "purpose": "initiative",
+   "round": 1,
+   "target": null,
+   "total": 3
+  },
+  {
+   "actor": "mon_2",
+   "beat": "beat-14/<fight>",
+   "faces": [
+    15
+   ],
+   "notation": "1d20",
+   "purpose": "initiative",
+   "round": 1,
+   "target": null,
+   "total": 15
+  },
+  {
+   "actor": "Grey",
+   "beat": "beat-14/<fight>",
+   "faces": [
+    10
+   ],
+   "notation": "1d20",
+   "purpose": "initiative tie",
+   "round": 1,
+   "target": null,
+   "total": 10
+  },
+  {
+   "actor": "Lyra",
+   "beat": "beat-14/<fight>",
+   "faces": [
+    15
+   ],
+   "notation": "1d20",
+   "purpose": "initiative tie",
+   "round": 1,
+   "target": null,
+   "total": 15
+  },
+  {
+   "actor": "Mei",
+   "beat": "beat-19/<fight>",
+   "faces": [
+    2
+   ],
+   "notation": "1d20",
+   "purpose": "attack#1",
+   "round": 1,
+   "target": "mon_1",
+   "total": 2
+  },
+  {
+   "actor": "Mei",
+   "beat": "beat-19/<fight>",
+   "faces": [
+    17
+   ],
+   "notation": "1d20",
+   "purpose": "attack#2",
+   "round": 1,
+   "target": "mon_1",
+   "total": 17
+  },
+  {
+   "actor": "Mei",
+   "beat": "beat-19/<fight>",
+   "faces": [
+    1
+   ],
+   "notation": "1d6+2",
+   "purpose": "damage#2",
+   "round": 1,
+   "target": "mon_1",
+   "total": 3
+  },
+  {
+   "actor": "Aldra",
+   "beat": "beat-19/<fight>",
+   "faces": [
+    17
+   ],
+   "notation": "1d20",
+   "purpose": "attack#1",
+   "round": 1,
+   "target": "mon_2",
+   "total": 17
+  },
+  {
+   "actor": "Aldra",
+   "beat": "beat-19/<fight>",
+   "faces": [
+    4
+   ],
+   "notation": "1d8+2",
+   "purpose": "damage#1",
+   "round": 1,
+   "target": "mon_2",
+   "total": 6
+  },
+  {
+   "actor": "mon_2",
+   "beat": "beat-19/<fight>",
+   "faces": [
+    13
+   ],
+   "notation": "1d20",
+   "purpose": "attack#1",
+   "round": 1,
+   "target": "Watch",
+   "total": 13
+  },
+  {
+   "actor": "mon_2",
+   "beat": "beat-19/<fight>",
+   "faces": [
+    3,
+    3
+   ],
+   "notation": "2d4+4",
+   "purpose": "damage#1",
+   "round": 1,
+   "target": "Watch",
+   "total": 10
+  },
+  {
+   "actor": "Grey",
+   "beat": "beat-19/<fight>",
+   "faces": [
+    19
+   ],
+   "notation": "1d20",
+   "purpose": "attack#1",
+   "round": 1,
+   "target": "mon_2",
+   "total": 19
+  },
+  {
+   "actor": "Grey",
+   "beat": "beat-19/<fight>",
+   "faces": [
+    2
+   ],
+   "notation": "1d6+1",
+   "purpose": "damage#1",
+   "round": 1,
+   "target": "mon_2",
+   "total": 3
+  },
+  {
+   "actor": "Ash",
+   "beat": "beat-19/<fight>",
+   "faces": [
+    20
+   ],
+   "notation": "1d20",
+   "purpose": "attack#1",
+   "round": 1,
+   "target": "mon_1",
+   "total": 20
+  },
+  {
+   "actor": "Ash",
+   "beat": "beat-19/<fight>",
+   "faces": [
+    9
+   ],
+   "notation": "1d20",
+   "purpose": "confirm#1",
+   "round": 1,
+   "target": "mon_1",
+   "total": 9
+  },
+  {
+   "actor": "Ash",
+   "beat": "beat-19/<fight>",
+   "faces": [
+    1
+   ],
+   "notation": "1d6",
+   "purpose": "damage#1",
+   "round": 1,
+   "target": "mon_1",
+   "total": 1
+  },
+  {
+   "actor": "Krug",
+   "beat": "beat-19/<fight>",
+   "faces": [
+    9
+   ],
+   "notation": "1d20",
+   "purpose": "attack#1",
+   "round": 1,
+   "target": "mon_1",
+   "total": 9
+  },
+  {
+   "actor": "Krug",
+   "beat": "beat-19/<fight>",
+   "faces": [
+    7
+   ],
+   "notation": "1d12+4",
+   "purpose": "damage#1",
+   "round": 1,
+   "target": "mon_1",
+   "total": 11
+  },
+  {
+   "actor": "Watch",
+   "beat": "beat-19/<fight>",
+   "faces": [
+    42
+   ],
+   "notation": "1d100",
+   "purpose": "stabilise",
+   "round": 1,
+   "target": null,
+   "total": 42
+  },
+  {
+   "actor": "Krug",
+   "beat": "beat-20/<fight>",
+   "faces": [
+    5
+   ],
+   "notation": "1d20",
+   "purpose": "save:will",
+   "round": 2,
+   "target": null,
+   "total": 5
+  },
+  {
+   "actor": "Mei",
+   "beat": "beat-22/<fight>",
+   "faces": [
+    5
+   ],
+   "notation": "1d20",
+   "purpose": "attack#1",
+   "round": 2,
+   "target": "mon_2",
+   "total": 5
+  },
+  {
+   "actor": "Mei",
+   "beat": "beat-22/<fight>",
+   "faces": [
+    8
+   ],
+   "notation": "1d20",
+   "purpose": "attack#2",
+   "round": 2,
+   "target": "mon_2",
+   "total": 8
+  },
+  {
+   "actor": "mon_2",
+   "beat": "beat-22/<fight>",
+   "faces": [
+    1
+   ],
+   "notation": "1d20",
+   "purpose": "attack#1",
+   "round": 2,
+   "target": "Krug",
+   "total": 1
+  },
+  {
+   "actor": "Watch",
+   "beat": "beat-22/<fight>",
+   "faces": [
+    20
+   ],
+   "notation": "1d20",
+   "purpose": "attack#1",
+   "round": 2,
+   "target": "mon_2",
+   "total": 20
+  },
+  {
+   "actor": "Watch",
+   "beat": "beat-22/<fight>",
+   "faces": [
+    15
+   ],
+   "notation": "1d20",
+   "purpose": "confirm#1",
+   "round": 2,
+   "target": "mon_2",
+   "total": 15
+  },
+  {
+   "actor": "Watch",
+   "beat": "beat-22/<fight>",
+   "faces": [
+    3
+   ],
+   "notation": "1d8+1",
+   "purpose": "damage#1#1",
+   "round": 2,
+   "target": "mon_2",
+   "total": 4
+  },
+  {
+   "actor": "Watch",
+   "beat": "beat-22/<fight>",
+   "faces": [
+    2
+   ],
+   "notation": "1d8+1",
+   "purpose": "damage#1#2",
+   "round": 2,
+   "target": "mon_2",
+   "total": 3
+  }
+ ]
+}

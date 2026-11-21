@@ -136,3 +136,27 @@ def test_after_reset_a_new_folder_imports_its_own_copy(tmp_path: Path):
     where = sys.modules["test_ruleset_pack.pack"].__file__
     assert Path(where).is_relative_to(tmp_path / "two")
     assert type(first.entry) is not type(second.entry)
+
+
+def test_reset_keeps_a_package_a_test_imported_from_elsewhere(tmp_path: Path):
+    """A pack's own tests import its package from the pack's `src` (as `packs/srd35/tests/conftest.py` does) and hold
+    its classes; a load of an installed copy finds that import, and a later reset must not drop it, or the next import
+    makes classes that are no longer the ones held."""
+    shutil.copytree(FIXTURES / "test-ruleset", tmp_path / "tree")
+    installed = tmp_path / "packs"
+    shutil.copytree(FIXTURES / "test-ruleset", installed / "test-ruleset")
+    src = str(tmp_path / "tree" / "src")
+    sys.path.insert(0, src)
+    try:
+        import importlib
+
+        held = importlib.import_module("test_ruleset_pack.pack")
+        (loaded,), _ = load_packs(installed)
+        assert loaded.entry is held.PACK
+        loader.reset()
+        assert sys.modules["test_ruleset_pack.pack"] is held
+        assert str(installed / "test-ruleset" / "src") not in sys.path
+    finally:
+        sys.path.remove(src)
+        for name in [n for n in sys.modules if n == "test_ruleset_pack" or n.startswith("test_ruleset_pack.")]:
+            del sys.modules[name]

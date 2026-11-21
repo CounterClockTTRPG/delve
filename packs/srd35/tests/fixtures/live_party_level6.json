@@ -1,0 +1,888 @@
+[
+ {
+  "derived": {
+   "ac": 19,
+   "acp": -8,
+   "bab": 6,
+   "base_speed": 30,
+   "dc": {},
+   "ecl": 6,
+   "features": [
+    {
+     "class": "fighter",
+     "id": "bonus-feat",
+     "kind": "feat",
+     "name": "Bonus feat",
+     "per_day": null,
+     "value": 4
+    },
+    {
+     "class": "fighter",
+     "id": "proficiency",
+     "kind": "proficiency",
+     "name": "Weapon and armour proficiency",
+     "per_day": null,
+     "value": null
+    }
+   ],
+   "flat_footed": 18,
+   "fort": 9,
+   "init": 5,
+   "max_dex": 1,
+   "ref": 3,
+   "run_multiplier": 3,
+   "skills": {
+    "climb": 4,
+    "intimidate": 8,
+    "jump": -2
+   },
+   "slots": {},
+   "sneak": "",
+   "speed": 20,
+   "spell_failure": 0,
+   "touch": 11,
+   "turning_per_day": 0,
+   "will": 5,
+   "xp_penalty": 0
+  },
+  "name": "Bram",
+  "sheet": {
+   "ability_scores": {
+    "cha": 8,
+    "con": 14,
+    "dex": 13,
+    "int": 10,
+    "str": 17,
+    "wis": 12
+   },
+   "ac": 10,
+   "ac_vs_larger": 0,
+   "alignment": "",
+   "attacks": [],
+   "background": "",
+   "cls": "Fighter",
+   "d20": {
+    "armor": "banded mail",
+    "derived": {
+     "ac": 19,
+     "acp": -8,
+     "bab": 6,
+     "base_speed": 30,
+     "dc": {},
+     "ecl": 6,
+     "features": [
+      {
+       "class": "fighter",
+       "id": "bonus-feat",
+       "kind": "feat",
+       "name": "Bonus feat",
+       "per_day": null,
+       "value": 4
+      },
+      {
+       "class": "fighter",
+       "id": "proficiency",
+       "kind": "proficiency",
+       "name": "Weapon and armour proficiency",
+       "per_day": null,
+       "value": null
+      }
+     ],
+     "flat_footed": 18,
+     "fort": 9,
+     "init": 5,
+     "max_dex": 1,
+     "ref": 3,
+     "run_multiplier": 3,
+     "skills": {
+      "climb": 4,
+      "intimidate": 8,
+      "jump": -2
+     },
+     "slots": {},
+     "sneak": "",
+     "speed": 20,
+     "spell_failure": 0,
+     "touch": 11,
+     "turning_per_day": 0,
+     "will": 5,
+     "xp_penalty": 0
+    },
+    "feats": [
+     {
+      "id": "power-attack"
+     },
+     {
+      "id": "cleave"
+     },
+     {
+      "choice": "longsword",
+      "id": "weapon-focus"
+     },
+     {
+      "id": "improved-initiative"
+     },
+     {
+      "id": "great-fortitude"
+     },
+     {
+      "choice": "longsword",
+      "id": "weapon-specialization"
+     },
+     {
+      "id": "great-cleave"
+     },
+     {
+      "id": "iron-will"
+     }
+    ],
+    "level_up": {
+     "class": "fighter",
+     "hints": [
+      "3 skill points",
+      "a feat",
+      "a fighter bonus feat"
+     ],
+     "hit_points": 4,
+     "level": 6
+    },
+    "shield": "shield, heavy steel",
+    "skills": {
+     "climb": 9,
+     "intimidate": 9,
+     "jump": 9
+    },
+    "weapon": "longsword"
+   },
+   "deity": "",
+   "disposition": 0,
+   "faction": "",
+   "gender": "",
+   "hp_max": 55,
+   "kind": "pc",
+   "label": "Bram",
+   "levels": {
+    "fighter": 6
+   },
+   "movement_rate": 20,
+   "natural_abilities": [],
+   "notes_md": "",
+   "nwps": [],
+   "portrait": null,
+   "portrait_prompt": "",
+   "pronouns": "",
+   "race": "Human",
+   "saves": {},
+   "size": "M",
+   "skills": {},
+   "spell_loadout": {
+    "default": {},
+    "known": {}
+   },
+   "spell_slots": {},
+   "thac0": 20,
+   "weapon": "",
+   "weapon_profs": []
+  }
+ },
+ {
+  "derived": {
+   "ac": 16,
+   "acp": -6,
+   "bab": 4,
+   "dc": {
+    "0": 13,
+    "1": 14,
+    "2": 15,
+    "3": 16
+   },
+   "ecl": 6,
+   "features": [
+    {
+     "ability": "wis",
+     "class": "cleric",
+     "id": "casting",
+     "kind": "casting",
+     "name": "Spells",
+     "per_day": null,
+     "value": null
+    },
+    {
+     "class": "cleric",
+     "id": "proficiency",
+     "kind": "proficiency",
+     "name": "Weapon and armour proficiency",
+     "per_day": null,
+     "value": null
+    },
+    {
+     "ability": "cha",
+     "class": "cleric",
+     "id": "turn-undead",
+     "kind": "uses",
+     "name": "Turn or rebuke undead",
+     "per_day": 4,
+     "value": 3
+    }
+   ],
+   "flat_footed": 16,
+   "fort": 7,
+   "init": 0,
+   "max_dex": 3,
+   "ref": 2,
+   "skills": {
+    "concentration": 11
+   },
+   "slots": {
+    "0": 5,
+    "1": 5,
+    "2": 5,
+    "3": 4
+   },
+   "sneak": "",
+   "speed": 20,
+   "spell_failure": 0,
+   "touch": 10,
+   "turning_per_day": 4,
+   "will": 8,
+   "xp_penalty": 0
+  },
+  "name": "Dorna",
+  "sheet": {
+   "ability_scores": {
+    "cha": 12,
+    "con": 14,
+    "dex": 10,
+    "int": 10,
+    "str": 14,
+    "wis": 16
+   },
+   "ac": 10,
+   "ac_vs_larger": 0,
+   "alignment": "",
+   "attacks": [],
+   "background": "",
+   "cls": "Cleric",
+   "d20": {
+    "armor": "scale mail",
+    "derived": {
+     "ac": 16,
+     "acp": -6,
+     "bab": 4,
+     "dc": {
+      "0": 13,
+      "1": 14,
+      "2": 15,
+      "3": 16
+     },
+     "ecl": 6,
+     "features": [
+      {
+       "ability": "wis",
+       "class": "cleric",
+       "id": "casting",
+       "kind": "casting",
+       "name": "Spells",
+       "per_day": null,
+       "value": null
+      },
+      {
+       "class": "cleric",
+       "id": "proficiency",
+       "kind": "proficiency",
+       "name": "Weapon and armour proficiency",
+       "per_day": null,
+       "value": null
+      },
+      {
+       "ability": "cha",
+       "class": "cleric",
+       "id": "turn-undead",
+       "kind": "uses",
+       "name": "Turn or rebuke undead",
+       "per_day": 4,
+       "value": 3
+      }
+     ],
+     "flat_footed": 16,
+     "fort": 7,
+     "init": 0,
+     "max_dex": 3,
+     "ref": 2,
+     "skills": {
+      "concentration": 11
+     },
+     "slots": {
+      "0": 5,
+      "1": 5,
+      "2": 5,
+      "3": 4
+     },
+     "sneak": "",
+     "speed": 20,
+     "spell_failure": 0,
+     "touch": 10,
+     "turning_per_day": 4,
+     "will": 8,
+     "xp_penalty": 0
+    },
+    "domains": [
+     "war",
+     "good"
+    ],
+    "feats": [
+     {
+      "id": "toughness"
+     },
+     {
+      "id": "combat-casting"
+     }
+    ],
+    "level_up": {
+     "class": "cleric",
+     "hints": [
+      "2 skill points",
+      "a feat"
+     ],
+     "hit_points": 5,
+     "level": 6
+    },
+    "shield": "shield, heavy steel",
+    "skills": {
+     "concentration": 9
+    },
+    "weapon": "warhammer"
+   },
+   "deity": "",
+   "disposition": 0,
+   "faction": "",
+   "gender": "",
+   "hp_max": 43,
+   "kind": "pc",
+   "label": "Dorna",
+   "levels": {
+    "cleric": 6
+   },
+   "movement_rate": 20,
+   "natural_abilities": [],
+   "notes_md": "",
+   "nwps": [],
+   "portrait": null,
+   "portrait_prompt": "",
+   "pronouns": "",
+   "race": "Dwarf",
+   "saves": {},
+   "size": "M",
+   "skills": {},
+   "spell_loadout": {
+    "default": {},
+    "known": {}
+   },
+   "spell_slots": {
+    "0": 5,
+    "1": 5,
+    "2": 5,
+    "3": 4
+   },
+   "thac0": 20,
+   "weapon": "",
+   "weapon_profs": []
+  }
+ },
+ {
+  "derived": {
+   "ac": 13,
+   "acp": 0,
+   "bab": 3,
+   "dc": {
+    "0": 14,
+    "1": 15,
+    "2": 16,
+    "3": 17
+   },
+   "ecl": 6,
+   "features": [
+    {
+     "ability": "int",
+     "class": "wizard",
+     "id": "casting",
+     "kind": "casting",
+     "name": "Spells",
+     "per_day": null,
+     "value": null
+    },
+    {
+     "class": "wizard",
+     "id": "proficiency",
+     "kind": "proficiency",
+     "name": "Weapon and armour proficiency",
+     "per_day": null,
+     "value": null
+    },
+    {
+     "class": "wizard",
+     "feat": "scribe-scroll",
+     "id": "scribe-scroll",
+     "kind": "feat",
+     "name": "Scribe Scroll",
+     "per_day": null,
+     "value": null
+    },
+    {
+     "class": "wizard",
+     "id": "summon-familiar",
+     "kind": "note",
+     "name": "Summon familiar",
+     "per_day": null,
+     "value": null
+    },
+    {
+     "class": "wizard",
+     "id": "bonus-feat",
+     "kind": "feat",
+     "name": "Bonus feat",
+     "per_day": null,
+     "value": 1
+    }
+   ],
+   "flat_footed": 10,
+   "fort": 2,
+   "init": 7,
+   "max_dex": null,
+   "ref": 7,
+   "skills": {
+    "concentration": 9,
+    "knowledge-arcana": 13,
+    "spellcraft": 15
+   },
+   "slots": {
+    "0": 4,
+    "1": 4,
+    "2": 4,
+    "3": 3
+   },
+   "sneak": "",
+   "speed": 30,
+   "spell_failure": 0,
+   "touch": 13,
+   "turning_per_day": 0,
+   "will": 6,
+   "xp_penalty": 0
+  },
+  "name": "Elowen",
+  "sheet": {
+   "ability_scores": {
+    "cha": 10,
+    "con": 10,
+    "dex": 16,
+    "int": 18,
+    "str": 8,
+    "wis": 12
+   },
+   "ac": 10,
+   "ac_vs_larger": 0,
+   "alignment": "",
+   "attacks": [],
+   "background": "",
+   "cls": "Wizard",
+   "d20": {
+    "derived": {
+     "ac": 13,
+     "acp": 0,
+     "bab": 3,
+     "dc": {
+      "0": 14,
+      "1": 15,
+      "2": 16,
+      "3": 17
+     },
+     "ecl": 6,
+     "features": [
+      {
+       "ability": "int",
+       "class": "wizard",
+       "id": "casting",
+       "kind": "casting",
+       "name": "Spells",
+       "per_day": null,
+       "value": null
+      },
+      {
+       "class": "wizard",
+       "id": "proficiency",
+       "kind": "proficiency",
+       "name": "Weapon and armour proficiency",
+       "per_day": null,
+       "value": null
+      },
+      {
+       "class": "wizard",
+       "feat": "scribe-scroll",
+       "id": "scribe-scroll",
+       "kind": "feat",
+       "name": "Scribe Scroll",
+       "per_day": null,
+       "value": null
+      },
+      {
+       "class": "wizard",
+       "id": "summon-familiar",
+       "kind": "note",
+       "name": "Summon familiar",
+       "per_day": null,
+       "value": null
+      },
+      {
+       "class": "wizard",
+       "id": "bonus-feat",
+       "kind": "feat",
+       "name": "Bonus feat",
+       "per_day": null,
+       "value": 1
+      }
+     ],
+     "flat_footed": 10,
+     "fort": 2,
+     "init": 7,
+     "max_dex": null,
+     "ref": 7,
+     "skills": {
+      "concentration": 9,
+      "knowledge-arcana": 13,
+      "spellcraft": 15
+     },
+     "slots": {
+      "0": 4,
+      "1": 4,
+      "2": 4,
+      "3": 3
+     },
+     "sneak": "",
+     "speed": 30,
+     "spell_failure": 0,
+     "touch": 13,
+     "turning_per_day": 0,
+     "will": 6,
+     "xp_penalty": 0
+    },
+    "feats": [
+     {
+      "id": "improved-initiative"
+     },
+     {
+      "choice": "evocation",
+      "id": "spell-focus"
+     },
+     {
+      "id": "lightning-reflexes"
+     }
+    ],
+    "level_up": {
+     "class": "wizard",
+     "hints": [
+      "5 skill points",
+      "a feat"
+     ],
+     "hit_points": 2,
+     "level": 6
+    },
+    "skills": {
+     "concentration": 9,
+     "knowledge-arcana": 9,
+     "spellcraft": 9
+    },
+    "weapon": "dagger"
+   },
+   "deity": "",
+   "disposition": 0,
+   "faction": "",
+   "gender": "",
+   "hp_max": 19,
+   "kind": "pc",
+   "label": "Elowen",
+   "levels": {
+    "wizard": 6
+   },
+   "movement_rate": 30,
+   "natural_abilities": [],
+   "notes_md": "",
+   "nwps": [],
+   "portrait": null,
+   "portrait_prompt": "",
+   "pronouns": "",
+   "race": "Elf",
+   "saves": {},
+   "size": "M",
+   "skills": {},
+   "spell_loadout": {
+    "default": {},
+    "known": {}
+   },
+   "spell_slots": {
+    "0": 4,
+    "1": 4,
+    "2": 4,
+    "3": 3
+   },
+   "thac0": 20,
+   "weapon": "",
+   "weapon_profs": []
+  }
+ },
+ {
+  "derived": {
+   "ac": 17,
+   "acp": 0,
+   "bab": 4,
+   "dc": {},
+   "ecl": 6,
+   "features": [
+    {
+     "class": "rogue",
+     "id": "proficiency",
+     "kind": "proficiency",
+     "name": "Weapon and armour proficiency",
+     "per_day": null,
+     "value": null
+    },
+    {
+     "class": "rogue",
+     "id": "sneak-attack",
+     "kind": "dice",
+     "name": "Sneak attack",
+     "per_day": null,
+     "value": "3d6"
+    },
+    {
+     "class": "rogue",
+     "id": "trapfinding",
+     "kind": "note",
+     "name": "Trapfinding",
+     "per_day": null,
+     "value": null
+    },
+    {
+     "class": "rogue",
+     "id": "evasion",
+     "kind": "note",
+     "name": "Evasion",
+     "per_day": null,
+     "value": null
+    },
+    {
+     "class": "rogue",
+     "condition": "vs:traps",
+     "id": "trap-sense",
+     "kind": "note",
+     "name": "Trap sense",
+     "per_day": null,
+     "targets": [
+      "ref",
+      "ac"
+     ],
+     "value": 2
+    },
+    {
+     "class": "rogue",
+     "feat": "uncanny-dodge",
+     "id": "uncanny-dodge",
+     "kind": "feat",
+     "name": "Uncanny dodge",
+     "per_day": null,
+     "value": null
+    }
+   ],
+   "flat_footed": 17,
+   "fort": 4,
+   "init": 7,
+   "max_dex": 6,
+   "ref": 9,
+   "skills": {
+    "disable-device": 11,
+    "hide": 16,
+    "listen": 11,
+    "move-silently": 14,
+    "open-lock": 12,
+    "search": 11,
+    "spot": 9,
+    "tumble": 12
+   },
+   "slots": {},
+   "sneak": "3d6",
+   "speed": 20,
+   "spell_failure": 0,
+   "touch": 15,
+   "turning_per_day": 0,
+   "uncanny_dodge": true,
+   "will": 3,
+   "xp_penalty": 0
+  },
+  "name": "Pip",
+  "sheet": {
+   "ability_scores": {
+    "cha": 13,
+    "con": 12,
+    "dex": 17,
+    "int": 14,
+    "str": 12,
+    "wis": 10
+   },
+   "ac": 10,
+   "ac_vs_larger": 0,
+   "alignment": "",
+   "attacks": [],
+   "background": "",
+   "cls": "Rogue",
+   "d20": {
+    "armor": "leather",
+    "derived": {
+     "ac": 17,
+     "acp": 0,
+     "bab": 4,
+     "dc": {},
+     "ecl": 6,
+     "features": [
+      {
+       "class": "rogue",
+       "id": "proficiency",
+       "kind": "proficiency",
+       "name": "Weapon and armour proficiency",
+       "per_day": null,
+       "value": null
+      },
+      {
+       "class": "rogue",
+       "id": "sneak-attack",
+       "kind": "dice",
+       "name": "Sneak attack",
+       "per_day": null,
+       "value": "3d6"
+      },
+      {
+       "class": "rogue",
+       "id": "trapfinding",
+       "kind": "note",
+       "name": "Trapfinding",
+       "per_day": null,
+       "value": null
+      },
+      {
+       "class": "rogue",
+       "id": "evasion",
+       "kind": "note",
+       "name": "Evasion",
+       "per_day": null,
+       "value": null
+      },
+      {
+       "class": "rogue",
+       "condition": "vs:traps",
+       "id": "trap-sense",
+       "kind": "note",
+       "name": "Trap sense",
+       "per_day": null,
+       "targets": [
+        "ref",
+        "ac"
+       ],
+       "value": 2
+      },
+      {
+       "class": "rogue",
+       "feat": "uncanny-dodge",
+       "id": "uncanny-dodge",
+       "kind": "feat",
+       "name": "Uncanny dodge",
+       "per_day": null,
+       "value": null
+      }
+     ],
+     "flat_footed": 17,
+     "fort": 4,
+     "init": 7,
+     "max_dex": 6,
+     "ref": 9,
+     "skills": {
+      "disable-device": 11,
+      "hide": 16,
+      "listen": 11,
+      "move-silently": 14,
+      "open-lock": 12,
+      "search": 11,
+      "spot": 9,
+      "tumble": 12
+     },
+     "slots": {},
+     "sneak": "3d6",
+     "speed": 20,
+     "spell_failure": 0,
+     "touch": 15,
+     "turning_per_day": 0,
+     "uncanny_dodge": true,
+     "will": 3,
+     "xp_penalty": 0
+    },
+    "feats": [
+     {
+      "id": "improved-initiative"
+     },
+     {
+      "id": "weapon-finesse"
+     },
+     {
+      "id": "dodge"
+     }
+    ],
+    "level_up": {
+     "class": "rogue",
+     "hints": [
+      "10 skill points",
+      "a feat"
+     ],
+     "hit_points": 2,
+     "level": 6
+    },
+    "skills": {
+     "disable-device": 9,
+     "hide": 9,
+     "listen": 9,
+     "move-silently": 9,
+     "open-lock": 9,
+     "search": 9,
+     "spot": 9,
+     "tumble": 9
+    },
+    "weapon": "sword, short"
+   },
+   "deity": "",
+   "disposition": 0,
+   "faction": "",
+   "gender": "",
+   "hp_max": 25,
+   "kind": "pc",
+   "label": "Pip",
+   "levels": {
+    "rogue": 6
+   },
+   "movement_rate": 20,
+   "natural_abilities": [],
+   "notes_md": "",
+   "nwps": [],
+   "portrait": null,
+   "portrait_prompt": "",
+   "pronouns": "",
+   "race": "Halfling",
+   "saves": {},
+   "size": "M",
+   "skills": {},
+   "spell_loadout": {
+    "default": {},
+    "known": {}
+   },
+   "spell_slots": {},
+   "thac0": 20,
+   "weapon": "",
+   "weapon_profs": []
+  }
+ }
+]

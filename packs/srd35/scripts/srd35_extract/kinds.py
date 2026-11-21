@@ -20,8 +20,9 @@ CLASS_FILES = {
 }
 ABILITIES = {"str": "Strength", "dex": "Dexterity", "con": "Constitution", "int": "Intelligence", "wis": "Wisdom",
              "cha": "Charisma"}  # fmt: skip
-_SPELL_CLASSES = {"sor/wiz": ("sorcerer", "wizard"), "clr": ("cleric",), "drd": ("druid",), "brd": ("bard",),
-                  "pal": ("paladin",), "rgr": ("ranger",), "adp": ("adept",)}  # fmt: skip
+_SPELL_CLASSES = {"sor/wiz": ("sorcerer", "wizard"), "wiz": ("wizard",), "clr": ("cleric",), "drd": ("druid",),
+                  "brd": ("bard",), "pal": ("paladin",), "rgr": ("ranger",), "adp": ("adept",)}  # fmt: skip
+"""The Level line's class abbreviations; "Wiz" alone is a wizard-only spell's (mage's lucubration, mnemonic enhancer)."""
 
 
 def _subsections(section: Section) -> dict[str, str]:
@@ -305,6 +306,68 @@ def spells(src: Path) -> list[dict[str, Any]]:
     return _inherit(by_id(rows))
 
 
+_CLASS_LIST = re.compile(r"(?m)^(\d)(?:st|nd|rd|th)? Level: \*([^*]+)\*")
+CLASS_LISTS = {"adept": "Adept Spell List", "assassin": "Assassin Spell List", "blackguard": "Blackguard Spell List"}
+"""The classes whose spell lists the spells' Level lines lack, each with its list's heading in its class text."""
+LIST_NAMES = {"greater invisibility": "invisibility-greater", "protection from elements": "protection-from-energy"}
+"""A list's names the spells are entered under otherwise: the SRD's own order of words ("Invisibility, Greater"),
+and the blackguard's "protection from elements", the 3.0 name of 3.5's *protection from energy*. The blackguard's
+*corrupt weapon* is a spell only in his class text ("the opposing counterpart of … *bless weapon*"), with no entry."""
+
+
+def class_list_levels(classes: list[dict[str, Any]], spells: list[dict[str, Any]]) -> list[str]:
+    """The adept's, the assassin's and the blackguard's spell lists, which the spells' Level lines lack, into their
+    `levels` as `"adept": N`: read from each class's own text ("### Adept Spell List", "0 Level: *create water, …*"
+    to 5th; the blackguard's "summon monster I*" marks "evil creatures only"). The names the spells lack are returned
+    (*corrupt weapon* in the full SRD, `LIST_NAMES`; a fixture's copy has only some spells), and nothing for a class
+    that isn't there."""
+    by = {row["id"]: row for row in spells}
+    missing = []
+    for cls, heading in CLASS_LISTS.items():
+        found = next((row for row in classes if row["id"] == cls), None)
+        if found is None or f"### {heading}" not in found["text"]:
+            continue
+        listed = found["text"].split(f"### {heading}", 1)[1]
+        for level, names in _CLASS_LIST.findall(listed):
+            for name in (n.strip() for n in names.rstrip(". ").split(",")):
+                if (row := by.get(LIST_NAMES.get(name) or slug(name))) is None:
+                    missing.append(name)
+                else:
+                    row["levels"] = dict(sorted({**row["levels"], cls: int(level)}.items()))
+    return missing
+
+
+_KNOWN_TABLE = re.compile(r"\*\*Table: [^*]*Spells Known\*\*\n\n((?:\|.*\n?)+)")
+
+
+def spells_known(classes: list[dict[str, Any]]) -> list[str]:
+    """Each spontaneous caster's Table: … Spells Known (the sorcerer's and the bard's, in their class text) into its
+    level rows as `spells_known`, by spell level ("0", "1" …) as the table prints it: "—" (none) is left out and a
+    footnote mark dropped (the bard's "2¹", known "provided the bard has a high enough Charisma score to have a bonus
+    spell of this level"). The ids of the classes it filled are returned; a class without the table is left as it is."""
+    filled = []
+    for row in classes:
+        found = _KNOWN_TABLE.search(row.get("text", ""))
+        if found is None:
+            continue
+        lines = [[cell.strip() for cell in line.strip().strip("|").split("|")] for line in found.group(1).splitlines()]
+        header, body = lines[0], [cells for cells in lines[2:] if cells and cells[0]]
+        columns = [re.sub(r"\D", "", name) or "0" for name in header[1:]]
+        by_level = {}
+        for cells in body:
+            level = int(re.sub(r"\D", "", cells[0]))
+            by_level[level] = {
+                column: count
+                for column, cell in zip(columns, cells[1:], strict=True)
+                if (count := re.sub(r"[^\d]", "", cell.replace("¹", "")))
+            }
+        for level_row in row["levels"]:
+            if level_row["level"] in by_level:
+                level_row["spells_known"] = by_level[level_row["level"]]
+        filled.append(row["id"])
+    return filled
+
+
 _INHERITED = ("components", "casting_time", "range", "duration", "saving_throw", "spell_resistance")
 _FUNCTIONS_LIKE = re.compile(
     r"(?:functions|works)(?: just)? (?:like|similarly to) (?:an? |the )?(?:_([^_]+)_|([A-Za-z’' ]+?),? except)"
@@ -525,6 +588,9 @@ def items(src: Path) -> list[dict[str, Any]]:
                 "slot": "",
                 "text": markdown(section.body),
             }
+            had = rows.get(row["id"])
+            if had is not None and had["item_type"] != row["item_type"]:
+                row["id"] = f"{row['id']}-{row['item_type']}"  # Ghost Touch's weapon after its armour's: both kept
             rows.setdefault(row["id"], row)
     equipment = read(src, f"{BASIC}/equipment.md")
     for table in tables(equipment):

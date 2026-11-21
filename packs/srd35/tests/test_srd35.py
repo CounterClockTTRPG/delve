@@ -38,7 +38,7 @@ def test_the_pack_loads_and_is_playable(tmp_path):
 def test_its_saves_are_fortitude_reflex_and_will(ruleset):
     assert ruleset.tables.save_types == ("fort", "ref", "will")
     assert [ruleset.tables.save_names[s] for s in ruleset.tables.save_types] == ["Fortitude", "Reflex", "Will"]
-    assert ruleset.encounters is None and ruleset.treasure is None
+    assert ruleset.encounters is None and ruleset.treasure is not None
 
 
 def test_the_reference_is_a_ruleset_reference(ruleset):
@@ -108,6 +108,16 @@ def test_rules_search_finds_attacks_of_opportunity(ruleset):
     assert hits and "<<" in hits[0]["snippet"]
     with pytest.raises(ValueError):
         ruleset.reference.rules_search("of the")
+
+
+def test_rules_search_finds_stabilisation(ruleset):  # DEL-447
+    # By subsection, best by the distinct words it matches; "10" is no word, and "consciousness" matches "conscious".
+    (best, *_) = ruleset.reference.rules_search("recovering with help stable regains consciousness 10% each hour")
+    assert best["section"] == "Injury and Death — Recovering with Help", best
+    assert best["source"] == "combat-i-basics"
+    # The title it gives is one rules_section finds; the files' sections, which the book reads, are as they were.
+    assert ruleset.reference.rules_section("", best["section"])[0]["body"].startswith("One hour after a tended")
+    assert ruleset.reference.rules_section("", "Injury and Death")[0]["body"].startswith("Your hit points measure")
 
 
 def test_unknown_kind_raises(ruleset):

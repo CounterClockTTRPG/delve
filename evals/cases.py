@@ -41,6 +41,7 @@ EVALS_DIR = Path(__file__).resolve().parent
 CASES_DIR = EVALS_DIR / "cases"
 FIXTURES_DIR = EVALS_DIR / "fixtures"
 RECORDINGS_DIR = EVALS_DIR / "recordings"
+PACKS_DIR = EVALS_DIR.parent / "packs"
 SCENARIOS_DIR = EVALS_DIR.parent / "tests" / "fixtures" / "samples" / "scenarios"
 # The beat the setup calls run in, before the first beat of play.
 SETUP_BEAT = "eval-setup"
@@ -81,6 +82,16 @@ RULESET = "osric"
 SETTING = "greyhawk"
 """The setting a case plays unless it names one. Greyhawk is a pack of the private delve-packs: a live run of a case
 on it needs that pack installed; Aun (`aun`) is built into Delve."""
+
+
+def packs_for(case: dict) -> list[Path]:
+    """The in-tree pack folders a live run of the case installs: OSRIC always, and the case's own ruleset when
+    `packs/<ruleset>` exists (srd35)."""
+    packs = [PACKS_DIR / RULESET]
+    own = PACKS_DIR / case.get("ruleset", RULESET)
+    if own not in packs and own.is_dir():
+        packs.append(own)
+    return packs
 
 
 def start_campaign(storage: Storage, case: dict, scenarios_dir: Path = SCENARIOS_DIR) -> Campaign:

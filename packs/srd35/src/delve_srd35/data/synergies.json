@@ -1,0 +1,205 @@
+[
+ {
+  "from": "craft",
+  "to": "appraise",
+  "ranks": 5,
+  "bonus": 2,
+  "condition": "related to items made with that Craft skill"
+ },
+ {
+  "from": "tumble",
+  "to": "balance",
+  "ranks": 5,
+  "bonus": 2,
+  "condition": null
+ },
+ {
+  "from": "bluff",
+  "to": "diplomacy",
+  "ranks": 5,
+  "bonus": 2,
+  "condition": null
+ },
+ {
+  "from": "bluff",
+  "to": "intimidate",
+  "ranks": 5,
+  "bonus": 2,
+  "condition": null
+ },
+ {
+  "from": "bluff",
+  "to": "sleight-of-hand",
+  "ranks": 5,
+  "bonus": 2,
+  "condition": null
+ },
+ {
+  "from": "bluff",
+  "to": "disguise",
+  "ranks": 5,
+  "bonus": 2,
+  "condition": "when you know that you're being observed and you try to act in character"
+ },
+ {
+  "from": "use-rope",
+  "to": "climb",
+  "ranks": 5,
+  "bonus": 2,
+  "condition": "made to climb a rope, a knotted rope, or a rope-and-wall combination"
+ },
+ {
+  "from": "decipher-script",
+  "to": "use-magic-device",
+  "ranks": 5,
+  "bonus": 2,
+  "condition": "related to scrolls"
+ },
+ {
+  "from": "knowledge-nobility-and-royalty",
+  "to": "diplomacy",
+  "ranks": 5,
+  "bonus": 2,
+  "condition": null
+ },
+ {
+  "from": "sense-motive",
+  "to": "diplomacy",
+  "ranks": 5,
+  "bonus": 2,
+  "condition": null
+ },
+ {
+  "from": "escape-artist",
+  "to": "use-rope",
+  "ranks": 5,
+  "bonus": 2,
+  "condition": "made to bind someone"
+ },
+ {
+  "from": "use-rope",
+  "to": "escape-artist",
+  "ranks": 5,
+  "bonus": 2,
+  "condition": "when escaping from rope bonds"
+ },
+ {
+  "from": "knowledge-local",
+  "to": "gather-information",
+  "ranks": 5,
+  "bonus": 2,
+  "condition": null
+ },
+ {
+  "from": "handle-animal",
+  "to": "ride",
+  "ranks": 5,
+  "bonus": 2,
+  "condition": null
+ },
+ {
+  "from": "handle-animal",
+  "to": "wild-empathy",
+  "ranks": 5,
+  "bonus": 2,
+  "condition": null
+ },
+ {
+  "from": "tumble",
+  "to": "jump",
+  "ranks": 5,
+  "bonus": 2,
+  "condition": null
+ },
+ {
+  "from": "jump",
+  "to": "tumble",
+  "ranks": 5,
+  "bonus": 2,
+  "condition": null
+ },
+ {
+  "from": "knowledge-arcana",
+  "to": "spellcraft",
+  "ranks": 5,
+  "bonus": 2,
+  "condition": null
+ },
+ {
+  "from": "knowledge-architecture-and-engineering",
+  "to": "search",
+  "ranks": 5,
+  "bonus": 2,
+  "condition": "to find secret doors or hidden compartments"
+ },
+ {
+  "from": "knowledge-geography",
+  "to": "survival",
+  "ranks": 5,
+  "bonus": 2,
+  "condition": "made to keep from getting lost or to avoid natural hazards"
+ },
+ {
+  "from": "knowledge-history",
+  "to": "bardic-knowledge",
+  "ranks": 5,
+  "bonus": 2,
+  "condition": null
+ },
+ {
+  "from": "knowledge-nature",
+  "to": "survival",
+  "ranks": 5,
+  "bonus": 2,
+  "condition": "in aboveground natural environments (aquatic, desert, forest, hill, marsh, mountains, and plains)"
+ },
+ {
+  "from": "knowledge-religion",
+  "to": "turning",
+  "ranks": 5,
+  "bonus": 2,
+  "condition": "against undead"
+ },
+ {
+  "from": "knowledge-the-planes",
+  "to": "survival",
+  "ranks": 5,
+  "bonus": 2,
+  "condition": "made while on other planes"
+ },
+ {
+  "from": "knowledge-dungeoneering",
+  "to": "survival",
+  "ranks": 5,
+  "bonus": 2,
+  "condition": "made while underground"
+ },
+ {
+  "from": "survival",
+  "to": "knowledge-nature",
+  "ranks": 5,
+  "bonus": 2,
+  "condition": null
+ },
+ {
+  "from": "search",
+  "to": "survival",
+  "ranks": 5,
+  "bonus": 2,
+  "condition": "to find or follow tracks"
+ },
+ {
+  "from": "use-magic-device",
+  "to": "spellcraft",
+  "ranks": 5,
+  "bonus": 2,
+  "condition": "to decipher spells on scrolls"
+ },
+ {
+  "from": "spellcraft",
+  "to": "use-magic-device",
+  "ranks": 5,
+  "bonus": 2,
+  "condition": "related to scrolls"
+ }
+]

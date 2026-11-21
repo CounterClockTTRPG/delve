@@ -2,9 +2,13 @@
 it, and the tripwire tables raise on any read of the classic maths."""
 
 import inspect
+from dataclasses import replace
+
+import pytest
 
 from delve.dm.tools import dice
-from delve.play.context import context_for
+from delve.play import spells
+from delve.play.context import PlayError, context_for
 from delve.rules.d20 import D20Engine
 from tests.fixtures.d20 import d20_catalogs, fake_engine
 
@@ -68,6 +72,13 @@ def test_a_whole_life_on_the_engine(d20_call, d20_storage, d20_campaign):
     ran(["can_memorize"], "memorize_spells", character="Mira", spells=["Cure Light Wounds"])
     cast = ran(["cast"], "cast_spell", character="Mira", spell_name="Bless")
     assert cast["cast"] is True
+    # A caster with slots and no uncast copy asks whether the engine casts the spell from a pool; the fake says no.
+    mira = d20_storage.characters.get(cast["character_id"])
+    d20_storage.characters.save_sheet(replace(mira, sheet=replace(mira.sheet, spell_slots={1: 1})))
+    before = len(engine.called.calls)
+    with pytest.raises(PlayError, match="is not memorized"):
+        spells.cast(context_for(d20_storage, d20_campaign.id, next(beats), catalogs=d20_catalogs()), "Mira", "Bless")
+    assert "casts_unprepared" in engine.called.calls[before:]
     awarded = ran(["award_xp", "progress"], "award_xp", character="Bram", amount=1000)
     assert awarded["level"] == 2 and awarded["xp_next"] == 2000 and "per_class" not in awarded
     ran(["level_up"], "update_character", ref="Bram", patch={"level": 2})

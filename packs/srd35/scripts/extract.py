@@ -26,6 +26,8 @@ def extract(src: Path, out: Path) -> dict[str, int]:
     """Write every kind's data and the rules under `out`; the count of each."""
     counts: dict[str, int] = {}
     data = {kind: getattr(kinds, kind)(src) for kind in KINDS}
+    kinds.class_list_levels(data["classes"], data["spells"])
+    kinds.spells_known(data["classes"])
     rules = kinds.rules(src)
     for kind, rows in data.items():
         write_json(out / "data" / f"{kind}.json", rows)

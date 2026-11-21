@@ -3,15 +3,30 @@
     "fighter",
     "cleric",
     "rogue",
-    "wizard"
+    "wizard",
+    "barbarian",
+    "bard",
+    "druid",
+    "monk",
+    "paladin",
+    "ranger",
+    "sorcerer",
+    "adept",
+    "aristocrat",
+    "commoner",
+    "expert",
+    "warrior"
   ],
   "races": [
     "humans",
     "dwarves",
     "elves",
-    "halflings"
+    "halflings",
+    "gnomes",
+    "half-elves",
+    "half-orcs"
   ],
-  "max_level": 5,
+  "max_level": 20,
   "skills": [
     "climb",
     "jump",

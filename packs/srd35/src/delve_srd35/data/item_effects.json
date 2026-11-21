@@ -1,0 +1,761 @@
+{
+ "acid-resistance": {
+  "type": "ability",
+  "on": "armor",
+  "price": 0
+ },
+ "acid-resistance-greater": {
+  "type": "ability",
+  "on": "armor",
+  "price": 0
+ },
+ "acid-resistance-improved": {
+  "type": "ability",
+  "on": "armor",
+  "price": 0
+ },
+ "amulet-of-health": {
+  "type": "enhancement",
+  "target": "con",
+  "by_bonus": true,
+  "bonuses": [
+   2,
+   4,
+   6
+  ]
+ },
+ "amulet-of-natural-armor": {
+  "type": "natural",
+  "target": "ac",
+  "by_bonus": true,
+  "bonuses": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ]
+ },
+ "anarchic": {
+  "type": "ability",
+  "on": "weapon",
+  "price": 2,
+  "aligned": [
+   "chaotic"
+  ],
+  "against": {
+   "dice": "2d6",
+   "alignment": "lawful"
+  }
+ },
+ "animated": {
+  "type": "ability",
+  "on": "armor",
+  "price": 2
+ },
+ "arrow-catching": {
+  "type": "ability",
+  "on": "armor",
+  "price": 1
+ },
+ "arrow-deflection": {
+  "type": "ability",
+  "on": "armor",
+  "price": 2
+ },
+ "axiomatic": {
+  "type": "ability",
+  "on": "weapon",
+  "price": 2,
+  "aligned": [
+   "lawful"
+  ],
+  "against": {
+   "dice": "2d6",
+   "alignment": "chaotic"
+  }
+ },
+ "banded-mail": {
+  "type": "enhancement",
+  "target": "armor",
+  "by_bonus": true,
+  "bonuses": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "total": 10
+ },
+ "bane": {
+  "type": "ability",
+  "on": "weapon",
+  "price": 1
+ },
+ "bashing": {
+  "type": "ability",
+  "on": "armor",
+  "price": 1
+ },
+ "belt-of-giant-strength": {
+  "type": "enhancement",
+  "target": "str",
+  "by_bonus": true,
+  "bonuses": [
+   4,
+   6
+  ]
+ },
+ "blinding": {
+  "type": "ability",
+  "on": "armor",
+  "price": 1
+ },
+ "bracers-of-armor": {
+  "type": "armor",
+  "target": "ac",
+  "by_bonus": true,
+  "bonuses": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8
+  ]
+ },
+ "breastplate": {
+  "type": "enhancement",
+  "target": "armor",
+  "by_bonus": true,
+  "bonuses": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "total": 10
+ },
+ "brilliant-energy": {
+  "type": "ability",
+  "on": "weapon",
+  "price": 4
+ },
+ "buckler": {
+  "type": "enhancement",
+  "target": "shield",
+  "by_bonus": true,
+  "bonuses": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "total": 10
+ },
+ "chain-shirt": {
+  "type": "enhancement",
+  "target": "armor",
+  "by_bonus": true,
+  "bonuses": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "total": 10
+ },
+ "chainmail": {
+  "type": "enhancement",
+  "target": "armor",
+  "by_bonus": true,
+  "bonuses": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "total": 10
+ },
+ "cloak-of-charisma": {
+  "type": "enhancement",
+  "target": "cha",
+  "by_bonus": true,
+  "bonuses": [
+   2,
+   4,
+   6
+  ]
+ },
+ "cloak-of-resistance": {
+  "type": "resistance",
+  "target": "saves",
+  "by_bonus": true,
+  "bonuses": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ]
+ },
+ "cold-resistance": {
+  "type": "ability",
+  "on": "armor",
+  "price": 0
+ },
+ "cold-resistance-greater": {
+  "type": "ability",
+  "on": "armor",
+  "price": 0
+ },
+ "cold-resistance-improved": {
+  "type": "ability",
+  "on": "armor",
+  "price": 0
+ },
+ "dancing": {
+  "type": "ability",
+  "on": "weapon",
+  "price": 4
+ },
+ "defending": {
+  "type": "ability",
+  "on": "weapon",
+  "price": 1
+ },
+ "disruption": {
+  "type": "ability",
+  "on": "weapon",
+  "price": 2
+ },
+ "distance": {
+  "type": "ability",
+  "on": "weapon",
+  "price": 1
+ },
+ "electricity-resistance": {
+  "type": "ability",
+  "on": "armor",
+  "price": 0
+ },
+ "electricity-resistance-greater": {
+  "type": "ability",
+  "on": "armor",
+  "price": 0
+ },
+ "electricity-resistance-improved": {
+  "type": "ability",
+  "on": "armor",
+  "price": 0
+ },
+ "etherealness": {
+  "type": "ability",
+  "on": "armor",
+  "price": 0
+ },
+ "fire-resistance": {
+  "type": "ability",
+  "on": "armor",
+  "price": 0
+ },
+ "fire-resistance-greater": {
+  "type": "ability",
+  "on": "armor",
+  "price": 0
+ },
+ "fire-resistance-improved": {
+  "type": "ability",
+  "on": "armor",
+  "price": 0
+ },
+ "flaming": {
+  "type": "ability",
+  "on": "weapon",
+  "price": 1,
+  "energy": "1d6 fire"
+ },
+ "flaming-burst": {
+  "type": "ability",
+  "on": "weapon",
+  "price": 2,
+  "energy": "1d6 fire",
+  "burst": {
+   "kind": "fire",
+   "2": "1d10",
+   "3": "2d10",
+   "4": "3d10"
+  }
+ },
+ "fortification": {
+  "type": "ability",
+  "on": "armor",
+  "price": 0
+ },
+ "frost": {
+  "type": "ability",
+  "on": "weapon",
+  "price": 1,
+  "energy": "1d6 cold"
+ },
+ "full-plate": {
+  "type": "enhancement",
+  "target": "armor",
+  "by_bonus": true,
+  "bonuses": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "total": 10
+ },
+ "gauntlets-of-ogre-power": {
+  "type": "enhancement",
+  "target": "str",
+  "by_bonus": false,
+  "bonuses": [
+   2
+  ]
+ },
+ "ghost-touch": {
+  "type": "ability",
+  "on": "armor",
+  "price": 3
+ },
+ "ghost-touch-weapon": {
+  "type": "ability",
+  "on": "weapon",
+  "price": 1
+ },
+ "glamered": {
+  "type": "ability",
+  "on": "armor",
+  "price": 0
+ },
+ "gloves-of-dexterity": {
+  "type": "enhancement",
+  "target": "dex",
+  "by_bonus": true,
+  "bonuses": [
+   2,
+   4,
+   6
+  ]
+ },
+ "half-plate": {
+  "type": "enhancement",
+  "target": "armor",
+  "by_bonus": true,
+  "bonuses": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "total": 10
+ },
+ "headband-of-intellect": {
+  "type": "enhancement",
+  "target": "int",
+  "by_bonus": true,
+  "bonuses": [
+   2,
+   4,
+   6
+  ],
+  "skill_points": false
+ },
+ "hide": {
+  "type": "enhancement",
+  "target": "armor",
+  "by_bonus": true,
+  "bonuses": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "total": 10
+ },
+ "holy": {
+  "type": "ability",
+  "on": "weapon",
+  "price": 2,
+  "aligned": [
+   "good"
+  ],
+  "against": {
+   "dice": "2d6",
+   "alignment": "evil"
+  }
+ },
+ "icy-burst": {
+  "type": "ability",
+  "on": "weapon",
+  "price": 2,
+  "energy": "1d6 cold",
+  "burst": {
+   "kind": "cold",
+   "2": "1d10",
+   "3": "2d10",
+   "4": "3d10"
+  }
+ },
+ "invulnerability": {
+  "type": "ability",
+  "on": "armor",
+  "price": 3
+ },
+ "keen": {
+  "type": "ability",
+  "on": "weapon",
+  "price": 1,
+  "threat": "double"
+ },
+ "ki-focus": {
+  "type": "ability",
+  "on": "weapon",
+  "price": 1
+ },
+ "leather": {
+  "type": "enhancement",
+  "target": "armor",
+  "by_bonus": true,
+  "bonuses": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "total": 10
+ },
+ "merciful": {
+  "type": "ability",
+  "on": "weapon",
+  "price": 1
+ },
+ "mighty-cleaving": {
+  "type": "ability",
+  "on": "weapon",
+  "price": 1
+ },
+ "padded": {
+  "type": "enhancement",
+  "target": "armor",
+  "by_bonus": true,
+  "bonuses": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "total": 10
+ },
+ "periapt-of-wisdom": {
+  "type": "enhancement",
+  "target": "wis",
+  "by_bonus": true,
+  "bonuses": [
+   2,
+   4,
+   6
+  ]
+ },
+ "protection": {
+  "type": "deflection",
+  "target": "ac",
+  "by_bonus": true,
+  "bonuses": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ]
+ },
+ "reflecting": {
+  "type": "ability",
+  "on": "armor",
+  "price": 5
+ },
+ "returning": {
+  "type": "ability",
+  "on": "weapon",
+  "price": 1
+ },
+ "scale-mail": {
+  "type": "enhancement",
+  "target": "armor",
+  "by_bonus": true,
+  "bonuses": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "total": 10
+ },
+ "seeking": {
+  "type": "ability",
+  "on": "weapon",
+  "price": 1
+ },
+ "shadow": {
+  "type": "ability",
+  "on": "armor",
+  "price": 0
+ },
+ "shadow-greater": {
+  "type": "ability",
+  "on": "armor",
+  "price": 0
+ },
+ "shadow-improved": {
+  "type": "ability",
+  "on": "armor",
+  "price": 0
+ },
+ "shield-heavy-steel": {
+  "type": "enhancement",
+  "target": "shield",
+  "by_bonus": true,
+  "bonuses": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "total": 10
+ },
+ "shield-heavy-wooden": {
+  "type": "enhancement",
+  "target": "shield",
+  "by_bonus": true,
+  "bonuses": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "total": 10
+ },
+ "shield-light-steel": {
+  "type": "enhancement",
+  "target": "shield",
+  "by_bonus": true,
+  "bonuses": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "total": 10
+ },
+ "shield-light-wooden": {
+  "type": "enhancement",
+  "target": "shield",
+  "by_bonus": true,
+  "bonuses": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "total": 10
+ },
+ "shield-tower": {
+  "type": "enhancement",
+  "target": "shield",
+  "by_bonus": true,
+  "bonuses": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "total": 10
+ },
+ "shock": {
+  "type": "ability",
+  "on": "weapon",
+  "price": 1,
+  "energy": "1d6 electricity"
+ },
+ "shocking-burst": {
+  "type": "ability",
+  "on": "weapon",
+  "price": 2,
+  "energy": "1d6 electricity",
+  "burst": {
+   "kind": "electricity",
+   "2": "1d10",
+   "3": "2d10",
+   "4": "3d10"
+  }
+ },
+ "silent-moves": {
+  "type": "ability",
+  "on": "armor",
+  "price": 0
+ },
+ "silent-moves-greater": {
+  "type": "ability",
+  "on": "armor",
+  "price": 0
+ },
+ "silent-moves-improved": {
+  "type": "ability",
+  "on": "armor",
+  "price": 0
+ },
+ "slick": {
+  "type": "ability",
+  "on": "armor",
+  "price": 0
+ },
+ "slick-greater": {
+  "type": "ability",
+  "on": "armor",
+  "price": 0
+ },
+ "slick-improved": {
+  "type": "ability",
+  "on": "armor",
+  "price": 0
+ },
+ "sonic-resistance": {
+  "type": "ability",
+  "on": "armor",
+  "price": 0
+ },
+ "sonic-resistance-greater": {
+  "type": "ability",
+  "on": "armor",
+  "price": 0
+ },
+ "sonic-resistance-improved": {
+  "type": "ability",
+  "on": "armor",
+  "price": 0
+ },
+ "speed": {
+  "type": "ability",
+  "on": "weapon",
+  "price": 3
+ },
+ "spell-resistance": {
+  "type": "ability",
+  "on": "armor",
+  "price": 0
+ },
+ "spell-storing": {
+  "type": "ability",
+  "on": "weapon",
+  "price": 1
+ },
+ "splint-mail": {
+  "type": "enhancement",
+  "target": "armor",
+  "by_bonus": true,
+  "bonuses": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "total": 10
+ },
+ "studded-leather": {
+  "type": "enhancement",
+  "target": "armor",
+  "by_bonus": true,
+  "bonuses": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "total": 10
+ },
+ "throwing": {
+  "type": "ability",
+  "on": "weapon",
+  "price": 1
+ },
+ "thundering": {
+  "type": "ability",
+  "on": "weapon",
+  "price": 1
+ },
+ "undead-controlling": {
+  "type": "ability",
+  "on": "armor",
+  "price": 0
+ },
+ "unholy": {
+  "type": "ability",
+  "on": "weapon",
+  "price": 2,
+  "aligned": [
+   "evil"
+  ],
+  "against": {
+   "dice": "2d6",
+   "alignment": "good"
+  }
+ },
+ "vicious": {
+  "type": "ability",
+  "on": "weapon",
+  "price": 1
+ },
+ "vorpal": {
+  "type": "ability",
+  "on": "weapon",
+  "price": 5
+ },
+ "weapon": {
+  "type": "enhancement",
+  "target": "weapon",
+  "by_bonus": true,
+  "bonuses": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "total": 10
+ },
+ "wild": {
+  "type": "ability",
+  "on": "armor",
+  "price": 3
+ },
+ "wounding": {
+  "type": "ability",
+  "on": "weapon",
+  "price": 2
+ }
+}

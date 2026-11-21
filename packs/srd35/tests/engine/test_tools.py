@@ -11,12 +11,12 @@ import pytest
 from delve.dm.tools.host import all_specs
 from delve.rules.classic import combat as rules
 
-OWN = {"set_build", "set_stance", "provoke"}
+OWN = {"set_build", "set_stance", "use_feature", "provoke"}
 DWARF = {"str": 16, "dex": 12, "con": 14, "int": 13, "wis": 10, "cha": 8}
 
 
-def _fighter(srd35_call, name="Thorin", race="Dwarf", **scores):
-    sheet = {"cls": "Fighter", "level": 1, "race": race, "hp_max": 12, "ability_scores": {**DWARF, **scores}}
+def _fighter(srd35_call, name="Thorin", race="Dwarf", hp_max=12, **scores):
+    sheet = {"cls": "Fighter", "level": 1, "race": race, "hp_max": hp_max, "ability_scores": {**DWARF, **scores}}
     out = srd35_call("create_character", name=name, sheet=sheet)
     assert "error" not in out, out
     return out
@@ -102,6 +102,19 @@ def test_set_build_checks_feat_prerequisites_and_domains(srd35_call):
         "Only a cleric has domains.",
     ):
         assert problem in out["error"]
+
+
+def test_weapon_specialization_is_taken_for_one_weapon(srd35_call):
+    # Weapon Specialization, like Weapon Focus, names its weapon; the build keeps it in the table's words. A fighter
+    # 4 (its prerequisite) with Weapon Focus.
+    sheet = {"cls": "Fighter", "level": 4, "race": "Dwarf", "hp_max": 30, "ability_scores": DWARF}
+    assert "error" not in srd35_call("create_character", name="Thorin", sheet=sheet)
+    out = srd35_call("set_build", character="Thorin", feats=["weapon specialization"])
+    assert "Weapon Specialization is taken for one weapon: give its choice." in out["error"], out
+    focus = {"id": "weapon focus", "choice": "Longsword"}
+    special = {"id": "weapon specialization", "choice": "Longsword"}
+    built = srd35_call("set_build", character="Thorin", feats=[focus, special])
+    assert built["build"]["feats"][1] == {"id": "weapon-specialization", "choice": "longsword"}, built
 
 
 def test_a_later_int_drop_warns_not_refuses(srd35_call):  # Review Focus 3
@@ -306,11 +319,14 @@ def test_setup_combat_takes_d20_overrides_per_group(srd35_call, srd35_storage, s
 def test_osric_campaign_doesnt_see_these_tools(call, srd35_host):
     core = [spec.name for spec in all_specs()]
     assert [spec.name for spec in srd35_host.specs("osric")] == core
-    assert [spec.name for spec in srd35_host.specs("srd35")] == [*core, "set_build", "set_stance", "provoke"]
+    own = ["set_build", "convert_spell", "set_stance", "use_feature", "add_companion", "spell_resistance", "provoke"]
+    assert [spec.name for spec in srd35_host.specs("srd35")] == [*core, *own]
     assert call("set_build", character="Garrek")["error"] == "Unknown tool 'set_build'."
 
 
-@pytest.mark.parametrize("name", ["saving_throw", "skill_check", "update_combatant", "setup_combat", "resolve_attack"])
+@pytest.mark.parametrize(
+    "name", ["saving_throw", "skill_check", "update_combatant", "setup_combat", "resolve_attack", "combat_round"]
+)
 def test_the_scoped_tools_keep_core_params(srd35_host, name):
     core = next(spec for spec in all_specs() if spec.name == name)
     mine = srd35_host.spec(name, "srd35")
@@ -322,6 +338,11 @@ def test_resolve_attack_names_the_3_5_conditions(srd35_host):
     condition = srd35_host.spec("resolve_attack", "srd35").params["properties"]["condition"]["description"]
     for said in ("flanked", "charging", "set_vs_charge", "into_melee", "Precise Shot"):
         assert said in condition, said
+
+
+def test_combat_round_says_a_charge_or_single_is_one_attack(srd35_host):  # DEL-389
+    actions = srd35_host.spec("combat_round", "srd35").params["properties"]["actions"]["description"]
+    assert '"single": true' in actions and "full attack" in actions and "charging" in actions
 
 
 def test_initiative_is_rolled_once_highest_first(srd35_call, srd35_storage, srd35_campaign):
@@ -503,3 +524,80 @@ def test_a_templated_monster_comes_in_with_all_its_hit_dice(srd35_call, srd35_st
     assert "error" not in added, added
     assert all(1 <= entry["hp"] <= 4 for entry in added["individuals"])
     assert not any("HD reads" in note for note in [*out.get("notes", []), *added.get("notes", [])])
+
+
+def test_set_build_warns_a_two_handed_weapon_loses_the_shield(srd35_call):
+    # A dwarf fighter 1 with a greatsword and a heavy steel shield: the shield's AC is lost, said; with a buckler, its
+    # AC lost and -1 to hit, said.
+    _fighter(srd35_call)
+    out = srd35_call("set_build", character="Thorin", weapon="greatsword", shield="heavy steel shield")
+    assert any("both hands" in w for w in out["warnings"]), out
+    out = srd35_call("set_build", character="Thorin", weapon="greatsword", shield="buckler")
+    assert any("-1" in w for w in out["warnings"]), out
+
+
+@pytest.mark.parametrize("name", ["generate_treasure", "award_treasure"])
+def test_the_treasure_tools_describe_3_5_treasure(srd35_host, name):
+    # Final review: a 3.5 campaign's treasure tools say the encounter level and rating, not the classic letters.
+    core = next(spec for spec in all_specs() if spec.name == name)
+    mine = srd35_host.spec(name, "srd35")
+    assert mine is not core and mine.rulesets == ("srd35",) and mine.fn is core.fn
+    assert set(core.params["properties"]) <= set(mine.params["properties"])
+    said = mine.description + " ".join(p["description"] for p in mine.params["properties"].values())
+    assert "EL 5, standard" in said and "3.5" in mine.description
+    for classic in ("'L,M'", "Qx5", "Types A-I", "J-Z"):
+        assert classic not in said, classic
+
+
+def test_a_3_5_hoard_by_the_described_line(srd35_call):
+    out = srd35_call("generate_treasure", treasure_types="EL 3, double standard", source="the hobgoblins")
+    assert "error" not in out, out
+    assert out["rolled"][0] == "EL 3"
+
+
+def test_setup_combat_overrides_hold_for_a_two_weapon_hobgoblin(srd35_call, srd35_storage, srd35_campaign):
+    _fighter(srd35_call, hp_max=300)
+    spec = {"name": "hobgoblin", "count": 1, "hp": 30, "label": "Uth-lar", "attack_bonus": 7, "damage": "1d6+5"}
+    spec |= {"attacks_per_round": 2, "init": 3, "bab": 4, "attack": "short sword"}
+    out = srd35_call("setup_combat", enemies=[spec], surprise=False)
+    assert "error" not in out, out
+    group = out["enemies"][0]
+    assert (group["attacks_per_round"], group["init_bonus"], group["bab"]) == (2, 3, 4)
+    uth = next(c for c in _fight(srd35_storage, srd35_campaign).combatants.values() if c.name == "Uth-lar")
+    held = uth.attacks[uth.weapon]
+    assert (held.name, held.damage_sm, held.rate) == ("short sword", "1d6+5", 2)
+    form = uth.d20["attacks"][uth.weapon]
+    assert (form["name"], form["bonus"], form["count"]) == ("short sword", 7, 2)
+    assert (uth.d20["init_bonus"], uth.d20["bab"]) == (3, 4)
+    rounds = srd35_call("combat_round", actions=[{"attacker": "Uth-lar", "target": "Thorin"}])
+    swings = [a for a in rounds["actions"] if a.get("attacker") == "Uth-lar" and "skipped" not in a]
+    assert [s["weapon"] for s in swings] == ["short sword", "short sword"], rounds
+    assert not any("iterative" in n for s in swings for n in s.get("notes", ()))  # the second is at +7, not +2
+
+
+def test_add_combatant_stats_hold_the_3_5_overrides(srd35_call, srd35_storage, srd35_campaign):
+    _fighter(srd35_call)
+    _orc(srd35_call)
+    stats = {"attack_bonus": 7, "damage": "1d6+5", "attacks_per_round": 2, "init": 3, "bab": 4, "attack": "short sword"}
+    out = srd35_call("add_combatant", name="hobgoblin", count=1, stats={**stats, "label": "Uth-lar"})
+    assert "error" not in out, out
+    assert (out["attacks_per_round"], out["init_bonus"], out["bab"]) == (2, 3, 4)
+    uth = next(c for c in _fight(srd35_storage, srd35_campaign).combatants.values() if c.name == "Uth-lar")
+    held = uth.attacks[uth.weapon]
+    assert (held.name, held.damage_sm, held.rate) == ("short sword", "1d6+5", 2)
+    form = uth.d20["attacks"][uth.weapon]
+    assert (form["name"], form["bonus"], form["count"]) == ("short sword", 7, 2)
+    assert (uth.d20["init_bonus"], uth.d20["bab"]) == (3, 4)
+
+
+def test_add_combatant_init_sets_the_newcomers_place_in_a_rolled_order(srd35_call, srd35_storage, srd35_campaign):
+    _fighter(srd35_call)
+    _orc(srd35_call)
+    assert "error" not in srd35_call("combat_round", actions=[{"attacker": "Orc", "target": "Thorin"}])
+    out = srd35_call("add_combatant", name="hobgoblin", count=1, stats={"init": 3, "label": "Uth-lar"})
+    assert "error" not in out, out
+    fight = _fight(srd35_storage, srd35_campaign)
+    uth = next(c for c in fight.combatants.values() if c.name == "Uth-lar")
+    assert uth.init == uth.init_roll + 3 and out["individuals"][0]["init"] == uth.init and out["init_bonus"] == 3
+    inits = [fight.combatants[i].init for i in fight.order]
+    assert uth.id in fight.order and inits == sorted(inits, reverse=True)

@@ -6,9 +6,11 @@ attack on a flat-footed orc. The golden was checked by hand against the SRD and 
 is the i-th call):
 
 - **The party** (`answers[4..7]`): Bram AC 10 + scale mail 4 + Dex 1 = 15, Climb 4 ranks + Str 3 − 4 (scale mail's
-  armour check penalty) = +3; falchion BAB 1 + Str 3 + Weapon Focus 1 = +5, 2d4 + 1.5 × Str 3 = 2d4+4, 18–20/×2.
-  Dorna AC 10 + 4 + heavy shield 2 = 16, level-1 slots 1 + 1 (Wis 15) + 1 domain = 3, turning 3 + Cha 1 = 4 a day.
-  Pip short sword (Small) 1d4, +1 (BAB 0, Str 0, size +1), sneak 1d6. Elowen slots {0: 3, 1: 2}, level-1 DC 14.
+  armour check penalty) = +3, Jump the same 4 + 3 − 4 and −6 for his speed of 20 in scale mail ("a –6 penalty for every
+  10 feet of speed less than 30 feet") = −3 (`answers[4]`, `[23]`); falchion BAB 1 + Str 3 + Weapon Focus 1 = +5, 2d4 +
+  1.5 × Str 3 = 2d4+4, 18–20/×2. Dorna AC 10 + 4 + heavy shield 2 = 16, level-1 slots 1 + 1 (Wis 15) + 1 domain = 3,
+  turning 3 + Cha 1 = 4 a day. Pip short sword (Small) 1d4, +1 (BAB 0, Str 0, size +1), sneak 1d6. Elowen slots {0: 3,
+  1: 2}, level-1 DC 14.
 - **The orcs** (`answers[10]`, rolls `hp`): the row's 1d8+1 each, faces 2, 6, 5, 2, so 3, 7, 6, 3 hp.
 - **Initiative**, highest first and rolled once: Elowen 14 + 7 (Dex 3, Improved Initiative 4) = 21, Bram 17 + 1 = 18,
   Pip 13 + 3 = 16, Orc 4 15, Dorna 12, Orcs 3, 2, 1 at 4, 2, 1.
@@ -31,7 +33,10 @@ is the i-th call):
   3 skill points (2 + Int 0 + 1 human) and a fighter bonus feat.
 
 Every answer is compared with `golden/scripted_session.json`. The test writes the golden when it is missing and fails;
-the first one was checked by hand against the working above. It is never regenerated."""
+the first one was checked by hand against the working above. It is never regenerated. It was rewritten once, by the
+owner's leave, for DEL-456 (Jump's speed modifier), and once for DEL-431: Bram's Cleave in his numbers (`cleave`);
+his round swing that kills Orc 1 notes the extra attack due (no foe left in its targets), and his `resolve_attack`
+that kills Orc 4 notes it too, with how to make it (condition cleave). No outcome moved."""
 
 from __future__ import annotations
 
@@ -41,6 +46,7 @@ import re
 from pathlib import Path
 
 import pytest
+from srd35_phase3 import without_phase3
 
 GOLDEN = Path(__file__).resolve().parent / "golden" / "scripted_session.json"
 SEED = 19
@@ -151,7 +157,8 @@ def test_the_scripted_session_matches_its_golden(seeded_call, srd35_storage, srd
         for r in srd35_storage.rolls.list(srd35_campaign.id)
     ]  # fmt: skip
     session = {"answers": [{"tool": t, "args": a, "answer": o} for t, a, o in said], "rolls": rolls}
-    answers = _normalised(session, srd35_storage, srd35_campaign.id)
+    # Phase 3's derived keys postdate the golden (`srd35_phase3`): dropped, and only they.
+    answers = without_phase3(_normalised(session, srd35_storage, srd35_campaign.id))
     if not GOLDEN.exists():
         GOLDEN.parent.mkdir(exist_ok=True)
         GOLDEN.write_text(json.dumps(answers, indent=1, sort_keys=True, ensure_ascii=False) + "\n")

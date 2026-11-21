@@ -465,7 +465,7 @@
      "skills": {
       "climb": 3,
       "intimidate": 3,
-      "jump": 3
+      "jump": -3
      },
      "slots": {},
      "sneak": "",
@@ -857,6 +857,7 @@
          }
         ],
         "bab": 1,
+        "cleave": "cleave",
         "crit_immune": false,
         "dex": 1,
         "flat_footed": 14,
@@ -1561,6 +1562,9 @@
       "cast": true,
       "caster": "Elowen",
       "caster_id": "Elowen",
+      "dc": 14,
+      "save": "Will negates",
+      "school": "Enchantment",
       "spell": "Sleep",
       "target": "Orc 3",
       "target_id": "mon_3"
@@ -1580,6 +1584,7 @@
        "flat-footed",
        "critical threat",
        "confirmed ×2",
+       "cleave: an extra attack is due; name an adjacent foe in targets",
        "Orc 1 is dead!"
       ],
       "roll": 18,
@@ -1634,6 +1639,9 @@
       "cast": true,
       "caster": "Dorna",
       "caster_id": "Dorna",
+      "dc": 13,
+      "save": "None",
+      "school": "Enchantment",
       "spell": "Bless"
      }
     ],
@@ -1874,7 +1882,8 @@
       "hp_after": -6,
       "notes": [
        "critical threat",
-       "Orc 4 is dead!"
+       "Orc 4 is dead!",
+       "Orc 4 dropped: Bram has an extra attack (cleave) at a foe within reach: resolve_attack with condition cleave."
       ],
       "roll": 19,
       "rolls": [
@@ -2012,7 +2021,7 @@
       "xp_value": ""
      }
     ],
-    "rounds": 2,
+    "rounds": 1,
     "saved": {
      "Bram": 12,
      "Dorna": 10,
@@ -2222,7 +2231,7 @@
        "skills": {
         "climb": 3,
         "intimidate": 3,
-        "jump": 3
+        "jump": -3
        },
        "slots": {},
        "sneak": "",

@@ -1,0 +1,27 @@
+{
+  "id": "barbarian_rage",
+  "description": "SRD 3.5: Grak, a half-orc barbarian 4, rages on his own action, through use_feature, and charges the two orcs the module's notes put in the entry hall: through dm_secrets, setup_combat, combat_round and end_combat; the rage is ended with amount -1 and the fatigue told.",
+  "module": "crypt-of-saint-vellis",
+  "ruleset": "srd35",
+  "setting": "aun",
+  "setup": [
+    {"tool": "create_character", "args": {"name": "Grak", "sheet": {
+      "race": "Half-orc", "gender": "male", "cls": "Barbarian", "level": 4, "hp_max": 40,
+      "alignment": "Chaotic Neutral",
+      "ability_scores": {"str": 16, "dex": 13, "con": 14, "int": 8, "wis": 10, "cha": 8}}}},
+    {"tool": "set_build", "args": {"character": "Grak", "weapon": "greataxe", "armor": "hide",
+      "skills": {"climb": 4, "jump": 4, "listen": 4, "survival": 4},
+      "feats": ["power attack", "cleave"]}},
+    {"tool": "move_party", "args": {"to": "entry_hall"}}
+  ],
+  "secrets": [
+    {"text": "Two orcs stand in the entry hall, on watch for whoever comes down the stair; they are the SRD's orcs.",
+     "tags": ["orcs"], "related_to": "the entry hall", "terms": []}
+  ],
+  "beats": [
+    {"player": "Grak roars and rages, then charges the orcs.",
+     "expect": {"combat": true}},
+    {"player": "He fights on until they are down.",
+     "expect": {"combat": true, "combat_ends": true}}
+  ]
+}

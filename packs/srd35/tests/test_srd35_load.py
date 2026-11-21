@@ -95,4 +95,6 @@ def test_the_multiplier_is_the_races_size():  # DEL-399
     engine = Srd35Engine(Srd35Reference())
     assert engine.load_multiplier(Sheet(label="", race="Gnome")) == 0.75
     assert engine.load_multiplier(Sheet(label="", race="Dwarf")) == 1
-    assert engine.load_multiplier(Sheet(label="", race="Centaur")) == 1  # not a race of the SRD's: Medium
+    assert engine.load_multiplier(Sheet(label="", race="Owlbear")) == 1  # not a race of the SRD's: Medium
+    # A centaur is a monster race since DEL-389 (level adjustment +2): Large, ×2 as a biped.
+    assert engine.load_multiplier(Sheet(label="", race="Centaur")) == 2

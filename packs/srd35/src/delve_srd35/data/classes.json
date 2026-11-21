@@ -851,6 +851,9 @@
     "level": 1,
     "ref": "+2",
     "special": "Sneak attack +1d6, death attack, poison use, spells",
+    "spells_known": {
+     "1": "2"
+    },
     "spells_per_day": {
      "1": "0"
     },
@@ -862,6 +865,9 @@
     "level": 2,
     "ref": "+3",
     "special": "+1 save against poison, uncanny dodge",
+    "spells_known": {
+     "1": "3"
+    },
     "spells_per_day": {
      "1": "1"
     },
@@ -873,6 +879,10 @@
     "level": 3,
     "ref": "+3",
     "special": "Sneak attack +2d6",
+    "spells_known": {
+     "1": "3",
+     "2": "2"
+    },
     "spells_per_day": {
      "1": "2",
      "2": "0"
@@ -885,6 +895,10 @@
     "level": 4,
     "ref": "+4",
     "special": "+2 save against poison",
+    "spells_known": {
+     "1": "4",
+     "2": "3"
+    },
     "spells_per_day": {
      "1": "3",
      "2": "1"
@@ -897,6 +911,11 @@
     "level": 5,
     "ref": "+4",
     "special": "Improved uncanny dodge, sneak attack +3d6",
+    "spells_known": {
+     "1": "4",
+     "2": "3",
+     "3": "2"
+    },
     "spells_per_day": {
      "1": "3",
      "2": "2",
@@ -910,6 +929,11 @@
     "level": 6,
     "ref": "+5",
     "special": "+3 save against poison",
+    "spells_known": {
+     "1": "4",
+     "2": "4",
+     "3": "3"
+    },
     "spells_per_day": {
      "1": "3",
      "2": "3",
@@ -923,6 +947,12 @@
     "level": 7,
     "ref": "+5",
     "special": "Sneak attack +4d6",
+    "spells_known": {
+     "1": "4",
+     "2": "4",
+     "3": "3",
+     "4": "2"
+    },
     "spells_per_day": {
      "1": "3",
      "2": "3",
@@ -937,6 +967,12 @@
     "level": 8,
     "ref": "+6",
     "special": "+4 save against poison, hide in plain sight",
+    "spells_known": {
+     "1": "4",
+     "2": "4",
+     "3": "4",
+     "4": "3"
+    },
     "spells_per_day": {
      "1": "3",
      "2": "3",
@@ -951,6 +987,12 @@
     "level": 9,
     "ref": "+6",
     "special": "Sneak attack +5d6",
+    "spells_known": {
+     "1": "4",
+     "2": "4",
+     "3": "4",
+     "4": "3"
+    },
     "spells_per_day": {
      "1": "3",
      "2": "3",
@@ -965,6 +1007,12 @@
     "level": 10,
     "ref": "+7",
     "special": "+5 save against poison",
+    "spells_known": {
+     "1": "4",
+     "2": "4",
+     "3": "4",
+     "4": "4"
+    },
     "spells_per_day": {
      "1": "3",
      "2": "3",
@@ -1216,6 +1264,9 @@
     "level": 1,
     "ref": "+2",
     "special": "Bardic music, bardic knowledge, countersong, fascinate, inspire courage +1",
+    "spells_known": {
+     "0": "4"
+    },
     "spells_per_day": {
      "0": "2"
     },
@@ -1227,6 +1278,10 @@
     "level": 2,
     "ref": "+3",
     "special": "",
+    "spells_known": {
+     "0": "5",
+     "1": "2"
+    },
     "spells_per_day": {
      "0": "3",
      "1": "0"
@@ -1239,6 +1294,10 @@
     "level": 3,
     "ref": "+3",
     "special": "Inspire competence",
+    "spells_known": {
+     "0": "6",
+     "1": "3"
+    },
     "spells_per_day": {
      "0": "3",
      "1": "1"
@@ -1251,6 +1310,11 @@
     "level": 4,
     "ref": "+4",
     "special": "",
+    "spells_known": {
+     "0": "6",
+     "1": "3",
+     "2": "2"
+    },
     "spells_per_day": {
      "0": "3",
      "1": "2",
@@ -1264,6 +1328,11 @@
     "level": 5,
     "ref": "+4",
     "special": "",
+    "spells_known": {
+     "0": "6",
+     "1": "4",
+     "2": "3"
+    },
     "spells_per_day": {
      "0": "3",
      "1": "3",
@@ -1277,6 +1346,11 @@
     "level": 6,
     "ref": "+5",
     "special": "Suggestion",
+    "spells_known": {
+     "0": "6",
+     "1": "4",
+     "2": "3"
+    },
     "spells_per_day": {
      "0": "3",
      "1": "3",
@@ -1290,6 +1364,12 @@
     "level": 7,
     "ref": "+5",
     "special": "",
+    "spells_known": {
+     "0": "6",
+     "1": "4",
+     "2": "4",
+     "3": "2"
+    },
     "spells_per_day": {
      "0": "3",
      "1": "3",
@@ -1304,6 +1384,12 @@
     "level": 8,
     "ref": "+6",
     "special": "Inspire courage +2",
+    "spells_known": {
+     "0": "6",
+     "1": "4",
+     "2": "4",
+     "3": "3"
+    },
     "spells_per_day": {
      "0": "3",
      "1": "3",
@@ -1318,6 +1404,12 @@
     "level": 9,
     "ref": "+6",
     "special": "Inspire greatness",
+    "spells_known": {
+     "0": "6",
+     "1": "4",
+     "2": "4",
+     "3": "3"
+    },
     "spells_per_day": {
      "0": "3",
      "1": "3",
@@ -1332,6 +1424,13 @@
     "level": 10,
     "ref": "+7",
     "special": "",
+    "spells_known": {
+     "0": "6",
+     "1": "4",
+     "2": "4",
+     "3": "4",
+     "4": "2"
+    },
     "spells_per_day": {
      "0": "3",
      "1": "3",
@@ -1347,6 +1446,13 @@
     "level": 11,
     "ref": "+7",
     "special": "",
+    "spells_known": {
+     "0": "6",
+     "1": "4",
+     "2": "4",
+     "3": "4",
+     "4": "3"
+    },
     "spells_per_day": {
      "0": "3",
      "1": "3",
@@ -1362,6 +1468,13 @@
     "level": 12,
     "ref": "+8",
     "special": "Song of freedom",
+    "spells_known": {
+     "0": "6",
+     "1": "4",
+     "2": "4",
+     "3": "4",
+     "4": "3"
+    },
     "spells_per_day": {
      "0": "3",
      "1": "3",
@@ -1377,6 +1490,14 @@
     "level": 13,
     "ref": "+8",
     "special": "",
+    "spells_known": {
+     "0": "6",
+     "1": "4",
+     "2": "4",
+     "3": "4",
+     "4": "4",
+     "5": "2"
+    },
     "spells_per_day": {
      "0": "3",
      "1": "3",
@@ -1393,6 +1514,14 @@
     "level": 14,
     "ref": "+9",
     "special": "Inspire courage +3",
+    "spells_known": {
+     "0": "6",
+     "1": "4",
+     "2": "4",
+     "3": "4",
+     "4": "4",
+     "5": "3"
+    },
     "spells_per_day": {
      "0": "4",
      "1": "3",
@@ -1409,6 +1538,14 @@
     "level": 15,
     "ref": "+9",
     "special": "Inspire heroics",
+    "spells_known": {
+     "0": "6",
+     "1": "4",
+     "2": "4",
+     "3": "4",
+     "4": "4",
+     "5": "3"
+    },
     "spells_per_day": {
      "0": "4",
      "1": "4",
@@ -1425,6 +1562,15 @@
     "level": 16,
     "ref": "+10",
     "special": "",
+    "spells_known": {
+     "0": "6",
+     "1": "5",
+     "2": "4",
+     "3": "4",
+     "4": "4",
+     "5": "4",
+     "6": "2"
+    },
     "spells_per_day": {
      "0": "4",
      "1": "4",
@@ -1442,6 +1588,15 @@
     "level": 17,
     "ref": "+10",
     "special": "",
+    "spells_known": {
+     "0": "6",
+     "1": "5",
+     "2": "5",
+     "3": "4",
+     "4": "4",
+     "5": "4",
+     "6": "3"
+    },
     "spells_per_day": {
      "0": "4",
      "1": "4",
@@ -1459,6 +1614,15 @@
     "level": 18,
     "ref": "+11",
     "special": "Mass suggestion",
+    "spells_known": {
+     "0": "6",
+     "1": "5",
+     "2": "5",
+     "3": "5",
+     "4": "4",
+     "5": "4",
+     "6": "3"
+    },
     "spells_per_day": {
      "0": "4",
      "1": "4",
@@ -1476,6 +1640,15 @@
     "level": 19,
     "ref": "+11",
     "special": "",
+    "spells_known": {
+     "0": "6",
+     "1": "5",
+     "2": "5",
+     "3": "5",
+     "4": "5",
+     "5": "4",
+     "6": "4"
+    },
     "spells_per_day": {
      "0": "4",
      "1": "4",
@@ -1493,6 +1666,15 @@
     "level": 20,
     "ref": "+12",
     "special": "Inspire courage +4",
+    "spells_known": {
+     "0": "6",
+     "1": "5",
+     "2": "5",
+     "3": "5",
+     "4": "5",
+     "5": "5",
+     "6": "4"
+    },
     "spells_per_day": {
      "0": "4",
      "1": "4",
@@ -3907,7 +4089,98 @@
   ],
   "hit_die": "d4",
   "id": "mystic-theurge",
-  "levels": [],
+  "levels": [
+   {
+    "bab": "+0",
+    "fort": "+0",
+    "level": 1,
+    "ref": "+0",
+    "special": "",
+    "spells_per_day": {},
+    "will": "+2"
+   },
+   {
+    "bab": "+1",
+    "fort": "+0",
+    "level": 2,
+    "ref": "+0",
+    "special": "",
+    "spells_per_day": {},
+    "will": "+3"
+   },
+   {
+    "bab": "+1",
+    "fort": "+1",
+    "level": 3,
+    "ref": "+1",
+    "special": "",
+    "spells_per_day": {},
+    "will": "+3"
+   },
+   {
+    "bab": "+2",
+    "fort": "+1",
+    "level": 4,
+    "ref": "+1",
+    "special": "",
+    "spells_per_day": {},
+    "will": "+4"
+   },
+   {
+    "bab": "+2",
+    "fort": "+1",
+    "level": 5,
+    "ref": "+1",
+    "special": "",
+    "spells_per_day": {},
+    "will": "+4"
+   },
+   {
+    "bab": "+3",
+    "fort": "+2",
+    "level": 6,
+    "ref": "+2",
+    "special": "",
+    "spells_per_day": {},
+    "will": "+5"
+   },
+   {
+    "bab": "+3",
+    "fort": "+2",
+    "level": 7,
+    "ref": "+2",
+    "special": "",
+    "spells_per_day": {},
+    "will": "+5"
+   },
+   {
+    "bab": "+4",
+    "fort": "+2",
+    "level": 8,
+    "ref": "+2",
+    "special": "",
+    "spells_per_day": {},
+    "will": "+6"
+   },
+   {
+    "bab": "+4",
+    "fort": "+3",
+    "level": 9,
+    "ref": "+3",
+    "special": "",
+    "spells_per_day": {},
+    "will": "+6"
+   },
+   {
+    "bab": "+5",
+    "fort": "+3",
+    "level": 10,
+    "ref": "+3",
+    "special": "",
+    "spells_per_day": {},
+    "will": "+7"
+   }
+  ],
   "name": "Mystic Theurge",
   "skill_points": "2 + Int modifier",
   "text": "### Hit Die\n\nd4.\n\n### Requirements\n\nTo qualify to become a mystic theurge, a character must fulfill all the following criteria.\n\n### Skills\n\nKnowledge (arcana) 6 ranks, Knowledge (religion) 6 ranks.\n\n### Spells\n\nAble to cast 2nd-level divine spells and 2nd-level arcane spells.\n\n### Class Skills\n\nThe mystic theurge's class skills (and the key ability for each skill) are Concentration (Con), Craft (Int), Decipher Script (Int), Knowledge (arcana) (Int), Knowledge (religion) (Int), Profession (Wis), Sense Motive (Wis), and Spellcraft (Int).\n\n### Skill Points at Each Level\n\n2 + Int modifier.\n\n**Table: The Mystic Theurge**\n\n| Level | Base Attack Bonus | Fort Save | Ref Save | Will Save | Spells per Day |\n| --- | --- | --- | --- | --- | --- |\n| 1st | +0 | +0 | +0 | +2 | +1 level of existing arcane spellcasting class/+1 level of existing divine spellcasting class |\n| 2nd | +1 | +0 | +0 | +3 | +1 level of existing arcane spellcasting class/+1 level of existing divine spellcasting class |\n| 3rd | +1 | +1 | +1 | +3 | +1 level of existing arcane spellcasting class/+1 level of existing divine spellcasting class |\n| 4th | +2 | +1 | +1 | +4 | +1 level of existing arcane spellcasting class/+1 level of existing divine spellcasting class |\n| 5th | +2 | +1 | +1 | +4 | +1 level of existing arcane spellcasting class/+1 level of existing divine spellcasting class |\n| 6th | +3 | +2 | +2 | +5 | +1 level of existing arcane spellcasting class/+1 level of existing divine spellcasting class |\n| 7th | +3 | +2 | +2 | +5 | +1 level of existing arcane spellcasting class/+1 level of existing divine spellcasting class |\n| 8th | +4 | +2 | +2 | +6 | +1 level of existing arcane spellcasting class/+1 level of existing divine spellcasting class |\n| 9th | +4 | +3 | +3 | +6 | +1 level of existing arcane spellcasting class/+1 level of existing divine spellcasting class |\n| 10th | +5 | +3 | +3 | +7 | +1 level of existing arcane spellcasting class/+1 level of existing divine spellcasting class |\n\n### Class Features\n\nAll of the following are features of the mystic theurge prestige class.\n\n### Weapon and Armor Proficiency\n\nMystic theurges gain no proficiency with any weapon or armor.\n\n### Spells per Day\n\nWhen a new mystic theurge level is gained, the character gains new spells per day as if he had also gained a level in any one arcane spellcasting class he belonged to before he added the prestige class and any one divine spellcasting class he belonged to previously. He does not, however, gain any other benefit a character of that class would have gained. This essentially means that he adds the level of mystic theurge to the level of whatever other arcane spellcasting class and divine spellcasting class the character has, then determines spells per day and caster level accordingly. If a character had more than one arcane spellcasting class or more than one divine spellcasting class before he became a mystic theurge, he must decide to which class he adds each level of mystic theurge for the purpose of determining spells per day.",
@@ -4809,6 +5082,10 @@
     "level": 1,
     "ref": "+0",
     "special": "Summon familiar",
+    "spells_known": {
+     "0": "4",
+     "1": "2"
+    },
     "spells_per_day": {
      "0": "5",
      "1": "3"
@@ -4821,6 +5098,10 @@
     "level": 2,
     "ref": "+0",
     "special": "",
+    "spells_known": {
+     "0": "5",
+     "1": "2"
+    },
     "spells_per_day": {
      "0": "6",
      "1": "4"
@@ -4833,6 +5114,10 @@
     "level": 3,
     "ref": "+1",
     "special": "",
+    "spells_known": {
+     "0": "5",
+     "1": "3"
+    },
     "spells_per_day": {
      "0": "6",
      "1": "5"
@@ -4845,6 +5130,11 @@
     "level": 4,
     "ref": "+1",
     "special": "",
+    "spells_known": {
+     "0": "6",
+     "1": "3",
+     "2": "1"
+    },
     "spells_per_day": {
      "0": "6",
      "1": "6",
@@ -4858,6 +5148,11 @@
     "level": 5,
     "ref": "+1",
     "special": "",
+    "spells_known": {
+     "0": "6",
+     "1": "4",
+     "2": "2"
+    },
     "spells_per_day": {
      "0": "6",
      "1": "6",
@@ -4871,6 +5166,12 @@
     "level": 6,
     "ref": "+2",
     "special": "",
+    "spells_known": {
+     "0": "7",
+     "1": "4",
+     "2": "2",
+     "3": "1"
+    },
     "spells_per_day": {
      "0": "6",
      "1": "6",
@@ -4885,6 +5186,12 @@
     "level": 7,
     "ref": "+2",
     "special": "",
+    "spells_known": {
+     "0": "7",
+     "1": "5",
+     "2": "3",
+     "3": "2"
+    },
     "spells_per_day": {
      "0": "6",
      "1": "6",
@@ -4899,6 +5206,13 @@
     "level": 8,
     "ref": "+2",
     "special": "",
+    "spells_known": {
+     "0": "8",
+     "1": "5",
+     "2": "3",
+     "3": "2",
+     "4": "1"
+    },
     "spells_per_day": {
      "0": "6",
      "1": "6",
@@ -4914,6 +5228,13 @@
     "level": 9,
     "ref": "+3",
     "special": "",
+    "spells_known": {
+     "0": "8",
+     "1": "5",
+     "2": "4",
+     "3": "3",
+     "4": "2"
+    },
     "spells_per_day": {
      "0": "6",
      "1": "6",
@@ -4929,6 +5250,14 @@
     "level": 10,
     "ref": "+3",
     "special": "",
+    "spells_known": {
+     "0": "9",
+     "1": "5",
+     "2": "4",
+     "3": "3",
+     "4": "2",
+     "5": "1"
+    },
     "spells_per_day": {
      "0": "6",
      "1": "6",
@@ -4945,6 +5274,14 @@
     "level": 11,
     "ref": "+3",
     "special": "",
+    "spells_known": {
+     "0": "9",
+     "1": "5",
+     "2": "5",
+     "3": "4",
+     "4": "3",
+     "5": "2"
+    },
     "spells_per_day": {
      "0": "6",
      "1": "6",
@@ -4961,6 +5298,15 @@
     "level": 12,
     "ref": "+4",
     "special": "",
+    "spells_known": {
+     "0": "9",
+     "1": "5",
+     "2": "5",
+     "3": "4",
+     "4": "3",
+     "5": "2",
+     "6": "1"
+    },
     "spells_per_day": {
      "0": "6",
      "1": "6",
@@ -4978,6 +5324,15 @@
     "level": 13,
     "ref": "+4",
     "special": "",
+    "spells_known": {
+     "0": "9",
+     "1": "5",
+     "2": "5",
+     "3": "4",
+     "4": "4",
+     "5": "3",
+     "6": "2"
+    },
     "spells_per_day": {
      "0": "6",
      "1": "6",
@@ -4995,6 +5350,16 @@
     "level": 14,
     "ref": "+4",
     "special": "",
+    "spells_known": {
+     "0": "9",
+     "1": "5",
+     "2": "5",
+     "3": "4",
+     "4": "4",
+     "5": "3",
+     "6": "2",
+     "7": "1"
+    },
     "spells_per_day": {
      "0": "6",
      "1": "6",
@@ -5013,6 +5378,16 @@
     "level": 15,
     "ref": "+5",
     "special": "",
+    "spells_known": {
+     "0": "9",
+     "1": "5",
+     "2": "5",
+     "3": "4",
+     "4": "4",
+     "5": "4",
+     "6": "3",
+     "7": "2"
+    },
     "spells_per_day": {
      "0": "6",
      "1": "6",
@@ -5031,6 +5406,17 @@
     "level": 16,
     "ref": "+5",
     "special": "",
+    "spells_known": {
+     "0": "9",
+     "1": "5",
+     "2": "5",
+     "3": "4",
+     "4": "4",
+     "5": "4",
+     "6": "3",
+     "7": "2",
+     "8": "1"
+    },
     "spells_per_day": {
      "0": "6",
      "1": "6",
@@ -5050,6 +5436,17 @@
     "level": 17,
     "ref": "+5",
     "special": "",
+    "spells_known": {
+     "0": "9",
+     "1": "5",
+     "2": "5",
+     "3": "4",
+     "4": "4",
+     "5": "4",
+     "6": "3",
+     "7": "3",
+     "8": "2"
+    },
     "spells_per_day": {
      "0": "6",
      "1": "6",
@@ -5069,6 +5466,18 @@
     "level": 18,
     "ref": "+6",
     "special": "",
+    "spells_known": {
+     "0": "9",
+     "1": "5",
+     "2": "5",
+     "3": "4",
+     "4": "4",
+     "5": "4",
+     "6": "3",
+     "7": "3",
+     "8": "2",
+     "9": "1"
+    },
     "spells_per_day": {
      "0": "6",
      "1": "6",
@@ -5089,6 +5498,18 @@
     "level": 19,
     "ref": "+6",
     "special": "",
+    "spells_known": {
+     "0": "9",
+     "1": "5",
+     "2": "5",
+     "3": "4",
+     "4": "4",
+     "5": "4",
+     "6": "3",
+     "7": "3",
+     "8": "3",
+     "9": "2"
+    },
     "spells_per_day": {
      "0": "6",
      "1": "6",
@@ -5109,6 +5530,18 @@
     "level": 20,
     "ref": "+6",
     "special": "",
+    "spells_known": {
+     "0": "9",
+     "1": "5",
+     "2": "5",
+     "3": "4",
+     "4": "4",
+     "5": "4",
+     "6": "3",
+     "7": "3",
+     "8": "3",
+     "9": "3"
+    },
     "spells_per_day": {
      "0": "6",
      "1": "6",

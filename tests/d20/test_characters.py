@@ -172,3 +172,44 @@ def test_a_seat_never_sees_the_build_warnings(ctx):  # DEL-398
     assert dm["sheet"]["d20"]["warnings"] == ["top"]
     seat = player_character_json(bram, ctx, ctx.storage)
     assert seat["sheet"]["d20"] == {**made.sheet.d20, "derived": {"ac": 12}}
+
+
+def test_a_first_level_in_a_new_class_levels_up(ctx, monkeypatch):  # DEL-457
+    # A patch that adds a class is the new class's level-up, as one that raises a level is: its hit points are gained
+    # (R19), and the classes it has go up first, so a prestige class enters on the levels the patch gives the others.
+    engine = type(fake_engine())
+    level_up, order = engine.level_up, []
+
+    def raised(self, sheet, cls, ref, dice):
+        order.append(cls)
+        return replace(level_up(self, sheet, cls, ref, dice), hp_max=sheet.hp_max + 4)
+
+    monkeypatch.setattr(engine, "level_up", raised)
+    character = _fighter(ctx, 2)
+    fake_engine().called.clear()
+    patch = {"cls": "Thief/Fighter", "levels": {"thief": 1, "fighter": 3}}
+    saved = characters.update(ctx, character.id, patch)
+    assert saved.sheet.levels == {"thief": 1, "fighter": 3}
+    assert order == ["fighter", "thief"]
+    assert (saved.sheet.hp_max, saved.state.hp) == (20, 20)
+    assert saved.sheet.d20["attack"] == 4
+
+
+def test_a_class_dropped_still_fills_again(ctx):  # DEL-457
+    character = characters.create(ctx, name="Bram", sheet={"cls": "Fighter/Thief", "levels": {"fighter": 2, "thief": 1},
+                                                           "hp_max": 12})  # fmt: skip
+    fake_engine().called.clear()
+    saved = characters.update(ctx, character.id, {"cls": "Fighter/Mage", "levels": {"fighter": 2, "mage": 1}})
+    assert saved.sheet.levels == {"fighter": 2, "mage": 1} and saved.state.hp == 12
+    assert "fill_derived" in fake_engine().called and "level_up" not in fake_engine().called
+
+
+def test_an_osric_new_class_leaves_hp_alone(d20_storage, d20_campaign):  # DEL-457: only the d20 path levels up
+    module = d20_storage.modules.create("Other")
+    revision = d20_storage.revisions.snapshot(module.id)
+    campaign = d20_storage.campaigns.create("Old", module.id, revision.number, ruleset="osric", setting="greyhawk")
+    ctx = context_for(d20_storage, campaign.id, "beat-1", catalogs=osric_catalogs())
+    character = characters.create(ctx, name="Bram", sheet={"cls": "Fighter", "level": 2, "hp_max": 12})
+    saved = characters.update(ctx, character.id, {"cls": "Fighter/Thief", "levels": {"fighter": 2, "thief": 1}})
+    assert (saved.sheet.levels, saved.sheet.hp_max, saved.state.hp) == ({"fighter": 2, "thief": 1}, 12, 12)
+    assert saved.sheet.d20 is None

@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 from delve_srd35 import data
-from delve_srd35.engine import attack_line
+from delve_srd35.engine import attack_line, combat
+
+from delve.rules.classic.combat import Combatant
 
 
 def test_parse_or_and_count():
@@ -50,6 +52,24 @@ def test_iteratives_extras_touch_and_two_hands():
     assert attack_line.parse("Bite +0 melee* (1d4+2*)")[0]["damage"] == "1d4+2"
     assert attack_line.parse("Swarm (1d6 plus poison)")[0]["bonus"] is None
     assert attack_line.parse("—") == []
+
+
+def test_a_monsters_iterative_attacks_are_its_count():
+    # The SRD hill giant's full attack, "Greatclub +16/+11 melee (2d8+10)": two greatclub attacks a round, the second
+    # 5 lower (an iterative form, as a character's: `combat.attack_bonuses`). A frost giant jarl's four; a dragon's
+    # "2 Claws +17/+17" are two at the same bonus, counted by the 2, not iterative.
+    club = attack_line.parse("Greatclub +16/+11 melee (2d8+10) or 2 slams +15 melee (1d4+7)")
+    assert [(f["name"], f["bonus"], f["count"], bool(f.get("iterative"))) for f in club] == [
+        ("greatclub", 16, 2, True), ("slam", 15, 2, False)]  # fmt: skip
+    assert combat.attack_bonuses(club[0]) == [16, 11]
+    axe = attack_line.parse("+2 Huge frost greataxe +30/+25/+20/+15 melee (3d6+18/×3 plus 1d6 cold)")[0]
+    assert (axe["count"], combat.attack_bonuses(axe)) == (4, [30, 25, 20, 15])
+    claws = attack_line.parse("2 Claws +17/+17 (2d6/2d6)")[0]
+    assert (claws["count"], combat.attack_bonuses(claws)) == (2, [17, 17])
+    # The hill giant as a combatant swings twice: its greatclub block's rate.
+    row = next(r for r in data.load("monsters") if r["id"] == "hill-giant")
+    giant = combat.combatant_from_monster(row, Combatant("m", "Hill Giant", "enemy"), {})
+    assert giant.attacks[0].rate == 2
 
 
 def test_a_bonus_in_the_name_and_a_spaced_sign():

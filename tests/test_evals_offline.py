@@ -34,10 +34,27 @@ from evals.live import Recorder, beat_report
 from evals.trace import MCP_PREFIX, Beat, Text, Trace, parse_events
 from evals.trace import ToolCall as TraceCall
 from tests.fixtures import SAMPLES
-from tests.fixtures.rulesets import osric_catalogs
+from tests.fixtures.rulesets import osric_catalogs, srd35_catalogs
 
 ROOT = Path(__file__).resolve().parent.parent
 SPECS = {spec.name: spec for spec in all_specs()}
+_RULESET_SPECS: dict[str, dict] = {}
+
+
+def specs_for_ruleset(ruleset: str) -> dict:
+    """The tools a campaign of `ruleset` is offered: the core's, and a pack's own (`set_build`...) on its ruleset."""
+    if ruleset not in _RULESET_SPECS:
+        host = ToolHost(None, lambda: SeededRng(1), catalogs=srd35_catalogs())  # type: ignore[arg-type]
+        _RULESET_SPECS[ruleset] = {spec.name: spec for spec in host.specs(ruleset)}
+    return _RULESET_SPECS[ruleset]
+
+
+def specs_for(case_id: str) -> dict:
+    return specs_for_ruleset(_cases.load_cases()[case_id].get("ruleset", _cases.RULESET))
+
+
+def catalogs_for(case: dict):
+    return srd35_catalogs() if case.get("ruleset", _cases.RULESET) == "srd35" else osric_catalogs()
 ALL_FIXTURES = [(cid, fx) for cid in sorted(_cases.load_cases()) for fx in _cases.fixtures(cid)]
 
 
@@ -74,7 +91,7 @@ def test_the_ported_cases_have_a_pass_and_one_violation_per_check(case_id):
     assert names == {"pass.jsonl"} | {f"violates-{check}.jsonl" for check in set(CHECKS) - DELVE_ONLY_CHECKS}
 
 
-def test_the_cases_are_the_planned_seven():
+def test_the_cases_are_the_planned_eleven():
     assert set(_cases.load_cases()) == {
         "locked_door",
         "goblin_ambush",
@@ -83,6 +100,10 @@ def test_the_cases_are_the_planned_seven():
         "tone_and_xp",
         "xp_awards",
         "read_aloud_song",
+        "multiclass_level_up",
+        "prestige_refused",
+        "sorcerer_cast",
+        "barbarian_rage",
     }
     for cid in _cases.load_cases():
         assert any(_cases.expectation(fx)[0] == "pass" for fx in _cases.fixtures(cid)), cid
@@ -116,12 +137,13 @@ def test_fixture_calls_are_delves_tools_with_valid_args(case_id, fixture):
             assert fixture.name.startswith("violates-no_state_bypass"), (fixture.name, raw)
             continue
         name = raw.removeprefix(MCP_PREFIX)
-        assert name in SPECS, (fixture.name, name)
-        jsonschema.validate(args, SPECS[name].params)
+        specs = specs_for(case_id)
+        assert name in specs, (fixture.name, name)
+        jsonschema.validate(args, specs[name].params)
         if name == "batch":
             for step in args["steps"]:
-                assert step["tool"] in SPECS, (fixture.name, step)
-                jsonschema.validate(step.get("args") or {}, SPECS[step["tool"]].params)
+                assert step["tool"] in specs, (fixture.name, step)
+                jsonschema.validate(step.get("args") or {}, specs[step["tool"]].params)
 
 
 def test_the_check_tool_sets_are_delves_tools():
@@ -136,6 +158,22 @@ def test_the_check_tool_sets_are_delves_tools():
 
 
 # Cases
+
+
+def test_packs_for_an_srd35_case_installs_it():
+    assert _cases.packs_for({"ruleset": "srd35"}) == [_cases.PACKS_DIR / "osric", _cases.PACKS_DIR / "srd35"]
+    assert _cases.packs_for({"ruleset": "osric"}) == [_cases.PACKS_DIR / "osric"]
+    assert _cases.packs_for({}) == [_cases.PACKS_DIR / "osric"]
+    assert _cases.packs_for({"ruleset": "no-such-pack"}) == [_cases.PACKS_DIR / "osric"]
+
+
+def test_a_pack_only_tool_is_valid_only_on_its_ruleset():
+    assert "set_build" not in specs_for("locked_door")
+    assert "set_build" in specs_for_ruleset("srd35")
+    assert set(SPECS) <= set(specs_for_ruleset("srd35"))
+    params = specs_for_ruleset("srd35")["set_build"].params
+    with pytest.raises(jsonschema.ValidationError):
+        jsonschema.validate({"nonsense": 1}, params)
 
 
 def test_every_secret_term_is_in_its_secret():
@@ -153,7 +191,7 @@ def test_case_setup_plays_through_the_tool_host(case_id, tmp_path):
     case = _cases.load_cases()[case_id]
     storage = open_storage(Config(data_dir=tmp_path / "data"))
     try:
-        host = ToolHost(storage, lambda: SeededRng(1), catalogs=osric_catalogs())
+        host = ToolHost(storage, lambda: SeededRng(1), catalogs=catalogs_for(case))
         campaign = _cases.start_campaign(storage, case, SAMPLES / "scenarios")
         results = _cases.set_up(host, campaign.id, case)
         assert all("error" not in result for result in results), results
@@ -482,3 +520,41 @@ def test_make_has_the_eval_targets():
     assert "\nevals:" in makefile and "\nevals-live:" in makefile
     ci = makefile.split("\nci:", 1)[1].split("\n\n", 1)[0]
     assert "evals-live" not in ci and "--live" not in ci
+
+
+def test_recorder_prefixes_the_case_rulesets_own_tools(tmp_path):
+    """A pack's own tool (srd35's `set_build`) is one of Delve's on its ruleset: the recorder puts the prefix back on
+    it, as on a core tool; a tool Delve doesn't have keeps its own name (DEL-389 part 5, F1)."""
+    tools = specs_for_ruleset("srd35")
+    recorder = Recorder(tmp_path / "recorded.jsonl", {"case": "sorcerer_cast"}, clock=lambda: 0.0, tools=tools)
+    with recorder:
+        recorder.start_beat(0, "Sela takes a level.")
+        for event in [
+            ToolCall("t1", "set_build", {"character": "Sela"}),
+            ToolResult("t1", True, {"ok": True}),
+            ToolCall("t2", "roll", {"dice": "1d20"}),
+            ToolResult("t2", True, {"total": 12}),
+            ToolCall("t3", "Read", {"file_path": "/etc/passwd"}),
+            ToolResult("t3", False, "denied"),
+            TurnEnd("done"),
+        ]:
+            recorder.event(event)
+        recorder.end_beat()
+    records = [json.loads(line) for line in (tmp_path / "recorded.jsonl").read_text().splitlines()]
+    (beat,) = parse_events(records).beats
+    assert [c.raw_name for c in beat.tool_calls] == ["mcp__delve__set_build", "mcp__delve__roll", "Read"]
+    findings = CHECKS["no_state_bypass"]({"id": "sorcerer_cast"}, parse_events(records))
+    assert [f.message for f in findings] == ["Read is not one of Delve's tools"]
+
+
+def test_the_default_recorder_knows_only_the_cores_tools(tmp_path):
+    """Without the case's tools the recorder knows the core's: `set_build` stays bare, as the F1 recordings had it."""
+    recorder = Recorder(tmp_path / "recorded.jsonl", {"case": "x"}, clock=lambda: 0.0)
+    with recorder:
+        recorder.start_beat(0, "x")
+        recorder.event(ToolCall("t1", "set_build", {}))
+        recorder.event(TurnEnd("done"))
+        recorder.end_beat()
+    records = [json.loads(line) for line in (tmp_path / "recorded.jsonl").read_text().splitlines()]
+    (beat,) = parse_events(records).beats
+    assert [c.raw_name for c in beat.tool_calls] == ["set_build"]

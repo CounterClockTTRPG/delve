@@ -14,6 +14,7 @@ from delve_srd35.engine import Srd35Engine
 from delve_srd35.reference import Srd35Reference
 from delve_srd35.rulebook import Srd35Rulebook
 from delve_srd35.tables import TABLES
+from delve_srd35.treasure import TREASURE
 
 
 def _slug(name: str) -> str:
@@ -35,7 +36,7 @@ class Srd35Ruleset:
     tables = TABLES
     notice = resources.files("delve_srd35").joinpath("notice.md").read_text("utf-8").strip()
     prompt = resources.files("delve_srd35").joinpath("prompt.md").read_text("utf-8")
-    treasure = None
+    treasure = TREASURE
     encounters = None
 
     def __init__(self) -> None:

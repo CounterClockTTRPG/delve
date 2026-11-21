@@ -9,12 +9,13 @@ from fractions import Fraction
 import pytest
 from delve_srd35 import data
 from delve_srd35.engine import Srd35Engine, combat
+from delve_srd35.engine.combat import CHARGED
 from delve_srd35.reference import Srd35Reference
 
 from delve.dice import Dice, MemoryRollLog, ScriptedRng
 from delve.domain.campaigns import Character
 from delve.domain.characters import Effect, Sheet
-from delve.rules.classic.combat import AttackBlock, Combatant
+from delve.rules.classic.combat import AttackBlock, Combat, Combatant, run_round
 from delve.rules.classic.tables import FightRules
 from delve.rules.d20 import Initiative, Swing
 
@@ -101,8 +102,10 @@ def test_skeleton_ignores_criticals_and_sneak():
     assert (skeleton.d20["type"], skeleton.d20["crit_immune"], skeleton.d20["cr"]) == ("undead", True, "1/3")
     rogue = wielding("short sword", 3, "1d6", threat=19, sneak="1d6")
     out = swing(rogue, replace(skeleton, init=None), 20, 4, round=1)
-    assert (out.hit, out.damage) == (True, 4)
-    assert out.notes == ("flat-footed", "critical threat", "immune to critical hits", "immune to sneak attack")
+    # Its DR 5/bludgeoning (part 3) takes the short sword's (piercing) 4 off.
+    assert (out.hit, out.damage) == (True, 0)
+    assert out.notes == ("flat-footed", "critical threat", "immune to critical hits", "immune to sneak attack",
+                         "DR 5/bludgeoning (-4)")  # fmt: skip
     # The gelatinous cube, an ooze, is immune too.
     assert monster("gelatinous-cube").d20["crit_immune"] is True
 
@@ -222,6 +225,27 @@ def test_sheet_forms_by_the_srd():
     assert keen.d20["attacks"][0]["threat"] == 17
 
 
+def test_weapon_specialization_and_the_greater_feats():
+    # SRD: Weapon Specialization "+2 bonus on all damage rolls you make using the selected weapon"; Greater Weapon
+    # Focus +1 on attack rolls, stacking with Weapon Focus; Greater Weapon Specialization +2 damage, stacking with
+    # Weapon Specialization. A human fighter 6, Str 17 (+3), longsword with Weapon Focus and Specialization (the live
+    # party's Bram): BAB 6 + 3 + 1 = +10, 1d8 + 3 + 2 = 1d8+5. Fighter 12 with all four: BAB 12 + 3 + 2 = +17, 1d8+7.
+    focus = {"id": "weapon-focus", "choice": "longsword"}
+    special = {"id": "weapon-specialization", "choice": "longsword"}
+    bram = hero("Fighter", {"fighter": 6}, {"str": 17}, weapon="longsword", feats=[focus, special])
+    assert (bram.d20["attacks"][0]["bonus"], bram.d20["attacks"][0]["damage"]) == (10, "1d8+5")
+    greater = [focus, special, {"id": "greater-weapon-focus", "choice": "longsword"},
+               {"id": "greater-weapon-specialization", "choice": "longsword"}]  # fmt: skip
+    form = hero("Fighter", {"fighter": 12}, {"str": 17}, weapon="longsword", feats=greater).d20["attacks"][0]
+    assert (form["bonus"], form["damage"]) == (17, "1d8+7")
+    # Only with the weapon chosen: with a battleaxe, none of them (BAB 6 + 3, 1d8 + 3).
+    axe = hero("Fighter", {"fighter": 6}, {"str": 17}, weapon="battleaxe", feats=[focus, special]).d20["attacks"][0]
+    assert (axe["bonus"], axe["damage"]) == (9, "1d8+3")
+    # The bonus damage is the weapon's: a Str 8 fighter's 1d8 - 1 + 2 = 1d8+1.
+    weak = hero("Fighter", {"fighter": 4}, {"str": 8}, weapon="longsword", feats=[special]).d20["attacks"][0]
+    assert weak["damage"] == "1d8+1"
+
+
 def test_a_sheets_combatant_carries_its_numbers():
     fighter = hero("Fighter", {"fighter": 3}, {"str": 16, "dex": 12, "con": 14}, race="Dwarf", weapon="warhammer",
                    armor="scale mail", shield="shield, heavy steel")  # fmt: skip
@@ -255,10 +279,11 @@ def test_mangled_goblin_row_reads_its_size_and_type():
     assert d["saves"] == {"fort": 3, "ref": 1, "will": -1}
     assert [(f["name"], f["bonus"]) for f in d["attacks"]] == [("morningstar", 2), ("javelin", 3)]
     assert [(b.name, b.damage_sm) for b in goblin.attacks] == [("morningstar", "1d6"), ("javelin", "1d4")]
-    # The kobold is mangled the same way; the owlbear's full attack gives its two claws and its bite.
+    # The kobold is mangled the same way; the owlbear's full attack gives its two claws and its bite, three attacks
+    # (every block's rate is its full attack's).
     assert (monster("kobold").size, monster("kobold").d20["type"]) == ("S", "humanoid")
     owlbear = monster("owlbear")
-    assert [(b.name, b.rate) for b in owlbear.attacks] == [("claw", 2.0), ("bite", 1.0)]
+    assert [(b.name, b.rate) for b in owlbear.attacks] == [("claw", 3.0), ("bite", 3.0)]
     assert (owlbear.size, owlbear.d20["type"]) == ("L", "magical beast")
     # The orc's typographic saves ("+3", "–2") and an AC override.
     assert monster("orc").d20["saves"] == {"fort": 3, "ref": 0, "will": -2}
@@ -310,15 +335,38 @@ def test_flanking_and_charging_give_two_to_hit():
     assert swing(attacker, charger, 11, 3).hit is True
 
 
-def test_a_charges_penalty_lasts_only_its_round():
-    # Ruling R12: the charge in round 2 is kept as stance["charged"] = 2; core's mark stays on the charger, but in
-    # round 3 its AC is 15 again (11 + 2 = 13 misses) while in round 2 it is 13 (13 hits).
-    charge = swing(wielding("club", 2, "1d6"), target(15), 11, 3, condition="charging", round=2)
-    assert charge.attacker.d20["stance"] == {"power_attack": 0, "defensive": False, "charged": 2}
-    charger = replace(target(15, stance=charge.attacker.d20["stance"]), conditions=charge.attacker.conditions)
-    attacker = wielding("club", 2, "1d6")
-    assert swing(attacker, charger, 11, 3, round=2).hit is True
-    assert swing(attacker, charger, 11, round=3).hit is False
+def test_a_charges_penalty_lasts_until_the_chargers_next_turn():
+    # The SRD: -2 AC "until his next turn". Bram (AC 15, init 18) charges in round 1. An orc acting after him that round
+    # and one acting before him in round 2 swing at AC 13 (a 13 hits); once Bram has acted in round 2 the mark is gone
+    # and an orc after him swings at 15 (a 13 misses).
+    mine = {"ac": 15, "touch": 11, "flat_footed": 14, "dex": 1, "crit_immune": False}
+    bram = replace(wielding("club", 0, "1d6", **mine), id="bram", name="Bram", side="party", hp=40, init=18)
+
+    def orc(id: str, init: int) -> Combatant:
+        foe = {"ac": 10, "touch": 10, "flat_footed": 9, "dex": 1, "crit_immune": False}
+        c = wielding("club", 0, "1d6", **foe)
+        return replace(c, id=id, name=id.title(), side="enemy", hp=40, init=init)
+
+    fight = Combat(
+        phase="round", round=1, order=("early", "bram", "late"), rules=FightRules(initiative_once=True),
+        combatants={c.id: c for c in (orc("early", 20), bram, orc("late", 10))},
+    )  # fmt: skip
+
+    def play(*faces: int, charge: bool = False) -> dict[str, bool]:
+        nonlocal fight
+        rolled, rng = dice(*faces)
+        actions = [{"attacker": "early", "target": "bram"}, {"attacker": "bram", "target": "early", **({"condition": "charging"} if charge else {})},
+                   {"attacker": "late", "target": "bram"}]  # fmt: skip
+        fight, out = run_round(fight, rolled, REF, actions, "combatant", None, d20=ENGINE)
+        rng.assert_done()
+        return {a["attacker"]: a["hit"] for a in out.actions}
+
+    # Round 1: early 13 (Bram flat-footed, 14) misses; Bram charges and 18 + 2 hits AC 10 (damage 3); late 13 hits 13.
+    assert play(13, 18, 3, 13, 3, charge=True) == {"Early": False, "Bram": True, "Late": True}
+    assert CHARGED in fight.combatants["bram"].conditions
+    # Round 2: early, before Bram, 13 hits 13; Bram's attack ends the mark; late's 13 misses 15.
+    assert play(13, 3, 18, 3, 13) == {"Early": True, "Bram": True, "Late": False}
+    assert CHARGED not in fight.combatants["bram"].conditions
 
 
 def test_an_attack_of_opportunity_rolls_under_its_own_purposes():
@@ -544,3 +592,25 @@ def test_precise_shot_comes_from_the_sheet_and_the_row():
     row = {"name": "Archer", "armor_class": "12 (+2 Dex)", "abilities": {"dex": "14"},
            "full_attack": "Shortbow +3 ranged (1d6)", "feats": "Point Blank Shot, Precise Shot"}  # fmt: skip
     assert ENGINE.combatant_from_monster(row, Combatant("mon_a", "Archer", "enemy"), {}).d20["precise_shot"] is True
+
+
+def test_a_monsters_sneak_attack_from_its_entry():
+    # The SRD babau: "Sneak attack +2d6" (Special Attacks), "2 claws +12 melee (1d6+5)". At a flat-footed target (AC
+    # 15, flat-footed 14) in round 1, before it has acted: 10 + 12 = 22 hits, 1d6 [3] + 5 = 8 and sneak 2d6 [2, 4] = 6,
+    # 14. The derro's is +1d6; a monster without one has none.
+    babau = replace(monster("babau"), init=20)
+    assert babau.d20["sneak"] == "2d6" and monster("derro").d20["sneak"] == "1d6" and monster("ogre").d20["sneak"] == ""
+    out = swing(babau, target(15), 10, 3, 2, 4, round=1)
+    assert (out.hit, out.damage) == (True, 14)
+    assert "sneak attack +2d6" in out.notes
+
+
+def test_a_buckler_costs_a_two_handed_weapon_one_to_hit():
+    # A human fighter 1, Str 16 (+3), greatsword: BAB 1 + 3 = +4; with a buckler on the arm helping wield it, -1: +3
+    # ("you take a -1 penalty on attack rolls while doing so"). With a longbow, without penalty: BAB 1 + Dex 0 = +1.
+    def bonus(**build) -> int:
+        return hero("Fighter", {"fighter": 1}, {"str": 16}, **build).d20["attacks"][0]["bonus"]
+
+    assert bonus(weapon="greatsword") == 4
+    assert bonus(weapon="greatsword", shield="buckler") == 3
+    assert bonus(weapon="longbow", shield="buckler") == 1

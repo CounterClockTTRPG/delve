@@ -56,6 +56,24 @@ class FightRules:
     """Whether initiative is rolled once for the fight, not again each round; None leaves it to the mode."""
     highest_first: bool | None = field(default=None, metadata={data.OMIT_IF_NONE: True})
     """Whether the highest initiative acts first (d20 rules); None keeps the engine's lowest first."""
+    ties_by_bonus: bool | None = field(default=None, metadata={data.OMIT_IF_NONE: True})
+    """Whether combatants tied on an initiative total act one after another, the higher initiative bonus (the total
+    less the roll) first and an equal bonus by a roll-off, rather than simultaneously (3.5: "the combatants who are
+    tied act in order of total initiative modifier (highest first). If there is still a tie, the tied characters
+    should roll again"); None keeps a tie simultaneous."""
+    cast_on_turn: bool | None = field(default=None, metadata={data.OMIT_IF_NONE: True})
+    """Whether a spell of one action (begun and cast in the same round, not one that ends a round) is cast on the
+    caster's own turn, so a hit or a failed saving throw earlier in the round doesn't spoil it (3.5: harm only while
+    casting, a longer casting time, calls for a Concentration check); None keeps the classic rule, any harm before the
+    spell is cast spoiling it."""
+    disabled_at_zero: bool | None = field(default=None, metadata={data.OMIT_IF_NONE: True})
+    """Whether a party member or ally at exactly 0 hp is disabled, not downed (3.5's "Disabled (0 Hit Points)"): it
+    acts, one attack a round, and an attack or a cast (a strenuous act) takes 1 hp after it, to -1, dying; a monster
+    still dies at 0. None keeps 0 as downed."""
+    stabilise_chance: int | None = field(default=None, metadata={data.OMIT_IF_NONE: True})
+    """The percentage chance a dying party member or ally rolls at each round's end to become stable, losing no hp
+    (3.5's 10%: "each round on his turn, a dying character rolls d% to see whether he becomes stable"); on a miss it
+    bleeds 1 hp. None keeps the bleeding with no roll."""
 
 
 @dataclass(frozen=True)

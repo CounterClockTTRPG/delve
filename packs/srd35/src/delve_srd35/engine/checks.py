@@ -2,9 +2,10 @@
 
 A save's total is the sheet's derived save, or a combatant's `d20["saves"]`; a natural 1 always fails it and a natural
 20 always succeeds. A skill's total is its derived total, or untrained its key ability's modifier with the armour check
-penalty and the race's and size's bonuses (`numbers` works it out with no ranks); a trained-only skill without ranks is
-refused with a note and no roll, and a natural 1 or 20 is just a number. Each negative level takes 1 off all three (the
-SRD's energy drain); `derived` doesn't take them, so it is done here. Without a DC the answer is the total, no success.
+penalty, the race's and size's bonuses, the other skills' synergies and Jump's speed (`numbers` works it out with no
+ranks); a trained-only skill without ranks is refused with a note and no roll, and a natural 1 or 20 is just a number.
+Each negative level takes 1 off all three (the SRD's energy drain); `derived` doesn't take them, so it is done here.
+Without a DC the answer is the total, no success.
 """
 
 from __future__ import annotations
@@ -17,7 +18,7 @@ from delve.domain.characters import Sheet
 from delve.rules.classic.checks import CheckError
 from delve.rules.classic.combat import Combatant
 from delve.rules.d20 import CheckResult, SaveResult
-from delve_srd35.engine import numbers
+from delve_srd35.engine import class_features, numbers
 
 if TYPE_CHECKING:
     from delve.dice import Dice
@@ -87,7 +88,7 @@ def save(
 ) -> Save:
     kind = save_type(kind)
     if isinstance(subject, Sheet):
-        base = int(((subject.d20 or {}).get("derived") or numbers.derived(subject, reference))[kind])
+        base = int(numbers.stored(subject, reference)[kind])
         modifier -= _negative(subject)
         basis = f"sheet: {SAVES[kind]} {base:+d}"
     else:
@@ -96,6 +97,9 @@ def save(
             raise CheckError(f"{subject.name} has no saves.", hint="Add it to the fight from a monster or a sheet.")
         base = int(saves[kind])
         basis = f"combatant: {SAVES[kind]} {base:+d}"
+        if raging := class_features.rage_save(subject.d20, kind, subject.effects):  # rage's +2, on Fort and Will
+            base += raging
+            basis += f", {raging:+d} rage"
     roll = dice.d(20, purpose=f"save:{kind}", actor=actor, combat_round=combat_round)
     total = roll.total + base + modifier
     success = dc is not None and roll.total != 1 and (roll.total == 20 or total >= dc)
@@ -122,13 +126,14 @@ def skill_check(
     assert row is not None  # skill_named names only skills that have a row
     modifier -= _negative(sheet)
     if build.get("skills", {}).get(wanted, 0) > 0:
-        known = (build.get("derived") or {}).get("skills", {})
+        known = numbers.stored(sheet, reference).get("skills", {})
         bonus = known[wanted] if wanted in known else numbers.derived(sheet, reference)["skills"][wanted]
     elif row["trained_only"]:
         note = f"{row['name']} can't be used untrained: {sheet.label or 'the character'} has no ranks in it."
         return Check(False, None, None, row["name"], 0, modifier, None, dc, note)
     else:
-        untrained = replace(sheet, d20={**build, "skills": {wanted: 0}})
+        # The other skills' ranks stay, for their synergies on this one.
+        untrained = replace(sheet, d20={**build, "skills": {**build.get("skills", {}), wanted: 0}})
         bonus = numbers.derived(untrained, reference)["skills"][wanted]
     return _check(dice, f"skill:{wanted}", row["name"], int(bonus), dc, modifier, actor, occasion)
 

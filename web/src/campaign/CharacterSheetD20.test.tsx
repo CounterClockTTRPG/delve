@@ -177,6 +177,193 @@ describe("CharacterSheet in an SRD 3.5 campaign", () => {
     expect(within(loaded).getByText("Medium load: 40 lb, move 20 ft.")).toBeTruthy();
   });
 
+  it("lists a raging barbarian's class features with the uses spent (DEL-389)", () => {
+    const features = [
+      { id: "fast-movement", class: "barbarian", name: "Fast movement", kind: "bonus", per_day: null, value: 10 },
+      { id: "rage", class: "barbarian", name: "Rage", kind: "uses", per_day: 1, value: 1 },
+      { id: "uncanny-dodge", class: "barbarian", name: "Uncanny dodge", kind: "feat", per_day: null, value: null },
+    ];
+    const barbarian: Character = {
+      ...thorin,
+      id: "chr_0000000035a5",
+      name: "Krusk",
+      sheet: { ...thorin.sheet, label: "Krusk", cls: "Barbarian", levels: { barbarian: 2 } },
+      state: { ...thorin.state, conditions: ["raging"], d20: { used: { rage: 1 } } },
+      d20: { ...thorin.d20!, features },
+    };
+    const sheet = renderSheet(barbarian);
+    const list = within(sheet).getByRole("list", { name: "Class features" });
+    expect(within(list).getAllByRole("listitem").map((li) => li.textContent)).toEqual([
+      "Fast movement",
+      "Rage: 1 a day, 1 used",
+      "Uncanny dodge",
+    ]);
+    const dutch = renderSheet({ ...barbarian, id: "chr_0000000035a6", name: "Krusk nl" }, { language: "nl" });
+    const lijst = within(dutch).getByRole("list", { name: "Klassekenmerken" });
+    expect(within(lijst).getAllByRole("listitem")[1].textContent).toBe("Woede: 1 per dag, 1 gebruikt");
+    // Turning's attempts are the state's `turning_used`.
+    const paladin: Character = {
+      ...barbarian,
+      id: "chr_0000000035a7",
+      name: "Aldric",
+      state: { ...thorin.state, d20: { turning_used: 2 } },
+      d20: { ...thorin.d20!, features: [{ id: "turn-undead", class: "paladin", name: "Turn undead", kind: "uses", per_day: 4, value: 3 }] },
+    };
+    const turning = within(renderSheet(paladin)).getByRole("list", { name: "Class features" });
+    expect(turning.textContent).toBe("Turn undead: 4 a day, 2 used");
+    // Remove disease is counted a week (DEL-389 part 2).
+    const weekly: Character = {
+      ...barbarian,
+      id: "chr_0000000035a8",
+      name: "Aldra",
+      state: { ...thorin.state, d20: { used: { "remove-disease": 1 } } },
+      d20: { ...thorin.d20!, features: [{ id: "remove-disease", class: "paladin", name: "Remove disease", kind: "uses", per_day: 1, per: "week", value: 1 }] },
+    };
+    expect(within(renderSheet(weekly)).getByRole("list", { name: "Class features" }).textContent).toBe(
+      "Remove disease: 1 a week, 1 used",
+    );
+    // A sheet from before the features (a Phase 2 build) shows no list.
+    expect(within(renderSheet(thorin)).queryByRole("list", { name: "Class features" })).toBeNull();
+  });
+
+  it("shows a sorcerer's spells a day, those cast today and the spells known (DEL-389)", () => {
+    const sorcerer: Character = {
+      ...mira,
+      id: "chr_0000000035b1",
+      name: "Sable",
+      sheet: { ...mira.sheet, label: "Sable", cls: "Sorcerer", levels: { sorcerer: 3 }, spell_slots: {} },
+      state: { ...mira.state, d20: { cast: { sorcerer: { "1": 2 } } } },
+      d20: {
+        ...mira.d20!,
+        domains: [],
+        slots: {},
+        dc: {},
+        casting: {
+          sorcerer: { ability: "cha", caster_level: 3, prepared: false, per_day: { "0": 6, "1": 6 }, known: { "0": 5, "1": 3 }, dc: { "0": 13, "1": 14 } },
+        },
+        known: { sorcerer: ["detect magic", "magic missile", "shield"] },
+      },
+    };
+    const sheet = renderSheet(sorcerer);
+    const pool = within(sheet).getByRole("region", { name: "Sorcerer: caster level 3, CHA" });
+    expect(within(pool).getAllByRole("columnheader").map((th) => th.textContent)).toEqual(["", "A day", "Known", "DC"]);
+    const rows = within(pool).getAllByRole("row").slice(1);
+    expect(rows.map((row) => row.textContent)).toEqual(["Level 06513", "Level 16 (2 cast)314"]);
+    expect(within(pool).getByText("Spells known: detect magic, magic missile, shield")).toBeTruthy();
+    // No slots table of the first class's beside the pool.
+    expect(within(sheet).queryByRole("columnheader", { name: "Slots" })).toBeNull();
+    const dutch = renderSheet({ ...sorcerer, id: "chr_0000000035b2", name: "Sable nl" }, { language: "nl" });
+    const poel = within(dutch).getByRole("region", { name: "Sorcerer: toverniveau 3, CHA" });
+    expect(within(poel).getByText("Bekende spreuken: detect magic, magic missile, shield")).toBeTruthy();
+    expect(within(poel).getByRole("cell", { name: "6 (2 gebruikt)" })).toBeTruthy();
+  });
+
+  it("shows a cleric 3/wizard 3's two pools, each with its slots and DCs (DEL-389)", () => {
+    const multiclass: Character = {
+      ...mira,
+      id: "chr_0000000035b3",
+      name: "Oswin",
+      sheet: { ...mira.sheet, label: "Oswin", cls: "Cleric/Wizard", levels: { cleric: 3, wizard: 3 }, spell_slots: { "0": 8, "1": 7, "2": 3 } },
+      d20: {
+        ...mira.d20!,
+        slots: { "0": 4, "1": 4, "2": 2 },
+        dc: { "0": 13, "1": 14, "2": 15 },
+        casting: {
+          cleric: { ability: "wis", caster_level: 3, prepared: true, slots: { "0": 4, "1": 4, "2": 2 }, dc: { "0": 13, "1": 14, "2": 15 } },
+          wizard: { ability: "int", caster_level: 3, prepared: true, slots: { "0": 4, "1": 3, "2": 1 }, dc: { "0": 12, "1": 13, "2": 14 } },
+        },
+      },
+    };
+    const sheet = renderSheet(multiclass);
+    const cleric = within(sheet).getByRole("region", { name: "Cleric: caster level 3, WIS" });
+    expect(within(cleric).getAllByRole("columnheader").map((th) => th.textContent)).toEqual(["", "Slots", "DC"]);
+    expect(within(cleric).getAllByRole("row").slice(1).map((row) => row.textContent)).toEqual([
+      "Level 0413",
+      "Level 1414",
+      "Level 2215",
+    ]);
+    const wizard = within(sheet).getByRole("region", { name: "Wizard: caster level 3, INT" });
+    expect(within(wizard).getAllByRole("row").slice(1).map((row) => row.textContent)).toEqual([
+      "Level 0412",
+      "Level 1313",
+      "Level 2114",
+    ]);
+    expect(within(wizard).queryByText(/Spells known/)).toBeNull();
+  });
+
+  it("marks a prestige class and heads a pool with the levels prestige classes add (DEL-389 part 4)", () => {
+    const knight: Character = {
+      ...mira,
+      id: "chr_0000000035b4",
+      name: "Ansel",
+      sheet: {
+        ...mira.sheet,
+        label: "Ansel",
+        cls: "Wizard/Fighter/Eldritch-Knight",
+        levels: { wizard: 5, fighter: 1, "eldritch-knight": 3 },
+        spell_slots: { "0": 4, "1": 5 },
+      },
+      d20: {
+        ...mira.d20!,
+        prestige: ["eldritch-knight"],
+        advanced: { wizard: { "eldritch-knight": 2 } },
+        casting: {
+          wizard: { ability: "int", caster_level: 7, prepared: true, slots: { "0": 4, "1": 5 }, dc: { "0": 13, "1": 14 } },
+        },
+      },
+    };
+    const sheet = renderSheet(knight);
+    expect(within(sheet).getByText("Wizard 5 / Fighter 1 / Eldritch Knight 3 (prestige)")).toBeTruthy();
+    const wizard = within(sheet).getByRole("region", { name: "Wizard: caster level 7, INT" });
+    expect(within(wizard).getByText("Advanced: +2 from Eldritch Knight")).toBeTruthy();
+    const dutch = renderSheet({ ...knight, id: "chr_0000000035b5", name: "Ansel nl" }, { language: "nl" });
+    expect(within(dutch).getByText(/\(prestigeklasse\)$/)).toBeTruthy();
+    expect(within(dutch).getByText("Gevorderd: +2 van Eldritch Knight")).toBeTruthy();
+  });
+
+  it("shows a Phase 2 single-class caster as before, with no pool by class", () => {
+    const sheet = renderSheet(mira);
+    expect(within(sheet).queryByRole("region", { name: /caster level/ })).toBeNull();
+    expect(within(sheet).getByRole("columnheader", { name: "Slots" })).toBeTruthy();
+  });
+
+  it("lists the magic items with their bonuses, a carried weapon, a note and the DM's abilities (DEL-389)", () => {
+    const items = [
+      { id: "protection", kind: "worn" as const, name: "Ring of Protection +2", bonus: 2 },
+      { id: "longsword", kind: "weapon" as const, name: "+1 flaming longsword", bonus: 1, in_use: true },
+      { id: "dagger", kind: "weapon" as const, name: "+1 dagger", bonus: 1, in_use: false },
+      { id: "warhammer", kind: "weapon" as const, name: "+1 speed warhammer", bonus: 1, in_use: true, dm: ["speed"] },
+      { id: "bag-of-holding", kind: "note" as const, name: "Bag of Holding", note: true },
+    ];
+    const sheet = renderSheet({ ...thorin, d20: { ...thorin.d20!, items } });
+    const listed = within(within(sheet).getByRole("list", { name: "Magic items" })).getAllByRole("listitem");
+    expect(listed.map((li) => li.textContent)).toEqual([
+      "Ring of Protection +2",
+      "+1 flaming longsword",
+      "+1 dagger (carried, not in use)",
+      "+1 speed warhammer; the DM rules Speed",
+      "Bag of Holding (no numbers on the sheet: the DM's)",
+    ]);
+  });
+
+  it("shows a score an item enhances beside the base (DEL-389)", () => {
+    const sheet = renderSheet({ ...thorin, d20: { ...thorin.d20!, abilities: { str: 20 } } });
+    const scores = within(sheet).getByRole("list", { name: "Abilities" });
+    const str = within(scores).getAllByRole("listitem")[0];
+    expect(within(str).getByTitle("With the enhancement bonus of a magic item worn").textContent).toBe("16 (20)");
+    expect(within(scores).getAllByRole("listitem")[1].textContent).not.toContain("(");
+  });
+
+  it("has no magic items section without items", () => {
+    expect(within(renderSheet(thorin)).queryByText("Magic items")).toBeNull();
+  });
+
+  it("names the magic items in Dutch", () => {
+    const items = [{ id: "protection", kind: "worn" as const, name: "Ring of Protection +2", bonus: 2 }];
+    const sheet = renderSheet({ ...thorin, d20: { ...thorin.d20!, items } }, { language: "nl" });
+    expect(within(sheet).getByRole("list", { name: "Magische voorwerpen" })).toBeTruthy();
+  });
+
   it("speaks the reader's language", () => {
     const sheet = renderSheet(thorin, { language: "fr" });
     expect(stat(sheet, "BBA")).toBe("+3");

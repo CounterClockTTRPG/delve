@@ -1,0 +1,335 @@
+[
+ {
+  "derived": {
+   "ac": 15,
+   "acp": -4,
+   "bab": 3,
+   "base_speed": 30,
+   "dc": {},
+   "flat_footed": 14,
+   "fort": 7,
+   "init": 5,
+   "max_dex": 3,
+   "ref": 2,
+   "skills": {
+    "climb": 5,
+    "intimidate": 5,
+    "jump": -1
+   },
+   "slots": {},
+   "sneak": "",
+   "speed": 20,
+   "spell_failure": 0,
+   "touch": 11,
+   "turning_per_day": 0,
+   "will": 2
+  },
+  "name": "Bram",
+  "sheet": {
+   "ability_scores": {
+    "cha": 8,
+    "con": 14,
+    "dex": 13,
+    "int": 10,
+    "str": 16,
+    "wis": 12
+   },
+   "cls": "Fighter",
+   "d20": {
+    "armor": "scale mail",
+    "feats": [
+     {
+      "id": "power-attack"
+     },
+     {
+      "id": "cleave"
+     },
+     {
+      "choice": "falchion",
+      "id": "weapon-focus"
+     },
+     {
+      "id": "improved-initiative"
+     },
+     {
+      "id": "great-fortitude"
+     }
+    ],
+    "level_up": {
+     "class": "fighter",
+     "hints": [
+      "3 skill points",
+      "a feat"
+     ],
+     "hit_points": 10,
+     "level": 3
+    },
+    "skills": {
+     "climb": 6,
+     "intimidate": 6,
+     "jump": 6
+    },
+    "weapon": "falchion"
+   },
+   "levels": {
+    "fighter": 3
+   },
+   "race": "Human"
+  }
+ },
+ {
+  "derived": {
+   "ac": 16,
+   "acp": -6,
+   "bab": 2,
+   "dc": {
+    "0": 12,
+    "1": 13,
+    "2": 14
+   },
+   "flat_footed": 16,
+   "fort": 5,
+   "init": 0,
+   "max_dex": 3,
+   "ref": 1,
+   "skills": {
+    "concentration": 8
+   },
+   "slots": {
+    "0": 4,
+    "1": 4,
+    "2": 3
+   },
+   "sneak": "",
+   "speed": 20,
+   "spell_failure": 0,
+   "touch": 10,
+   "turning_per_day": 4,
+   "will": 5
+  },
+  "name": "Dorna",
+  "sheet": {
+   "ability_scores": {
+    "cha": 12,
+    "con": 14,
+    "dex": 10,
+    "int": 10,
+    "str": 14,
+    "wis": 15
+   },
+   "cls": "Cleric",
+   "d20": {
+    "armor": "scale mail",
+    "domains": [
+     "war",
+     "good"
+    ],
+    "level_up": {
+     "class": "cleric",
+     "hints": [
+      "2 skill points",
+      "a feat"
+     ],
+     "hit_points": 10,
+     "level": 3
+    },
+    "shield": "shield, heavy steel",
+    "skills": {
+     "concentration": 6
+    },
+    "weapon": "warhammer"
+   },
+   "levels": {
+    "cleric": 3
+   },
+   "race": "Dwarf"
+  }
+ },
+ {
+  "derived": {
+   "ac": 13,
+   "acp": 0,
+   "bab": 1,
+   "dc": {
+    "0": 13,
+    "1": 14,
+    "2": 15
+   },
+   "flat_footed": 10,
+   "fort": 1,
+   "init": 7,
+   "max_dex": null,
+   "ref": 4,
+   "skills": {
+    "concentration": 6,
+    "knowledge-arcana": 9,
+    "spellcraft": 11
+   },
+   "slots": {
+    "0": 4,
+    "1": 3,
+    "2": 2
+   },
+   "sneak": "",
+   "speed": 30,
+   "spell_failure": 0,
+   "touch": 13,
+   "turning_per_day": 0,
+   "will": 4
+  },
+  "name": "Elowen",
+  "sheet": {
+   "ability_scores": {
+    "cha": 10,
+    "con": 10,
+    "dex": 16,
+    "int": 17,
+    "str": 8,
+    "wis": 12
+   },
+   "cls": "Wizard",
+   "d20": {
+    "feats": [
+     {
+      "id": "improved-initiative"
+     }
+    ],
+    "level_up": {
+     "class": "wizard",
+     "hints": [
+      "5 skill points",
+      "a feat"
+     ],
+     "hit_points": 2,
+     "level": 3
+    },
+    "skills": {
+     "concentration": 6,
+     "knowledge-arcana": 6,
+     "spellcraft": 6
+    },
+    "weapon": "dagger"
+   },
+   "levels": {
+    "wizard": 3
+   },
+   "race": "Elf"
+  }
+ },
+ {
+  "derived": {
+   "ac": 18,
+   "acp": -1,
+   "bab": 0,
+   "dc": {},
+   "flat_footed": 14,
+   "fort": 2,
+   "init": 3,
+   "max_dex": 5,
+   "ref": 6,
+   "skills": {
+    "disable-device": 6,
+    "hide": 10,
+    "move-silently": 8,
+    "open-lock": 7,
+    "search": 6
+   },
+   "slots": {},
+   "sneak": "1d6",
+   "speed": 20,
+   "spell_failure": 0,
+   "touch": 15,
+   "turning_per_day": 0,
+   "will": 1
+  },
+  "name": "Rogue 1",
+  "sheet": {
+   "ability_scores": {
+    "cha": 12,
+    "con": 12,
+    "dex": 17,
+    "int": 14,
+    "str": 10,
+    "wis": 10
+   },
+   "cls": "Rogue",
+   "d20": {
+    "armor": "studded leather",
+    "feats": [
+     "dodge"
+    ],
+    "skills": {
+     "disable-device": 4,
+     "hide": 4,
+     "move-silently": 4,
+     "open-lock": 4,
+     "search": 4
+    },
+    "weapon": "short sword"
+   },
+   "levels": {
+    "rogue": 1
+   },
+   "race": "Halfling"
+  }
+ },
+ {
+  "derived": {
+   "ac": 18,
+   "acp": -1,
+   "bab": 3,
+   "dc": {},
+   "flat_footed": 18,
+   "fort": 3,
+   "init": 7,
+   "max_dex": 5,
+   "ref": 8,
+   "skills": {
+    "disable-device": 9,
+    "hide": 13,
+    "move-silently": 11,
+    "open-lock": 10,
+    "search": 9
+   },
+   "slots": {},
+   "sneak": "2d6",
+   "speed": 20,
+   "spell_failure": 0,
+   "touch": 15,
+   "turning_per_day": 0,
+   "uncanny_dodge": true,
+   "will": 2
+  },
+  "name": "Rogue 4",
+  "sheet": {
+   "ability_scores": {
+    "cha": 12,
+    "con": 12,
+    "dex": 17,
+    "int": 14,
+    "str": 10,
+    "wis": 10
+   },
+   "cls": "Rogue",
+   "d20": {
+    "armor": "studded leather",
+    "feats": [
+     "dodge",
+     "improved-initiative"
+    ],
+    "skills": {
+     "disable-device": 7,
+     "hide": 7,
+     "move-silently": 7,
+     "open-lock": 7,
+     "search": 7
+    },
+    "weapon": "short sword"
+   },
+   "levels": {
+    "rogue": 4
+   },
+   "race": "Halfling"
+  }
+ }
+]

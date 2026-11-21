@@ -108,3 +108,18 @@ def test_an_unknown_spell_under_a_d20_engine_names_its_near_names(ctx):
     assert caught.value.message == "No spell 'magic'."
     # The near names, by name only: a d20 reference's spell has no one level or caster to give.
     assert caught.value.candidates and all(set(c) == {"name"} for c in caught.value.candidates)
+
+
+def test_a_round_leaves_a_slotted_casters_pool_spell_alone(ctx, d20_call, monkeypatch):
+    # DEL-389: a caster with slots whose spell has no uncast copy left, but the engine casts it from its pool (a
+    # sorcerer/cleric's sorcerer spell), is skipped as a pool caster is: its pool is spent by `cast_spell`.
+    mira = _caster(ctx)
+    ctx.storage.characters.save_sheet(replace(mira, sheet=replace(mira.sheet, spell_slots={1: 1})))
+    d20_call("setup_combat", enemies=[{"name": "goblin", "count": 1, "hp": 50}], surprise=False)
+    action = [{"caster": "Mira", "spell": "Sleep", "target": "Goblin"}]
+    refused = d20_call("combat_round", beat="beat-2", actions=action)
+    assert "not memorized Sleep" in refused["error"], refused  # the fake says False: core's refusal stands
+    monkeypatch.setattr(type(fake_engine()), "casts_unprepared", lambda self, sheet, spell: spell == "Sleep")
+    out = d20_call("combat_round", beat="beat-3", actions=action)
+    assert "error" not in out and "spells_spent" not in out, out
+    assert not (ctx.storage.characters.get(mira.id).state.d20 or {}).get("used")

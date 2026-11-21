@@ -20,7 +20,7 @@ from __future__ import annotations
 from collections import Counter
 from collections.abc import Callable, Iterable, Mapping
 from dataclasses import replace
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from delve.dice import Dice
 from delve.domain.campaigns import Character, CombatRound, InitiativeMode
@@ -35,6 +35,9 @@ from delve.play.stated_stats import stated_differences
 from delve.rules.classic import checks
 from delve.rules.classic import combat as rules
 from delve.storage.interfaces import Storage
+
+if TYPE_CHECKING:
+    from delve.rules.d20 import D20Engine
 
 __all__ = [
     "add_combatant",
@@ -133,12 +136,14 @@ def _durable(conditions: Iterable[str]) -> tuple[str, ...]:
 
 
 def _write_through(ctx: CampaignContext, fight: rules.Combat) -> None:
-    """Each character's hit points, conditions and effects from the tracker into its state, where they changed."""
+    """Each character's hit points, conditions and effects from the tracker into its state, where they changed; at 0
+    hp `disabled`, not `downed`, where the fight's rules say (`FightRules.disabled_at_zero`)."""
+    disabled_at_zero = bool(fight.rules.disabled_at_zero)
     for c in fight.combatants.values():
         character = ctx.storage.characters.get(c.character_id) if c.character_id else None
         if character is None:
             continue
-        conditions = characters.life_conditions(_durable(c.conditions), c.hp)
+        conditions = characters.life_conditions(_durable(c.conditions), c.hp, disabled_at_zero)
         state = replace(character.state, hp=c.hp, conditions=conditions, effects=c.effects)
         if state != character.state:
             ctx.storage.characters.save_state(replace(character, state=state))
@@ -296,7 +301,7 @@ def _setup(
         map=map_name,
         combatants=[{"id": c.id, "name": c.name, "side": c.side} for c in fight.combatants.values()],
     )
-    out["combat"] = rules.status(fight)
+    out["combat"] = rules.status(fight, d20=ctx.d20)
     if notes:
         out["notes"] = notes
     return out
@@ -305,13 +310,13 @@ def _setup(
 # What a combatant's entry in `combat_round`'s status keeps (DEL-79): what the round changed, not its fixed stats
 # (armour class, THAC0, size, damage, weapon, morale), which `combat_status` and `setup_combat` give in full.
 ROUND_STATUS_KEYS = ("id", "name", "side", "hp", "hp_max", "status")
-ROUND_STATUS_IF_ANY = ("node", "conditions", "effects", "ongoing", "attacks_remaining_this_round")
+ROUND_STATUS_IF_ANY = ("node", "conditions", "effects", "ongoing", "attacks_remaining_this_round", "nonlethal")
 
 
-def round_status(fight: rules.Combat) -> dict[str, Any]:
+def round_status(fight: rules.Combat, d20: D20Engine | None = None) -> dict[str, Any]:
     """The fight after a round, as `combat_round` answers it: the round and who stands how, the fixed stats left out
     and an empty field dropped. The round's rolls are in its actions and its initiative, so it has no list of them."""
-    full = rules.status(fight)
+    full = rules.status(fight, d20=d20)
     combatants = [
         {
             **{key: entry[key] for key in ROUND_STATUS_KEYS},
@@ -326,7 +331,8 @@ def _memorized_spells(ctx: CampaignContext, fight: rules.Combat, declarations: I
     """The party casters' spells among `declarations` (a spell, not a scroll or an item), as `(character id, spell)`,
     each checked to be memorized and uncast (DEL-326): `PlayError` before anything of the round is resolved when one
     isn't. A caster whose sheet has no spell slots keeps no memorized spells, and casts as before (a d20 pool caster
-    too: its pool is spent by `cast_spell`)."""
+    too: its pool is spent by `cast_spell`); so does a slotted d20 caster's spell with no uncast copy left that the
+    engine casts from its pool (`casts_unprepared`)."""
     spent: list[tuple[str, str]] = []
     for raw in declarations:
         if not isinstance(raw, dict) or not raw.get("spell") or raw.get("item"):
@@ -347,6 +353,8 @@ def _memorized_spells(ctx: CampaignContext, fight: rules.Combat, declarations: I
         uncast = [s for s in character.state.memorized if not s.cast and s.name.casefold() == spell.casefold()]
         waiting = sum(1 for id, name in spent if id == character.id and name.casefold() == spell.casefold())
         if len(uncast) <= waiting:
+            if ctx.d20 is not None and ctx.d20.casts_unprepared(character.sheet, spell):
+                continue  # cast from the engine's per-day pool (a sorcerer/cleric's sorcerer spell), by `cast_spell`
             cast = any(s.name.casefold() == spell.casefold() for s in character.state.memorized)
             left = sorted({s.name for s in character.state.memorized if not s.cast})
             raise PlayError(
@@ -374,6 +382,25 @@ def _spend(ctx: CampaignContext, spells: list[tuple[str, str]]) -> list[dict[str
     return out
 
 
+def _not_cast_at_setup(fight: rules.Combat, actions: list[dict[str, Any]]) -> list[Any]:
+    """Round 1's declarations without a spell its caster already declared at setup (DEL-458): `fight.declared` still
+    holds setup's, and its copy was spent there, so declaring it again is the same cast, not a second."""
+    if fight.round != 1 or not fight.declared:
+        return actions
+    kept: list[Any] = []
+    for raw in actions:
+        if isinstance(raw, dict) and raw.get("spell") and not raw.get("item"):
+            try:
+                c = rules.find(fight, str(raw.get("caster") or raw.get("actor") or raw.get("attacker")))
+            except rules.CombatError:
+                c = None
+            before = fight.declared.get(c.id) if c is not None else None
+            if before and not before.get("item") and str(before.get("spell", "")).casefold() == str(raw["spell"]).strip().casefold():
+                continue
+        kept.append(raw)
+    return kept
+
+
 def combat_round(ctx: CampaignContext, actions: list[dict[str, Any]]) -> dict[str, Any]:
     """One round: its declarations, its initiative (unless setup rolled it), the actions in initiative order, and the
     end of the round (see `rules.run_round`). With no actions it just ends the round. The result leaves out the
@@ -382,7 +409,7 @@ def combat_round(ctx: CampaignContext, actions: list[dict[str, Any]]) -> dict[st
     id, fight = _fight(ctx)
     if not isinstance(actions, list):
         raise PlayError("actions must be a list of {attacker, target} dicts.")
-    memorized = _memorized_spells(ctx, fight, actions)
+    memorized = _memorized_spells(ctx, fight, _not_cast_at_setup(fight, actions))
     fight, result = _rules(
         rules.run_round, fight, _dice(ctx, id), ctx.lookups, actions, _mode(ctx), ctx.rules, d20=ctx.d20
     )
@@ -392,19 +419,21 @@ def combat_round(ctx: CampaignContext, actions: list[dict[str, Any]]) -> dict[st
     ctx.log("combat_round", combat_id=id, round=result.round, actions=[_summary(a) for a in result.actions])
     out = result.to_dict()
     del out["rolls"]
-    return {**out, **({"spells_spent": spent} if spent else {}), "status": round_status(fight)}
+    return {**out, **({"spells_spent": spent} if spent else {}), "status": round_status(fight, ctx.d20)}
 
 
 def resolve_attack(
-    ctx: CampaignContext, attacker: str, target: str, condition: str = "", weapon: str = ""
+    ctx: CampaignContext, attacker: str, target: str, condition: str = "", weapon: str = "", late: bool = False
 ) -> dict[str, Any]:
-    """One attack in the current round, applied at once (see `rules.attack`)."""
+    """One attack in the current round, applied at once (see `rules.attack`); `late`, one the round just resolved
+    should have made, is that round's."""
     id, fight = _fight(ctx)
     fight, out = _rules(
-        rules.attack, fight, _dice(ctx, id), attacker, target, condition=condition, weapon=weapon, d20=ctx.d20
-    )
+        rules.attack, fight, _dice(ctx, id), attacker, target, condition=condition, weapon=weapon, d20=ctx.d20,
+        late=late,
+    )  # fmt: skip
     _store(ctx, id, fight)
-    ctx.log("attack", combat_id=id, round=fight.round, **_summary(out))
+    ctx.log("attack", combat_id=id, round=fight.round - 1 if late else fight.round, **_summary(out))
     return out
 
 
@@ -422,7 +451,7 @@ def update_combatant(ctx: CampaignContext, ref: str, changes: Mapping[str, Any])
 
 
 def combat_status(ctx: CampaignContext) -> dict[str, Any]:
-    return rules.status(_fight(ctx)[1])
+    return rules.status(_fight(ctx)[1], d20=ctx.d20)
 
 
 def combatant(ctx: CampaignContext, ref: str) -> rules.Combatant | None:

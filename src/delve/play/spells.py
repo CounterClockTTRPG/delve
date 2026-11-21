@@ -189,13 +189,16 @@ def _remaining(memorized: Iterable[MemorizedSpell]) -> dict[str, int]:
 
 def cast(ctx: CampaignContext, ref: str, spell: str) -> dict[str, Any]:
     """Cast a memorized spell: its first uncast copy is spent until the next rest. Under a d20 engine a caster with
-    no spell slots casts through the engine instead, and its refusal is a `PlayError`; a memorized copy keeps the
-    engine's report beside core's keys, and one refused or failed says `lost: True` (it was begun, so it is used)."""
+    no spell slots casts through the engine instead, and its refusal is a `PlayError`; so does one with slots, for a
+    spell with no uncast copy memorized that the engine casts from a pool (`casts_unprepared`). A memorized copy keeps
+    the engine's report beside core's keys, and one refused or failed says `lost: True` (it was begun, so it is used)."""
     character = get(ctx, ref)
     wanted = spell.strip().lower()
     memorized = character.state.memorized
     at = next((i for i, s in enumerate(memorized) if s.name.lower() == wanted and not s.cast), None)
-    if at is None and ctx.d20 is not None and not character.sheet.spell_slots:
+    # A caster without slots casts per day; one with slots too when the engine casts this spell from a pool.
+    unprepared = at is None and ctx.d20 is not None
+    if unprepared and (not character.sheet.spell_slots or ctx.d20.casts_unprepared(character.sheet, spell)):
         return _cast_d20(ctx, character, spell)
     if at is None:
         if any(s.name.lower() == wanted for s in memorized):
@@ -231,7 +234,9 @@ def _cast_d20(ctx: CampaignContext, character: Character, spell: str) -> dict[st
     """A per-day caster's cast: the engine names the spell's level for the caster and spends from its pool; a spell
     off the caster's lists, or a refusal, raises."""
     spelled, level = _resolve(ctx, spell, "", character)
-    state, said = ctx.d20.cast(character.sheet, character.state, spelled, level, dice=ctx.dice, actor=character.id)
+    state, said = ctx.d20.cast(
+        character.sheet, character.state, spelled, level, dice=ctx.dice, actor=character.id, unprepared=True
+    )
     if said.get("cast") is False:
         raise PlayError(str(said.get("refusal") or f"{character.name} can't cast {spelled}."))
     ctx.storage.characters.save_state(replace(character, state=state))

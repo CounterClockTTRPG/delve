@@ -363,7 +363,7 @@
      "skills": {
       "climb": 3,
       "intimidate": 3,
-      "jump": 3
+      "jump": -3
      },
      "slots": {},
      "sneak": "",
@@ -582,7 +582,7 @@
        "skills": {
         "climb": 3,
         "intimidate": 3,
-        "jump": 3
+        "jump": -3
        },
        "slots": {},
        "sneak": "",
@@ -705,7 +705,7 @@
        "skills": {
         "climb": 3,
         "intimidate": 3,
-        "jump": 3
+        "jump": -3
        },
        "slots": {},
        "sneak": "",
@@ -1364,7 +1364,7 @@
      "skills": {
       "climb": 5,
       "intimidate": 5,
-      "jump": 5
+      "jump": -1
      },
      "slots": {},
      "sneak": "",
@@ -1491,7 +1491,7 @@
      "skills": {
       "concentration": 6,
       "knowledge-arcana": 9,
-      "spellcraft": 9
+      "spellcraft": 11
      },
      "slots": {
       "0": 4,
@@ -1819,7 +1819,7 @@
        "skills": {
         "climb": 5,
         "intimidate": 5,
-        "jump": 5
+        "jump": -1
        },
        "slots": {},
        "sneak": "",

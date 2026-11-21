@@ -14,22 +14,24 @@ The golden was checked by hand against the SRD and the logged faces (`rolls`; `a
 - **Bram's build at 3rd** (`answers[15]`): five feats (1st level's, the human's and the fighter's 1st bonus feat, the
   2nd-level bonus feat Improved Initiative, the 3rd-level feat Great Fortitude); Fort 5 + 2 = 7, initiative Dex 1 + 4 =
   5. Skill points 12 + 3 + 3 = 18, all spent on 6 + 6 + 6 ranks, the most at 3rd (3 + 3): Climb 6 + Str 3 − 4 (scale
-  mail) = 5, Jump 5, Intimidate 6 + Cha −1 = 5.
+  mail) = 5, Jump 6 + 3 − 4 − 6 = −1 (Jump's −6 for a speed of 20 in scale mail: "a –6 penalty for every 10 feet of
+  speed less than 30 feet"; its 1st-level 4 + 3 − 4 − 6 = −3 in `answers[3]`, `[7]`, `[8]`), Intimidate 6 + Cha −1 = 5.
 - **Dorna, cleric 2 and 3** (`answers[10]`, `[11]`): d8 [8] + Con 2 = 10 twice, 10 → 20 → 30. BAB 1, 2; Fort 3 + 2 =
   5, Ref 0 then 1, Will 3 + Wis 2 = 5. Slots at 2nd: 0-level 4, 1st 2 + 1 (Wis 15) + 1 domain = 4; at 3rd 2nd-level
   1 + 1 (Wis 15: 1 + (2 − 2) ÷ 4) + 1 domain = 3; the 2nd-level DC 10 + 2 + Wis 2 = 14. Concentration 6 + Con 2 = 8,
   of (2 + 0) × 4 + 2 + 2 = 12 points (`answers[16]`).
-- **Elowen, wizard 2 and 3** (`answers[13]`, `[14]`): d4 [1] then [2] + Con 0, 4 → 5 → 7. BAB 1, 1; Fort 0 then 1,
-  Ref 0 then 1 + Dex 3 = 3, 4, Will 3 + Wis 1 = 4. Slots at 2nd: 0-level 4, 1st 2 + 1 (Int 17: 1 + (3 − 1) ÷ 4) = 3;
-  at 3rd 2nd-level 1 + 1 (1 + (3 − 2) ÷ 4) = 2; the 2nd-level DC 10 + 2 + Int 3 = 15. Skill points (2 + 3) × 4 + 5 +
-  5 = 30; Spellcraft 6 + 3 = 9 (`answers[17]`).
+- **Elowen, wizard 2 and 3** (`answers[13]`, `[14]`): d4 [1] then [2] + Con 0, 4 → 5 → 7. BAB 1, 1; Fort 0 then 1, Ref 0
+  then 1 + Dex 3 = 3, 4, Will 3 + Wis 1 = 4. Slots at 2nd: 0-level 4, 1st 2 + 1 (Int 17: 1 + (3 − 1) ÷ 4) = 3; at 3rd
+  2nd-level 1 + 1 (1 + (3 − 2) ÷ 4) = 2; the 2nd-level DC 10 + 2 + Int 3 = 15. Skill points (2 + 3) × 4 + 5 + 5 = 30;
+  Spellcraft 6 + 3 + 2 = 11, the +2 Knowledge (arcana)'s 6 ranks' synergy (`answers[17]`).
 - **Spells** (`answers[18..23]`): Dorna's 1st-level slots hold Bless, Cure Light Wounds, Shield of Faith and Magic
   Weapon (war's 1st, the domain slot); her 2nd-level ones Hold Person, Aid and Spiritual Weapon (war's 2nd). Elowen
   fills 3 1st-level and 2 2nd-level slots. Hold Person is cast at DC 14, "Will negates", 2 2nd-level copies left; Web
   at DC 15, "Reflex negates", 1 left.
 
 Every answer is compared with `golden/scripted_session_level3.json`. The test writes the golden when it is missing and
-fails; the first one was checked by hand against the working above. It is never regenerated."""
+fails; the first one was checked by hand against the working above. It is never regenerated. It was rewritten once, by
+the owner's leave, for DEL-456 (Jump's speed modifier and the skill synergies)."""
 
 from __future__ import annotations
 
@@ -39,6 +41,7 @@ import re
 from pathlib import Path
 
 import pytest
+from srd35_phase3 import without_phase3
 
 GOLDEN = Path(__file__).resolve().parent / "golden" / "scripted_session_level3.json"
 SEED = 1
@@ -133,7 +136,8 @@ def test_the_level_3_session_matches_its_golden(seeded_call, srd35_storage, srd3
         for r in srd35_storage.rolls.list(srd35_campaign.id)
     ]  # fmt: skip
     session = {"answers": [{"tool": t, "args": a, "answer": o} for t, a, o in said], "rolls": rolls}
-    answers = _normalised(session, srd35_storage, srd35_campaign.id)
+    # Phase 3's derived keys postdate the golden (`srd35_phase3`): dropped, and only they.
+    answers = without_phase3(_normalised(session, srd35_storage, srd35_campaign.id))
     if not GOLDEN.exists():
         GOLDEN.parent.mkdir(exist_ok=True)
         GOLDEN.write_text(json.dumps(answers, indent=1, sort_keys=True, ensure_ascii=False) + "\n")

@@ -39,6 +39,12 @@ class Swing:
     attacker: Combatant
     """The attacker after the attack (its d20 state, `attacks_used`)."""
     damage_die: str | None = None
+    extra_attack: str | None = None
+    """An extra attack the swing earns, by its feat's name: "cleave" or "great cleave" when it dropped its target and
+    the attacker may cleave (3.5's Cleave, once a round; Great Cleave, without limit). None for none."""
+    nonlethal: int = 0
+    """The part of the hit that is nonlethal damage (a regenerating target's, but for what stops it), not in `damage`:
+    core adds it to the target's `d20["nonlethal"]` (DEL-421). 0 on a miss."""
 
 
 @dataclass(frozen=True)
@@ -89,15 +95,25 @@ class D20Engine(Protocol):
         dice: Dice | None = None,
         *,
         actor: str | None = None,
+        unprepared: bool = False,
     ) -> tuple[CharacterState, dict[str, Any]]:
-        """The state and a report; a refusal keeps the state and says `{"cast": False, "refusal": text}`. A spell that
-        fails (arcane spell failure) says `{"cast": False, "lost": True}`: a memorized copy stays spent. `dice` is for
-        the rolls a cast makes, and `actor` (the caster's character id) is their key's actor: two casters of one name
-        roll their own dice (DEL-395)."""
+        """The state and a report; a refusal keeps the state and says `{"cast": False, "refusal": text}`. `unprepared`
+        is True when core casts from the engine's per-day pool (no memorized copy was spent: a caster without slots, or
+        `casts_unprepared`); a memorized copy's cast passes nothing. A spell that fails
+        (arcane spell failure) says `{"cast": False, "lost": True}`: a memorized copy stays spent. `dice` is for the
+        rolls a cast makes, and `actor` (the caster's character id) is their key's actor: two casters of one name roll
+        their own dice (DEL-395)."""
         ...
 
     def can_memorize(self, sheet: Sheet, levels: Iterable[int], spells: Sequence[str] = ()) -> str | None:
         """A refusal, or None. `spells` are the names being memorized, for a rule that goes by name (domain slots)."""
+        ...
+
+    def casts_unprepared(self, sheet: Sheet, spell: str) -> bool:
+        """Whether the engine casts `spell` for this caster from a per-day pool rather than from a memorized copy (a
+        sorcerer's spell known, for a sorcerer/cleric whose cleric has spell slots): core then casts it as it casts for a
+        caster without slots, the engine naming its level and spending from its pool. Asked only when no uncast copy
+        is memorized."""
         ...
 
     def spell_level(self, sheet: Sheet, name: str) -> int | None:
@@ -165,6 +181,12 @@ class D20Engine(Protocol):
     ) -> Swing: ...
 
     def initiative(self, combatant: Combatant, dice: Dice, combat_round: int) -> Initiative: ...
+
+    def nonlethal_state(self, c: Combatant) -> str | None:
+        """What the combatant's nonlethal damage (`d20["nonlethal"]`, absent for none) makes it: "staggered" (one
+        action, as disabled is, with no strain), "unconscious" (it can't act and doesn't stand; a monster's fate is
+        "down"), or None. Core asks it only with an engine (DEL-421)."""
+        ...
 
     def xp_for_defeated(self, combatant: Combatant, party_levels: Sequence[int]) -> int | None: ...
 

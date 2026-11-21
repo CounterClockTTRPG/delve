@@ -106,6 +106,9 @@ and agree with what the checks say, copy it into `evals/fixtures/<case>/` as `pa
 
 ## The cases
 
+A case with `"ruleset": "srd35"` plays the in-tree SRD 3.5 pack: a live run installs `packs/osric` and `packs/srd35`
+(`packs_for(case)`), and its fixtures are checked against the srd35 ruleset's tools (`set_build`, `use_feature`...).
+
 | Case | What it tests | Fixtures |
 |---|---|---|
 | `locked_door` | Pippa picks the lock of the crypt's warded iron door: die-first on `skill_check`; the ward's seal and what lies beyond stay out of the choices | `pass` and one `violates-<check>` per check |
@@ -113,8 +116,12 @@ and agree with what the checks say, copy it into `evals/fixtures/<case>/` as `pa
 | `split_party_secret` | Pippa alone sees the vestry; Bren's choices name nothing only she has seen | `pass`, `violates-no_hidden_intel` |
 | `ask_the_dm_rules` | Rules questions to Ask the DM, answered from the rules and the sheet: no module canon, no tool names | `pass`, `violates-no_hidden_intel`, `violates-no_meta` |
 | `read_aloud_song` | DEL-357: the party reaches a talking door whose read-aloud has narration, a song that holds a riddle's clues, and three spoken lines: the passage reaches the story word for word, in order, its quotes as the door's lines, posted by `read_aloud` or told by the DM with `say` | `pass`, `pass-told-by-hand`, `violates-read_aloud_told` |
+| `multiclass_level_up` | SRD 3.5, setting Aun: Kell, a rogue 3 with 4th level's XP, takes it as a fighter: `update_character` before any hit points are told, then Weapon Focus and skill points through `set_build` | `pass`, `pass-live` (recorded again after DEL-457: the engine rolls the fighter's d10, the DM tells it) |
+| `prestige_refused` | SRD 3.5, setting Aun: Ilse, a wizard 5, asks to be an eldritch knight and lacks its martial weapons: the refusal is told in the story, and the closing choices never offer the class | `pass`, `pass-live`, `violates-no_hidden_intel` |
+| `sorcerer_cast` | SRD 3.5, setting Aun: Sela, a sorcerer 4 with one cast already today, casts magic missile at the four skeletons the case plants (`dm_secrets`, `setup_combat`, then `combat_round`, which spends each declared cast; never `cast_spell` for it too, never `memorize_spells`), again until the round refuses the seventh in the fight and the DM says she is out of 1st-level spells, her 2nd-level ones left | `pass`, `pass-live` |
+| `barbarian_rage` | SRD 3.5, setting Aun: Grak, a half-orc barbarian 4, rages on his own action, through `use_feature`, fights the two orcs the case plants (`dm_secrets`, then `setup_combat` → `end_combat`), and ends the rage with `amount` −1, the fatigue told | `pass`, `pass-live` |
 
-The first four play "The Crypt of Saint Vellis", the sample module of the scripted session; `read_aloud_song` plays
+The first four and the four SRD 3.5 cases play "The Crypt of Saint Vellis", the sample module of the scripted session; `read_aloud_song` plays
 "The Singing Door" (`tests/fixtures/samples/scenarios/the-singing-door`), one keyed door made for it.
 
 ## The checks

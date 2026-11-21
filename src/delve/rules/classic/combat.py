@@ -47,7 +47,9 @@ if TYPE_CHECKING:
 Side = Literal["party", "ally", "enemy"]
 Phase = Literal["setup", "round", "ended"]
 
-COMBAT_ONLY = ("casting", "surprised", "charging_ac_penalty", "removed")
+CHARGE_MARK = "charging_ac_penalty"
+"""The condition a charge sets on the charger (`_swing`, and a d20 engine's swing)."""
+COMBAT_ONLY = ("casting", "surprised", CHARGE_MARK, "removed")
 """Conditions that belong to the fight and are not written back to a character when it ends."""
 
 MONSTER_OVERRIDES = (
@@ -707,27 +709,70 @@ def _removed(c: Combatant) -> bool:
     return "removed" in c.conditions
 
 
-def _can_act(c: Combatant) -> bool:
-    return c.hp > 0 and not _removed(c)
+def _disabled(rules: FightRules, c: Combatant) -> bool:
+    """A party member or ally at exactly 0 hp where the fight's rules make it disabled, not down
+    (`FightRules.disabled_at_zero`, 3.5): it acts, one attack a round, and a strenuous act takes it to -1."""
+    return bool(rules.disabled_at_zero) and c.hp == 0 and c.side in ("party", "ally") and not _removed(c)
+
+
+def _down(rules: FightRules, c: Combatant) -> bool:
+    """At 0 hp or below and not disabled (`_disabled`)."""
+    return c.hp <= 0 and not _disabled(rules, c)
+
+
+NONLETHAL = "nonlethal"
+"""The key in a combatant's `d20` of its nonlethal damage (an int, absent for none), which a d20 engine's swing deals
+(`Swing.nonlethal`) and its `nonlethal_state` reads (DEL-421)."""
+
+
+def _nonlethal(c: Combatant) -> int:
+    return int((c.d20 or {}).get(NONLETHAL) or 0)
+
+
+def _with_nonlethal(c: Combatant, amount: int) -> Combatant:
+    """The combatant with `amount` more nonlethal damage in its `d20`; as it is for none."""
+    if amount <= 0:
+        return c
+    return replace(c, d20={**(c.d20 or {}), NONLETHAL: _nonlethal(c) + amount})
+
+
+def _knocked_out(c: Combatant, d20: D20Engine | None) -> bool:
+    """Unconscious from nonlethal damage, as a d20 engine says (`D20Engine.nonlethal_state`); never without one."""
+    return d20 is not None and d20.nonlethal_state(c) == "unconscious"
+
+
+def _staggered(c: Combatant, d20: D20Engine | None) -> bool:
+    """Staggered by nonlethal damage, as a d20 engine says: one attack or action a round, as disabled, no strain."""
+    return d20 is not None and d20.nonlethal_state(c) == "staggered"
+
+
+def _can_act(c: Combatant, rules: FightRules | None = None, d20: D20Engine | None = None) -> bool:
+    """Up and in the fight; under `rules` with `disabled_at_zero`, one disabled at 0 too; with a `d20` engine, not one
+    its nonlethal damage knocked out (`_knocked_out`)."""
+    up = (c.hp > 0 or (rules is not None and _disabled(rules, c))) and not _removed(c)
+    return up and not _knocked_out(c, d20)
 
 
 def _rolls_initiative(combat: Combat, c: Combatant) -> bool:
     """Who rolls initiative: who can act; where the order is rolled once (`initiative_once`), everyone not removed,
     so one down in round 1 has its place when it is up again (`run_round` skips it while it is down)."""
-    return not _removed(c) if combat.rules.initiative_once else _can_act(c)
+    return not _removed(c) if combat.rules.initiative_once else _can_act(c, combat.rules)
 
 
-def _standing(c: Combatant) -> bool:
-    return not _is_dead(c) and c.hp > 0 and not _removed(c)
+def _standing(c: Combatant, rules: FightRules | None = None, d20: D20Engine | None = None) -> bool:
+    """Neither dead, down nor removed; under `rules` with `disabled_at_zero`, one disabled at 0 stands; with a `d20`
+    engine, one knocked out by nonlethal damage doesn't."""
+    return not _is_dead(c) and _can_act(c, rules, d20)
 
 
-def _enemy_fate(c: Combatant) -> str:
-    """slain (dead — a monster at 0 or below), down (an ally at exactly 0), fled (fleeing), removed, or standing."""
+def _enemy_fate(c: Combatant, d20: D20Engine | None = None) -> str:
+    """slain (dead — a monster at 0 or below), down (an ally at exactly 0; with a `d20` engine, one knocked out by
+    nonlethal damage), fled (fleeing), removed, or standing."""
     if _removed(c):
         return "removed"
     if c.hp < 0 or _is_dead(c):
         return "slain"
-    if c.hp == 0:
+    if c.hp == 0 or _knocked_out(c, d20):
         return "down"
     if "fleeing" in c.conditions:
         return "fled"
@@ -740,13 +785,15 @@ def _kind(c: Combatant) -> str:
     return (c.group or re.sub(r"\s+\d+$", "", c.name)).strip().lower()
 
 
-def _enemy_record(combatants: Iterable[Combatant]) -> tuple[list[dict[str, Any]], dict[str, int]]:
+def _enemy_record(
+    combatants: Iterable[Combatant], d20: D20Engine | None = None
+) -> tuple[list[dict[str, Any]], dict[str, int]]:
     """Per-enemy fate plus a count of defeated (slain or down) by kind."""
     enemies, defeated = [], {}
     for c in combatants:
         if c.side == "party":
             continue
-        fate = _enemy_fate(c)
+        fate = _enemy_fate(c, d20)
         enemies.append({"id": c.id, "name": c.name, "side": c.side, "hp": c.hp, "hp_max": c.hp_max, "fate": fate})
         if fate in ("slain", "down") and c.side == "enemy":
             defeated[_kind(c)] = defeated.get(_kind(c), 0) + 1
@@ -1227,7 +1274,7 @@ def declare(
     """The round's action of a combatant, before it resolves:
 
     - an attack: `target`, and optionally `targets` (fallbacks, in order), `weapon` (one of its attacks, by name)
-      and `condition` (rear, charging, set_vs_charge, fleeing);
+      and `condition` (rear, charging, set_vs_charge, fleeing); with a `d20` engine, `single` for one attack;
     - a spell: `spell`, and optionally `target`. Its casting time is the caster's initiative modifier; one
       of a round or more takes effect at the end of its last round; damage or a failed save before then spoils it;
     - a magic item: `item` and its `kind` (potion, scroll, ring, rod, stave, wand, item), with its kind's modifier; a
@@ -1290,6 +1337,8 @@ def declare(
             "targets": fallbacks,
             "condition": str(raw.get("condition") or ""),
         }
+        if raw.get("single"):  # a d20 engine's one attack (`_single_attack`)
+            declared["single"] = True
         out = {"attacker": c.name, "attacker_id": c.id, "target": target.name, "target_id": target.id}
         if raw.get("weapon"):
             index, note = _select_attack(c, str(raw["weapon"]))
@@ -1379,11 +1428,55 @@ def _ordered(combat: Combat) -> Combat:
     if combat.rules.initiative_once:
         combat = replace(combat, order=(*combat.order, *(c.id for c in changed if c.id not in combat.order)))
     placed = [c for c in combat.combatants.values() if c.init is not None and c.id in combat.order]
-    if combat.rules.highest_first:
+    if combat.rules.ties_by_bonus:  # a tie: the higher bonus first, then the place a roll-off gave it
+        at = {id: i for i, id in enumerate(combat.order)}
+        if combat.rules.highest_first:
+            placed.sort(key=lambda c: (_ends_round(c), -(c.init or 0), -_bonus(c), at[c.id]))
+        else:
+            placed.sort(key=lambda c: (c.init, _ends_round(c), -_bonus(c), at[c.id]))
+    elif combat.rules.highest_first:
         placed.sort(key=lambda c: (_ends_round(c), -(c.init or 0), added[c.id]))
     else:
         placed.sort(key=lambda c: (c.init, _ends_round(c), added[c.id]))
     return replace(combat, order=tuple(c.id for c in placed))
+
+
+def _bonus(c: Combatant) -> int:
+    """What the combatant adds to its initiative roll: its total less the roll."""
+    return (c.init or 0) - (c.init_roll or 0)
+
+
+ROLL_OFFS = 10
+"""The most roll-offs one tie takes (`_roll_off`)."""
+
+
+def _roll_off(combat: Combat, dice: Dice, able: list[Combatant]) -> tuple[list[Combatant], list[Roll]]:
+    """`able` in the order `_ordered` breaks ties by (`FightRules.ties_by_bonus`): combatants tied on both total and
+    bonus roll a d20 each, again among those still tied (each roll-off its own roll key, "initiative tie 2" …), the
+    higher first; the rest as they were. After `ROLL_OFFS` roll-offs a tie left stands as it was."""
+    rolls: list[Roll] = []
+    keyed: dict[str, tuple[int, ...]] = {c.id: () for c in able}
+    tied = [group for group in _tie_groups(able, keyed) if len(group) > 1]
+    for n in range(1, ROLL_OFFS + 1):
+        if not tied:
+            break
+        again = []
+        purpose = "initiative tie" if n == 1 else f"initiative tie {n}"
+        for group in tied:
+            for c in group:
+                roll = dice.d(20, purpose=purpose, actor=c.id, combat_round=combat.round)
+                rolls.append(roll)
+                keyed[c.id] = (*keyed[c.id], roll.total)
+            again += [g for g in _tie_groups(group, keyed) if len(g) > 1]
+        tied = again
+    return sorted(able, key=lambda c: tuple(-face for face in keyed[c.id])), rolls
+
+
+def _tie_groups(able: list[Combatant], keyed: dict[str, tuple[int, ...]]) -> list[list[Combatant]]:
+    groups: dict[tuple[Any, ...], list[Combatant]] = {}
+    for c in able:
+        groups.setdefault((c.init, _bonus(c), keyed[c.id]), []).append(c)
+    return list(groups.values())
 
 
 def _speed(c: Combatant, reference: RulesetReference | None, rules: RuleTables | None) -> int:
@@ -1491,6 +1584,9 @@ def _engine_initiative(
         rolls.extend(rolled.rolls)
         updated.append(replace(c, init=rolled.total, init_roll=rolled.roll))
     combat = _put(combat, *updated)
+    if combat.rules.ties_by_bonus:
+        able, tie_rolls = _roll_off(combat, dice, [combat.combatants[c.id] for c in able])
+        rolls.extend(tie_rolls)
     combat = _ordered(replace(combat, order=tuple(c.id for c in able), mode="combatant"))
     entries = []
     for id in combat.order:
@@ -1574,7 +1670,7 @@ def _swing(
             notes.append(f"{fight.fleeing_bonus:+d} to hit (target fleeing: attack from the rear).")
     elif cond == "charging":
         hit_bonus += 2
-        conditions = with_condition(conditions, "charging_ac_penalty", True)
+        conditions = with_condition(conditions, CHARGE_MARK, True)
         notes.append("+2 to hit (charging). Attacker has AC penalty this round.")
 
     if fight.automatic_naturals and face == 20:
@@ -1641,6 +1737,24 @@ def _swing(
     return result, damage, after, rolls
 
 
+CLEAVE_DUE = "cleave_due"
+"""The key `_engine_swing` puts in a swing's result for the engine's `Swing.extra_attack`, for its caller to act on."""
+
+
+CLEAVE = "cleave"
+"""The condition of the extra attack a d20 engine's swing earned (`Swing.extra_attack`): the round passes it for the
+swing it makes, and the DM for one by hand; the engine spends the attacker's Cleave on it."""
+
+
+def _late_step(combat: Combat, id: str, played: int) -> int:
+    """The attacks `id` has made in round `played`, the round just resolved: those of its round (the round's log
+    entry has them under a d20 engine) and its late ones since, so a late attack is the next of them."""
+    rounds = [e for e in combat.log if e.get("type") == "round" and e.get("round") == played]
+    made = sum(int(e.get("attacks", {}).get(id, 0)) for e in rounds)
+    late = [e for e in combat.log if e.get("type") == "attack" and e.get("late") and e.get("round") == played]
+    return made + sum(1 for e in late if e.get("attacker") == id)
+
+
 def _engine_swing(
     attacker: Combatant,
     target: Combatant,
@@ -1651,7 +1765,8 @@ def _engine_swing(
     fight: FightRules,
     d20: D20Engine,
 ) -> tuple[dict[str, Any], int, Combatant, list[Roll]]:
-    """`_swing` by a d20 engine: its result in `_swing`'s keys, the hit, damage, die, notes and rolls the engine's."""
+    """`_swing` by a d20 engine: its result in `_swing`'s keys, the hit, damage, die, notes and rolls the engine's; a
+    hit's nonlethal damage (`Swing.nonlethal`) under `NONLETHAL`, apart from its `damage`."""
     s = d20.swing(attacker, target, condition, dice, combat_round, fight)
     block = _block(s.attacker)
     n = s.attacker.attacks_used
@@ -1677,6 +1792,10 @@ def _engine_swing(
     }
     if n > allowed:
         result["extra_attack"] = True
+    if s.hit and s.nonlethal > 0:
+        result[NONLETHAL] = s.nonlethal  # the target's `d20` takes it when the hit lands (`_land`)
+    if s.extra_attack:
+        result[CLEAVE_DUE] = s.extra_attack  # taken out again by the caller (`_attack_action`, `attack`)
     return result, s.damage if s.hit else 0, s.attacker, list(s.rolls)
 
 
@@ -1695,17 +1814,20 @@ def _break(combat: Combat, id: str, reason: str) -> Combat:
     return _logged(_put(combat, broken), _broke(c, o, reason))
 
 
-def _spoilt_by_harm(c: Combatant) -> bool:
-    """A hit or a failed saving throw before the spell is cast spoils it."""
+def _spoilt_by_harm(combat: Combat, c: Combatant) -> bool:
+    """A hit or a failed saving throw before the spell is cast spoils it; under `FightRules.cast_on_turn` only one
+    that spans rounds or ends one, a spell of one action being cast on the caster's own turn."""
     o = c.ongoing
-    return o is not None and o.under_way and o.kind in timing.SPOILT_BY_HARM
+    if o is None or not o.under_way or o.kind not in timing.SPOILT_BY_HARM:
+        return False
+    return not (combat.rules.cast_on_turn and not o.ends_round)
 
 
 def _hurt(combat: Combat, id: str, amount: int) -> tuple[Combat, dict[str, Any]]:
     """Take hit points off a combatant, to no less than -10; damage spoils a spell (or scroll) under way, in this
     round or one it carries over from."""
     c = combat.combatants[id]
-    disrupted = amount > 0 and _spoilt_by_harm(c)
+    disrupted = amount > 0 and _spoilt_by_harm(combat, c)
     if disrupted:
         combat = _break(combat, id, f"{c.name} was hit")
         c = combat.combatants[id]
@@ -1713,30 +1835,139 @@ def _hurt(combat: Combat, id: str, amount: int) -> tuple[Combat, dict[str, Any]]
     slain = combat.rules.unconscious_slain_by_damage and amount > 0 and DEAD_AT < c.hp <= 0
     if slain:
         hp = DEAD_AT  # OSRIC 1.6.6: any damage to someone unconscious, besides the bleeding, kills at once
-    hurt = replace(c, hp=hp, conditions=with_condition(c.conditions, "downed", hp <= 0))
-    info = {"hp_before": c.hp, "hp_after": hp, "downed": hp <= 0, "dead": _is_dead(hurt), "spell_disrupted": disrupted}
+    hurt = replace(c, hp=hp)
+    disabled = _disabled(combat.rules, hurt)
+    conditions = with_condition(c.conditions, "downed", hp <= 0 and not disabled)
+    if combat.rules.disabled_at_zero:
+        conditions = with_condition(conditions, "disabled", disabled)
+    if combat.rules.stabilise_chance and amount > 0:
+        conditions = with_condition(conditions, STABLE, False)  # 3.5: a stable character hurt is dying again
+    hurt = replace(hurt, conditions=conditions)
+    info = {"hp_before": c.hp, "hp_after": hp, "downed": hp <= 0 and not disabled, "dead": _is_dead(hurt),
+            "spell_disrupted": disrupted}  # fmt: skip
+    if disabled:
+        info["disabled"] = True
     if slain:
         info["slain_while_unconscious"] = True
     return _put(combat, hurt), info
 
 
-def _land(combat: Combat, swing: dict[str, Any], damage: int) -> Combat:
-    """Apply a hit's damage and put what it did into its result."""
-    combat, hurt = _hurt(combat, swing["target_id"], damage)
+def _harmed(combat: Combat, swing: Mapping[str, Any], damage: int) -> tuple[Combat, dict[str, Any]]:
+    """A hit's damage (`_hurt`) and its nonlethal damage (a d20 engine's, `NONLETHAL` in the swing), which goes to the
+    target's `d20` and, alone, spoils a spell under way as damage does."""
+    id = swing["target_id"]
+    combat, hurt = _hurt(combat, id, damage)
+    nonlethal = int(swing.get(NONLETHAL) or 0)
+    if nonlethal > 0:
+        c = combat.combatants[id]
+        if not hurt["spell_disrupted"] and _spoilt_by_harm(combat, c):
+            combat = _break(combat, id, f"{c.name} was hit")
+            hurt["spell_disrupted"] = True
+        combat = _put(combat, _with_nonlethal(combat.combatants[id], nonlethal))
+    return combat, hurt
+
+
+def _land(combat: Combat, swing: dict[str, Any], damage: int, d20: D20Engine | None = None) -> Combat:
+    """Apply a hit's damage, and its nonlethal damage (`_harmed`), and put what it did into its result; with a `d20`
+    engine, a target its nonlethal damage leaves staggered or unconscious is said to be (DEL-421), and so is one a
+    lethal hit takes to or below the nonlethal damage it had."""
+    had = combat.combatants[swing["target_id"]]
+    combat, hurt = _harmed(combat, swing, damage)
     name = swing["target"]
     swing.update(
         hp_after=hurt["hp_after"], downed=hurt["downed"], dead=hurt["dead"], spell_disrupted=hurt["spell_disrupted"]
     )
+    if hurt.get("disabled"):
+        swing["disabled"] = True
     notes = swing["notes"]
     if hurt["spell_disrupted"]:
         notes.append(f"{name} was casting — spell disrupted!")
     if hurt["dead"]:
         notes.append(f"{name} is dead!")
+    elif hurt.get("disabled"):
+        notes.append(f"{name} is disabled at 0 hp: one attack or action a round, and an attack or a cast drops "
+                     f"{name} to -1.")  # fmt: skip
     elif hurt["downed"]:
         notes.append(f"{name} is unconscious!")
         if hurt["hp_after"] < 0:
-            notes.append("Bleeding: loses 1 HP/round until stabilised or dead at -10.")
+            notes.append(_bleeding(combat.rules))
+    target = combat.combatants[swing["target_id"]]
+    lethal = d20 is not None and not hurt["downed"] and d20.nonlethal_state(target) != d20.nonlethal_state(had)
+    if (swing.get(NONLETHAL) or lethal) and not hurt["dead"] and d20 is not None:
+        said = f"nonlethal {_nonlethal(target)}, hp {target.hp}"
+        if _knocked_out(target, d20):
+            swing["unconscious"] = True
+            notes.append(f"{name} is unconscious ({said})!")
+        elif _staggered(target, d20):
+            swing["staggered"] = True
+            notes.append(f"{name} is staggered ({said}): one attack or action a round.")
     return combat
+
+
+def _bleeding(rules: FightRules) -> str:
+    """What a character below 0 has before it: bleeding, or under `FightRules.stabilise_chance` the roll."""
+    if rules.stabilise_chance:
+        return f"Dying: each round {rules.stabilise_chance}% to become stable, else loses 1 HP; dead at -10."
+    return "Bleeding: loses 1 HP/round until stabilised or dead at -10."
+
+
+STRAIN = "strain"
+"""The log entry of a disabled combatant's strenuous act (`_strained`), by the round it was made in."""
+
+
+STRAIN_BLED = "strain_bled"
+"""The log entry of a strained combatant bleeding at the end of the round it strained in (`_end_round`)."""
+STRAIN_REFUND = "strain_refund"
+"""The log entry of a self-healing cast's strain given back (`_refund`)."""
+
+
+def _strained(combat: Combat, id: str, result: dict[str, Any], *, own_cast: bool = False) -> Combat:
+    """A disabled combatant (`_disabled`) after an attack or a cast, a strenuous act: 1 hp, to -1, downed and dying
+    (3.5: "he takes 1 point of damage after completing the act"), said in `result`'s notes and logged (`STRAIN`).
+    `own_cast`: a cast at itself (or at no one), which may have raised its own hit points (`_refund`)."""
+    c = combat.combatants[id]
+    if not _disabled(combat.rules, c):
+        return combat
+    conditions = with_condition(with_condition(c.conditions, "disabled", False), "downed", True)
+    conditions = with_condition(conditions, STABLE, False)  # the 1 hp is damage: dying, not stable
+    result.setdefault("notes", []).append(f"{c.name} strains and falls: −1, dying")
+    entry: dict[str, Any] = {"type": STRAIN, "id": id}
+    if own_cast:
+        entry["own_cast"] = True
+    return _logged(_put(combat, replace(c, hp=-1, conditions=conditions)), entry)
+
+
+def _refund(combat: Combat, id: str) -> tuple[int, int]:
+    """The hit points a heal gives back before its own: 3.5's disabled strain spares an act that "increased the
+    disabled character's hit points". A cast at itself (or at no one) that strained it in the round just resolved,
+    healed before the next round is played, and not given back already, is taken as that act: the strain's 1 and the
+    round's bleeding after it come back (it is as if it never fell). The hp and the round strained in; else (0, 0)."""
+    log = combat.log
+    for played in (combat.round - 1, combat.round):
+        mine = [e for e in log if e.get("id") == id and e.get("round") == played]
+        if any(e.get("type") == STRAIN and e.get("own_cast") for e in mine) and not any(
+            e.get("type") == STRAIN_REFUND for e in mine
+        ):
+            return 1 + sum(1 for e in mine if e.get("type") == STRAIN_BLED), played
+    return 0, 0
+
+
+def _labelled(combat: Combat) -> Combat:
+    """Under `FightRules.disabled_at_zero`, each party member's and ally's `disabled` and `downed` as its hit points
+    say (one may have come in at 0 downed, or had its hp set); else the fight as it is."""
+    if not combat.rules.disabled_at_zero:
+        return combat
+    for c in combat.combatants.values():
+        if c.side in ("party", "ally") and not _removed(c):
+            conditions = with_condition(c.conditions, "disabled", _disabled(combat.rules, c))
+            conditions = with_condition(conditions, "downed", _down(combat.rules, c))
+            if conditions != c.conditions:
+                combat = _put(combat, replace(c, conditions=conditions))
+    return combat
+
+
+def _strained_in(combat: Combat, id: str, played: int) -> bool:
+    return any(e.get("type") == STRAIN and e.get("id") == id and e.get("round") == played for e in combat.log)
 
 
 def _morale_due(combat: Combat, side: str) -> tuple[Combat, dict[str, Any] | None]:
@@ -1745,7 +1976,7 @@ def _morale_due(combat: Combat, side: str) -> tuple[Combat, dict[str, Any] | Non
     if side == "party":
         return combat, None
     members = [c for c in combat.combatants.values() if c.side == side]
-    down = sum(1 for c in members if c.hp <= 0)
+    down = sum(1 for c in members if _down(combat.rules, c))
     if not members or down * 2 < len(members):
         return combat, None
     if any(e.get("type") == "morale_due" and e.get("side") == side for e in combat.log):
@@ -1771,6 +2002,7 @@ def attack(
     condition: str = "",
     weapon: str = "",
     d20: D20Engine | None = None,
+    late: bool = False,
 ) -> tuple[Combat, dict[str, Any]]:
     """One attack in the current round, applied at once. A natural 20 always hits and a natural 1 always misses,
     unless the fight's ruleset says otherwise (`FightRules`).
@@ -1781,16 +2013,39 @@ def attack(
     sticks. The Large damage die is rolled against targets of size L or bigger. It counts against the
     attacker's attacks this round; one beyond them is flagged `extra_attack`.
 
-    Refused before the round's initiative, and for an attacker that is down or dead. With a `d20` engine the engine
-    makes the attack (`_swing`)."""
-    _in_round(combat)
+    Refused before the round's initiative, and for an attacker that is down or dead. One disabled at 0
+    (`FightRules.disabled_at_zero`) makes it as its one attack of the round and strains to -1 after it (`_strained`);
+    a late one of a round it strained in is made, with no second strain (ruling R2). With a `d20` engine the engine
+    makes the attack (`_swing`); an extra attack its swing earns (Cleave's) is noted as due, late too where the
+    dropping attack was. That extra attack (condition `CLEAVE`) is at the step of the attack that dropped, the last
+    made (its iterative penalty), and leaves the attacker's attacks as they were.
+
+    late: an attack the round just resolved should have made (DEL-431). It is that round's: rolled, keyed and logged
+    with `round - 1`, as the attacker's next attack of it, after those it made there (`_late_step`: its iterative
+    penalty, its own roll); it leaves the attacker's attacks for the coming round and its charge mark as they were,
+    even charging. Refused before round 1 has been resolved."""
+    if late:
+        _live(combat)
+        if combat.round <= 1:
+            raise CombatError(
+                "A late attack belongs to the round just resolved, and round 1 hasn't been resolved yet.",
+                hint="Leave late out: this attack is this round's.",
+            )
+    else:
+        _in_round(combat)
+    played = combat.round - 1 if late else combat.round
     atk, tgt = find(combat, attacker_id), find(combat, target_id)
     for c in (atk, tgt):
         if _removed(c):
             raise CombatError(f"{c.name} has been removed from the fight.")
     if _is_dead(atk):
         raise CombatError(f"{atk.name} is dead and can't attack.")
-    if atk.hp <= 0:
+    if _knocked_out(atk, d20):
+        raise CombatError(f"{atk.name} is unconscious (nonlethal damage) and can't attack.")
+    disabled = _disabled(combat.rules, atk)
+    one = disabled or _staggered(atk, d20)
+    # Ruling R2: a late attack of a round its attacker strained in at 0 (Cleave's) is still made; the -1 was its turn's.
+    if atk.hp <= 0 and not disabled and not (late and _strained_in(combat, atk.id, played)):
         raise CombatError(f"{atk.name} is down and can't attack.")
     notes: list[str] = []
     if weapon:
@@ -1806,11 +2061,37 @@ def attack(
                 )
         elif note:
             notes.append(note)
-    swing, damage, atk, rolls = _swing(atk, tgt, dice, combat.round, condition, notes, combat.rules, d20=d20)
+    before = atk
+    made = _late_step(combat, atk.id, played) if late else atk.attacks_used
+    # A cleave (d20) is at the attack that dropped, the last made (the engine rolls it under a purpose of its own), and
+    # isn't one of the round's attacks.
+    cleave = d20 is not None and condition.strip().lower() == CLEAVE
+    if late or cleave:
+        atk = replace(atk, attacks_used=max(0, made - 1) if cleave else made)
+    swing, damage, atk, rolls = _swing(atk, tgt, dice, played, condition, notes, combat.rules, d20=d20)
+    if late:  # the round it belongs to is over: the coming round's attacks and the charge mark stay as they were
+        charged = CHARGE_MARK in before.conditions
+        conditions = with_condition(atk.conditions, CHARGE_MARK, charged)
+        atk = replace(atk, conditions=conditions)
+    if late or cleave:
+        atk = replace(atk, attacks_used=before.attacks_used)
+        allowed = _attacks_allowed_in_round(_block(atk).rate, combat.round)
+        swing["attacks_remaining_this_round"] = max(0, allowed - atk.attacks_used)
+    if one:  # one attack a round, disabled or staggered; a late one's was the round just resolved's
+        if not late:
+            atk = replace(atk, attacks_used=max(atk.attacks_used, _attacks_allowed_in_round(_block(atk).rate, played)))
+        swing["attacks_remaining_this_round"] = 0
     combat = _put(combat, atk)
     if swing["hit"]:
-        combat = _land(combat, swing, damage)
-    remaining = swing["attacks_remaining_this_round"]
+        combat = _land(combat, swing, damage, d20)
+    if disabled:
+        combat = _strained(combat, atk.id, swing)
+    if extra := swing.pop(CLEAVE_DUE, None):
+        notes.append(
+            f"{swing.get('target')} dropped: {atk.name} has an extra attack ({extra}) at a foe within reach: "
+            f"resolve_attack with condition cleave{' and late: true' if late else ''}."
+        )
+    remaining = 0 if late else swing["attacks_remaining_this_round"]
     if remaining:
         notes.append(f"{atk.name} has {remaining} more attack(s) this round ({_rate_text(_block(atk).rate)}/round).")
     if swing["downed"]:
@@ -1819,6 +2100,8 @@ def attack(
             swing["morale_due"] = notice
     swing["rolls"] = [roll_json(r) for r in rolls]
     entry = {"type": "attack", "attacker": atk.id, "target": tgt.id, "hit": swing["hit"], "damage": swing["damage"]}
+    if late:
+        entry = {"round": played, **entry, "late": True}
     return _logged(combat, entry), swing
 
 
@@ -1873,8 +2156,10 @@ def _throw(
     for c in (atk, tgt):
         if _removed(c):
             raise CombatError(f"{c.name} has been removed from the fight.")
-    if atk.hp <= 0:
+    if atk.hp <= 0 and not _disabled(combat.rules, atk):
         raise CombatError(f"{atk.name} is {'dead' if _is_dead(atk) else 'down'} and can't throw.")
+    if _knocked_out(atk, d20):
+        raise CombatError(f"{atk.name} is unconscious (nonlethal damage) and can't throw.")
     dmg, after, splash = MISSILES[kind]
     notes: list[str] = []
     if kind == "holy water" and not _undead(tgt, reference):
@@ -1891,9 +2176,15 @@ def _throw(
         combat.rules,
         d20=d20,
     )
+    disabled = _disabled(combat.rules, atk)
+    if disabled or _staggered(atk, d20):  # one attack a round (`attack`'s)
+        allowed = _attacks_allowed_in_round(_block(atk).rate, combat.round)
+        thrown = replace(thrown, attacks_used=max(thrown.attacks_used, allowed))
+        swing["attacks_remaining_this_round"] = 0
     combat = _put(combat, replace(thrown, attacks=atk.attacks, weapon=atk.weapon))
-    if swing["hit"] and damage:
-        combat = _land(combat, swing, damage)
+    swing.pop(CLEAVE_DUE, None)  # a thrown flask is no melee attack
+    if swing["hit"] and (damage or swing.get(NONLETHAL)):
+        combat = _land(combat, swing, damage, d20)
         if after:
             notes.append(after)
     elif not swing["hit"]:
@@ -1903,6 +2194,8 @@ def _throw(
         if notice:
             swing["morale_due"] = notice
     swing.update(missile=kind, notes=notes)
+    if disabled:  # a throw is strenuous: -1 after it
+        combat = _strained(combat, atk.id, swing)
     entry = {"type": "throw", "attacker": atk.id, "target": tgt.id, "missile": kind, "hit": swing["hit"]}
     return _logged(combat, {**entry, "damage": swing["damage"]}), swing, rolls
 
@@ -1918,20 +2211,22 @@ def _skip(actor: Combatant, reason: str, key: str = "attacker") -> dict[str, Any
     return {key: actor.name, f"{key}_id": actor.id, "skipped": reason}
 
 
-def _cannot_act(combat: Combat, actor: Combatant, key: str) -> dict[str, Any] | None:
+def _cannot_act(combat: Combat, actor: Combatant, key: str, d20: D20Engine | None = None) -> dict[str, Any] | None:
     if _removed(actor):
         return _skip(actor, "removed from the fight", key)
     if _is_dead(actor):
         return _skip(actor, "dead — cannot act", key)
-    if actor.hp <= 0:
+    if _down(combat.rules, actor):
         return _skip(actor, "down — cannot act", key)
+    if _knocked_out(actor, d20):
+        return _skip(actor, "unconscious — cannot act", key)
     if combat.round == 1 and "surprised" in actor.conditions:
         return _skip(actor, "surprised — loses the first round", key)
     return None
 
 
-def _foes(combat: Combat, actor: Combatant) -> list[str]:
-    return [c.name for c in combat.combatants.values() if c.side != actor.side and _standing(c)]
+def _foes(combat: Combat, actor: Combatant, d20: D20Engine | None = None) -> list[str]:
+    return [c.name for c in combat.combatants.values() if c.side != actor.side and _standing(c, combat.rules, d20)]
 
 
 def _attack_action(
@@ -1943,11 +2238,24 @@ def _attack_action(
     landing: Sequence[tuple[dict[str, Any], int]] = (),
     *,
     d20: D20Engine | None = None,
+    down_at_start: frozenset[str] = frozenset(),
 ) -> tuple[Combat, list[dict[str, Any]], list[tuple[dict[str, Any], int]], list[Roll]]:
     """An attacker's whole action: every swing it is owed this round, at the first target in [target, *targets] still
     up when its group began, less the damage its group's earlier hits will do (`landing`) and its own earlier swings
     did: a foe its group has already felled draws no further swing (DEL-385). Each swing is still rolled against the
-    group's starting state. Returns the swings and their pending damage."""
+    group's starting state. With a `d20` engine a charge or a declared `single` is one attack, and it spends the
+    round's (`_single_attack`); so is a disabled attacker's (`_disabled`), with or without one, whose strain
+    `run_round` takes after it. Returns the swings and their pending damage.
+
+    With a `d20` engine, besides (DEL-441, DEL-431):
+    - a primary target down now that was standing when the round began (not in `down_at_start`) is passed over for
+      the first standing fallback, and with none the attack isn't rolled; one down at the start is attacked as
+      declared (a coup de grâce). Without an engine a downed primary target is attacked, as before;
+    - each swing sees its target's hit points less that pending damage, and a swing that earns an extra attack
+      (`Swing.extra_attack`, Cleave's) makes one more at the next standing target in the pool, at the same attack of
+      the round (same bonus), marked `extra`, with the condition `CLEAVE` (none of the dropping attack's), and not
+      counted among the round's attacks. With no target standing in the pool, while a foe still stands, its notes say
+      the attack is due."""
     actor = combat.combatants[actor_id]
     block = _block(actor)
     allowed = _attacks_allowed_in_round(block.rate, combat.round)
@@ -1958,46 +2266,106 @@ def _attack_action(
     pool = [action["target"], *action.get("targets", [])]
     felled = snapshot
     for hit, amount in landing:
-        felled, _ = _hurt(felled, hit["target_id"], amount)
+        felled, _ = _harmed(felled, hit, amount)
     own: dict[str, int] = {}
+    own_nonlethal: dict[str, int] = {}
+
+    def hp(target_id: str) -> int:
+        return felled.combatants[target_id].hp - own.get(target_id, 0)
+
+    def now(target_id: str) -> Combatant:
+        """The target with its group's pending damage and this attacker's, nonlethal too."""
+        return _with_nonlethal(replace(felled.combatants[target_id], hp=hp(target_id)), own_nonlethal.get(target_id, 0))
 
     def up(target_id: str, first: bool) -> bool:
-        t = felled.combatants[target_id]
-        hit = replace(t, hp=t.hp - own.get(target_id, 0))
+        hit = now(target_id)
         if _removed(hit) or _is_dead(hit):
             return False
+        if d20 is not None:  # DEL-441: one dropped since the round began is passed over, knocked out too (DEL-421)
+            if first and target_id in down_at_start:
+                return True
+            return (hit.hp > 0 or _disabled(combat.rules, hit)) and not _knocked_out(hit, d20)
         return first or hit.hp > 0
+
+    def seen(target_id: str) -> Combatant:
+        t = snapshot.combatants[target_id]
+        if d20 is None:
+            return t
+        return _with_nonlethal(replace(t, hp=hp(target_id)), _nonlethal(now(target_id)) - _nonlethal(t))
 
     target = action["target"] if up(action["target"], True) else next((t for t in pool[1:] if up(t, False)), None)
     if target is None:
         dead = snapshot.combatants[action["target"]]
-        skipped = {**_skip(actor, "target already dead — attack not rolled"), "target": dead.name}
-        return combat, [{**skipped, "target_id": dead.id, "living_foes": _foes(felled, actor)}], [], []
+        down = d20 is not None and not _is_dead(now(dead.id)) and (hp(dead.id) <= 0 or _knocked_out(now(dead.id), d20))
+        reason = "target down — attack not rolled" if down else "target already dead — attack not rolled"
+        skipped = {**_skip(actor, reason), "target": dead.name}
+        return combat, [{**skipped, "target_id": dead.id, "living_foes": _foes(felled, actor, d20)}], [], []
     swings, pending, rolls = [], [], []
-    for k in range(allowed - actor.attacks_used):
-        if k:
-            target = next((t for t in pool if up(t, False)), None)
-            if target is None:
-                break
-        swing, damage, attacker, swing_rolls = _swing(
-            combat.combatants[actor_id],
-            snapshot.combatants[target],
+    # Disabled at 0 (`_disabled`) or staggered (`_staggered`), one attack a round, as a `single` one.
+    single = (d20 is not None and _single_attack(action)) or _disabled(combat.rules, actor) or _staggered(actor, d20)
+
+    def swing_at(target_id: str, attacker: Combatant, condition: str) -> tuple[dict[str, Any], Combatant]:
+        swing, damage, after, swing_rolls = _swing(
+            attacker,
+            seen(target_id),
             dice,
             combat.round,
-            action.get("condition", ""),
+            condition,
             [],
             combat.rules,
             d20=d20,
         )
-        combat = _put(combat, attacker)
         rolls.extend(swing_rolls)
+        if swing["hit"]:
+            own[target_id] = own.get(target_id, 0) + damage
+            own_nonlethal[target_id] = own_nonlethal.get(target_id, 0) + int(swing.get(NONLETHAL) or 0)
+            pending.append((swing, damage))
+        return swing, after
+
+    for k in range(1 if single else allowed - actor.attacks_used):
+        if k:
+            target = next((t for t in pool if up(t, False)), None)
+            if target is None:
+                break
+        before = combat.combatants[actor_id]
+        swing, attacker = swing_at(target, before, action.get("condition", ""))
+        combat = _put(combat, attacker)
         if k:
             swing["follow_up"] = True
         swings.append(swing)
-        if swing["hit"]:
-            own[target] = own.get(target, 0) + damage
-            pending.append((swing, damage))
+        while extra := swing.pop(CLEAVE_DUE, None):  # Cleave (DEL-431): at the same attack of the round
+            beyond = next((t for t in pool if up(t, False)), None)
+            if beyond is None:
+                standing = (c for c in felled.combatants.values() if c.side != actor.side and not _removed(c))
+                if any(hp(c.id) > 0 for c in standing):  # with no foe left at all, nothing is due
+                    swing["notes"].append("cleave: an extra attack is due; name an adjacent foe in targets")
+                break
+            used = combat.combatants[actor_id].attacks_used
+            # Its own condition only: a charge's +2 or a flank was the dropping attack's, not this one's.
+            rewound = replace(combat.combatants[actor_id], attacks_used=before.attacks_used)
+            swing, attacker = swing_at(beyond, rewound, CLEAVE)
+            combat = _put(combat, replace(attacker, attacks_used=used))
+            swing["extra"] = extra
+            swings.append(swing)
+    if single and swings:  # the one attack spends the round's
+        spent = combat.combatants[actor_id]
+        combat = _put(combat, replace(spent, attacks_used=max(spent.attacks_used, allowed)))
+        swings[-1]["attacks_remaining_this_round"] = 0
     return combat, swings, pending, rolls
+
+
+def _calmed(combat: Combat, id: str) -> Combat:
+    """3.5: a charge's -2 AC lasts "until his next turn"; at the charger's turn the mark comes off (DEL-459)."""
+    c = combat.combatants[id]
+    if CHARGE_MARK not in c.conditions:
+        return combat
+    return _put(combat, replace(c, conditions=with_condition(c.conditions, CHARGE_MARK, False)))
+
+
+def _single_attack(action: Mapping[str, Any]) -> bool:
+    """A d20 engine's attack action of one attack, not a full attack's iteratives: a charge, or one declared `single`
+    (a move and an attack, a standard action)."""
+    return bool(action.get("single")) or str(action.get("condition") or "").strip().lower() == "charging"
 
 
 def _ongoing_action(combat: Combat, actor_id: str, action: Mapping[str, Any]) -> tuple[Combat, dict[str, Any]]:
@@ -2038,27 +2406,44 @@ def _ongoing_action(combat: Combat, actor_id: str, action: Mapping[str, Any]) ->
     return _logged(_put(combat, done), entry), out
 
 
-# The conditions the DM gives a dying character whose wounds someone bound: it bleeds no more.
-TENDED = frozenset({"stabilized", "stabilised", "stable", "bandaged"})
+STABLE = "stable"
+"""A dying character's condition when its roll to stabilise succeeds (`FightRules.stabilise_chance`)."""
+# The conditions the DM gives a dying character whose wounds someone bound (or its roll's `STABLE`): it bleeds no more.
+TENDED = frozenset({"stabilized", "stabilised", STABLE, "bandaged"})
 
 
 def _tended(c: Combatant) -> bool:
     return any(condition.strip().lower() in TENDED for condition in c.conditions)
 
 
-def _end_round(combat: Combat) -> tuple[Combat, list[str]]:
+def _end_round(combat: Combat, dice: Dice | None = None) -> tuple[Combat, list[str], list[Roll]]:
     """The round ends: the dying of the party and its allies bleed 1 HP unless their wounds
     were bound (`TENDED`), effects tick down, surprise ends, the ongoing actions that completed or broke are put
     away (one that carries over stays), and the next round begins, waiting for its declarations and initiative; where
-    the fight's rules roll initiative once (`initiative_once`), it keeps the order it has."""
+    the fight's rules roll initiative once (`initiative_once`), it keeps the order it has. Under
+    `FightRules.stabilise_chance` each of the dying first rolls d% (`stabilise`, by its id and the round): at the
+    chance or under it is `STABLE` and loses nothing, else it bleeds. Returns the lines and those rolls."""
     lines: list[str] = []
+    rolls: list[Roll] = []
     changed: dict[str, Combatant] = {}
+    chance = combat.rules.stabilise_chance
     for c in combat.combatants.values():
         dying = c.hp <= 0 if combat.rules.bleed_from_zero else c.hp < 0
         if c.side in ("party", "ally") and DEAD_AT < c.hp and dying and not _removed(c) and not _tended(c):
+            rolled = ""
+            if chance and dice is not None:
+                roll = dice.d(100, purpose="stabilise", actor=c.id, combat_round=combat.round)
+                rolls.append(roll)
+                if roll.total <= chance:
+                    lines.append(f"{c.name} is stable (d% {roll.total}, {chance} or less): hp stays {c.hp}")
+                    changed[c.id] = replace(c, conditions=with_condition(c.conditions, STABLE, True))
+                    continue
+                rolled = f"; d% {roll.total}, not stable"
             hp = max(DEAD_AT, c.hp - 1)
-            lines.append(f"{c.name} bleeds 1 HP ({'dead' if hp <= DEAD_AT else f'hp now {hp}'})")
+            lines.append(f"{c.name} bleeds 1 HP ({'dead' if hp <= DEAD_AT else f'hp now {hp}'}{rolled})")
             changed[c.id] = replace(c, hp=hp)
+            if _strained_in(combat, c.id, combat.round):  # for a refund of the strain (`_refund`)
+                combat = _logged(combat, {"type": STRAIN_BLED, "id": c.id})
     for c in combat.combatants.values():
         c = changed.get(c.id, c)
         surviving = []
@@ -2078,8 +2463,8 @@ def _end_round(combat: Combat) -> tuple[Combat, list[str]]:
     combat = replace(combat, combatants={**combat.combatants, **changed}, surprise={"party": False, "enemies": False})
     combat = _logged(combat, {"type": "round_end"})
     if combat.rules.initiative_once:
-        return replace(combat, round=combat.round + 1, current=0, declared={}), lines
-    return replace(combat, round=combat.round + 1, order=(), current=0, declared={}), lines
+        return replace(combat, round=combat.round + 1, current=0, declared={}), lines, rolls
+    return replace(combat, round=combat.round + 1, order=(), current=0, declared={}), lines, rolls
 
 
 def slots(combat: Combat) -> list[dict[str, Any]]:
@@ -2112,14 +2497,21 @@ def _slot(combat: Combat, c: Combatant, count: int | None) -> dict[str, Any]:
     }
 
 
-def _outcomes(before: Combat, after: Combat, acted: Iterable[str], number: int) -> dict[str, Any]:
-    """Who acted; who went down, died or fled in the round; which ongoing actions completed or broke in it."""
+def _outcomes(
+    before: Combat, after: Combat, acted: Iterable[str], number: int, d20: D20Engine | None = None
+) -> dict[str, Any]:
+    """Who acted; who went down (with a `d20` engine, knocked out by nonlethal damage too), died or fled in the round;
+    which ongoing actions completed or broke in it."""
     downed, dead, fled = [], [], []
+
+    def out(fight: Combat, c: Combatant) -> bool:
+        return _down(fight.rules, c) or _knocked_out(c, d20)
+
     for id, c in after.combatants.items():
         was = before.combatants.get(id)
         if _is_dead(c) and (was is None or not _is_dead(was)):
             dead.append(id)
-        elif c.hp <= 0 and (was is None or was.hp > 0):
+        elif out(after, c) and (was is None or not out(before, was)):
             downed.append(id)
         gone = "fleeing" in c.conditions or _removed(c)
         if gone and (was is None or not ("fleeing" in was.conditions or _removed(was))):
@@ -2161,17 +2553,23 @@ def run_round(
        group is the listed order: it orders the log, and a foe felled by an earlier hit of the group draws no later one;
     4. downed, dead, removed and (in round 1) surprised combatants are skipped, and an ongoing action of theirs is
        lost; so is an attack on a target already dead (or felled by its group's earlier hits), unless one of its
-       fallback targets still stands;
+       fallback targets still stands; with a `d20` engine, one on a target dropped since the round began too
+       (`_attack_action`);
     5. an attacker makes every attack its rate allows this round; a fractional rate follows the round number;
     6. an ongoing action takes effect at its count, unless damage or a failed save broke it first; one of a round or
        more at the round's end, or a later round's;
-    7. the end of the round: bleeding, effects ticking down, the next round.
+    7. the end of the round: bleeding (under `FightRules.stabilise_chance`, the roll to stabilise first), effects
+       ticking down, the next round.
+
+    Under `FightRules.disabled_at_zero` a party member or ally at exactly 0 acts, disabled: one attack, and after an
+    attack, a throw or a cast it strains to -1 (`_strained`); a free-form action is no strain.
 
     Morale notices come due when a side first has half its number down. The result has the round's `slots` (its
     order as it was set) and `outcomes`. With a `d20` engine the engine rolls the initiative and makes the attacks.
     Where the fight's rules roll initiative once (`initiative_once`), round 1's order stands: later rounds roll
     nothing."""
     _live(combat)
+    combat = _labelled(combat)
     listed: list[str] = []
     for action in declarations:
         if not isinstance(action, Mapping):
@@ -2200,20 +2598,31 @@ def run_round(
         rolls.extend(init_rolls)
     before = combat
     order_slots = tuple(slots(combat))
+    # Down, not disabled (one at 0 under `disabled_at_zero` stands), or knocked out: dropped later, one is passed over.
+    down_at_start = frozenset(
+        id for id, c in combat.combatants.items() if _down(combat.rules, c) or _knocked_out(c, d20)
+    )
 
     results: list[dict[str, Any]] = []
     morale: list[dict[str, Any]] = []
     acted: list[str] = []
-    for _, group in itertools.groupby(combat.order, key=lambda id: combat.combatants[id].init):
+    tied = (lambda id: id) if combat.rules.ties_by_bonus else (lambda id: combat.combatants[id].init)
+    for _, group in itertools.groupby(combat.order, key=tied):  # a tie acts together, unless broken
         ids = list(group)
         acting = [i for i in listed if i in ids] + [i for i in ids if i in combat.declared and i not in listed]
         snapshot = combat
         pending: list[tuple[dict[str, Any], int]] = []
+        if d20 is not None:  # one that declared nothing has its turn too, at its slot
+            for actor_id in (i for i in ids if i not in acting):
+                combat = snapshot = _calmed(combat, actor_id)
         for actor_id in acting:
             action = combat.declared[actor_id]
+            if d20 is not None and CHARGE_MARK in combat.combatants[actor_id].conditions:
+                calmed = _calmed(combat, actor_id).combatants[actor_id]
+                combat, snapshot = _put(combat, calmed), _put(snapshot, calmed)
             busy = combat.combatants[actor_id].ongoing is not None
             key = "caster" if "spell" in action else "actor" if busy or "action" in action else "attacker"
-            skipped = _cannot_act(snapshot, snapshot.combatants[actor_id], key)
+            skipped = _cannot_act(snapshot, snapshot.combatants[actor_id], key, d20)
             if skipped:
                 results.append(skipped)
                 if busy:
@@ -2223,6 +2632,9 @@ def run_round(
                 results.append(out)
                 if out.get("cast") or out.get("used") or out.get("done"):
                     acted.append(actor_id)
+                if out.get("cast"):  # a cast is strenuous: one disabled strains after it
+                    at_self = out.get("target_id") in (None, actor_id)
+                    combat = _strained(combat, actor_id, out, own_cast=at_self)
             elif "action" in action:
                 actor = snapshot.combatants[actor_id]
                 results.append({"actor": actor.name, "actor_id": actor.id, "action": action["action"]})
@@ -2236,16 +2648,18 @@ def run_round(
                 acted.append(actor_id)
             else:
                 combat, swings, hits, swing_rolls = _attack_action(
-                    combat, snapshot, dice, actor_id, action, pending, d20=d20
+                    combat, snapshot, dice, actor_id, action, pending, d20=d20, down_at_start=down_at_start
                 )
                 results.extend(swings)
                 pending.extend(hits)
                 rolls.extend(swing_rolls)
                 if any("skipped" not in s for s in swings):
                     acted.append(actor_id)
+                    # An attack is strenuous: one disabled strains once, after its whole turn (Cleave's too, R2).
+                    combat = _strained(combat, actor_id, swings[-1])
         sides = []
         for swing, damage in pending:
-            combat = _land(combat, swing, damage)
+            combat = _land(combat, swing, damage, d20)
             if swing["downed"]:
                 sides.append(combat.combatants[swing["target_id"]].side)
         for side in dict.fromkeys(sides):
@@ -2258,20 +2672,23 @@ def run_round(
     living: dict[str, list[str]] = {}
     for actor_id in listed:
         actor = combat.combatants[actor_id]
-        if "target" not in combat.declared.get(actor_id, {}) or not _can_act(actor):
+        if "target" not in combat.declared.get(actor_id, {}) or not _can_act(actor, combat.rules, d20):
             continue
         left = _attacks_allowed_in_round(_block(actor).rate, number) - actor.attacks_used
         if left > 0 and actor.attacks_used:
             unused[actor.name] = left
-            living[actor.name] = _foes(combat, actor)
+            living[actor.name] = _foes(combat, actor, d20)
     # An ongoing action of this round that nobody reached (its actor never came up) is lost with the round.
     for c in list(combat.combatants.values()):
         if c.ongoing is not None and c.ongoing.under_way and c.ongoing.completes_round <= number:
             combat = _break(combat, c.id, f"{c.name} never got to it")
-    entry = {"type": "round", "actions": len(results)}
+    entry: dict[str, Any] = {"type": "round", "actions": len(results)}
+    if d20 is not None and (used := {c.id: c.attacks_used for c in combat.combatants.values() if c.attacks_used}):
+        entry["attacks"] = used  # for a late attack's step (`_late_step`)
     round_mode = combat.mode
-    combat, lines = _end_round(_logged(combat, entry))
-    outcomes = _outcomes(before, combat, acted, number)
+    combat, lines, end_rolls = _end_round(_logged(combat, entry), dice)
+    rolls.extend(end_rolls)
+    outcomes = _outcomes(before, combat, acted, number, d20)
     carrying = tuple(
         {"id": c.id, "name": c.name, **(ongoing_json(c.ongoing) or {})}
         for c in combat.combatants.values()
@@ -2312,7 +2729,8 @@ def damage(combat: Combat, id: str, amount: int) -> tuple[Combat, dict[str, Any]
 
 def heal(combat: Combat, id: str, amount: int) -> tuple[Combat, dict[str, Any]]:
     """Healing up to the maximum; above 0 the combatant comes to. The dead are not healed (only
-    magic such as raise dead brings them back)."""
+    magic such as raise dead brings them back). Under `FightRules.disabled_at_zero` a heal after a disabled caster's
+    cast at itself gives back that cast's strain first (`_refund`), said in `strain_refunded`."""
     _live(combat)
     c = find(combat, id)
     amount = _amount(amount)
@@ -2321,11 +2739,30 @@ def heal(combat: Combat, id: str, amount: int) -> tuple[Combat, dict[str, Any]]:
             f"{c.name} is dead (HP {c.hp}); healing doesn't raise the dead.",
             hint="Use raise dead or resurrection (with resurrection_check), then set hp with update_character.",
         )
-    hp = min(c.hp + amount, c.hp_max)
+    refund, strained = _refund(combat, c.id) if combat.rules.disabled_at_zero else (0, 0)
+    hp = min(c.hp + refund + amount, c.hp_max)
+    healed = replace(c, hp=hp)
     notes = [f"{c.name} regains consciousness."] if c.hp <= 0 < hp else []
-    healed = replace(c, hp=hp, conditions=with_condition(c.conditions, "downed", hp <= 0))
+    if combat.rules.disabled_at_zero:
+        if c.hp < 0 and _disabled(combat.rules, healed):
+            notes = [f"{c.name} regains consciousness, disabled at 0 hp."]
+        elif _disabled(combat.rules, c) and hp > 0:
+            notes = []  # disabled was conscious already
+    conditions = with_condition(c.conditions, "downed", _down(combat.rules, healed))
+    if combat.rules.disabled_at_zero:
+        conditions = with_condition(conditions, "disabled", _disabled(combat.rules, healed))
+    if combat.rules.stabilise_chance and hp >= 0:  # no longer dying: a strain at 0 makes it dying afresh
+        conditions = with_condition(conditions, STABLE, False)
+    healed = replace(healed, conditions=conditions)
+    if refund:
+        notes.append(f"{c.name}'s own cast raised his hit points, so it was no strain: the {refund} hp it and the "
+                     "bleeding cost come back first.")  # fmt: skip
+        combat = replace(combat, log=(*combat.log, {"round": strained, "type": STRAIN_REFUND, "id": c.id}))
     combat = _logged(_put(combat, healed), {"type": "heal", "id": c.id, "amount": amount})
-    return combat, {"id": c.id, "name": c.name, "healed": hp - c.hp, "hp_before": c.hp, "hp_after": hp, "notes": notes}
+    out = {"id": c.id, "name": c.name, "healed": hp - c.hp, "hp_before": c.hp, "hp_after": hp, "notes": notes}
+    if refund:
+        out["strain_refunded"] = refund
+    return combat, out
 
 
 def add_condition(combat: Combat, id: str, condition: str) -> tuple[Combat, dict[str, Any]]:
@@ -2536,7 +2973,7 @@ def saving_throw(
     }
     entry = {"type": "save", "id": c.id, "save_type": result.save_type, "success": result.success}
     combat = _logged(combat, entry)
-    if not result.success and _spoilt_by_harm(c):
+    if not result.success and _spoilt_by_harm(combat, c):
         # A caster who fails a saving throw before the spell is cast loses it.
         combat = _break(combat, c.id, f"{c.name} failed a saving throw")
         out["spell_disrupted"] = True
@@ -2546,19 +2983,27 @@ def saving_throw(
 # --- status and the end ------------------------------------------------------------------------------------------
 
 
-def status_of(c: Combatant) -> str:
-    """active, unconscious, dead or removed."""
+def status_of(c: Combatant, rules: FightRules | None = None, d20: D20Engine | None = None) -> str:
+    """active, unconscious, dead or removed; under `rules` with `disabled_at_zero`, disabled for one at 0; with a `d20`
+    engine, unconscious or staggered by nonlethal damage (`D20Engine.nonlethal_state`)."""
     if _removed(c):
         return "removed"
     if _is_dead(c):
         return "dead"
-    return "unconscious" if c.hp <= 0 else "active"
+    if _knocked_out(c, d20):
+        return "unconscious"
+    if rules is not None and _disabled(rules, c):
+        return "disabled"
+    if c.hp <= 0:
+        return "unconscious"
+    return "staggered" if _staggered(c, d20) else "active"
 
 
-def status(combat: Combat) -> dict[str, Any]:
+def status(combat: Combat, d20: D20Engine | None = None) -> dict[str, Any]:
     """The fight as it stands: the round, how its initiative was rolled (`mode`), and every combatant by initiative,
     with its hit points, armour class, conditions, effects, attack and ongoing action (a d20 engine's combatant its
-    `d20` numbers instead of armour class and THAC0). Always answers, even with nobody in the fight."""
+    `d20` numbers instead of armour class and THAC0, and its `nonlethal` damage where it has some; its status by the
+    `d20` engine where one is given, `status_of`). Always answers, even with nobody in the fight."""
     added = {id: i for i, id in enumerate(combat.combatants)}
     entries = []
     for c in combat.combatants.values():
@@ -2580,7 +3025,7 @@ def status(combat: Combat) -> dict[str, Any]:
                 {**effect_json(e), "lasts_through_round": combat.round + e.duration - 1 if e.duration else None}
                 for e in c.effects
             ],
-            "status": status_of(c),
+            "status": status_of(c, combat.rules, d20),
             "ongoing": ongoing_json(c.ongoing),
             "damage_sm": block.damage_sm,
             "damage_l": block.damage_l,
@@ -2588,6 +3033,8 @@ def status(combat: Combat) -> dict[str, Any]:
         if c.d20 is not None:  # a d20 engine's combatant: its numbers, not AC and THAC0
             del entry["ac"], entry["thac0"]
             entry["d20"] = c.d20
+            if _nonlethal(c):
+                entry[NONLETHAL] = _nonlethal(c)
         if block.name:
             entry["weapon"] = block.name
         if c.morale is not None:
@@ -2624,7 +3071,10 @@ def end(
     `party_levels` (`D20Engine.xp_for_defeated`)."""
     _live(combat)
     everyone = list(combat.combatants.values())
-    rounds = combat.round if combat.order else combat.round - 1
+    if combat.rules.initiative_once:  # the order is never cleared, so the round counter can't say
+        rounds = sum(1 for entry in combat.log if entry.get("type") == "round")
+    else:
+        rounds = combat.round if combat.order else combat.round - 1
     characters = {
         c.character_id: {
             "hp": c.hp,
@@ -2634,7 +3084,7 @@ def end(
         for c in everyone
         if c.character_id is not None
     }
-    enemies, defeated = _enemy_record(everyone)
+    enemies, defeated = _enemy_record(everyone, d20)
     groups: dict[str, dict[str, Any]] = {}
     for c in everyone:
         if c.side != "enemy" or c.character_id is not None:
@@ -2650,7 +3100,7 @@ def end(
             },
         )
         group["total"] += 1
-        beaten = _enemy_fate(c) in ("slain", "down")
+        beaten = _enemy_fate(c, d20) in ("slain", "down")
         group["defeated"] += beaten
         if d20 is not None:
             earned = d20.xp_for_defeated(c, party_levels)

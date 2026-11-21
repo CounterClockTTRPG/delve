@@ -1054,6 +1054,58 @@ export interface D20Numbers {
   domains: string[];
   slots: Record<string, number>;
   dc: Record<string, number>;
+  /** The class features the levels grant (DEL-389); absent from a server before them. */
+  features?: D20Feature[];
+  /** Every casting class's pool (DEL-389), sent for a multiclass or a spontaneous caster only. */
+  casting?: Record<string, D20Casting>;
+  /** A spontaneous caster's spells known by name, by class. */
+  known?: Record<string, string[]>;
+  /** The build's magic items (DEL-389 part 3), only on a sheet that has some. */
+  items?: D20Item[];
+  /** The ability scores a worn item enhances, with its bonus ({"str": 20}); only those it changes. */
+  abilities?: Record<string, number>;
+  /** The sheet's prestige classes by id ("eldritch-knight", DEL-389 part 4), only on a sheet that has one. */
+  prestige?: string[];
+  /** By casting class id, the caster levels each prestige class adds to it: {"wizard": {"eldritch-knight": 2}}. */
+  advanced?: Record<string, Record<string, number>>;
+}
+
+/** A magic item of a 3.5 build: its name with its bonus ("Ring of Protection +2", "+1 flaming longsword"). A weapon,
+ * armour or shield counts only `in_use` (in hand, worn); `note` is an item the engine has no numbers for, and `dm` its
+ * special abilities the DM rules ("speed"). */
+export interface D20Item {
+  id: string;
+  name: string;
+  kind: "worn" | "weapon" | "armor" | "shield" | "note";
+  bonus?: number;
+  in_use?: boolean;
+  note?: boolean;
+  dm?: string[];
+}
+
+/** One class's casting: its key ability and caster level, and by spell level ("0", "1" …) its DCs and either its
+ * prepared `slots` or, spontaneously (a sorcerer, a bard), its spells `per_day` and how many it knows (`known`). */
+export interface D20Casting {
+  ability: string;
+  caster_level: number;
+  prepared: boolean;
+  slots?: Record<string, number>;
+  per_day?: Record<string, number>;
+  known?: Record<string, number>;
+  dc: Record<string, number>;
+}
+
+/** A granted 3.5 class feature: `per_day` is its uses a day for a `uses` feature (rage), else null; `value` its
+ * number or dice at the class's level ("2d6"), if any. */
+export interface D20Feature {
+  id: string;
+  class: string;
+  name: string;
+  kind: string;
+  per_day: number | null;
+  /** "week" for a feature counted a week (remove disease): `per_day` is then its uses a week. */
+  per?: "week";
+  value: number | string | null;
 }
 
 /** A portraitgen description and seed, which the browser draws, or a painted picture of the campaign. */
@@ -1085,6 +1137,10 @@ export interface CharacterState {
   effects: Effect[];
   inventory?: Item[];
   memorized?: MemorizedSpell[];
+  /** What a d20 engine keeps of the state: under SRD 3.5 the class features' uses spent since the last rest, by id,
+   * the turning attempts spent (`turning_used`), and a spontaneous caster's spells cast today by class and level
+   * (`cast`). */
+  d20?: { used?: Record<string, number>; turning_used?: number; cast?: Record<string, Record<string, number>> };
 }
 
 export type EncumbranceBand = "light" | "moderate" | "heavy" | "severe" | "overloaded";

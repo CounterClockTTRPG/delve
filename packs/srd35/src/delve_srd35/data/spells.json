@@ -80,6 +80,7 @@
   "effect": "",
   "id": "aid",
   "levels": {
+   "adept": 2,
    "cleric": 2,
    "good": 2,
    "luck": 2
@@ -171,6 +172,7 @@
   "effect": "",
   "id": "alter-self",
   "levels": {
+   "assassin": 2,
    "bard": 2,
    "sorcerer": 2,
    "wizard": 2
@@ -286,6 +288,7 @@
   "effect": "",
   "id": "animal-trance",
   "levels": {
+   "adept": 2,
    "bard": 2,
    "druid": 2
   },
@@ -309,6 +312,7 @@
   "effect": "",
   "id": "animate-dead",
   "levels": {
+   "adept": 3,
    "cleric": 3,
    "death": 3,
    "sorcerer": 4,
@@ -676,6 +680,7 @@
   "effect": "",
   "id": "baleful-polymorph",
   "levels": {
+   "adept": 5,
    "druid": 5,
    "sorcerer": 5,
    "wizard": 5
@@ -765,6 +770,7 @@
   "effect": "",
   "id": "bears-endurance",
   "levels": {
+   "adept": 2,
    "cleric": 2,
    "druid": 2,
    "ranger": 2,
@@ -812,6 +818,7 @@
   "effect": "",
   "id": "bestow-curse",
   "levels": {
+   "adept": 3,
    "cleric": 3,
    "sorcerer": 4,
    "wizard": 4
@@ -928,6 +935,7 @@
   "effect": "",
   "id": "bless",
   "levels": {
+   "adept": 1,
    "cleric": 1,
    "paladin": 1
   },
@@ -1081,6 +1089,7 @@
   "effect": "",
   "id": "break-enchantment",
   "levels": {
+   "adept": 5,
    "bard": 4,
    "cleric": 5,
    "luck": 5,
@@ -1106,6 +1115,8 @@
   "effect": "",
   "id": "bulls-strength",
   "levels": {
+   "adept": 2,
+   "blackguard": 2,
    "cleric": 2,
    "druid": 2,
    "paladin": 2,
@@ -1156,6 +1167,7 @@
   "effect": "",
   "id": "burning-hands",
   "levels": {
+   "adept": 1,
    "fire": 1,
    "sorcerer": 1,
    "wizard": 1
@@ -1270,6 +1282,8 @@
   "effect": "",
   "id": "cats-grace",
   "levels": {
+   "adept": 2,
+   "assassin": 2,
    "bard": 2,
    "druid": 2,
    "ranger": 2,
@@ -1320,7 +1334,9 @@
   "effect": "",
   "id": "cause-fear",
   "levels": {
+   "adept": 1,
    "bard": 1,
+   "blackguard": 1,
    "cleric": 1,
    "death": 1,
    "sorcerer": 1,
@@ -1571,6 +1587,7 @@
   "effect": "Magical sensor",
   "id": "clairaudience-clairvoyance",
   "levels": {
+   "assassin": 4,
    "bard": 3,
    "knowledge": 3,
    "sorcerer": 3,
@@ -1709,6 +1726,7 @@
   "effect": "",
   "id": "command",
   "levels": {
+   "adept": 1,
    "cleric": 1
   },
   "name": "Command",
@@ -1795,6 +1813,7 @@
   "effect": "",
   "id": "commune",
   "levels": {
+   "adept": 5,
    "cleric": 5
   },
   "name": "Commune",
@@ -1837,6 +1856,7 @@
   "effect": "",
   "id": "comprehend-languages",
   "levels": {
+   "adept": 1,
    "bard": 1,
    "cleric": 1,
    "sorcerer": 1,
@@ -1976,6 +1996,8 @@
   "effect": "",
   "id": "contagion",
   "levels": {
+   "adept": 3,
+   "blackguard": 3,
    "cleric": 3,
    "destruction": 3,
    "druid": 3,
@@ -2023,6 +2045,7 @@
   "effect": "Magical, heatless flame",
   "id": "continual-flame",
   "levels": {
+   "adept": 3,
    "cleric": 3,
    "sorcerer": 2,
    "wizard": 2
@@ -2233,6 +2256,7 @@
   "effect": "Up to 2 gallons of water/level",
   "id": "create-water",
   "levels": {
+   "adept": 0,
    "cleric": 0,
    "druid": 0,
    "paladin": 1
@@ -2323,7 +2347,9 @@
   "effect": "",
   "id": "cure-critical-wounds",
   "levels": {
+   "adept": 4,
    "bard": 4,
+   "blackguard": 4,
    "cleric": 4,
    "druid": 5,
    "healing": 4
@@ -2368,7 +2394,9 @@
   "effect": "",
   "id": "cure-light-wounds",
   "levels": {
+   "adept": 1,
    "bard": 1,
+   "blackguard": 1,
    "cleric": 1,
    "druid": 1,
    "healing": 1,
@@ -2416,6 +2444,7 @@
   "effect": "",
   "id": "cure-minor-wounds",
   "levels": {
+   "adept": 0,
    "cleric": 0,
    "druid": 0
   },
@@ -2437,7 +2466,9 @@
   "effect": "",
   "id": "cure-moderate-wounds",
   "levels": {
+   "adept": 2,
    "bard": 2,
+   "blackguard": 2,
    "cleric": 2,
    "druid": 3,
    "healing": 2,
@@ -2484,7 +2515,9 @@
   "effect": "",
   "id": "cure-serious-wounds",
   "levels": {
+   "adept": 3,
    "bard": 3,
+   "blackguard": 3,
    "cleric": 3,
    "druid": 4,
    "healing": 3,
@@ -2578,7 +2611,10 @@
   "effect": "",
   "id": "darkness",
   "levels": {
+   "adept": 2,
+   "assassin": 2,
    "bard": 2,
+   "blackguard": 2,
    "cleric": 2,
    "sorcerer": 2,
    "wizard": 2
@@ -2625,6 +2661,7 @@
   "effect": "",
   "id": "daylight",
   "levels": {
+   "adept": 3,
    "bard": 3,
    "cleric": 3,
    "druid": 3,
@@ -2701,6 +2738,7 @@
   "effect": "",
   "id": "death-knell",
   "levels": {
+   "blackguard": 2,
    "cleric": 2,
    "death": 2
   },
@@ -2769,6 +2807,7 @@
   "effect": "",
   "id": "deep-slumber",
   "levels": {
+   "assassin": 3,
    "bard": 3,
    "sorcerer": 3,
    "wizard": 3
@@ -2793,6 +2832,9 @@
   "effect": "",
   "id": "deeper-darkness",
   "levels": {
+   "adept": 3,
+   "assassin": 3,
+   "blackguard": 3,
    "cleric": 3
   },
   "name": "Deeper Darkness",
@@ -2813,6 +2855,7 @@
   "effect": "",
   "id": "delay-poison",
   "levels": {
+   "adept": 2,
    "bard": 2,
    "cleric": 2,
    "druid": 2,
@@ -2950,6 +2993,7 @@
   "effect": "",
   "id": "detect-chaos",
   "levels": {
+   "adept": 1,
    "cleric": 1
   },
   "name": "Detect Chaos",
@@ -2970,6 +3014,7 @@
   "effect": "",
   "id": "detect-evil",
   "levels": {
+   "adept": 1,
    "cleric": 1
   },
   "name": "Detect Evil",
@@ -2990,6 +3035,7 @@
   "effect": "",
   "id": "detect-good",
   "levels": {
+   "adept": 1,
    "cleric": 1
   },
   "name": "Detect Good",
@@ -3010,6 +3056,7 @@
   "effect": "",
   "id": "detect-law",
   "levels": {
+   "adept": 1,
    "cleric": 1
   },
   "name": "Detect Law",
@@ -3030,6 +3077,7 @@
   "effect": "",
   "id": "detect-magic",
   "levels": {
+   "adept": 0,
    "bard": 0,
    "cleric": 0,
    "druid": 0,
@@ -3054,6 +3102,7 @@
   "effect": "",
   "id": "detect-poison",
   "levels": {
+   "assassin": 1,
    "cleric": 0,
    "druid": 0,
    "paladin": 1,
@@ -3217,6 +3266,7 @@
   "effect": "",
   "id": "dimension-door",
   "levels": {
+   "assassin": 4,
    "bard": 4,
    "sorcerer": 4,
    "travel": 4,
@@ -3349,6 +3399,7 @@
   "effect": "",
   "id": "disguise-self",
   "levels": {
+   "assassin": 1,
    "bard": 1,
    "sorcerer": 1,
    "trickery": 1,
@@ -3759,6 +3810,7 @@
   "effect": "",
   "id": "doom",
   "levels": {
+   "blackguard": 1,
    "cleric": 1
   },
   "name": "Doom",
@@ -3804,6 +3856,7 @@
   "id": "eagles-splendor",
   "levels": {
    "bard": 2,
+   "blackguard": 2,
    "cleric": 2,
    "paladin": 2,
    "sorcerer": 2,
@@ -3901,6 +3954,7 @@
   "effect": "",
   "id": "endure-elements",
   "levels": {
+   "adept": 1,
    "cleric": 1,
    "druid": 1,
    "paladin": 1,
@@ -4259,6 +4313,7 @@
   "effect": "",
   "id": "false-life",
   "levels": {
+   "assassin": 3,
    "sorcerer": 2,
    "wizard": 2
   },
@@ -4328,6 +4383,7 @@
   "effect": "",
   "id": "feather-fall",
   "levels": {
+   "assassin": 1,
    "bard": 1,
    "sorcerer": 1,
    "wizard": 1
@@ -4858,6 +4914,7 @@
   "effect": "",
   "id": "foxs-cunning",
   "levels": {
+   "assassin": 2,
    "bard": 2,
    "sorcerer": 2,
    "wizard": 2
@@ -4923,7 +4980,9 @@
   "effect": "",
   "id": "freedom-of-movement",
   "levels": {
+   "assassin": 4,
    "bard": 4,
+   "blackguard": 4,
    "cleric": 4,
    "druid": 4,
    "luck": 4,
@@ -5088,6 +5147,8 @@
   "effect": "Illusory sounds",
   "id": "ghost-sound",
   "levels": {
+   "adept": 0,
+   "assassin": 1,
    "bard": 0,
    "sorcerer": 0,
    "wizard": 0
@@ -5152,6 +5213,7 @@
   "effect": "",
   "id": "glibness",
   "levels": {
+   "assassin": 4,
    "bard": 3
   },
   "name": "Glibness",
@@ -5385,6 +5447,7 @@
   "effect": "",
   "id": "guidance",
   "levels": {
+   "adept": 0,
    "cleric": 0,
    "druid": 0
   },
@@ -5539,6 +5602,7 @@
   "effect": "",
   "id": "heal",
   "levels": {
+   "adept": 5,
    "cleric": 6,
    "druid": 7,
    "healing": 6
@@ -6133,6 +6197,7 @@
   "effect": "",
   "id": "illusory-script",
   "levels": {
+   "assassin": 2,
    "bard": 3,
    "sorcerer": 3,
    "wizard": 3
@@ -6263,6 +6328,7 @@
   "effect": "",
   "id": "inflict-critical-wounds",
   "levels": {
+   "blackguard": 4,
    "cleric": 4,
    "destruction": 4
   },
@@ -6304,6 +6370,7 @@
   "effect": "",
   "id": "inflict-light-wounds",
   "levels": {
+   "blackguard": 1,
    "cleric": 1,
    "destruction": 1
   },
@@ -6366,6 +6433,7 @@
   "effect": "",
   "id": "inflict-moderate-wounds",
   "levels": {
+   "blackguard": 2,
    "cleric": 2
   },
   "name": "Inflict Moderate Wounds",
@@ -6406,6 +6474,7 @@
   "effect": "",
   "id": "inflict-serious-wounds",
   "levels": {
+   "blackguard": 3,
    "cleric": 3
   },
   "name": "Inflict Serious Wounds",
@@ -6534,6 +6603,8 @@
   "effect": "",
   "id": "invisibility",
   "levels": {
+   "adept": 2,
+   "assassin": 2,
    "bard": 2,
    "sorcerer": 2,
    "trickery": 2,
@@ -6557,6 +6628,7 @@
   "effect": "",
   "id": "invisibility-greater",
   "levels": {
+   "assassin": 4,
    "bard": 4,
    "sorcerer": 4,
    "wizard": 4
@@ -6708,6 +6780,7 @@
   "effect": "",
   "id": "jump",
   "levels": {
+   "assassin": 1,
    "druid": 1,
    "ranger": 1,
    "sorcerer": 1,
@@ -6840,6 +6913,7 @@
   "effect": "",
   "id": "light",
   "levels": {
+   "adept": 0,
    "bard": 0,
    "cleric": 0,
    "druid": 0,
@@ -6866,6 +6940,7 @@
   "effect": "",
   "id": "lightning-bolt",
   "levels": {
+   "adept": 3,
    "sorcerer": 3,
    "wizard": 3
   },
@@ -6928,6 +7003,7 @@
   "effect": "",
   "id": "locate-creature",
   "levels": {
+   "assassin": 4,
    "bard": 4,
    "sorcerer": 4,
    "wizard": 4
@@ -7106,7 +7182,7 @@
   "effect": "",
   "id": "mages-lucubration",
   "levels": {
-   "wiz": 6
+   "wizard": 6
   },
   "name": "Mage’s Lucubration",
   "range": "Personal",
@@ -7268,6 +7344,7 @@
   "effect": "",
   "id": "magic-circle-against-good",
   "levels": {
+   "assassin": 3,
    "cleric": 3,
    "evil": 3,
    "sorcerer": 3,
@@ -7468,6 +7545,7 @@
   "effect": "",
   "id": "magic-weapon",
   "levels": {
+   "blackguard": 1,
    "cleric": 1,
    "paladin": 1,
    "sorcerer": 1,
@@ -7515,6 +7593,7 @@
   "effect": "",
   "id": "major-creation",
   "levels": {
+   "adept": 5,
    "sorcerer": 5,
    "wizard": 5
   },
@@ -7643,6 +7722,7 @@
   "effect": "",
   "id": "mending",
   "levels": {
+   "adept": 0,
    "bard": 0,
    "cleric": 0,
    "druid": 0,
@@ -7760,6 +7840,7 @@
   "effect": "Unattended, nonmagical object of nonliving plant matter, up to 1 cu. ft./level",
   "id": "minor-creation",
   "levels": {
+   "adept": 4,
    "sorcerer": 4,
    "wizard": 4
   },
@@ -7846,6 +7927,7 @@
   "effect": "",
   "id": "mirror-image",
   "levels": {
+   "adept": 2,
    "bard": 2,
    "sorcerer": 2,
    "wizard": 2
@@ -7868,6 +7950,7 @@
   "effect": "",
   "id": "misdirection",
   "levels": {
+   "assassin": 3,
    "bard": 2,
    "sorcerer": 2,
    "wizard": 2
@@ -7914,7 +7997,7 @@
   "effect": "",
   "id": "mnemonic-enhancer",
   "levels": {
-   "wiz": 4
+   "wizard": 4
   },
   "name": "Mnemonic Enhancer",
   "range": "Personal",
@@ -7936,6 +8019,7 @@
   "effect": "",
   "id": "modify-memory",
   "levels": {
+   "assassin": 4,
    "bard": 4
   },
   "name": "Modify Memory",
@@ -8023,6 +8107,7 @@
   "effect": "",
   "id": "neutralize-poison",
   "levels": {
+   "adept": 3,
    "bard": 4,
    "cleric": 4,
    "druid": 3,
@@ -8072,6 +8157,7 @@
   "effect": "",
   "id": "nondetection",
   "levels": {
+   "assassin": 3,
    "ranger": 4,
    "sorcerer": 3,
    "trickery": 3,
@@ -8118,7 +8204,9 @@
   "effect": "Cloud spreads in 20-ft. radius from you, 20 ft. high",
   "id": "obscuring-mist",
   "levels": {
+   "adept": 1,
    "air": 1,
+   "assassin": 1,
    "cleric": 1,
    "druid": 1,
    "sorcerer": 1,
@@ -8256,6 +8344,7 @@
   "effect": "",
   "id": "pass-without-trace",
   "levels": {
+   "assassin": 2,
    "druid": 1,
    "ranger": 1
   },
@@ -8631,6 +8720,8 @@
   "effect": "",
   "id": "poison",
   "levels": {
+   "assassin": 4,
+   "blackguard": 4,
    "cleric": 4,
    "druid": 3
   },
@@ -8675,6 +8766,7 @@
   "effect": "",
   "id": "polymorph",
   "levels": {
+   "adept": 4,
    "sorcerer": 4,
    "wizard": 4
   },
@@ -8991,6 +9083,7 @@
   "effect": "",
   "id": "protection-from-chaos",
   "levels": {
+   "adept": 1,
    "cleric": 1,
    "law": 1,
    "paladin": 1,
@@ -9015,6 +9108,7 @@
   "effect": "",
   "id": "protection-from-energy",
   "levels": {
+   "blackguard": 3,
    "cleric": 3,
    "druid": 3,
    "luck": 3,
@@ -9043,6 +9137,7 @@
   "effect": "",
   "id": "protection-from-evil",
   "levels": {
+   "adept": 1,
    "cleric": 1,
    "good": 1,
    "paladin": 1,
@@ -9069,6 +9164,7 @@
   "effect": "",
   "id": "protection-from-good",
   "levels": {
+   "adept": 1,
    "cleric": 1,
    "evil": 1,
    "sorcerer": 1,
@@ -9094,6 +9190,7 @@
   "effect": "",
   "id": "protection-from-law",
   "levels": {
+   "adept": 1,
    "chaos": 1,
    "cleric": 1,
    "sorcerer": 1,
@@ -9181,6 +9278,7 @@
   "effect": "",
   "id": "purify-food-and-drink",
   "levels": {
+   "adept": 0,
    "cleric": 0,
    "druid": 0
   },
@@ -9292,6 +9390,7 @@
   "effect": "",
   "id": "raise-dead",
   "levels": {
+   "adept": 5,
    "cleric": 5
   },
   "name": "Raise Dead",
@@ -9377,6 +9476,7 @@
   "effect": "",
   "id": "read-magic",
   "levels": {
+   "adept": 0,
    "bard": 0,
    "cleric": 0,
    "druid": 0,
@@ -9551,6 +9651,7 @@
   "effect": "",
   "id": "remove-curse",
   "levels": {
+   "adept": 3,
    "bard": 3,
    "cleric": 3,
    "paladin": 3,
@@ -9575,6 +9676,7 @@
   "effect": "",
   "id": "remove-disease",
   "levels": {
+   "adept": 3,
    "cleric": 3,
    "druid": 3,
    "ranger": 3
@@ -9751,6 +9853,7 @@
   "effect": "",
   "id": "resist-energy",
   "levels": {
+   "adept": 2,
    "cleric": 2,
    "druid": 2,
    "fire": 3,
@@ -9802,6 +9905,7 @@
   "effect": "",
   "id": "restoration",
   "levels": {
+   "adept": 4,
    "cleric": 4,
    "paladin": 4
   },
@@ -10040,6 +10144,7 @@
   "effect": "One or more rays",
   "id": "scorching-ray",
   "levels": {
+   "adept": 2,
    "sorcerer": 2,
    "wizard": 2
   },
@@ -10237,6 +10342,7 @@
   "effect": "",
   "id": "see-invisibility",
   "levels": {
+   "adept": 2,
    "bard": 3,
    "sorcerer": 2,
    "wizard": 2
@@ -10524,6 +10630,7 @@
   "id": "shatter",
   "levels": {
    "bard": 2,
+   "blackguard": 2,
    "chaos": 2,
    "cleric": 2,
    "destruction": 2,
@@ -10837,6 +10944,8 @@
   "effect": "",
   "id": "sleep",
   "levels": {
+   "adept": 1,
+   "assassin": 1,
    "bard": 1,
    "sorcerer": 1,
    "wizard": 1
@@ -11232,6 +11341,7 @@
   "effect": "",
   "id": "spider-climb",
   "levels": {
+   "assassin": 2,
    "druid": 2,
    "sorcerer": 2,
    "wizard": 2
@@ -11450,6 +11560,7 @@
   "effect": "",
   "id": "stoneskin",
   "levels": {
+   "adept": 4,
    "druid": 5,
    "earth": 6,
    "sorcerer": 4,
@@ -11568,6 +11679,7 @@
   "id": "summon-monster-i",
   "levels": {
    "bard": 1,
+   "blackguard": 1,
    "cleric": 1,
    "sorcerer": 1,
    "wizard": 1
@@ -11593,6 +11705,7 @@
   "id": "summon-monster-ii",
   "levels": {
    "bard": 2,
+   "blackguard": 2,
    "cleric": 2,
    "sorcerer": 2,
    "wizard": 2
@@ -11618,6 +11731,7 @@
   "id": "summon-monster-iii",
   "levels": {
    "bard": 3,
+   "blackguard": 3,
    "cleric": 3,
    "sorcerer": 3,
    "wizard": 3
@@ -11643,6 +11757,7 @@
   "id": "summon-monster-iv",
   "levels": {
    "bard": 4,
+   "blackguard": 4,
    "cleric": 4,
    "sorcerer": 4,
    "wizard": 4
@@ -12517,6 +12632,7 @@
   "effect": "",
   "id": "tongues",
   "levels": {
+   "adept": 3,
    "bard": 2,
    "cleric": 4,
    "sorcerer": 3,
@@ -12540,6 +12656,7 @@
   "effect": "",
   "id": "touch-of-fatigue",
   "levels": {
+   "adept": 0,
    "sorcerer": 0,
    "wizard": 0
   },
@@ -12776,6 +12893,7 @@
   "effect": "",
   "id": "true-seeing",
   "levels": {
+   "adept": 5,
    "cleric": 5,
    "druid": 7,
    "knowledge": 5,
@@ -12800,6 +12918,7 @@
   "effect": "",
   "id": "true-strike",
   "levels": {
+   "assassin": 1,
    "sorcerer": 1,
    "wizard": 1
   },
@@ -12843,6 +12962,7 @@
   "effect": "",
   "id": "undetectable-alignment",
   "levels": {
+   "assassin": 2,
    "bard": 1,
    "cleric": 2,
    "paladin": 2
@@ -13090,6 +13210,7 @@
   "effect": "Opaque sheet of flame up to 20 ft. long/level or a ring of fire with a radius of up to 5 ft. per two levels; either form 20 ft. high",
   "id": "wall-of-fire",
   "levels": {
+   "adept": 4,
    "druid": 5,
    "fire": 4,
    "sorcerer": 4,
@@ -13182,6 +13303,7 @@
   "effect": "Stone wall whose area is up to one 5-ft. square/level (S)",
   "id": "wall-of-stone",
   "levels": {
+   "adept": 5,
    "cleric": 5,
    "druid": 6,
    "earth": 5,
@@ -13336,6 +13458,7 @@
   "effect": "Webs in a 20-ft.-radius spread",
   "id": "web",
   "levels": {
+   "adept": 2,
    "sorcerer": 2,
    "wizard": 2
   },

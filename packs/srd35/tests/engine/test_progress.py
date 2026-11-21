@@ -141,11 +141,13 @@ def test_progress_by_the_one_total():
 
 
 def test_progress_is_ready_no_further_than_the_slices_last_level():
-    # 16,000 XP is 6th level, but the slice stops at 5th: a 5th-level character isn't ready, and has no next level.
+    # The slice stops at 20th (DEL-389 part 2; 5th in Phase 2): 3,000,000 XP is past 20th level's 2,600,000, and
+    # a 20th-level character isn't ready, and has no next level. A 5th-level one with 16,000 (6th) is ready, with
+    # 6th level's 16,000 next.
+    twentieth = sheet("Fighter", {"fighter": 10, "rogue": 10})
+    assert ENGINE.progress(twentieth, CharacterState(xp=3000000), REF) == Progress(20, 3000000, None, ())
     fifth = sheet("Fighter", {"fighter": 3, "rogue": 2})
-    assert ENGINE.progress(fifth, CharacterState(xp=16000), REF) == Progress(6, 16000, None, ())
-    fourth = sheet("Fighter", {"fighter": 2, "rogue": 2})
-    assert ENGINE.progress(fourth, CharacterState(xp=16000), REF).ready == ("fighter", "rogue")
+    assert ENGINE.progress(fifth, CharacterState(xp=16000), REF) == Progress(6, 16000, 16000, ("fighter", "rogue"))
 
 
 def test_rest_heals_level_per_day_and_refills_turning():
@@ -265,3 +267,33 @@ def test_cr_for_the_zombie_table_and_other_rows():
     assert progress.cr_for({"id": "orc", "cr": "1/2"}) == "1/2"
     assert progress.cr_for({"id": "thing", "cr": "None", "hit_dice": "3d8"}) is None
     assert progress.cr_for({"id": "big-skeleton", "cr": "None", "hit_dice": "24d12"}) is None
+
+
+def test_a_6th_level_character_at_0_xp_is_6th(srd35_call):  # DEL-389
+    # The live party: four 6th-level characters made by Phase 2 with 0 XP. Progress says 6th (16,000 XP is 6th
+    # level's floor by Table 6-13), with a note; 7th needs 24,000.
+    fighter = sheet("Fighter", {"fighter": 6})
+    found = ENGINE.progress(fighter, CharacterState(xp=0), REF)
+    assert (found.level, found.xp, found.xp_next, found.ready) == (6, 0, 24000, ())
+    assert found.note == (
+        "0 XP is below 6th level's 16,000: the level stands, and an award first raises the XP to 16,000."
+    )
+    # The award of 1,000 first raises the XP to 16,000: 17,000.
+    assert ENGINE.award_xp(fighter, CharacterState(xp=0), 1000).xp == 17000
+    # At or above the floor nothing changes: 16,500 + 1,000; and progress has no note.
+    assert ENGINE.award_xp(fighter, CharacterState(xp=16500), 1000).xp == 17500
+    assert ENGINE.progress(fighter, CharacterState(xp=16500), REF) == Progress(6, 16500, 24000, ())
+    # A loss is no award: it isn't raised.
+    assert ENGINE.award_xp(fighter, CharacterState(xp=0), -100).xp == -100
+
+
+def test_the_award_answer_says_the_xp_was_raised(srd35_call):  # DEL-389
+    made = srd35_call("create_character", name="Eors",
+                      sheet={"cls": "Fighter", "level": 6, "race": "Human", "hp_max": 50})  # fmt: skip
+    assert "error" not in made, made
+    out = srd35_call("award_xp", character="Eors", amount=1000)
+    assert (out["xp_total"], out["xp_gained"], out["level"], out["xp_next"]) == (17000, 1000, 6, 24000)
+    assert out["xp_note"] == "0 XP was below 6th level's 16,000: raised to 16,000 before the award."
+    # The next award adds as before, with no note.
+    out = srd35_call("award_xp", character="Eors", amount=1000)
+    assert out["xp_total"] == 18000 and "xp_note" not in out

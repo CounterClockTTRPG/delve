@@ -202,18 +202,41 @@ def memorize_sleep(at):
 
 def test_a_spell_declared_in_a_fight_spends_its_memorized_copy(storage, at, party):
     """DEL-326: the fight spends the copy when the spell is begun (it is lost if spoiled too), so the DM doesn't
-    cast_spell it after; one already spent, or never memorized, is refused before the round resolves anything."""
+    cast_spell it after; one never memorized is refused before the round resolves anything."""
     memorize_sleep(at)
     out = setup_fight(at, spells=[{"caster": "Pippa", "spell": "sleep"}])
     assert out["spells_spent"] == [{"caster": "Pippa", "spell": "Sleep", "remaining": {"1": 0}}]
     assert [s.cast for s in characters.get(at(), "Pippa").state.memorized] == [True]
 
     before = storage.combats.live(party[0].campaign_id)[1]["round"]
-    with pytest.raises(PlayError, match="already cast every memorized sleep"):
-        combat.combat_round(at(), [{"caster": "Pippa", "spell": "sleep"}])
     with pytest.raises(PlayError, match="not memorized magic missile"):
         combat.combat_round(at(), [{"caster": "Pippa", "spell": "magic missile"}])
     assert storage.combats.live(party[0].campaign_id)[1]["round"] == before, "nothing of the round was resolved"
+
+
+@pytest.mark.parametrize("copies, left", [(1, 0), (2, 1)])
+def test_a_spell_declared_at_setup_and_again_in_round_1_is_spent_once(storage, at, party, copies, left):
+    """DEL-458: setup's declaration is round 1's; declaring it again in round 1 is the same cast, not a second."""
+    characters.update(
+        at(), "Pippa", {"spell_slots": {1: copies}, "memorized": [{"name": "Sleep", "level": 1}] * copies}
+    )
+    out = setup_fight(at, spells=[{"caster": "Pippa", "spell": "sleep"}])
+    assert len(out["spells_spent"]) == 1
+    result = combat.combat_round(at(), [{"caster": "Pippa", "spell": "sleep"}])
+    assert "spells_spent" not in result
+    assert [s.cast for s in characters.get(at(), "Pippa").state.memorized].count(False) == left
+
+
+def test_a_different_spell_in_round_1_spends_its_own_copy(storage, at, party):
+    characters.update(
+        at(),
+        "Pippa",
+        {"spell_slots": {1: 2}, "memorized": [{"name": "Sleep", "level": 1}, {"name": "Magic Missile", "level": 1}]},
+    )
+    setup_fight(at, spells=[{"caster": "Pippa", "spell": "sleep"}])
+    result = combat.combat_round(at(), [{"caster": "Pippa", "spell": "magic missile"}])
+    assert [s["spell"] for s in result["spells_spent"]] == ["Magic Missile"]
+    assert all(s.cast for s in characters.get(at(), "Pippa").state.memorized)
 
 
 def test_a_spell_not_memorized_refuses_setup_and_leaves_no_fight(storage, at, party):

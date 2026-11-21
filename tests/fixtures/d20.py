@@ -147,6 +147,7 @@ class FakeD20Engine:
         self.called = Called()
         self.cast_dice: Dice | None = None
         self.cast_actor: str | None = None
+        self.cast_unprepared: bool | None = None
         self.memorize_spells: list[str] = []
         self.turn_state: CharacterState | None = None
 
@@ -202,10 +203,12 @@ class FakeD20Engine:
         dice: Dice | None = None,
         *,
         actor: str | None = None,
+        unprepared: bool = False,
     ) -> tuple[CharacterState, dict[str, Any]]:
         self.called.add("cast")
         self.cast_dice = dice
         self.cast_actor = actor
+        self.cast_unprepared = unprepared
         used = (state.d20 or {}).get("used", 0)
         if used >= (sheet.d20 or {}).get("pool", 0):
             return state, {"cast": False, "refusal": "No spells left to cast."}
@@ -215,6 +218,10 @@ class FakeD20Engine:
         self.called.add("can_memorize")
         self.memorize_spells = list(spells)
         return None
+
+    def casts_unprepared(self, sheet: Sheet, spell: str) -> bool:
+        self.called.add("casts_unprepared")
+        return False
 
     def spell_level(self, sheet: Sheet, name: str) -> int | None:
         self.called.add("spell_level")
@@ -316,7 +323,17 @@ class FakeD20Engine:
             damage = max(rolled.total, 0)
             rolls = (roll, rolled)
         spent = replace(attacker, attacks_used=attacker.attacks_used + 1)
+        if (attacker.d20 or {}).get("subdual"):  # a sap: every hit nonlethal
+            return Swing(hit, 0, roll.total, (), rolls, spent, die, nonlethal=damage)
         return Swing(hit, damage, roll.total, (), rolls, spent, die)
+
+    def nonlethal_state(self, c: Combatant) -> str | None:
+        """The SRD's: staggered at nonlethal damage equal to the hit points, unconscious above them."""
+        self.called.add("nonlethal_state")
+        nonlethal = int((c.d20 or {}).get("nonlethal") or 0)
+        if not nonlethal:
+            return None
+        return "staggered" if nonlethal == c.hp else "unconscious" if nonlethal > c.hp else None
 
     def initiative(self, combatant: Combatant, dice: Dice, combat_round: int) -> Initiative:
         self.called.add("initiative")

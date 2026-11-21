@@ -27,7 +27,7 @@ ANSWERED = (
     "session_primer", "encumbrance", "inventory", "party_status", "get_character", "set_build", "setup_combat",
     "combat_round", "resolve_attack", "add_combatant", "update_combatant", "provoke", "end_combat", "saving_throw",
     "skill_check", "turning_undead", "memorize_spells", "spell_status", "award_xp", "update_character", "rest",
-    "drain_level",
+    "drain_level", "generate_treasure", "award_treasure",
 )  # fmt: skip
 """Tools that must answer without a refusal: the ones a 3.5 session lives on."""
 
@@ -162,13 +162,17 @@ def _session(call) -> None:
     call("adjudicate", note="The orc slips on the wet stone.")
     call("interrupt", combatant="Elowen", reason="jostled")
     call("set_stance", combatant="Bram", power_attack=1)
+    call("use_feature", character="Bram", feature="rage")  # refused: a fighter has no rage
+    call("add_companion", master="Bram", animal="wolf", name="Grey")  # refused: a fighter has none
+    call("convert_spell", character="Bram", prepared="bless")  # refused: a fighter prepares nothing
     call("provoke", provoker="Orc 1", threatened_by=["Bram"])
+    call("spell_resistance", caster="Elowen", target="Orc 2", spell="magic missile")  # an orc has none
     call("remove_combatant", id="Ghoul", reason="fled")
     call("end_combat")
 
     # After the fight.
-    call("generate_treasure", treasure_types="A")
-    call("award_treasure", treasure_types="A")
+    call("generate_treasure", treasure_types="EL 2, standard")
+    call("award_treasure", treasure_types="standard", source="Orc")  # the orc's CR, 1/2: the 1st level
     call("loot_pile")
     call("claim_loot", index=0, character="Bram")
     call("apply_damage", character="Elowen", amount=3)

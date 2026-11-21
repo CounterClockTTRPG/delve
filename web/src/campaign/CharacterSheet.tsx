@@ -1,4 +1,4 @@
-import type { Character, D20Feat, SheetEmote, XpProgress } from "../api";
+import type { Character, D20Casting, D20Feat, D20Feature, D20Item, SheetEmote, XpProgress } from "../api";
 import Portrait from "../components/Portrait";
 import { useLanguage, useT, type Translate } from "../i18n";
 import { term } from "../i18n/terms";
@@ -34,9 +34,96 @@ function d20Name(id: string): string {
     .join(" ");
 }
 
+/** A class's id as the engine keys it: "Eldritch Knight" → "eldritch-knight". */
+function classId(name: string): string {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
+
 function featName(t: Translate, feat: D20Feat): string {
   const name = d20Name(feat.id);
   return feat.choice ? t("sheet.d20.featChoice", { feat: name, choice: feat.choice }) : name;
+}
+
+/** A magic item as the sheet lists it: its name with its bonus, marked when it is carried and not in use, when the
+ * engine has no numbers for it, or with the special abilities the DM rules. */
+function itemLine(t: Translate, item: D20Item): string {
+  if (item.note) return t("sheet.d20.itemNote", { item: item.name });
+  const line = item.in_use === false ? t("sheet.d20.itemCarried", { item: item.name }) : item.name;
+  return item.dm?.length ? t("sheet.d20.itemDm", { item: line, abilities: item.dm.map(d20Name).join(", ") }) : line;
+}
+
+/** A class feature by its name in the reader's language (`sheet.d20.feature.<id>`), else the engine's; with its uses a
+ * day (a week for one with `per: "week"`, remove disease) and those spent for one that has uses (rage: "Rage: 1 a
+ * day, 1 used"). */
+function featureLine(t: Translate, feature: D20Feature, used: Record<string, number>): string {
+  const key = `sheet.d20.feature.${feature.id}`;
+  const translated = t(key);
+  const name = translated === key ? feature.name : translated;
+  if (feature.kind !== "uses" || !feature.per_day) return name;
+  // Turning counts its own way, in the state's `turning_used`: the sheet passes it as the feature's.
+  const per = feature.per === "week" ? "sheet.d20.perWeek" : "sheet.d20.perDay";
+  return t(per, { name, count: String(feature.per_day), used: String(used[feature.id] ?? 0) });
+}
+
+const byLevel = (a: string, b: string) => Number(a) - Number(b);
+
+/** One class's casting pool (DEL-389), headed by the class, its caster level and key ability: by spell level its
+ * prepared slots, or its spells a day with those cast today (`cast`, the state's) and how many it knows, and its DCs;
+ * a spontaneous caster's spells known by name under it. */
+function CastingPool({ id, cls, pool, cast, spells, advanced }: {
+  id: string;
+  cls: string;
+  pool: D20Casting;
+  cast: Record<string, number>;
+  spells: string[];
+  /** The caster levels prestige classes add to this class, by prestige class id. */
+  advanced: Record<string, number>;
+}) {
+  const t = useT();
+  const counts = (pool.prepared ? pool.slots : pool.per_day) ?? {};
+  const levels = [...new Set([...Object.keys(counts), ...Object.keys(pool.dc)])].sort(byLevel);
+  // "+2 from Eldritch Knight": the caster levels prestige classes add (DEL-389 part 4).
+  const from = Object.entries(advanced)
+    .map(([by, n]) => t("sheet.d20.advancedFrom", { levels: String(n), class: term(t, "class", d20Name(by)) }))
+    .join(", ");
+  const heading = t("sheet.d20.casting", {
+    class: term(t, "class", d20Name(cls)),
+    level: String(pool.caster_level),
+    ability: t(`ability.${pool.ability}`),
+  });
+  return (
+    <section aria-labelledby={id}>
+      <h5 id={id}>{heading}</h5>
+      {from && <p>{t("sheet.d20.advanced", { from })}</p>}
+      <table className="sheet-table">
+        <thead>
+          <tr>
+            <th />
+            <th>{t(pool.prepared ? "sheet.slots" : "sheet.d20.aDay")}</th>
+            {!pool.prepared && <th>{t("sheet.known")}</th>}
+            <th>
+              <abbr title={t("sheet.d20.dcExplain")}>{t("sheet.d20.dc")}</abbr>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {levels.map((level) => (
+            <tr key={level}>
+              <td>{t("sheet.spellLevel", { level })}</td>
+              <td className="num">
+                {cast[level]
+                  ? t("sheet.d20.castOf", { count: String(counts[level] ?? 0), cast: String(cast[level]) })
+                  : (counts[level] ?? 0)}
+              </td>
+              {!pool.prepared && <td className="num">{pool.known?.[level] ?? ""}</td>}
+              <td className="num">{pool.dc[level] ?? ""}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      {spells.length > 0 && <p>{t("sheet.d20.spellsKnown", { spells: spells.join(", ") })}</p>}
+    </section>
+  );
 }
 
 function signed(n: number): string {
@@ -73,7 +160,7 @@ function stateLook(emote: SheetEmote): { emotes?: string[]; once?: boolean } {
  * disposition show only with `organiser`, and only the organiser's route sends them. In a d20 campaign (SRD 3.5), the
  * engine's numbers (`character.d20`) stand in: AC with touch and flat-footed, BAB, initiative and Fort/Ref/Will
  * for THAC0 and the five saves, the 3.5 skills and feats for the thief skills, domains, sneak attack and turning,
- * and a DC per spell level; the engine's warnings show only with `organiser`. With `mayRepaint`, a small
+ * and a DC per spell level (a multiclass, spontaneous or prestige-advanced caster: a pool per class, `CastingPool`; a prestige class marked so); the engine's warnings show only with `organiser`. With `mayRepaint`, a small
  * Repaint portrait (or Try again, for one that failed) under the head (DEL-135).
  */
 // The classes that cast from a spellbook: the mage or magic-user, its specialists (the illusionist among them), and
@@ -107,9 +194,13 @@ export default function CharacterSheet({
     .map((c) => c.trim())
     .filter(Boolean)
     .map((c) => {
-      const level = sheet.levels[c.toLowerCase()];
-      const name = term(t, "class", c);
-      return level === undefined ? name : `${name} ${level}`;
+      // A d20 class is kept by its id ("Eldritch-Knight", levels "eldritch-knight"): shown by its name.
+      const d20Class = Boolean(character.d20) && c.includes("-");
+      const level = sheet.levels[c.toLowerCase()] ?? sheet.levels[classId(c)];
+      const name = term(t, "class", d20Class ? d20Name(classId(c)) : c);
+      const shown = level === undefined ? name : `${name} ${level}`;
+      // A prestige class (DEL-389 part 4) is marked as one.
+      return character.d20?.prestige?.includes(classId(c)) ? t("sheet.d20.prestigeClass", { class: shown }) : shown;
     })
     .join(" / ");
   const who = [term(t, "race", sheet.race), term(t, "gender", sheet.gender), term(t, "alignment", sheet.alignment)]
@@ -120,6 +211,7 @@ export default function CharacterSheet({
   const d20 = character.d20;
   const build = sheet.d20;
   const derived = build?.derived;
+  const spent = { ...state.d20?.used, "turn-undead": state.d20?.turning_used ?? 0 };
   // A d20 sheet's percentile skills mean nothing; its 3.5 skills are the engine's, by name.
   const skills = d20 ? [] : Object.entries(sheet.skills ?? {});
   const d20Skills = d20 ? Object.keys(d20.skills).sort((a, b) => d20Name(a).localeCompare(d20Name(b))) : [];
@@ -134,11 +226,18 @@ export default function CharacterSheet({
   // Known spells are a spellbook's: a priest may pray for any spell of their spheres, so a list means nothing there.
   const known = keepsSpellbook(sheet.levels) ? (sheet.spell_loadout?.known ?? {}) : null;
   const loadout = sheet.spell_loadout?.default ?? {};
-  const slots = d20 ? { ...sheet.spell_slots, ...d20.slots } : sheet.spell_slots;
-  const spellLevels = [
-    ...new Set([...Object.keys(slots), ...Object.keys(known ?? {}), ...Object.keys(loadout)]),
-  ].sort((a, b) => Number(a) - Number(b));
-  const hasSpells = memorized.length > 0 || spellLevels.length > 0;
+  // A multiclass or spontaneous caster's pools by class (DEL-389) stand in for the one slots table, whose d20 slots
+  // and DCs are its first class's; the table then shows only a default loadout, against the summed slots.
+  const casting = Object.entries(d20?.casting ?? {});
+  const slots = d20 && !casting.length ? { ...sheet.spell_slots, ...d20.slots } : sheet.spell_slots;
+  const spellLevels =
+    casting.length && !Object.keys(loadout).length
+      ? []
+      : [...new Set([...Object.keys(slots), ...Object.keys(known ?? {}), ...Object.keys(loadout)])].sort(byLevel);
+  const showDc = Boolean(d20) && !casting.length;
+  // A sorcerer or bard memorizes nothing: no empty Memorized list for one that only casts spontaneously.
+  const showMemorized = memorized.length > 0 || !casting.length || casting.some(([, pool]) => pool.prepared);
+  const hasSpells = memorized.length > 0 || spellLevels.length > 0 || casting.length > 0;
 
   return (
     <article className="sheet" aria-labelledby={headingId}>
@@ -181,7 +280,19 @@ export default function CharacterSheet({
           {abilities.map((a) => (
             <li key={a}>
               <span className="ability">{t(`ability.${a}`)}</span>
-              <span className="score">{String(scores[a])}</span>
+              <span className="score">
+                {/* A 3.5 score a magic item enhances (DEL-389): the base, then the score with the item's bonus. */}
+                {character.d20?.abilities?.[a] !== undefined ? (
+                  <abbr title={t("sheet.d20.enhancedExplain")}>
+                    {t("sheet.d20.enhancedScore", {
+                      base: String(scores[a]),
+                      score: String(character.d20.abilities[a]),
+                    })}
+                  </abbr>
+                ) : (
+                  String(scores[a])
+                )}
+              </span>
             </li>
           ))}
         </ul>
@@ -306,6 +417,26 @@ export default function CharacterSheet({
               </ul>
             )}
           </section>
+          {(d20.features?.length ?? 0) > 0 && (
+            <section>
+              <h4 id={`${headingId}-features`}>{t("sheet.d20.features")}</h4>
+              <ul className="sheet-items" aria-labelledby={`${headingId}-features`}>
+                {d20.features!.map((feature) => (
+                  <li key={`${feature.class}-${feature.id}`}>{featureLine(t, feature, spent)}</li>
+                ))}
+              </ul>
+            </section>
+          )}
+          {(d20.items?.length ?? 0) > 0 && (
+            <section>
+              <h4 id={`${headingId}-items`}>{t("sheet.d20.items")}</h4>
+              <ul className="sheet-items" aria-labelledby={`${headingId}-items`}>
+                {d20.items!.map((item, at) => (
+                  <li key={`${item.id}-${at}`}>{itemLine(t, item)}</li>
+                ))}
+              </ul>
+            </section>
+          )}
           {(d20.domains.length > 0 || derived?.sneak || Boolean(derived?.turning_per_day)) && (
             <section>
               {d20.domains.length > 0 && (
@@ -424,8 +555,8 @@ export default function CharacterSheet({
       {hasSpells && (
         <section>
           <h4>{t("sheet.spells")}</h4>
-          <h5 id={`${headingId}-memorized`}>{t("sheet.memorized")}</h5>
-          {memorized.length === 0 ? (
+          {showMemorized && <h5 id={`${headingId}-memorized`}>{t("sheet.memorized")}</h5>}
+          {!showMemorized ? null : memorized.length === 0 ? (
             <p className="placeholder">{t("sheet.noMemorized")}</p>
           ) : (
             <ul className="sheet-spells" aria-labelledby={`${headingId}-memorized`}>
@@ -451,7 +582,7 @@ export default function CharacterSheet({
                   <th>{t("sheet.slots")}</th>
                   <th>{t("sheet.default")}</th>
                   {known && <th>{t("sheet.known")}</th>}
-                  {d20 && (
+                  {showDc && (
                     <th>
                       <abbr title={t("sheet.d20.dcExplain")}>{t("sheet.d20.dc")}</abbr>
                     </th>
@@ -465,12 +596,23 @@ export default function CharacterSheet({
                     <td className="num">{slots[level] ?? 0}</td>
                     <td>{(loadout[level] ?? []).join(", ")}</td>
                     {known && <td>{(known[level] ?? []).join(", ")}</td>}
-                    {d20 && <td className="num">{d20.dc[level] ?? ""}</td>}
+                    {showDc && <td className="num">{d20!.dc[level] ?? ""}</td>}
                   </tr>
                 ))}
               </tbody>
             </table>
           )}
+          {casting.map(([cls, pool]) => (
+            <CastingPool
+              key={cls}
+              id={`${headingId}-casting-${cls}`}
+              cls={cls}
+              pool={pool}
+              cast={state.d20?.cast?.[cls] ?? {}}
+              spells={d20?.known?.[cls] ?? []}
+              advanced={d20?.advanced?.[classId(cls)] ?? {}}
+            />
+          ))}
         </section>
       )}
 

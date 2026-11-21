@@ -1,0 +1,25 @@
+{
+  "id": "multiclass_level_up",
+  "description": "SRD 3.5: Kell, a rogue 3 with the XP for 4th level, takes it as a fighter: the level goes through update_character before any hit points are told, then the feat and the skill points through set_build.",
+  "module": "crypt-of-saint-vellis",
+  "ruleset": "srd35",
+  "setting": "aun",
+  "setup": [
+    {"tool": "create_character", "args": {"name": "Kell", "sheet": {
+      "race": "Human", "gender": "male", "cls": "Rogue", "level": 3, "hp_max": 18,
+      "alignment": "Chaotic Good",
+      "ability_scores": {"str": 14, "dex": 16, "con": 12, "int": 12, "wis": 10, "cha": 10}}}},
+    {"tool": "set_build", "args": {"character": "Kell", "weapon": "rapier", "armor": "leather",
+      "skills": {"climb": 4, "jump": 4, "balance": 4, "hide": 6, "move silently": 6, "spot": 6, "listen": 6, "search": 6,
+                 "open lock": 6, "disable device": 6, "tumble": 6},
+      "feats": ["dodge", "weapon finesse", "combat reflexes"]}},
+    {"tool": "update_character", "args": {"ref": "Kell", "patch": {"xp": 6000}, "reason": "the XP of the next level"}},
+    {"tool": "move_party", "args": {"to": "entry_hall"}}
+  ],
+  "secrets": [],
+  "beats": [
+    {"player": "Kell has trained with the guard captain: he takes his 4th level as a fighter.",
+     "expect": {"roll": {"tools": ["update_character"], "outcome": ["\\b(?:\\d+|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve)\\s+(?:more\\s+)?hit points\\b"]}}},
+    {"player": "Kell takes Weapon Focus with the rapier, and puts his skill points into Climb and Jump."}
+  ]
+}

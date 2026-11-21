@@ -6,7 +6,7 @@ from __future__ import annotations
 from dataclasses import replace
 
 import pytest
-from delve_srd35.engine import Srd35Engine
+from delve_srd35.engine import Srd35Engine, magic
 from delve_srd35.reference import Srd35Reference
 
 from delve.dice import Dice, MemoryRollLog, ScriptedRng
@@ -77,9 +77,9 @@ def test_wizard_cannot_prepare_a_cleric_spell():
     # A wizard spell at the wrong level, and a name that is no spell.
     assert "level-1 wizard spell" in ENGINE.can_memorize(sheet, [0], ["Sleep"])
     assert "no spell" in ENGINE.can_memorize(sheet, [1], ["Fireballz"])
-    # A wizard has no domain slot: its slots go by count alone, and level 2 it has none of.
+    # A wizard has no domain slot: its slots go by count alone, and level 2 it has none of (DEL-389: its highest).
     assert "slots" in ENGINE.can_memorize(sheet, [1, 1, 1])
-    assert "slots" in ENGINE.can_memorize(sheet, [2], ["Blur"])
+    assert ENGINE.can_memorize(sheet, [2], ["Blur"]) == "Wizard can cast up to 1st-level spells."
     fighter = filled("Fighter", {"fighter": 1}, {})
     assert ENGINE.can_memorize(fighter, [], []) is None
     assert "casts no spells" in ENGINE.can_memorize(fighter, [1], ["Sleep"])
@@ -87,12 +87,12 @@ def test_wizard_cannot_prepare_a_cleric_spell():
         ENGINE.can_memorize(sheet, [1, 1], ["Sleep"])
 
 
-def test_level_four_spells_refused():
-    # A 7th-level cleric with Wis 15 has 4th-level slots (1 + 1 domain), and the slice still prepares up to 3rd.
+def test_a_level_above_the_casters_highest_is_refused():
+    # A 7th-level cleric with Wis 15 has 4th-level slots (1 + 1 domain) and none of 5th (DEL-389: to 9th by the table).
     sheet = cleric(7)
     assert sheet.d20["derived"]["slots"]["4"] == 2
-    refusal = ENGINE.can_memorize(sheet, [4], ["Divine Power"])
-    assert refusal and "3rd" in refusal
+    assert ENGINE.can_memorize(sheet, [4], ["Divine Power"]) is None
+    assert ENGINE.can_memorize(sheet, [5], ["Flame Strike"]) == "Cleric can cast up to 4th-level spells."
     assert ENGINE.can_memorize(sheet, [3, 3], ["Magic Vestment", "Prayer"]) is None
 
 
@@ -294,8 +294,169 @@ def test_turning_takes_the_clerics_level_from_its_sheet():
     assert (said["max_hd"], said["total_hd"], said["destroy_up_to_hd"]) == (4, 13, 1)
 
 
+def test_knowledge_religion_5_ranks_add_2_to_the_turning_check():  # DEL-389
+    # Turn Undead: "+2 bonus on turning checks against undead if you have 5 or more ranks in Knowledge (religion)". A
+    # 3rd-level cleric with Cha 12: 13 + 1 = 14 with 4 ranks ("13-15: level + 1", 4 HD); 13 + 1 + 2 = 16 with 5
+    # ("16-18: level + 2", 5 HD). The damage takes no bonus: 2d6 (4 + 5) + 3 + 1 = 13 either way.
+    def turning(ranks):
+        sheet = filled("Cleric", {"cleric": 3}, {"wis": 15, "cha": 12}, domains=["war", "good"],
+                       skills={"knowledge-religion": ranks})  # fmt: skip
+        return ENGINE.turn_undead(sheet, 3, "ghoul", 0, dice(13, 4, 5)[0], actor="pc_1", state=CharacterState(hp=15))
+
+    four, five = turning(4), turning(5)
+    assert (four["check"], four["max_hd"], four["total_hd"], "synergy" in four) == (14, 4, 13, False)
+    assert (five["check"], five["max_hd"], five["total_hd"]) == (16, 5, 13)
+    assert five["synergy"] == "+2 (Knowledge (religion) 5+ ranks)"
+
+
 def test_turning_needs_the_damage_to_reach_the_undead():
     # A 3rd-level cleric with Cha 8: 20 - 1 = 19 is "19-21: level + 3", 6 HD; the damage 2d6 (1 + 1) + 3 - 1 = 4 HD of
     # turning damage, too few for one 6-HD undead: it is not turned.
     said = ENGINE.turn_undead(cleric(3, cha=8), 3, "", 6, dice(20, 1, 1)[0], actor="pc_1", state=CharacterState(hp=15))
     assert (said["max_hd"], said["total_hd"], said["turned"], said["destroyed"]) == (6, 4, False, False)
+
+
+def test_a_druid_prepares_from_the_druid_list():
+    # A 1st-level druid with Wis 15: 3 orisons and 1 + 1 bonus = 2 level-1 slots; DC at level 1 is 10 + 1 + 2 = 13.
+    sheet = filled("Druid", {"druid": 1}, {"wis": 15})
+    assert sheet.d20["derived"]["slots"] == {"0": 3, "1": 2} and sheet.d20["derived"]["dc"]["1"] == 13
+    assert ENGINE.can_memorize(sheet, [1, 1], ["Entangle", "Cure Light Wounds"]) is None
+    assert ENGINE.can_memorize(sheet, [1], ["Bless"]) == "Bless is not on the druid list."
+    assert ENGINE.spell_level(sheet, "Entangle") == 1
+
+
+def test_a_paladin_prepares_from_4th_level_with_half_its_caster_level():
+    # Table: The Paladin gives a 4th-level paladin 0 spells of 1st level, with bonus spells by Wis: Wis 14 gives 1.
+    # It has no 0-level spells. A 3rd-level paladin casts none. Its caster level is half its paladin level (SRD).
+    assert "casts no spells" in ENGINE.can_memorize(filled("Paladin", {"paladin": 3}, {"wis": 14}), [1], ["Bless"])
+    sheet = filled("Paladin", {"paladin": 4}, {"wis": 14})
+    assert sheet.d20["derived"]["slots"] == {"1": 1}
+    assert ENGINE.can_memorize(sheet, [1], ["Bless"]) is None
+    assert ENGINE.can_memorize(sheet, [0], ["Light"]) == "Too many level-0 spells: 1 given, 0 slots available."
+    _, said = ENGINE.cast(sheet, CharacterState(hp=30), "Bless", 1, dice()[0])
+    assert said["caster_level"] == 2 and said["school"] == "Enchantment"
+    # A paladin with Wis 10 has 0 + no bonus: no slots at all.
+    assert filled("Paladin", {"paladin": 4}, {"wis": 10}).d20["derived"]["slots"] == {}
+
+
+def test_a_ranger_prepares_from_4th_level():
+    sheet = filled("Ranger", {"ranger": 4}, {"wis": 12})
+    assert sheet.d20["derived"]["slots"] == {"1": 1}
+    assert ENGINE.can_memorize(sheet, [1], ["Entangle"]) is None
+    assert ENGINE.can_memorize(sheet, [1], ["Sleep"]) == "Sleep is not on the ranger list."
+
+
+def test_an_adept_prepares_from_its_own_list():
+    # The adept's list is in its class text, extracted into the spells' levels: bless 1st, cure minor wounds 0.
+    sheet = filled("Adept", {"adept": 1}, {"wis": 13})
+    assert sheet.d20["derived"]["slots"] == {"0": 3, "1": 2}
+    assert ENGINE.spell_level(sheet, "Bless") == 1 and ENGINE.spell_level(sheet, "Cure Minor Wounds") == 0
+    assert ENGINE.can_memorize(sheet, [0, 1, 1], ["Cure Minor Wounds", "Bless", "Burning Hands"]) is None
+    assert ENGINE.can_memorize(sheet, [1], ["Magic Missile"]) == "Magic Missile is not on the adept list."
+
+
+def unprepared(cls: str) -> str:
+    return (
+        f"A {cls} memorizes nothing: it casts any spell it knows (set_build's known), so many a day, with cast_spell."
+    )
+
+
+@pytest.mark.parametrize(("cls", "spell"), [("sorcerer", "Magic Missile"), ("bard", "Cure Light Wounds")])
+def test_a_spontaneous_caster_memorizes_nothing(cls, spell):
+    # DEL-389 part 2: a sorcerer or bard casts from its spells known (`test_spontaneous`); it memorizes nothing.
+    sheet = filled(cls.title(), {cls: 2}, {"cha": 16})
+    assert ENGINE.can_memorize(sheet, [1], [spell]) == unprepared(cls)
+    assert ENGINE.can_memorize(sheet, [0], []) == unprepared(cls)
+    _, said = ENGINE.cast(sheet, CharacterState(hp=8), spell, 1, dice()[0])
+    assert said == {"cast": False, "refusal": f"{cls.title()} doesn't know {spell}: the {cls}'s spells known are none "
+                                              "yet: set them with set_build's known."}  # fmt: skip
+    # No slots: core's per-day cast asks the engine; its class features still play, and no warning stands.
+    assert sheet.spell_slots == {}
+    assert any(f["id"] == "casting" for f in sheet.d20["derived"]["features"])
+    assert "warnings" not in sheet.d20["derived"]
+
+
+def test_a_sorcerer_and_a_bard_cast_only_what_they_know_in_play(srd35_call):
+    for name, cls, spell in (("Sela", "Sorcerer", "magic missile"), ("Bryn", "Bard", "cure light wounds")):
+        sheet = {"cls": cls, "level": 2, "race": "Human", "hp_max": 8, "ability_scores": {**TEN, "cha": 16}}
+        srd35_call("create_character", name=name, sheet=sheet)
+        assert srd35_call("cast_spell", character=name, spell_name=spell)["error"].startswith(f"{name} doesn't know")
+        assert srd35_call("memorize_spells", character=name, spells=[spell])["error"] == unprepared(cls.lower())
+
+
+def test_set_build_no_longer_warns_a_sorcerer_or_bard(srd35_call):
+    # Part 1's "can't cast yet" warning is gone with part 2: a sorcerer's, bard's or fighter/sorcerer's build has none.
+    for name, cls in (("Sela", "Sorcerer"), ("Bryn", "Bard"), ("Tor", "Fighter")):
+        sheet = {"cls": cls, "level": 1, "race": "Human", "hp_max": 8, "ability_scores": {**TEN, "cha": 16}}
+        made = srd35_call("create_character", name=name, sheet=sheet)
+        built = srd35_call("set_build", character=name, weapon="dagger")
+        assert "error" not in built, built
+        assert "warnings" not in built and "warnings" not in made["sheet"]["d20"]["derived"]
+    multi = {"cls": "Fighter/Sorcerer", "levels": {"fighter": 1, "sorcerer": 1}, "race": "Human", "hp_max": 12,
+             "ability_scores": TEN}  # fmt: skip
+    srd35_call("create_character", name="Mix", sheet=multi)
+    assert "warnings" not in srd35_call("set_build", character="Mix", weapon="dagger")
+
+
+def test_spell_focus_raises_its_schools_dcs():
+    # SRD: Spell Focus "Add +1 to the Difficulty Class for all saving throws against spells from the school of magic
+    # you select"; Greater Spell Focus +1 more, stacking. A wizard 5, Int 16: 3rd-level DC 10 + 3 + 3 = 16, 2nd 15.
+    # With Spell Focus (evocation), Fireball is DC 17 and Web (conjuration) stays 15; with Greater Spell Focus too, 18.
+    focus = {"id": "spell-focus", "choice": "evocation"}
+    sheet = filled("Wizard", {"wizard": 5}, {"int": 16}, feats=[focus])
+    assert ENGINE.cast(sheet, spent("Fireball"), "Fireball", 3, None)[1]["dc"] == 17
+    assert ENGINE.cast(sheet, spent("Web"), "Web", 2, None)[1]["dc"] == 15
+    greater = filled("Wizard", {"wizard": 5}, {"int": 16}, feats=[focus, {"id": "greater-spell-focus",
+                                                                           "choice": "evocation"}])  # fmt: skip
+    assert ENGINE.cast(greater, spent("Fireball"), "Fireball", 3, None)[1]["dc"] == 18
+    # The sheet's DCs by level stay the class's own: the school is the spell's.
+    assert sheet.d20["derived"]["dc"]["3"] == 16
+    # A sorcerer 1, Cha 16, with Spell Focus (enchantment): Sleep from its pool at 10 + 1 + 3 + 1 = 15.
+    sorcerer = filled("Sorcerer", {"sorcerer": 1}, {"cha": 16}, known={"sorcerer": ["Sleep"]},
+                      feats=[{"id": "spell-focus", "choice": "enchantment"}])  # fmt: skip
+    assert ENGINE.cast(sorcerer, CharacterState(hp=4), "Sleep", 1, None)[1]["dc"] == 15
+    # A good cleric 1, Wis 15, with Spell Focus (conjuration): Bless converted into Cure Light Wounds (conjuration) at
+    # 10 + 1 + 2 + 1 = 14.
+    good = replace(filled("Cleric", {"cleric": 1}, {"wis": 15}, domains=["war", "good"],
+                          feats=[{"id": "spell-focus", "choice": "conjuration"}]), alignment="Lawful Good")  # fmt: skip
+    state = CharacterState(hp=6, memorized=(MemorizedSpell("Bless", 1),))
+    assert magic.convert(good, state, "Bless", "", REF)[1]["dc"] == 14
+
+
+def _einara(srd35_call):
+    """A wizard 6, Int 18 with Spell Focus (evocation): Fireball is 10 + 3 + 4 + 1 = DC 18. Fireball is memorized."""
+    made = {"cls": "Wizard", "levels": {"wizard": 6}, "race": "Human", "hp_max": 20,
+            "ability_scores": {**TEN, "int": 18},
+            "d20": {"feats": [{"id": "spell-focus", "choice": "evocation"}]}}  # fmt: skip
+    assert "error" not in srd35_call("create_character", name="Einara", sheet=made)
+    assert "error" not in srd35_call("memorize_spells", character="Einara", spells=["Fireball", "Fireball"])
+
+
+def test_a_cast_in_the_round_carries_its_dc(srd35_call):
+    # The round's cast entry takes the DC, school and save of its `spells_spent` entry (Spell Focus's +1 in it).
+    _einara(srd35_call)
+    srd35_call("setup_combat", enemies=[{"name": "goblin", "count": 1, "hp": 50}], surprise=False)
+    out = srd35_call("combat_round", beat="beat-2", actions=[{"caster": "Einara", "spell": "Fireball"}])
+    (cast,) = out["actions"]
+    (spent,) = out["spells_spent"]
+    assert spent["dc"] == 18 and (cast["dc"], cast["school"].lower()) == (18, "evocation"), cast
+    assert cast["save"] == magic.spell_row("Fireball")["saving_throw"] == spent["save"]
+
+
+def test_a_spell_declared_in_setup_combat_has_its_dc_in_round_one(srd35_call):
+    # Setup spent the memorized copy, so round 1 has no `spells_spent` entry: the DC is the engine's read.
+    _einara(srd35_call)
+    declared = [{"caster": "Einara", "spell": "Fireball"}]
+    srd35_call("setup_combat", enemies=[{"name": "goblin", "count": 1, "hp": 50}], surprise=False, spells=declared)
+    out = srd35_call("combat_round", beat="beat-2", actions=[])
+    (cast,) = out["actions"]
+    assert "spells_spent" not in out, out
+    assert (cast["dc"], cast["school"].lower()) == (18, "evocation") and cast["save"], cast
+
+
+def test_spell_numbers_reads_a_cast_and_spends_nothing():
+    sheet = filled("Wizard", {"wizard": 5}, {"int": 16}, feats=[{"id": "spell-focus", "choice": "evocation"}])
+    state = CharacterState(hp=20)
+    assert magic.spell_numbers(sheet, state, "Fireball", REF)["dc"] == 17
+    assert magic.spell_numbers(sheet, state, "Web", REF)["dc"] == 15
+    assert magic.spell_numbers(sheet, state, "Nonesuch", REF) == {}

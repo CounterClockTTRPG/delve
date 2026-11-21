@@ -174,26 +174,28 @@ def create(ctx: CampaignContext, *, name: str = "", kind: Kind = "pc", sheet: di
 
 
 def _leveled(ctx: CampaignContext, old: Sheet, new: Sheet) -> Sheet:
-    """`new`, with its d20 numbers from the engine: one `level_up` for each level a class gained, or `fill_derived`
-    when a class dropped or was added."""
+    """`new`, with its d20 numbers from the engine: one `level_up` for each level a class gained, a class gained from
+    none too (its first level is a level-up, DEL-457), the classes `old` has first; or `fill_derived` when a class
+    dropped or was lowered."""
     engine = ctx.d20
     assert engine is not None
-    gains = {cls: level - old.levels.get(cls, 0) for cls, level in new.levels.items()}
-    if any(cls not in old.levels for cls in gains) or any(
-        old.levels[cls] > new.levels.get(cls, 0) for cls in old.levels
-    ):
+    if new.levels == old.levels:
+        return new  # no level gained or lost: `update` fills the numbers
+    if not _gains_only(old, new):
         return engine.fill_derived(new, ctx.lookups)
+    gains = {cls: level - old.levels.get(cls, 0) for cls, level in new.levels.items()}
     sheet = replace(new, levels=dict(old.levels))
-    for cls, gained in gains.items():
-        for _ in range(gained):
+    for cls in sorted(gains, key=lambda cls: cls not in old.levels):  # a class entered on the others' new levels
+        for _ in range(gains[cls]):
             sheet = engine.level_up(sheet, cls, ctx.lookups, ctx.dice)
     return replace(sheet, levels=dict(new.levels)) if sheet.levels != new.levels else sheet
 
 
 def _gains_only(old: Sheet, new: Sheet) -> bool:
-    """Whether `new` only raised levels of the classes `old` has: the level-ups `_leveled` gave."""
+    """Whether `new` only raised levels: of the classes `old` has, or a class it gains, none dropped or lowered. The
+    level-ups `_leveled` gives."""
     return (
-        set(new.levels) == set(old.levels)
+        set(new.levels) >= set(old.levels)
         and new.levels != old.levels
         and all(new.levels[cls] >= level for cls, level in old.levels.items())
     )
@@ -260,7 +262,7 @@ def update(
     except DataError as error:
         raise PlayError(f"Bad state: {error}") from None
     if "hp" in state_patch:  # a raise that sets hit points clears dead; setting conditions alone keeps them as given
-        state = replace(state, conditions=life_conditions(state.conditions, state.hp))
+        state = replace(state, conditions=_life(ctx, state.conditions, state.hp))
     elif gained_hp and state.hp > DEAD_AT:
         state = replace(state, hp=state.hp + gained_hp)
         state_patch = {**state_patch, "hp": state.hp}
@@ -317,6 +319,12 @@ def _amount(amount: Any) -> int:
     return amount
 
 
+def _life(ctx: CampaignContext, conditions: tuple[str, ...], hp: int) -> tuple[str, ...]:
+    """`life_conditions` by the campaign's ruleset: at 0 `disabled`, not `downed`, where its fight's rules say
+    (`FightRules.disabled_at_zero`, 3.5), so a character's state reads the same out of a fight as in one."""
+    return life_conditions(conditions, hp, bool(ctx.rules.fight.disabled_at_zero))
+
+
 def apply_damage(ctx: CampaignContext, ref: str, amount: int) -> dict[str, Any]:
     """Take hit points off a character, to no less than -10 (dead). At 0 or below it is downed, at -10 dead
     (`life_conditions`). A character in the
@@ -331,7 +339,7 @@ def apply_damage(ctx: CampaignContext, ref: str, amount: int) -> dict[str, Any]:
     slain = ctx.rules.fight.unconscious_slain_by_damage and amount > 0 and DEAD_AT < before <= 0
     if slain:
         after = DEAD_AT  # the ruleset's: any damage to someone unconscious kills at once
-    conditions = life_conditions(character.state.conditions, after)
+    conditions = _life(ctx, character.state.conditions, after)
     ctx.storage.characters.save_state(
         replace(character, state=replace(character.state, hp=after, conditions=conditions))
     )
@@ -342,8 +350,9 @@ def apply_damage(ctx: CampaignContext, ref: str, amount: int) -> dict[str, Any]:
         "damage": amount,
         "hp_before": before,
         "hp_after": after,
-        "downed": after <= 0,
+        "downed": "downed" in conditions,
         "dead": after <= DEAD_AT,
+        **({"disabled": True} if "disabled" in conditions else {}),
         **({"slain_while_unconscious": True} if slain else {}),
     }
 
@@ -366,7 +375,7 @@ def apply_heal(ctx: CampaignContext, ref: str, amount: int) -> dict[str, Any]:
             hint="Use raise dead or resurrection (with resurrection_check), then set hp with update_character.",
         )
     after = min(before + amount, character.sheet.hp_max)
-    conditions = life_conditions(character.state.conditions, after)
+    conditions = _life(ctx, character.state.conditions, after)
     ctx.storage.characters.save_state(
         replace(character, state=replace(character.state, hp=after, conditions=conditions))
     )
@@ -611,7 +620,7 @@ def drain_level(ctx: CampaignContext, ref: str, levels: int = 1, reason: str = "
         hp_lost = sheet.hp_max - after.hp_max
         memorized, xp = drained_state.memorized, drained_state.xp
         hp = DEAD_AT if slain else min(drained_state.hp, after.hp_max)
-        state_after = replace(drained_state, hp=hp, conditions=life_conditions(drained_state.conditions, hp))
+        state_after = replace(drained_state, hp=hp, conditions=_life(ctx, drained_state.conditions, hp))
     else:
         now = dict(sheet.levels)
         hp_lost, drained, slain = 0, set(), False
@@ -647,7 +656,7 @@ def drain_level(ctx: CampaignContext, ref: str, levels: int = 1, reason: str = "
         memorized = _within_slots(state.memorized, after.spell_slots)
         xp = _drained_xp(ctx, now, state.xp, drained)
         hp = DEAD_AT if slain else min(state.hp, after.hp_max)
-        conditions = life_conditions(state.conditions, hp)
+        conditions = _life(ctx, state.conditions, hp)
         state_after = replace(state, hp=hp, xp=xp, memorized=memorized, conditions=conditions)
     saved = ctx.storage.characters.save(replace(character, sheet=after, state=state_after))
     _fight().drained(ctx, saved, 0 if ctx.d20 is not None else after.thac0 - sheet.thac0)
@@ -786,7 +795,7 @@ def rest(
                 con_bonus = con
             gained += con_bonus
             after = min(hp_max, max(before, before + gained))
-        conditions = life_conditions(character.state.conditions, after)
+        conditions = _life(ctx, character.state.conditions, after)
         memorized = character.state.memorized
         if days >= 1:
             default = spells.default_memorized(character.sheet) if rememorize else ()

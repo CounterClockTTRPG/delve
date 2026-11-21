@@ -1,0 +1,4414 @@
+{
+ "barbarian": [
+  {
+   "id": "fast-movement",
+   "name": "Fast movement",
+   "level": 1,
+   "kind": "bonus",
+   "armour_max": "medium",
+   "by_level": {
+    "1": 10
+   },
+   "condition": "no_heavy_load",
+   "special": [
+    "Fast movement"
+   ],
+   "target": "speed"
+  },
+  {
+   "id": "illiteracy",
+   "name": "Illiteracy",
+   "level": 1,
+   "kind": "note",
+   "special": [
+    "illiteracy"
+   ]
+  },
+  {
+   "id": "proficiency",
+   "name": "Weapon and armour proficiency",
+   "level": 1,
+   "kind": "proficiency",
+   "armour": [
+    "light",
+    "medium",
+    "shield"
+   ],
+   "special": [],
+   "weapon_ids": [],
+   "weapons": [
+    "simple",
+    "martial"
+   ]
+  },
+  {
+   "id": "rage",
+   "name": "Rage",
+   "level": 1,
+   "kind": "uses",
+   "bonuses": {
+    "1": {
+     "str": 4,
+     "con": 4,
+     "will": 2
+    },
+    "11": {
+     "str": 6,
+     "con": 6,
+     "will": 3
+    },
+    "20": {
+     "str": 8,
+     "con": 8,
+     "will": 4
+    }
+   },
+   "by_level": {
+    "1": 1,
+    "4": 2,
+    "8": 3,
+    "12": 4,
+    "16": 5,
+    "20": 6
+   },
+   "special": [
+    "rage 1/day",
+    "Rage 2/day",
+    "Rage 3/day",
+    "Rage 4/day",
+    "rage 5/day",
+    "rage 6/day"
+   ]
+  },
+  {
+   "id": "uncanny-dodge",
+   "name": "Uncanny dodge",
+   "level": 2,
+   "kind": "feat",
+   "feat": "uncanny-dodge",
+   "special": [
+    "Uncanny dodge"
+   ]
+  },
+  {
+   "id": "trap-sense",
+   "name": "Trap sense",
+   "level": 3,
+   "kind": "note",
+   "by_level": {
+    "3": 1,
+    "6": 2,
+    "9": 3,
+    "12": 4,
+    "15": 5,
+    "18": 6
+   },
+   "condition": "vs:traps",
+   "special": [
+    "Trap sense +1",
+    "Trap sense +2",
+    "Trap sense +3",
+    "trap sense +4",
+    "Trap sense +5",
+    "Trap sense +6"
+   ],
+   "targets": [
+    "ref",
+    "ac"
+   ]
+  },
+  {
+   "id": "improved-uncanny-dodge",
+   "name": "Improved uncanny dodge",
+   "level": 5,
+   "kind": "note",
+   "special": [
+    "Improved uncanny dodge"
+   ]
+  },
+  {
+   "id": "damage-reduction",
+   "name": "Damage reduction",
+   "level": 7,
+   "kind": "reduction",
+   "by_level": {
+    "7": 1,
+    "10": 2,
+    "13": 3,
+    "16": 4,
+    "19": 5
+   },
+   "bypass": "—",
+   "special": [
+    "Damage reduction 1/—",
+    "Damage reduction 2/—",
+    "Damage reduction 3/—",
+    "Damage reduction 4/—",
+    "Damage reduction 5/—"
+   ]
+  },
+  {
+   "id": "greater-rage",
+   "name": "Greater rage",
+   "level": 11,
+   "kind": "note",
+   "special": [
+    "Greater rage"
+   ]
+  },
+  {
+   "id": "indomitable-will",
+   "name": "Indomitable will",
+   "level": 14,
+   "kind": "note",
+   "condition": "raging_vs:enchantment",
+   "special": [
+    "Indomitable will"
+   ],
+   "targets": [
+    "will"
+   ],
+   "value": 4
+  },
+  {
+   "id": "tireless-rage",
+   "name": "Tireless rage",
+   "level": 17,
+   "kind": "note",
+   "special": [
+    "Tireless rage"
+   ]
+  },
+  {
+   "id": "mighty-rage",
+   "name": "Mighty rage",
+   "level": 20,
+   "kind": "note",
+   "special": [
+    "Mighty rage"
+   ]
+  }
+ ],
+ "bard": [
+  {
+   "id": "bardic-knowledge",
+   "name": "Bardic knowledge",
+   "level": 1,
+   "kind": "note",
+   "ability": "int",
+   "plus_class_level": true,
+   "special": [
+    "bardic knowledge"
+   ]
+  },
+  {
+   "id": "bardic-music",
+   "name": "Bardic music",
+   "level": 1,
+   "kind": "uses",
+   "by_level": {
+    "1": 1,
+    "2": 2,
+    "3": 3,
+    "4": 4,
+    "5": 5,
+    "6": 6,
+    "7": 7,
+    "8": 8,
+    "9": 9,
+    "10": 10,
+    "11": 11,
+    "12": 12,
+    "13": 13,
+    "14": 14,
+    "15": 15,
+    "16": 16,
+    "17": 17,
+    "18": 18,
+    "19": 19,
+    "20": 20
+   },
+   "special": [
+    "Bardic music"
+   ]
+  },
+  {
+   "id": "casting",
+   "name": "Spells",
+   "level": 1,
+   "kind": "casting",
+   "ability": "cha",
+   "list": "bard",
+   "no_failure_in": "light",
+   "prepared": false,
+   "special": [],
+   "type": "arcane"
+  },
+  {
+   "id": "countersong",
+   "name": "Countersong",
+   "level": 1,
+   "kind": "note",
+   "perform_ranks": 3,
+   "special": [
+    "countersong"
+   ],
+   "spends": "bardic-music"
+  },
+  {
+   "id": "fascinate",
+   "name": "Fascinate",
+   "level": 1,
+   "kind": "note",
+   "perform_ranks": 3,
+   "special": [
+    "fascinate"
+   ],
+   "spends": "bardic-music"
+  },
+  {
+   "id": "inspire-courage",
+   "name": "Inspire courage",
+   "level": 1,
+   "kind": "note",
+   "by_level": {
+    "1": 1,
+    "8": 2,
+    "14": 3,
+    "20": 4
+   },
+   "perform_ranks": 3,
+   "special": [
+    "inspire courage +1",
+    "Inspire courage +2",
+    "Inspire courage +3",
+    "Inspire courage +4"
+   ],
+   "spends": "bardic-music"
+  },
+  {
+   "id": "proficiency",
+   "name": "Weapon and armour proficiency",
+   "level": 1,
+   "kind": "proficiency",
+   "armour": [
+    "light",
+    "shield"
+   ],
+   "special": [],
+   "weapon_ids": [
+    "longsword",
+    "rapier",
+    "sap",
+    "shortbow",
+    "sword-short",
+    "whip"
+   ],
+   "weapons": [
+    "simple"
+   ]
+  },
+  {
+   "id": "inspire-competence",
+   "name": "Inspire competence",
+   "level": 3,
+   "kind": "note",
+   "perform_ranks": 6,
+   "special": [
+    "Inspire competence"
+   ],
+   "spends": "bardic-music"
+  },
+  {
+   "id": "suggestion",
+   "name": "Suggestion",
+   "level": 6,
+   "kind": "note",
+   "perform_ranks": 9,
+   "special": [
+    "Suggestion"
+   ],
+   "spends": "bardic-music"
+  },
+  {
+   "id": "inspire-greatness",
+   "name": "Inspire greatness",
+   "level": 9,
+   "kind": "note",
+   "by_level": {
+    "9": 1,
+    "12": 2,
+    "15": 3,
+    "18": 4
+   },
+   "perform_ranks": 12,
+   "special": [
+    "Inspire greatness"
+   ],
+   "spends": "bardic-music"
+  },
+  {
+   "id": "song-of-freedom",
+   "name": "Song of freedom",
+   "level": 12,
+   "kind": "note",
+   "perform_ranks": 15,
+   "special": [
+    "Song of freedom"
+   ],
+   "spends": "bardic-music"
+  },
+  {
+   "id": "inspire-heroics",
+   "name": "Inspire heroics",
+   "level": 15,
+   "kind": "note",
+   "by_level": {
+    "15": 1,
+    "18": 2
+   },
+   "perform_ranks": 18,
+   "special": [
+    "Inspire heroics"
+   ],
+   "spends": "bardic-music"
+  },
+  {
+   "id": "mass-suggestion",
+   "name": "Mass suggestion",
+   "level": 18,
+   "kind": "note",
+   "perform_ranks": 21,
+   "special": [
+    "Mass suggestion"
+   ],
+   "spends": "bardic-music"
+  }
+ ],
+ "cleric": [
+  {
+   "id": "casting",
+   "name": "Spells",
+   "level": 1,
+   "kind": "casting",
+   "ability": "wis",
+   "converts": "cure-or-inflict",
+   "domains": 2,
+   "list": "cleric",
+   "prepared": true,
+   "special": [],
+   "type": "divine"
+  },
+  {
+   "id": "proficiency",
+   "name": "Weapon and armour proficiency",
+   "level": 1,
+   "kind": "proficiency",
+   "armour": [
+    "light",
+    "medium",
+    "heavy",
+    "shield"
+   ],
+   "special": [],
+   "weapon_ids": [],
+   "weapons": [
+    "simple"
+   ]
+  },
+  {
+   "id": "turn-undead",
+   "name": "Turn or rebuke undead",
+   "level": 1,
+   "kind": "uses",
+   "ability": "cha",
+   "by_level": {
+    "1": 3
+   },
+   "or_rebuke": true,
+   "special": [
+    "Turn or rebuke undead"
+   ]
+  }
+ ],
+ "druid": [
+  {
+   "id": "animal-companion",
+   "name": "Animal companion",
+   "level": 1,
+   "kind": "note",
+   "alternatives": {
+    "4": {
+     "offset": 3,
+     "animals": [
+      "ape",
+      "black bear",
+      "bison",
+      "boar",
+      "cheetah",
+      "crocodile",
+      "dire badger",
+      "dire bat",
+      "dire weasel",
+      "leopard",
+      "monitor lizard",
+      "large shark",
+      "constrictor snake",
+      "large viper snake",
+      "wolverine"
+     ]
+    },
+    "7": {
+     "offset": 6,
+     "animals": [
+      "brown bear",
+      "dire wolverine",
+      "giant crocodile",
+      "deinonychus",
+      "dire ape",
+      "dire boar",
+      "dire wolf",
+      "elasmosaurus",
+      "lion",
+      "rhinoceros",
+      "huge viper snake",
+      "tiger"
+     ]
+    },
+    "10": {
+     "offset": 9,
+     "animals": [
+      "polar bear",
+      "dire lion",
+      "megaraptor",
+      "huge shark",
+      "giant constrictor snake",
+      "orca"
+     ]
+    },
+    "13": {
+     "offset": 12,
+     "animals": [
+      "dire bear",
+      "elephant",
+      "giant octopus"
+     ]
+    },
+    "16": {
+     "offset": 15,
+     "animals": [
+      "dire shark",
+      "dire tiger",
+      "giant squid",
+      "triceratops",
+      "tyrannosaurus"
+     ]
+    }
+   },
+   "animals": [
+    "badger",
+    "camel",
+    "dire rat",
+    "dog",
+    "riding dog",
+    "eagle",
+    "hawk",
+    "light horse",
+    "heavy horse",
+    "owl",
+    "pony",
+    "small viper snake",
+    "medium viper snake",
+    "wolf"
+   ],
+   "aquatic": [
+    "crocodile",
+    "porpoise",
+    "medium shark",
+    "squid"
+   ],
+   "base_attack": "three_quarters",
+   "companion": {
+    "1": {
+     "bonus_hd": 0,
+     "natural_armour": 0,
+     "str": 0,
+     "dex": 0,
+     "tricks": 1,
+     "gains": [
+      "link",
+      "share spells"
+     ]
+    },
+    "3": {
+     "bonus_hd": 2,
+     "natural_armour": 2,
+     "str": 1,
+     "dex": 1,
+     "tricks": 2,
+     "gains": [
+      "evasion"
+     ]
+    },
+    "6": {
+     "bonus_hd": 4,
+     "natural_armour": 4,
+     "str": 2,
+     "dex": 2,
+     "tricks": 3,
+     "gains": [
+      "devotion"
+     ]
+    },
+    "9": {
+     "bonus_hd": 6,
+     "natural_armour": 6,
+     "str": 3,
+     "dex": 3,
+     "tricks": 4,
+     "gains": [
+      "multiattack"
+     ]
+    },
+    "12": {
+     "bonus_hd": 8,
+     "natural_armour": 8,
+     "str": 4,
+     "dex": 4,
+     "tricks": 5,
+     "gains": []
+    },
+    "15": {
+     "bonus_hd": 10,
+     "natural_armour": 10,
+     "str": 5,
+     "dex": 5,
+     "tricks": 6,
+     "gains": [
+      "improved evasion"
+     ]
+    },
+    "18": {
+     "bonus_hd": 12,
+     "natural_armour": 12,
+     "str": 6,
+     "dex": 6,
+     "tricks": 7,
+     "gains": []
+    }
+   },
+   "special": [
+    "Animal companion"
+   ]
+  },
+  {
+   "id": "casting",
+   "name": "Spells",
+   "level": 1,
+   "kind": "casting",
+   "ability": "wis",
+   "converts": "summon-natures-ally",
+   "list": "druid",
+   "prepared": true,
+   "special": [],
+   "type": "divine"
+  },
+  {
+   "id": "nature-sense",
+   "name": "Nature sense",
+   "level": 1,
+   "kind": "bonus",
+   "special": [
+    "nature sense"
+   ],
+   "targets": [
+    "skill:knowledge-nature",
+    "skill:survival"
+   ],
+   "value": 2
+  },
+  {
+   "id": "proficiency",
+   "name": "Weapon and armour proficiency",
+   "level": 1,
+   "kind": "proficiency",
+   "armour": [
+    "light",
+    "medium",
+    "shield"
+   ],
+   "armour_limit": "nonmetal",
+   "special": [],
+   "weapon_ids": [
+    "club",
+    "dagger",
+    "dart",
+    "quarterstaff",
+    "scimitar",
+    "shortspear",
+    "sickle",
+    "sling",
+    "spear"
+   ],
+   "weapons": []
+  },
+  {
+   "id": "wild-empathy",
+   "name": "Wild empathy",
+   "level": 1,
+   "kind": "note",
+   "special": [
+    "wild empathy"
+   ]
+  },
+  {
+   "id": "woodland-stride",
+   "name": "Woodland stride",
+   "level": 2,
+   "kind": "note",
+   "special": [
+    "Woodland stride"
+   ]
+  },
+  {
+   "id": "trackless-step",
+   "name": "Trackless step",
+   "level": 3,
+   "kind": "note",
+   "special": [
+    "Trackless step"
+   ]
+  },
+  {
+   "id": "resist-natures-lure",
+   "name": "Resist nature's lure",
+   "level": 4,
+   "kind": "note",
+   "special": [
+    "Resist nature's lure"
+   ]
+  },
+  {
+   "id": "wild-shape",
+   "name": "Wild shape",
+   "level": 5,
+   "kind": "uses",
+   "by_level": {
+    "5": 1,
+    "6": 2,
+    "7": 3,
+    "10": 4,
+    "14": 5,
+    "18": 6
+   },
+   "elemental_by_level": {
+    "16": 1,
+    "18": 2,
+    "20": 3
+   },
+   "forms": {
+    "5": {
+     "animal": [
+      "small",
+      "medium"
+     ]
+    },
+    "8": {
+     "animal": [
+      "small",
+      "medium",
+      "large"
+     ]
+    },
+    "11": {
+     "animal": [
+      "tiny",
+      "small",
+      "medium",
+      "large"
+     ]
+    },
+    "12": {
+     "animal": [
+      "tiny",
+      "small",
+      "medium",
+      "large"
+     ],
+     "plant": [
+      "tiny",
+      "small",
+      "medium",
+      "large"
+     ]
+    },
+    "15": {
+     "animal": [
+      "tiny",
+      "small",
+      "medium",
+      "large",
+      "huge"
+     ],
+     "plant": [
+      "tiny",
+      "small",
+      "medium",
+      "large",
+      "huge"
+     ]
+    },
+    "16": {
+     "animal": [
+      "tiny",
+      "small",
+      "medium",
+      "large",
+      "huge"
+     ],
+     "plant": [
+      "tiny",
+      "small",
+      "medium",
+      "large",
+      "huge"
+     ],
+     "elemental": [
+      "small",
+      "medium",
+      "large"
+     ]
+    },
+    "20": {
+     "animal": [
+      "tiny",
+      "small",
+      "medium",
+      "large",
+      "huge"
+     ],
+     "plant": [
+      "tiny",
+      "small",
+      "medium",
+      "large",
+      "huge"
+     ],
+     "elemental": [
+      "small",
+      "medium",
+      "large",
+      "huge"
+     ]
+    }
+   },
+   "hours": "class_level",
+   "max_hd": "class_level",
+   "special": [
+    "Wild shape (1/day)",
+    "Wild shape (2/day)",
+    "Wild shape (3/day)",
+    "Wild shape (Large)",
+    "Wild shape (4/day)",
+    "Wild shape (Tiny)",
+    "Wild shape (plant)",
+    "Wild shape (5/day)",
+    "wild shape (Huge)",
+    "Wild shape (elemental 1/day)",
+    "Wild shape (6/day, elemental 2/day)",
+    "Wild shape (elemental 3/day, Huge elemental)"
+   ]
+  },
+  {
+   "id": "venom-immunity",
+   "name": "Venom immunity",
+   "level": 9,
+   "kind": "note",
+   "special": [
+    "Venom immunity"
+   ]
+  },
+  {
+   "id": "a-thousand-faces",
+   "name": "A thousand faces",
+   "level": 13,
+   "kind": "note",
+   "special": [
+    "A thousand faces"
+   ]
+  },
+  {
+   "id": "timeless-body",
+   "name": "Timeless body",
+   "level": 15,
+   "kind": "note",
+   "special": [
+    "Timeless body"
+   ]
+  }
+ ],
+ "fighter": [
+  {
+   "id": "bonus-feat",
+   "name": "Bonus feat",
+   "level": 1,
+   "kind": "feat",
+   "by_level": {
+    "1": 1,
+    "2": 2,
+    "4": 3,
+    "6": 4,
+    "8": 5,
+    "10": 6,
+    "12": 7,
+    "14": 8,
+    "16": 9,
+    "18": 10,
+    "20": 11
+   },
+   "choose_from": [
+    "fighter"
+   ],
+   "special": [
+    "Bonus feat"
+   ]
+  },
+  {
+   "id": "proficiency",
+   "name": "Weapon and armour proficiency",
+   "level": 1,
+   "kind": "proficiency",
+   "armour": [
+    "light",
+    "medium",
+    "heavy",
+    "shield",
+    "tower"
+   ],
+   "special": [],
+   "weapon_ids": [],
+   "weapons": [
+    "simple",
+    "martial"
+   ]
+  }
+ ],
+ "monk": [
+  {
+   "id": "ac-bonus",
+   "name": "AC bonus",
+   "level": 1,
+   "kind": "bonus",
+   "ability": "wis",
+   "by_level": {
+    "1": 0,
+    "5": 1,
+    "10": 2,
+    "15": 3,
+    "20": 4
+   },
+   "condition": "unarmoured_unencumbered",
+   "special": [],
+   "target": "ac"
+  },
+  {
+   "id": "bonus-feat",
+   "name": "Bonus feat",
+   "level": 1,
+   "kind": "feat",
+   "by_level": {
+    "1": 1,
+    "2": 2,
+    "6": 3
+   },
+   "choices": {
+    "1": [
+     "improved-grapple",
+     "stunning-fist"
+    ],
+    "2": [
+     "combat-reflexes",
+     "deflect-arrows"
+    ],
+    "6": [
+     "improved-disarm",
+     "improved-trip"
+    ]
+   },
+   "prerequisites": false,
+   "special": [
+    "Bonus feat"
+   ]
+  },
+  {
+   "id": "flurry-of-blows",
+   "name": "Flurry of blows",
+   "level": 1,
+   "kind": "note",
+   "by_level": {
+    "1": -2,
+    "5": -1,
+    "9": 0
+   },
+   "condition": "unarmoured_unencumbered",
+   "extra_attacks": {
+    "1": 1,
+    "11": 2
+   },
+   "special": [
+    "flurry of blows"
+   ]
+  },
+  {
+   "id": "improved-unarmed-strike",
+   "name": "Improved Unarmed Strike",
+   "level": 1,
+   "kind": "feat",
+   "feat": "improved-unarmed-strike",
+   "special": []
+  },
+  {
+   "id": "proficiency",
+   "name": "Weapon and armour proficiency",
+   "level": 1,
+   "kind": "proficiency",
+   "armour": [],
+   "special": [],
+   "weapon_ids": [
+    "club",
+    "crossbow-heavy",
+    "crossbow-light",
+    "dagger",
+    "handaxe",
+    "javelin",
+    "kama",
+    "nunchaku",
+    "quarterstaff",
+    "sai",
+    "shuriken-5",
+    "siangham",
+    "sling"
+   ],
+   "weapons": []
+  },
+  {
+   "id": "unarmed-strike",
+   "name": "Unarmed strike",
+   "level": 1,
+   "kind": "dice",
+   "by_level": {
+    "1": "1d6",
+    "4": "1d8",
+    "8": "1d10",
+    "12": "2d6",
+    "16": "2d8",
+    "20": "2d10"
+   },
+   "by_size": {
+    "small": {
+     "1": "1d4",
+     "4": "1d6",
+     "8": "1d8",
+     "12": "1d10",
+     "16": "2d6",
+     "20": "2d8"
+    },
+    "large": {
+     "1": "1d8",
+     "4": "2d6",
+     "8": "2d8",
+     "12": "3d6",
+     "16": "3d8",
+     "20": "4d8"
+    }
+   },
+   "special": [
+    "unarmed strike"
+   ]
+  },
+  {
+   "id": "evasion",
+   "name": "Evasion",
+   "level": 2,
+   "kind": "note",
+   "special": [
+    "evasion"
+   ]
+  },
+  {
+   "id": "fast-movement",
+   "name": "Fast movement",
+   "level": 3,
+   "kind": "bonus",
+   "by_level": {
+    "3": 10,
+    "6": 20,
+    "9": 30,
+    "12": 40,
+    "15": 50,
+    "18": 60
+   },
+   "condition": "unarmoured_unencumbered",
+   "special": [],
+   "target": "speed"
+  },
+  {
+   "id": "still-mind",
+   "name": "Still mind",
+   "level": 3,
+   "kind": "note",
+   "special": [
+    "Still mind"
+   ]
+  },
+  {
+   "id": "ki-strike",
+   "name": "Ki strike",
+   "level": 4,
+   "kind": "note",
+   "by_level": {
+    "4": "magic",
+    "10": "lawful",
+    "16": "adamantine"
+   },
+   "bypasses": {
+    "4": [
+     "magic"
+    ],
+    "10": [
+     "magic",
+     "lawful"
+    ],
+    "16": [
+     "magic",
+     "lawful",
+     "adamantine"
+    ]
+   },
+   "special": [
+    "Ki strike (magic)",
+    "Ki strike (lawful)",
+    "Ki strike (adamantine)"
+   ]
+  },
+  {
+   "id": "slow-fall",
+   "name": "Slow fall",
+   "level": 4,
+   "kind": "note",
+   "by_level": {
+    "4": 20,
+    "6": 30,
+    "8": 40,
+    "10": 50,
+    "12": 60,
+    "14": 70,
+    "16": 80,
+    "18": 90,
+    "20": "any"
+   },
+   "special": [
+    "slow fall 20 ft.",
+    "slow fall 30 ft.",
+    "Slow fall 40 ft.",
+    "slow fall 50 ft.",
+    "slow fall 60 ft.",
+    "Slow fall 70 ft.",
+    "slow fall 80 ft.",
+    "Slow fall 90 ft.",
+    "slow fall any distance"
+   ]
+  },
+  {
+   "id": "purity-of-body",
+   "name": "Purity of body",
+   "level": 5,
+   "kind": "note",
+   "special": [
+    "Purity of body"
+   ]
+  },
+  {
+   "id": "wholeness-of-body",
+   "name": "Wholeness of body",
+   "level": 7,
+   "kind": "note",
+   "special": [
+    "Wholeness of body"
+   ]
+  },
+  {
+   "id": "improved-evasion",
+   "name": "Improved evasion",
+   "level": 9,
+   "kind": "note",
+   "special": [
+    "Improved evasion"
+   ]
+  },
+  {
+   "id": "diamond-body",
+   "name": "Diamond body",
+   "level": 11,
+   "kind": "note",
+   "special": [
+    "Diamond body"
+   ]
+  },
+  {
+   "id": "greater-flurry",
+   "name": "Greater flurry",
+   "level": 11,
+   "kind": "note",
+   "special": [
+    "greater flurry"
+   ]
+  },
+  {
+   "id": "abundant-step",
+   "name": "Abundant step",
+   "level": 12,
+   "kind": "uses",
+   "by_level": {
+    "12": 1
+   },
+   "special": [
+    "Abundant step"
+   ]
+  },
+  {
+   "id": "diamond-soul",
+   "name": "Diamond soul",
+   "level": 13,
+   "kind": "note",
+   "special": [
+    "Diamond soul"
+   ]
+  },
+  {
+   "id": "quivering-palm",
+   "name": "Quivering palm",
+   "level": 15,
+   "kind": "uses",
+   "by_level": {
+    "15": 1
+   },
+   "per": "week",
+   "special": [
+    "Quivering palm"
+   ]
+  },
+  {
+   "id": "timeless-body",
+   "name": "Timeless body",
+   "level": 17,
+   "kind": "note",
+   "special": [
+    "Timeless body"
+   ]
+  },
+  {
+   "id": "tongue-of-the-sun-and-moon",
+   "name": "Tongue of the sun and moon",
+   "level": 17,
+   "kind": "note",
+   "special": [
+    "tongue of the sun and moon"
+   ]
+  },
+  {
+   "id": "empty-body",
+   "name": "Empty body",
+   "level": 19,
+   "kind": "note",
+   "special": [
+    "Empty body"
+   ]
+  },
+  {
+   "id": "perfect-self",
+   "name": "Perfect self",
+   "level": 20,
+   "kind": "note",
+   "special": [
+    "Perfect self"
+   ]
+  }
+ ],
+ "paladin": [
+  {
+   "id": "aura-of-good",
+   "name": "Aura of good",
+   "level": 1,
+   "kind": "note",
+   "special": [
+    "Aura of good"
+   ]
+  },
+  {
+   "id": "detect-evil",
+   "name": "Detect evil",
+   "level": 1,
+   "kind": "note",
+   "special": [
+    "detect evil"
+   ]
+  },
+  {
+   "id": "proficiency",
+   "name": "Weapon and armour proficiency",
+   "level": 1,
+   "kind": "proficiency",
+   "armour": [
+    "light",
+    "medium",
+    "heavy",
+    "shield"
+   ],
+   "special": [],
+   "weapon_ids": [],
+   "weapons": [
+    "simple",
+    "martial"
+   ]
+  },
+  {
+   "id": "smite-evil",
+   "name": "Smite evil",
+   "level": 1,
+   "kind": "uses",
+   "attack_ability": "cha",
+   "by_level": {
+    "1": 1,
+    "5": 2,
+    "10": 3,
+    "15": 4,
+    "20": 5
+   },
+   "damage_per_level": 1,
+   "special": [
+    "smite evil 1/day",
+    "Smite evil 2/day",
+    "Smite evil 3/day",
+    "smite evil 4/day",
+    "Smite evil 5/day"
+   ]
+  },
+  {
+   "id": "divine-grace",
+   "name": "Divine grace",
+   "level": 2,
+   "kind": "bonus",
+   "ability": "cha",
+   "special": [
+    "Divine grace"
+   ],
+   "target": "saves"
+  },
+  {
+   "id": "lay-on-hands",
+   "name": "Lay on hands",
+   "level": 2,
+   "kind": "uses",
+   "ability": "cha",
+   "special": [
+    "lay on hands"
+   ],
+   "times_class_level": true,
+   "unit": "hp"
+  },
+  {
+   "id": "aura-of-courage",
+   "name": "Aura of courage",
+   "level": 3,
+   "kind": "note",
+   "special": [
+    "Aura of courage"
+   ]
+  },
+  {
+   "id": "divine-health",
+   "name": "Divine health",
+   "level": 3,
+   "kind": "note",
+   "special": [
+    "divine health"
+   ]
+  },
+  {
+   "id": "casting",
+   "name": "Spells",
+   "level": 4,
+   "kind": "casting",
+   "ability": "wis",
+   "caster_level": "half",
+   "list": "paladin",
+   "prepared": true,
+   "special": [],
+   "type": "divine"
+  },
+  {
+   "id": "turn-undead",
+   "name": "Turn undead",
+   "level": 4,
+   "kind": "uses",
+   "ability": "cha",
+   "by_level": {
+    "4": 3
+   },
+   "special": [
+    "Turn undead"
+   ],
+   "turning_level_offset": -3
+  },
+  {
+   "id": "special-mount",
+   "name": "Special mount",
+   "level": 5,
+   "kind": "note",
+   "allowed": [
+    "riding dog",
+    "large shark"
+   ],
+   "animals": [
+    "heavy warhorse",
+    "war pony"
+   ],
+   "base_attack": "three_quarters",
+   "companion": {
+    "5": {
+     "bonus_hd": 2,
+     "natural_armour": 4,
+     "str": 1,
+     "dex": 0,
+     "int": 6,
+     "gains": [
+      "empathic link",
+      "improved evasion",
+      "share spells",
+      "share saving throws"
+     ]
+    },
+    "8": {
+     "bonus_hd": 4,
+     "natural_armour": 6,
+     "str": 2,
+     "dex": 0,
+     "int": 7,
+     "gains": [
+      "improved speed"
+     ]
+    },
+    "11": {
+     "bonus_hd": 6,
+     "natural_armour": 8,
+     "str": 3,
+     "dex": 0,
+     "int": 8,
+     "gains": [
+      "command creatures of its kind"
+     ]
+    },
+    "15": {
+     "bonus_hd": 8,
+     "natural_armour": 10,
+     "str": 4,
+     "dex": 0,
+     "int": 9,
+     "gains": [
+      "spell resistance"
+     ]
+    }
+   },
+   "kind_as": "magical beast",
+   "special": [
+    "special mount"
+   ]
+  },
+  {
+   "id": "remove-disease",
+   "name": "Remove disease",
+   "level": 6,
+   "kind": "uses",
+   "by_level": {
+    "6": 1,
+    "9": 2,
+    "12": 3,
+    "15": 4,
+    "18": 5
+   },
+   "per": "week",
+   "special": [
+    "Remove disease 1/week",
+    "Remove disease 2/week",
+    "Remove disease 3/week",
+    "Remove disease 4/week",
+    "Remove disease 5/week"
+   ]
+  }
+ ],
+ "ranger": [
+  {
+   "id": "favoured-enemy",
+   "name": "Favored enemy",
+   "level": 1,
+   "kind": "bonus",
+   "by_level": {
+    "1": 1,
+    "5": 2,
+    "10": 3,
+    "15": 4,
+    "20": 5
+   },
+   "choice": "favoured_enemy",
+   "condition": "vs:favoured_enemy",
+   "raise_one_by": 2,
+   "special": [
+    "1st favored enemy",
+    "2nd favored enemy",
+    "3rd favored enemy",
+    "4th favored enemy",
+    "5th favored enemy"
+   ],
+   "targets": [
+    "skill:bluff",
+    "skill:listen",
+    "skill:sense-motive",
+    "skill:spot",
+    "skill:survival",
+    "damage"
+   ],
+   "value": 2
+  },
+  {
+   "id": "proficiency",
+   "name": "Weapon and armour proficiency",
+   "level": 1,
+   "kind": "proficiency",
+   "armour": [
+    "light",
+    "shield"
+   ],
+   "special": [],
+   "weapon_ids": [],
+   "weapons": [
+    "simple",
+    "martial"
+   ]
+  },
+  {
+   "id": "track",
+   "name": "Track",
+   "level": 1,
+   "kind": "feat",
+   "feat": "track",
+   "special": [
+    "Track"
+   ]
+  },
+  {
+   "id": "wild-empathy",
+   "name": "Wild empathy",
+   "level": 1,
+   "kind": "note",
+   "special": [
+    "wild empathy"
+   ]
+  },
+  {
+   "id": "combat-style",
+   "name": "Combat style",
+   "level": 2,
+   "kind": "feat",
+   "choice": "combat_style",
+   "condition": "light_armour",
+   "feats": {
+    "archery": "rapid-shot",
+    "two-weapon": "two-weapon-fighting"
+   },
+   "special": [
+    "Combat style"
+   ]
+  },
+  {
+   "id": "endurance",
+   "name": "Endurance",
+   "level": 3,
+   "kind": "feat",
+   "feat": "endurance",
+   "special": [
+    "Endurance"
+   ]
+  },
+  {
+   "id": "animal-companion",
+   "name": "Animal companion",
+   "level": 4,
+   "kind": "note",
+   "effective_druid_level": "half",
+   "special": [
+    "Animal companion"
+   ]
+  },
+  {
+   "id": "casting",
+   "name": "Spells",
+   "level": 4,
+   "kind": "casting",
+   "ability": "wis",
+   "caster_level": "half",
+   "list": "ranger",
+   "prepared": true,
+   "special": [],
+   "type": "divine"
+  },
+  {
+   "id": "improved-combat-style",
+   "name": "Improved combat style",
+   "level": 6,
+   "kind": "feat",
+   "condition": "light_armour",
+   "feats": {
+    "archery": "manyshot",
+    "two-weapon": "improved-two-weapon-fighting"
+   },
+   "special": [
+    "Improved combat style"
+   ]
+  },
+  {
+   "id": "woodland-stride",
+   "name": "Woodland stride",
+   "level": 7,
+   "kind": "note",
+   "special": [
+    "Woodland stride"
+   ]
+  },
+  {
+   "id": "swift-tracker",
+   "name": "Swift tracker",
+   "level": 8,
+   "kind": "note",
+   "special": [
+    "Swift tracker"
+   ]
+  },
+  {
+   "id": "evasion",
+   "name": "Evasion",
+   "level": 9,
+   "kind": "note",
+   "special": [
+    "Evasion"
+   ]
+  },
+  {
+   "id": "combat-style-mastery",
+   "name": "Combat style mastery",
+   "level": 11,
+   "kind": "feat",
+   "condition": "light_armour",
+   "feats": {
+    "archery": "improved-precise-shot",
+    "two-weapon": "greater-two-weapon-fighting"
+   },
+   "special": [
+    "Combat style mastery"
+   ]
+  },
+  {
+   "id": "camouflage",
+   "name": "Camouflage",
+   "level": 13,
+   "kind": "note",
+   "special": [
+    "Camouflage"
+   ]
+  },
+  {
+   "id": "hide-in-plain-sight",
+   "name": "Hide in plain sight",
+   "level": 17,
+   "kind": "note",
+   "special": [
+    "Hide in plain sight"
+   ]
+  }
+ ],
+ "rogue": [
+  {
+   "id": "proficiency",
+   "name": "Weapon and armour proficiency",
+   "level": 1,
+   "kind": "proficiency",
+   "armour": [
+    "light"
+   ],
+   "special": [],
+   "weapon_ids": [
+    "crossbow-hand",
+    "rapier",
+    "sap",
+    "shortbow",
+    "sword-short"
+   ],
+   "weapons": [
+    "simple"
+   ]
+  },
+  {
+   "id": "sneak-attack",
+   "name": "Sneak attack",
+   "level": 1,
+   "kind": "dice",
+   "by_level": {
+    "1": "1d6",
+    "3": "2d6",
+    "5": "3d6",
+    "7": "4d6",
+    "9": "5d6",
+    "11": "6d6",
+    "13": "7d6",
+    "15": "8d6",
+    "17": "9d6",
+    "19": "10d6"
+   },
+   "special": [
+    "Sneak attack +1d6",
+    "Sneak attack +2d6",
+    "Sneak attack +3d6",
+    "Sneak attack +4d6",
+    "Sneak attack +5d6",
+    "Sneak attack +6d6",
+    "Sneak attack +7d6",
+    "Sneak attack +8d6",
+    "Sneak attack +9d6",
+    "Sneak attack +10d6"
+   ]
+  },
+  {
+   "id": "trapfinding",
+   "name": "Trapfinding",
+   "level": 1,
+   "kind": "note",
+   "special": [
+    "trapfinding"
+   ]
+  },
+  {
+   "id": "evasion",
+   "name": "Evasion",
+   "level": 2,
+   "kind": "note",
+   "special": [
+    "Evasion"
+   ]
+  },
+  {
+   "id": "trap-sense",
+   "name": "Trap sense",
+   "level": 3,
+   "kind": "note",
+   "by_level": {
+    "3": 1,
+    "6": 2,
+    "9": 3,
+    "12": 4,
+    "15": 5,
+    "18": 6
+   },
+   "condition": "vs:traps",
+   "special": [
+    "trap sense +1",
+    "Trap sense +2",
+    "trap sense +3",
+    "Trap sense +4",
+    "trap sense +5",
+    "Trap sense +6"
+   ],
+   "targets": [
+    "ref",
+    "ac"
+   ]
+  },
+  {
+   "id": "uncanny-dodge",
+   "name": "Uncanny dodge",
+   "level": 4,
+   "kind": "feat",
+   "feat": "uncanny-dodge",
+   "special": [
+    "Uncanny dodge"
+   ]
+  },
+  {
+   "id": "improved-uncanny-dodge",
+   "name": "Improved uncanny dodge",
+   "level": 8,
+   "kind": "note",
+   "special": [
+    "Improved uncanny dodge"
+   ]
+  },
+  {
+   "id": "special-ability",
+   "name": "Special ability",
+   "level": 10,
+   "kind": "note",
+   "by_level": {
+    "10": 1,
+    "13": 2,
+    "16": 3,
+    "19": 4
+   },
+   "choices": [
+    "crippling-strike",
+    "defensive-roll",
+    "improved-evasion",
+    "opportunist",
+    "skill-mastery",
+    "slippery-mind",
+    "feat"
+   ],
+   "special": [
+    "Special ability",
+    "special ability"
+   ]
+  }
+ ],
+ "sorcerer": [
+  {
+   "id": "casting",
+   "name": "Spells",
+   "level": 1,
+   "kind": "casting",
+   "ability": "cha",
+   "list": "sorcerer",
+   "prepared": false,
+   "special": [],
+   "type": "arcane"
+  },
+  {
+   "id": "proficiency",
+   "name": "Weapon and armour proficiency",
+   "level": 1,
+   "kind": "proficiency",
+   "armour": [],
+   "special": [],
+   "weapon_ids": [],
+   "weapons": [
+    "simple"
+   ]
+  },
+  {
+   "id": "summon-familiar",
+   "name": "Summon familiar",
+   "level": 1,
+   "kind": "note",
+   "special": [
+    "Summon familiar"
+   ]
+  }
+ ],
+ "wizard": [
+  {
+   "id": "casting",
+   "name": "Spells",
+   "level": 1,
+   "kind": "casting",
+   "ability": "int",
+   "list": "wizard",
+   "prepared": true,
+   "special": [],
+   "type": "arcane"
+  },
+  {
+   "id": "proficiency",
+   "name": "Weapon and armour proficiency",
+   "level": 1,
+   "kind": "proficiency",
+   "armour": [],
+   "special": [],
+   "weapon_ids": [
+    "club",
+    "crossbow-heavy",
+    "crossbow-light",
+    "dagger",
+    "quarterstaff"
+   ],
+   "weapons": []
+  },
+  {
+   "id": "scribe-scroll",
+   "name": "Scribe Scroll",
+   "level": 1,
+   "kind": "feat",
+   "feat": "scribe-scroll",
+   "special": [
+    "Scribe Scroll"
+   ]
+  },
+  {
+   "id": "summon-familiar",
+   "name": "Summon familiar",
+   "level": 1,
+   "kind": "note",
+   "special": [
+    "Summon familiar"
+   ]
+  },
+  {
+   "id": "bonus-feat",
+   "name": "Bonus feat",
+   "level": 5,
+   "kind": "feat",
+   "by_level": {
+    "5": 1,
+    "10": 2,
+    "15": 3,
+    "20": 4
+   },
+   "choose_from": [
+    "metamagic",
+    "item",
+    "spell-mastery"
+   ],
+   "special": [
+    "Bonus feat"
+   ]
+  }
+ ],
+ "adept": [
+  {
+   "id": "casting",
+   "name": "Spells",
+   "level": 1,
+   "kind": "casting",
+   "ability": "wis",
+   "list": "adept",
+   "prepared": true,
+   "special": [],
+   "type": "divine"
+  },
+  {
+   "id": "proficiency",
+   "name": "Weapon and armour proficiency",
+   "level": 1,
+   "kind": "proficiency",
+   "armour": [],
+   "special": [],
+   "weapon_ids": [],
+   "weapons": [
+    "simple"
+   ]
+  },
+  {
+   "id": "summon-familiar",
+   "name": "Summon familiar",
+   "level": 2,
+   "kind": "note",
+   "special": [
+    "Summon familiar"
+   ]
+  }
+ ],
+ "aristocrat": [
+  {
+   "id": "proficiency",
+   "name": "Weapon and armour proficiency",
+   "level": 1,
+   "kind": "proficiency",
+   "armour": [
+    "light",
+    "medium",
+    "heavy",
+    "shield",
+    "tower"
+   ],
+   "special": [],
+   "weapon_ids": [],
+   "weapons": [
+    "simple",
+    "martial"
+   ]
+  }
+ ],
+ "commoner": [
+  {
+   "id": "proficiency",
+   "name": "Weapon and armour proficiency",
+   "level": 1,
+   "kind": "proficiency",
+   "armour": [],
+   "special": [],
+   "weapon_choices": {
+    "simple": 1
+   },
+   "weapon_ids": [],
+   "weapons": []
+  }
+ ],
+ "expert": [
+  {
+   "id": "proficiency",
+   "name": "Weapon and armour proficiency",
+   "level": 1,
+   "kind": "proficiency",
+   "armour": [
+    "light"
+   ],
+   "special": [],
+   "weapon_ids": [],
+   "weapons": [
+    "simple"
+   ]
+  }
+ ],
+ "warrior": [
+  {
+   "id": "proficiency",
+   "name": "Weapon and armour proficiency",
+   "level": 1,
+   "kind": "proficiency",
+   "armour": [
+    "light",
+    "medium",
+    "heavy",
+    "shield",
+    "tower"
+   ],
+   "special": [],
+   "weapon_ids": [],
+   "weapons": [
+    "simple",
+    "martial"
+   ]
+  }
+ ],
+ "arcane-archer": [
+  {
+   "id": "enhance-arrow",
+   "name": "Enhance arrow",
+   "level": 1,
+   "kind": "note",
+   "by_level": {
+    "1": 1,
+    "3": 2,
+    "5": 3,
+    "7": 4,
+    "9": 5
+   },
+   "special": [
+    "Enhance arrow +1",
+    "Enhance arrow +2",
+    "Enhance arrow +3",
+    "Enhance arrow +4",
+    "Enhance arrow +5"
+   ]
+  },
+  {
+   "id": "proficiency",
+   "name": "Weapon and armour proficiency",
+   "level": 1,
+   "kind": "proficiency",
+   "armour": [
+    "light",
+    "medium",
+    "shield"
+   ],
+   "special": [],
+   "weapon_ids": [],
+   "weapons": [
+    "simple",
+    "martial"
+   ]
+  },
+  {
+   "id": "req-bab",
+   "name": "+6",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "bab": 6
+   },
+   "section": "Base Attack Bonus",
+   "special": []
+  },
+  {
+   "id": "req-cast-arcane-1",
+   "name": "Ability to cast 1st-level arcane spells",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "cast": {
+     "level": 1,
+     "kind": "arcane"
+    }
+   },
+   "section": "Spells",
+   "special": []
+  },
+  {
+   "id": "req-feat-any",
+   "name": "Weapon Focus (longbow or shortbow)",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "feat_any": [
+     {
+      "feat": "weapon-focus",
+      "choice": "longbow"
+     },
+     {
+      "feat": "weapon-focus",
+      "choice": "shortbow"
+     },
+     {
+      "feat": "weapon-focus",
+      "choice": "longbow-composite"
+     },
+     {
+      "feat": "weapon-focus",
+      "choice": "shortbow-composite"
+     }
+    ]
+   },
+   "section": "Feats",
+   "special": []
+  },
+  {
+   "id": "req-feat-point-blank-shot",
+   "name": "Point Blank Shot",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "feat": "point-blank-shot"
+   },
+   "section": "Feats",
+   "special": []
+  },
+  {
+   "id": "req-feat-precise-shot",
+   "name": "Precise Shot",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "feat": "precise-shot"
+   },
+   "section": "Feats",
+   "special": []
+  },
+  {
+   "id": "req-race",
+   "name": "Elf or half-elf",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "race": [
+     "elves",
+     "half-elves"
+    ]
+   },
+   "section": "Race",
+   "special": []
+  },
+  {
+   "id": "imbue-arrow",
+   "name": "Imbue arrow",
+   "level": 2,
+   "kind": "note",
+   "special": [
+    "Imbue arrow"
+   ]
+  },
+  {
+   "id": "seeker-arrow",
+   "name": "Seeker arrow",
+   "level": 4,
+   "kind": "uses",
+   "by_level": {
+    "4": 1
+   },
+   "special": [
+    "Seeker arrow"
+   ]
+  },
+  {
+   "id": "phase-arrow",
+   "name": "Phase arrow",
+   "level": 6,
+   "kind": "uses",
+   "by_level": {
+    "6": 1
+   },
+   "special": [
+    "Phase arrow"
+   ]
+  },
+  {
+   "id": "hail-of-arrows",
+   "name": "Hail of arrows",
+   "level": 8,
+   "kind": "uses",
+   "by_level": {
+    "8": 1
+   },
+   "special": [
+    "Hail of arrows"
+   ]
+  },
+  {
+   "id": "arrow-of-death",
+   "name": "Arrow of death",
+   "level": 10,
+   "kind": "note",
+   "special": [
+    "Arrow of death"
+   ]
+  }
+ ],
+ "arcane-trickster": [
+  {
+   "id": "casting",
+   "name": "Spells per day",
+   "level": 1,
+   "kind": "casting",
+   "advances": "any",
+   "by_level": {
+    "1": true,
+    "2": true,
+    "3": true,
+    "4": true,
+    "5": true,
+    "6": true,
+    "7": true,
+    "8": true,
+    "9": true,
+    "10": true
+   },
+   "count": 1,
+   "special": []
+  },
+  {
+   "id": "proficiency",
+   "name": "Weapon and armour proficiency",
+   "level": 1,
+   "kind": "proficiency",
+   "armour": [],
+   "special": [],
+   "weapon_ids": [],
+   "weapons": []
+  },
+  {
+   "id": "ranged-legerdemain",
+   "name": "Ranged legerdemain",
+   "level": 1,
+   "kind": "uses",
+   "by_level": {
+    "1": 1,
+    "5": 2,
+    "9": 3
+   },
+   "special": [
+    "Ranged legerdemain 1/day",
+    "Ranged legerdemain 2/day",
+    "Ranged legerdemain 3/day"
+   ]
+  },
+  {
+   "id": "req-alignment",
+   "name": "Any nonlawful",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "alignment": {
+     "not": [
+      "lawful"
+     ]
+    }
+   },
+   "section": "Alignment",
+   "special": []
+  },
+  {
+   "id": "req-cast-arcane-3",
+   "name": "Ability to cast *mage hand* and at least one arcane spell of 3rd level or higher",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "cast": {
+     "level": 3,
+     "kind": "arcane"
+    }
+   },
+   "section": "Spells",
+   "special": []
+  },
+  {
+   "id": "req-skill-decipher-script",
+   "name": "Decipher Script 7 ranks",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "skill": "decipher-script",
+    "ranks": 7
+   },
+   "section": "Skills",
+   "special": []
+  },
+  {
+   "id": "req-skill-disable-device",
+   "name": "Disable Device 7 ranks",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "skill": "disable-device",
+    "ranks": 7
+   },
+   "section": "Skills",
+   "special": []
+  },
+  {
+   "id": "req-skill-escape-artist",
+   "name": "Escape Artist 7 ranks",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "skill": "escape-artist",
+    "ranks": 7
+   },
+   "section": "Skills",
+   "special": []
+  },
+  {
+   "id": "req-skill-knowledge-arcana",
+   "name": "Knowledge (arcana) 4 ranks",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "skill": "knowledge-arcana",
+    "ranks": 4
+   },
+   "section": "Skills",
+   "special": []
+  },
+  {
+   "id": "req-sneak",
+   "name": "Sneak attack +2d6",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "sneak": "2d6"
+   },
+   "section": "Special",
+   "special": []
+  },
+  {
+   "id": "req-spell-mage-hand",
+   "name": "Ability to cast *mage hand* and at least one arcane spell of 3rd level or higher",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "spell": "mage-hand"
+   },
+   "section": "Spells",
+   "special": []
+  },
+  {
+   "id": "sneak-attack",
+   "name": "Sneak attack",
+   "level": 2,
+   "kind": "dice",
+   "by_level": {
+    "2": "1d6",
+    "4": "2d6",
+    "6": "3d6",
+    "8": "4d6",
+    "10": "5d6"
+   },
+   "special": [
+    "Sneak attack +1d6",
+    "Sneak attack +2d6",
+    "Sneak attack +3d6",
+    "Sneak attack +4d6",
+    "Sneak attack +5d6"
+   ]
+  },
+  {
+   "id": "impromptu-sneak-attack",
+   "name": "Impromptu sneak attack",
+   "level": 3,
+   "kind": "uses",
+   "by_level": {
+    "3": 1,
+    "7": 2
+   },
+   "special": [
+    "Impromptu sneak attack 1/day",
+    "Impromptu sneak attack 2/day"
+   ]
+  }
+ ],
+ "archmage": [
+  {
+   "id": "casting",
+   "name": "Spells per day",
+   "level": 1,
+   "kind": "casting",
+   "advances": "arcane",
+   "by_level": {
+    "1": true,
+    "2": true,
+    "3": true,
+    "4": true,
+    "5": true
+   },
+   "count": 1,
+   "special": []
+  },
+  {
+   "id": "high-arcana",
+   "name": "High arcana",
+   "level": 1,
+   "kind": "note",
+   "by_level": {
+    "1": 1,
+    "2": 2,
+    "3": 3,
+    "4": 4,
+    "5": 5
+   },
+   "special": [
+    "High arcana"
+   ]
+  },
+  {
+   "id": "proficiency",
+   "name": "Weapon and armour proficiency",
+   "level": 1,
+   "kind": "proficiency",
+   "armour": [],
+   "special": [],
+   "weapon_ids": [],
+   "weapons": []
+  },
+  {
+   "id": "req-cast-arcane-7",
+   "name": "Ability to cast 7th-level arcane spells, knowledge of 5th-level or higher spells from at least five schools",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "cast": {
+     "level": 7,
+     "kind": "arcane"
+    }
+   },
+   "section": "Spells",
+   "special": []
+  },
+  {
+   "id": "req-feat-any",
+   "name": "Spell Focus in two schools of magic",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "feat_any": [
+     {
+      "feat": "spell-focus",
+      "choice": "abjuration"
+     },
+     {
+      "feat": "spell-focus",
+      "choice": "conjuration"
+     },
+     {
+      "feat": "spell-focus",
+      "choice": "divination"
+     },
+     {
+      "feat": "spell-focus",
+      "choice": "enchantment"
+     },
+     {
+      "feat": "spell-focus",
+      "choice": "evocation"
+     },
+     {
+      "feat": "spell-focus",
+      "choice": "illusion"
+     },
+     {
+      "feat": "spell-focus",
+      "choice": "necromancy"
+     },
+     {
+      "feat": "spell-focus",
+      "choice": "transmutation"
+     }
+    ],
+    "count": 2
+   },
+   "section": "Feats",
+   "special": []
+  },
+  {
+   "id": "req-feat-skill-focus-spellcraft",
+   "name": "Skill Focus (Spellcraft)",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "feat": "skill-focus",
+    "choice": "spellcraft"
+   },
+   "section": "Feats",
+   "special": []
+  },
+  {
+   "id": "req-skill-knowledge-arcana",
+   "name": "Knowledge (arcana) 15 ranks",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "skill": "knowledge-arcana",
+    "ranks": 15
+   },
+   "section": "Skills",
+   "special": []
+  },
+  {
+   "id": "req-skill-spellcraft",
+   "name": "Spellcraft 15 ranks",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "skill": "spellcraft",
+    "ranks": 15
+   },
+   "section": "Skills",
+   "special": []
+  },
+  {
+   "id": "req-special",
+   "name": "Ability to cast 7th-level arcane spells, knowledge of 5th-level or higher spells from at least five schools",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "special": "knows 5th-level or higher spells of five schools"
+   },
+   "section": "Spells",
+   "special": []
+  }
+ ],
+ "assassin": [
+  {
+   "id": "casting",
+   "name": "Spells",
+   "level": 1,
+   "kind": "casting",
+   "ability": "int",
+   "list": "assassin",
+   "no_failure_in": "light",
+   "prepared": false,
+   "special": [
+    "spells"
+   ],
+   "type": "arcane"
+  },
+  {
+   "id": "death-attack",
+   "name": "Death attack",
+   "level": 1,
+   "kind": "note",
+   "special": [
+    "death attack"
+   ]
+  },
+  {
+   "id": "poison-use",
+   "name": "Poison use",
+   "level": 1,
+   "kind": "note",
+   "special": [
+    "poison use"
+   ]
+  },
+  {
+   "id": "proficiency",
+   "name": "Weapon and armour proficiency",
+   "level": 1,
+   "kind": "proficiency",
+   "armour": [
+    "light"
+   ],
+   "special": [],
+   "weapon_ids": [
+    "crossbow-hand",
+    "crossbow-heavy",
+    "crossbow-light",
+    "dagger",
+    "dagger-punching",
+    "dart",
+    "rapier",
+    "sap",
+    "shortbow",
+    "shortbow-composite",
+    "sword-short"
+   ],
+   "weapons": []
+  },
+  {
+   "id": "req-alignment",
+   "name": "Any evil",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "alignment": [
+     "evil"
+    ]
+   },
+   "section": "Alignment",
+   "special": []
+  },
+  {
+   "id": "req-skill-disguise",
+   "name": "Disguise 4 ranks",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "skill": "disguise",
+    "ranks": 4
+   },
+   "section": "Skills",
+   "special": []
+  },
+  {
+   "id": "req-skill-hide",
+   "name": "Hide 8 ranks",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "skill": "hide",
+    "ranks": 8
+   },
+   "section": "Skills",
+   "special": []
+  },
+  {
+   "id": "req-skill-move-silently",
+   "name": "Move Silently 8 ranks",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "skill": "move-silently",
+    "ranks": 8
+   },
+   "section": "Skills",
+   "special": []
+  },
+  {
+   "id": "req-special",
+   "name": "The character must kill someone for no other reason than to join the assassins",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "special": "kill someone for no other reason than to join"
+   },
+   "section": "Special",
+   "special": []
+  },
+  {
+   "id": "sneak-attack",
+   "name": "Sneak attack",
+   "level": 1,
+   "kind": "dice",
+   "by_level": {
+    "1": "1d6",
+    "3": "2d6",
+    "5": "3d6",
+    "7": "4d6",
+    "9": "5d6"
+   },
+   "special": [
+    "Sneak attack +1d6",
+    "Sneak attack +2d6",
+    "sneak attack +3d6",
+    "Sneak attack +4d6",
+    "Sneak attack +5d6"
+   ]
+  },
+  {
+   "id": "save-against-poison",
+   "name": "Save against poison",
+   "level": 2,
+   "kind": "bonus",
+   "by_level": {
+    "2": 1,
+    "4": 2,
+    "6": 3,
+    "8": 4,
+    "10": 5
+   },
+   "condition": "vs:poison",
+   "special": [
+    "+1 save against poison",
+    "+2 save against poison",
+    "+3 save against poison",
+    "+4 save against poison",
+    "+5 save against poison"
+   ],
+   "target": "saves"
+  },
+  {
+   "id": "uncanny-dodge",
+   "name": "Uncanny dodge",
+   "level": 2,
+   "kind": "feat",
+   "feat": "uncanny-dodge",
+   "special": [
+    "uncanny dodge"
+   ]
+  },
+  {
+   "id": "improved-uncanny-dodge",
+   "name": "Improved uncanny dodge",
+   "level": 5,
+   "kind": "note",
+   "special": [
+    "Improved uncanny dodge"
+   ]
+  },
+  {
+   "id": "hide-in-plain-sight",
+   "name": "Hide in plain sight",
+   "level": 8,
+   "kind": "note",
+   "special": [
+    "hide in plain sight"
+   ]
+  }
+ ],
+ "blackguard": [
+  {
+   "id": "aura-of-evil",
+   "name": "Aura of evil",
+   "level": 1,
+   "kind": "note",
+   "special": [
+    "Aura of evil"
+   ]
+  },
+  {
+   "id": "casting",
+   "name": "Spells",
+   "level": 1,
+   "kind": "casting",
+   "ability": "wis",
+   "list": "blackguard",
+   "prepared": true,
+   "special": [],
+   "type": "divine"
+  },
+  {
+   "id": "detect-good",
+   "name": "Detect good",
+   "level": 1,
+   "kind": "note",
+   "special": [
+    "detect good"
+   ]
+  },
+  {
+   "id": "poison-use",
+   "name": "Poison use",
+   "level": 1,
+   "kind": "note",
+   "special": [
+    "poison use"
+   ]
+  },
+  {
+   "id": "proficiency",
+   "name": "Weapon and armour proficiency",
+   "level": 1,
+   "kind": "proficiency",
+   "armour": [
+    "light",
+    "medium",
+    "heavy",
+    "shield"
+   ],
+   "special": [],
+   "weapon_ids": [],
+   "weapons": [
+    "simple",
+    "martial"
+   ]
+  },
+  {
+   "id": "req-alignment",
+   "name": "Any evil",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "alignment": [
+     "evil"
+    ]
+   },
+   "section": "Alignment",
+   "special": []
+  },
+  {
+   "id": "req-bab",
+   "name": "+6",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "bab": 6
+   },
+   "section": "Base Attack Bonus",
+   "special": []
+  },
+  {
+   "id": "req-feat-cleave",
+   "name": "Cleave",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "feat": "cleave"
+   },
+   "section": "Feats",
+   "special": []
+  },
+  {
+   "id": "req-feat-improved-sunder",
+   "name": "Improved Sunder",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "feat": "improved-sunder"
+   },
+   "section": "Feats",
+   "special": []
+  },
+  {
+   "id": "req-feat-power-attack",
+   "name": "Power Attack",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "feat": "power-attack"
+   },
+   "section": "Feats",
+   "special": []
+  },
+  {
+   "id": "req-skill-hide",
+   "name": "Hide 5 ranks",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "skill": "hide",
+    "ranks": 5
+   },
+   "section": "Skills",
+   "special": []
+  },
+  {
+   "id": "req-skill-knowledge-religion",
+   "name": "Knowledge (religion) 2 ranks",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "skill": "knowledge-religion",
+    "ranks": 2
+   },
+   "section": "Skills",
+   "special": []
+  },
+  {
+   "id": "req-special",
+   "name": "The character must have made peaceful contact with an evil outsider who was summoned by him or someone else",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "special": "peaceful contact with a summoned evil outsider"
+   },
+   "section": "Special",
+   "special": []
+  },
+  {
+   "id": "dark-blessing",
+   "name": "Dark blessing",
+   "level": 2,
+   "kind": "bonus",
+   "ability": "cha",
+   "special": [
+    "Dark blessing"
+   ],
+   "target": "saves"
+  },
+  {
+   "id": "smite-good",
+   "name": "Smite good",
+   "level": 2,
+   "kind": "uses",
+   "attack_ability": "cha",
+   "by_level": {
+    "2": 1,
+    "5": 2,
+    "10": 3
+   },
+   "damage_per_level": 1,
+   "special": [
+    "smite good 1/day",
+    "smite good 2/day",
+    "smite good 3/day"
+   ]
+  },
+  {
+   "id": "aura-of-despair",
+   "name": "Aura of despair",
+   "level": 3,
+   "kind": "note",
+   "special": [
+    "aura of despair"
+   ]
+  },
+  {
+   "id": "command-undead",
+   "name": "Command undead",
+   "level": 3,
+   "kind": "uses",
+   "ability": "cha",
+   "by_level": {
+    "3": 3
+   },
+   "rebuke": true,
+   "special": [
+    "Command undead"
+   ],
+   "turning_level_offset": -2
+  },
+  {
+   "id": "sneak-attack",
+   "name": "Sneak attack",
+   "level": 4,
+   "kind": "dice",
+   "by_level": {
+    "4": "1d6",
+    "7": "2d6",
+    "10": "3d6"
+   },
+   "special": [
+    "Sneak attack +1d6",
+    "Sneak attack +2d6",
+    "Sneak attack +3d6"
+   ]
+  },
+  {
+   "id": "fiendish-servant",
+   "name": "Fiendish servant",
+   "level": 5,
+   "kind": "note",
+   "special": [
+    "Fiendish servant"
+   ]
+  }
+ ],
+ "dragon-disciple": [
+  {
+   "id": "bonus-spells",
+   "name": "Bonus spells",
+   "level": 1,
+   "kind": "bonus",
+   "by_level": {
+    "1": 1,
+    "2": 2,
+    "4": 3,
+    "5": 4,
+    "6": 5,
+    "8": 6,
+    "9": 7
+   },
+   "special": [],
+   "target": "bonus_spells"
+  },
+  {
+   "id": "natural-armor-increase",
+   "name": "Natural armor increase",
+   "level": 1,
+   "kind": "bonus",
+   "by_level": {
+    "1": 1,
+    "4": 2,
+    "7": 3,
+    "10": 4
+   },
+   "special": [
+    "Natural armor increase (+1)",
+    "natural armor increase (+2)",
+    "natural armor increase (+3)"
+   ],
+   "target": "natural_armour"
+  },
+  {
+   "id": "proficiency",
+   "name": "Weapon and armour proficiency",
+   "level": 1,
+   "kind": "proficiency",
+   "armour": [],
+   "special": [],
+   "weapon_ids": [],
+   "weapons": []
+  },
+  {
+   "id": "req-cast-arcane-0",
+   "name": "Ability to cast arcane spells without preparation",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "cast": {
+     "level": 0,
+     "kind": "arcane",
+     "spontaneous": true
+    }
+   },
+   "section": "Spellcasting",
+   "special": []
+  },
+  {
+   "id": "req-race",
+   "name": "Any nondragon (cannot already be a half-dragon)",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "race": {
+     "not": [
+      "dragon",
+      "half-dragon"
+     ]
+    }
+   },
+   "section": "Race",
+   "special": []
+  },
+  {
+   "id": "req-skill-knowledge-arcana",
+   "name": "Knowledge (arcana) 8 ranks",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "skill": "knowledge-arcana",
+    "ranks": 8
+   },
+   "section": "Skills",
+   "special": []
+  },
+  {
+   "id": "req-special",
+   "name": "Draconic",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "special": "speaks Draconic"
+   },
+   "section": "Languages",
+   "special": []
+  },
+  {
+   "id": "req-special-2",
+   "name": "The player chooses a dragon variety when taking the first level in this prestige class",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "special": "a dragon variety chosen"
+   },
+   "section": "Special",
+   "special": []
+  },
+  {
+   "id": "ability-boost",
+   "name": "Ability boost",
+   "level": 2,
+   "kind": "bonus",
+   "by_level": {
+    "2": {
+     "str": 2
+    },
+    "4": {
+     "str": 4
+    },
+    "6": {
+     "str": 4,
+     "con": 2
+    },
+    "8": {
+     "str": 4,
+     "con": 2,
+     "int": 2
+    },
+    "10": {
+     "str": 8,
+     "con": 2,
+     "int": 2,
+     "cha": 2
+    }
+   },
+   "special": [
+    "Ability boost (Str +2)",
+    "Ability boost (Con +2)",
+    "Ability boost (Int +2)"
+   ],
+   "target": "abilities"
+  },
+  {
+   "id": "claws-and-bite",
+   "name": "Claws and bite",
+   "level": 2,
+   "kind": "note",
+   "special": [
+    "claws and bite"
+   ]
+  },
+  {
+   "id": "breath-weapon",
+   "name": "Breath weapon",
+   "level": 3,
+   "kind": "uses",
+   "by_level": {
+    "3": 1
+   },
+   "dc_ability": "con",
+   "dice": {
+    "3": "2d8",
+    "7": "4d8",
+    "10": "6d8"
+   },
+   "special": [
+    "Breath weapon (2d8)",
+    "Breath weapon (4d8)"
+   ]
+  },
+  {
+   "id": "blindsense",
+   "name": "Blindsense",
+   "level": 5,
+   "kind": "note",
+   "by_level": {
+    "5": 30,
+    "10": 60
+   },
+   "special": [
+    "Blindsense 30 ft.",
+    "Blindsense 60 ft."
+   ]
+  },
+  {
+   "id": "wings",
+   "name": "Wings",
+   "level": 9,
+   "kind": "note",
+   "special": [
+    "Wings"
+   ]
+  },
+  {
+   "id": "dragon-apotheosis",
+   "name": "Dragon apotheosis",
+   "level": 10,
+   "kind": "note",
+   "special": [
+    "dragon apotheosis"
+   ]
+  }
+ ],
+ "duelist": [
+  {
+   "id": "canny-defense",
+   "name": "Canny defense",
+   "level": 1,
+   "kind": "note",
+   "ability": "int",
+   "condition": "unarmoured_unencumbered",
+   "special": [
+    "Canny defense"
+   ]
+  },
+  {
+   "id": "proficiency",
+   "name": "Weapon and armour proficiency",
+   "level": 1,
+   "kind": "proficiency",
+   "armour": [],
+   "special": [],
+   "weapon_ids": [],
+   "weapons": [
+    "simple",
+    "martial"
+   ]
+  },
+  {
+   "id": "req-bab",
+   "name": "+6",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "bab": 6
+   },
+   "section": "Base Attack Bonus",
+   "special": []
+  },
+  {
+   "id": "req-feat-dodge",
+   "name": "Dodge",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "feat": "dodge"
+   },
+   "section": "Feats",
+   "special": []
+  },
+  {
+   "id": "req-feat-mobility",
+   "name": "Mobility",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "feat": "mobility"
+   },
+   "section": "Feats",
+   "special": []
+  },
+  {
+   "id": "req-feat-weapon-finesse",
+   "name": "Weapon Finesse",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "feat": "weapon-finesse"
+   },
+   "section": "Feats",
+   "special": []
+  },
+  {
+   "id": "req-skill-any",
+   "name": "Perform 3 ranks",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "skill_any": [
+     "perform",
+     "perform-act",
+     "perform-comedy",
+     "perform-dance",
+     "perform-keyboard-instruments",
+     "perform-oratory",
+     "perform-percussion-instruments",
+     "perform-sing",
+     "perform-string-instruments",
+     "perform-wind-instruments"
+    ],
+    "ranks": 3
+   },
+   "section": "Skills",
+   "special": []
+  },
+  {
+   "id": "req-skill-tumble",
+   "name": "Tumble 5 ranks",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "skill": "tumble",
+    "ranks": 5
+   },
+   "section": "Skills",
+   "special": []
+  },
+  {
+   "id": "improved-reaction",
+   "name": "Improved reaction",
+   "level": 2,
+   "kind": "bonus",
+   "by_level": {
+    "2": 2,
+    "8": 4
+   },
+   "special": [
+    "Improved reaction +2",
+    "Improved reaction +4"
+   ],
+   "target": "init"
+  },
+  {
+   "id": "enhanced-mobility",
+   "name": "Enhanced mobility",
+   "level": 3,
+   "kind": "note",
+   "special": [
+    "Enhanced mobility"
+   ]
+  },
+  {
+   "id": "grace",
+   "name": "Grace",
+   "level": 4,
+   "kind": "bonus",
+   "condition": "unarmoured_unencumbered",
+   "special": [
+    "Grace"
+   ],
+   "target": "ref",
+   "value": 2
+  },
+  {
+   "id": "precise-strike",
+   "name": "Precise strike",
+   "level": 5,
+   "kind": "dice",
+   "by_level": {
+    "5": "1d6",
+    "10": "2d6"
+   },
+   "special": [
+    "Precise strike +1d6",
+    "Precise strike +2d6"
+   ],
+   "weapon": {
+    "kinds": [
+     "light",
+     "one-handed"
+    ],
+    "type": "piercing"
+   }
+  },
+  {
+   "id": "acrobatic-charge",
+   "name": "Acrobatic charge",
+   "level": 6,
+   "kind": "note",
+   "special": [
+    "Acrobatic charge"
+   ]
+  },
+  {
+   "id": "elaborate-parry",
+   "name": "Elaborate parry",
+   "level": 7,
+   "kind": "note",
+   "special": [
+    "Elaborate parry"
+   ]
+  },
+  {
+   "id": "deflect-arrows",
+   "name": "Deflect Arrows",
+   "level": 9,
+   "kind": "feat",
+   "feat": "deflect-arrows",
+   "special": [
+    "Deflect Arrows"
+   ]
+  }
+ ],
+ "dwarven-defender": [
+  {
+   "id": "ac-bonus",
+   "name": "AC bonus",
+   "level": 1,
+   "kind": "bonus",
+   "by_level": {
+    "1": 1,
+    "4": 2,
+    "7": 3,
+    "10": 4
+   },
+   "special": [],
+   "target": "ac",
+   "type": "dodge"
+  },
+  {
+   "id": "defensive-stance",
+   "name": "Defensive stance",
+   "level": 1,
+   "kind": "uses",
+   "bonuses": {
+    "str": 2,
+    "con": 4,
+    "saves": 2,
+    "ac": 4
+   },
+   "by_level": {
+    "1": 1,
+    "3": 2,
+    "5": 3,
+    "7": 4,
+    "9": 5
+   },
+   "special": [
+    "Defensive stance 1/day",
+    "Defensive stance 2/day",
+    "Defensive stance 3/day",
+    "Defensive stance 4/day",
+    "Defensive stance 5/day"
+   ]
+  },
+  {
+   "id": "proficiency",
+   "name": "Weapon and armour proficiency",
+   "level": 1,
+   "kind": "proficiency",
+   "armour": [
+    "light",
+    "medium",
+    "heavy",
+    "shield"
+   ],
+   "special": [],
+   "weapon_ids": [],
+   "weapons": [
+    "simple",
+    "martial"
+   ]
+  },
+  {
+   "id": "req-alignment",
+   "name": "Any lawful",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "alignment": [
+     "lawful"
+    ]
+   },
+   "section": "Alignment",
+   "special": []
+  },
+  {
+   "id": "req-bab",
+   "name": "+7",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "bab": 7
+   },
+   "section": "Base Attack Bonus",
+   "special": []
+  },
+  {
+   "id": "req-feat-dodge",
+   "name": "Dodge",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "feat": "dodge"
+   },
+   "section": "Feats",
+   "special": []
+  },
+  {
+   "id": "req-feat-endurance",
+   "name": "Endurance",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "feat": "endurance"
+   },
+   "section": "Feats",
+   "special": []
+  },
+  {
+   "id": "req-feat-toughness",
+   "name": "Toughness",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "feat": "toughness"
+   },
+   "section": "Feats",
+   "special": []
+  },
+  {
+   "id": "req-race",
+   "name": "Dwarf",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "race": [
+     "dwarves"
+    ]
+   },
+   "section": "Race",
+   "special": []
+  },
+  {
+   "id": "uncanny-dodge",
+   "name": "Uncanny dodge",
+   "level": 2,
+   "kind": "feat",
+   "feat": "uncanny-dodge",
+   "special": [
+    "Uncanny dodge"
+   ]
+  },
+  {
+   "id": "trap-sense",
+   "name": "Trap sense",
+   "level": 4,
+   "kind": "note",
+   "by_level": {
+    "4": 1,
+    "8": 2
+   },
+   "condition": "vs:traps",
+   "special": [
+    "Trap sense +1",
+    "trap sense +2"
+   ],
+   "targets": [
+    "ref",
+    "ac"
+   ]
+  },
+  {
+   "id": "damage-reduction",
+   "name": "Damage reduction",
+   "level": 6,
+   "kind": "reduction",
+   "by_level": {
+    "6": 3,
+    "10": 6
+   },
+   "bypass": "—",
+   "special": [
+    "Damage reduction 3/--",
+    "Damage reduction 6/--"
+   ]
+  },
+  {
+   "id": "improved-uncanny-dodge",
+   "name": "Improved uncanny dodge",
+   "level": 6,
+   "kind": "note",
+   "special": [
+    "improved uncanny dodge"
+   ]
+  },
+  {
+   "id": "mobile-defense",
+   "name": "Mobile defense",
+   "level": 8,
+   "kind": "note",
+   "special": [
+    "Mobile defense"
+   ]
+  }
+ ],
+ "eldritch-knight": [
+  {
+   "id": "bonus-feat",
+   "name": "Bonus feat",
+   "level": 1,
+   "kind": "feat",
+   "choose_from": [
+    "fighter"
+   ],
+   "special": [
+    "Bonus feat"
+   ]
+  },
+  {
+   "id": "proficiency",
+   "name": "Weapon and armour proficiency",
+   "level": 1,
+   "kind": "proficiency",
+   "armour": [],
+   "special": [],
+   "weapon_ids": [],
+   "weapons": []
+  },
+  {
+   "id": "req-cast-arcane-3",
+   "name": "Able to cast 3rd-level arcane spells",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "cast": {
+     "level": 3,
+     "kind": "arcane"
+    }
+   },
+   "section": "Spells",
+   "special": []
+  },
+  {
+   "id": "req-proficient-martial",
+   "name": "Must be proficient with all martial weapons",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "proficient": "martial"
+   },
+   "section": "Weapon Proficiency",
+   "special": []
+  },
+  {
+   "id": "casting",
+   "name": "Spells per day",
+   "level": 2,
+   "kind": "casting",
+   "advances": "arcane",
+   "by_level": {
+    "2": true,
+    "3": true,
+    "4": true,
+    "5": true,
+    "6": true,
+    "7": true,
+    "8": true,
+    "9": true,
+    "10": true
+   },
+   "count": 1,
+   "special": [
+    "+1 level of existing arcane spellcasting class"
+   ]
+  }
+ ],
+ "hierophant": [
+  {
+   "id": "casting",
+   "name": "Caster level",
+   "level": 1,
+   "kind": "casting",
+   "advances": "divine",
+   "by_level": {
+    "1": true,
+    "2": true,
+    "3": true,
+    "4": true,
+    "5": true
+   },
+   "caster_level_only": true,
+   "count": 1,
+   "special": []
+  },
+  {
+   "id": "proficiency",
+   "name": "Weapon and armour proficiency",
+   "level": 1,
+   "kind": "proficiency",
+   "armour": [],
+   "special": [],
+   "weapon_ids": [],
+   "weapons": []
+  },
+  {
+   "id": "req-cast-divine-7",
+   "name": "Able to cast 7th-level divine spells",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "cast": {
+     "level": 7,
+     "kind": "divine"
+    }
+   },
+   "section": "Spells",
+   "special": []
+  },
+  {
+   "id": "req-feat-any",
+   "name": "Any metamagic feat",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "feat_any": [
+     {
+      "feat": "empower-spell"
+     },
+     {
+      "feat": "enlarge-spell"
+     },
+     {
+      "feat": "extend-spell"
+     },
+     {
+      "feat": "heighten-spell"
+     },
+     {
+      "feat": "maximize-spell"
+     },
+     {
+      "feat": "quicken-spell"
+     },
+     {
+      "feat": "silent-spell"
+     },
+     {
+      "feat": "still-spell"
+     },
+     {
+      "feat": "widen-spell"
+     }
+    ]
+   },
+   "section": "Feats",
+   "special": []
+  },
+  {
+   "id": "req-skill-knowledge-religion",
+   "name": "Knowledge (religion) 15 ranks",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "skill": "knowledge-religion",
+    "ranks": 15
+   },
+   "section": "Skills",
+   "special": []
+  },
+  {
+   "id": "special-ability",
+   "name": "Special ability",
+   "level": 1,
+   "kind": "note",
+   "by_level": {
+    "1": 1,
+    "2": 2,
+    "3": 3,
+    "4": 4,
+    "5": 5
+   },
+   "choices": [
+    "blast-infidel",
+    "divine-reach",
+    "faith-healing",
+    "gift-of-the-divine",
+    "mastery-of-energy",
+    "metamagic-feat",
+    "power-of-nature",
+    "spell-power",
+    "spell-like-ability"
+   ],
+   "special": [
+    "Special ability"
+   ]
+  }
+ ],
+ "horizon-walker": [
+  {
+   "id": "proficiency",
+   "name": "Weapon and armour proficiency",
+   "level": 1,
+   "kind": "proficiency",
+   "armour": [],
+   "special": [],
+   "weapon_ids": [],
+   "weapons": []
+  },
+  {
+   "id": "req-feat-endurance",
+   "name": "Endurance",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "feat": "endurance"
+   },
+   "section": "Feats",
+   "special": []
+  },
+  {
+   "id": "req-skill-knowledge-geography",
+   "name": "Knowledge (geography) 8 ranks",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "skill": "knowledge-geography",
+    "ranks": 8
+   },
+   "section": "Skills",
+   "special": []
+  },
+  {
+   "id": "terrain-mastery",
+   "name": "Terrain mastery",
+   "level": 1,
+   "kind": "note",
+   "by_level": {
+    "1": 1,
+    "2": 2,
+    "3": 3,
+    "4": 4,
+    "5": 5
+   },
+   "special": [
+    "Terrain mastery"
+   ]
+  },
+  {
+   "id": "planar-terrain-mastery",
+   "name": "Planar terrain mastery",
+   "level": 6,
+   "kind": "note",
+   "by_level": {
+    "6": 1,
+    "7": 2,
+    "8": 3,
+    "9": 4,
+    "10": 5
+   },
+   "special": [
+    "Planar terrain mastery"
+   ]
+  }
+ ],
+ "loremaster": [
+  {
+   "id": "casting",
+   "name": "Spells per day",
+   "level": 1,
+   "kind": "casting",
+   "advances": "any",
+   "by_level": {
+    "1": true,
+    "2": true,
+    "3": true,
+    "4": true,
+    "5": true,
+    "6": true,
+    "7": true,
+    "8": true,
+    "9": true,
+    "10": true
+   },
+   "count": 1,
+   "special": []
+  },
+  {
+   "id": "proficiency",
+   "name": "Weapon and armour proficiency",
+   "level": 1,
+   "kind": "proficiency",
+   "armour": [],
+   "special": [],
+   "weapon_ids": [],
+   "weapons": []
+  },
+  {
+   "id": "req-feat-any",
+   "name": "Any three metamagic or item creation feats",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "feat_any": [
+     {
+      "feat": "empower-spell"
+     },
+     {
+      "feat": "enlarge-spell"
+     },
+     {
+      "feat": "extend-spell"
+     },
+     {
+      "feat": "heighten-spell"
+     },
+     {
+      "feat": "maximize-spell"
+     },
+     {
+      "feat": "quicken-spell"
+     },
+     {
+      "feat": "silent-spell"
+     },
+     {
+      "feat": "still-spell"
+     },
+     {
+      "feat": "widen-spell"
+     },
+     {
+      "feat": "brew-potion"
+     },
+     {
+      "feat": "craft-magic-arms-and-armor"
+     },
+     {
+      "feat": "craft-rod"
+     },
+     {
+      "feat": "craft-staff"
+     },
+     {
+      "feat": "craft-wand"
+     },
+     {
+      "feat": "craft-wondrous-item"
+     },
+     {
+      "feat": "forge-ring"
+     },
+     {
+      "feat": "scribe-scroll"
+     }
+    ],
+    "count": 3
+   },
+   "section": "Feats",
+   "special": []
+  },
+  {
+   "id": "req-feat-any-2",
+   "name": "Skill Focus (Knowledge [any individual Knowledge skill])",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "feat_any": [
+     {
+      "feat": "skill-focus",
+      "choice": "knowledge-arcana"
+     },
+     {
+      "feat": "skill-focus",
+      "choice": "knowledge-architecture-and-engineering"
+     },
+     {
+      "feat": "skill-focus",
+      "choice": "knowledge-dungeoneering"
+     },
+     {
+      "feat": "skill-focus",
+      "choice": "knowledge-geography"
+     },
+     {
+      "feat": "skill-focus",
+      "choice": "knowledge-history"
+     },
+     {
+      "feat": "skill-focus",
+      "choice": "knowledge-local"
+     },
+     {
+      "feat": "skill-focus",
+      "choice": "knowledge-nature"
+     },
+     {
+      "feat": "skill-focus",
+      "choice": "knowledge-nobility-and-royalty"
+     },
+     {
+      "feat": "skill-focus",
+      "choice": "knowledge-religion"
+     },
+     {
+      "feat": "skill-focus",
+      "choice": "knowledge-the-planes"
+     }
+    ]
+   },
+   "section": "Feats",
+   "special": []
+  },
+  {
+   "id": "req-skill-any",
+   "name": "Knowledge (any two) 10 ranks in each",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "skill_any": [
+     "knowledge-arcana",
+     "knowledge-architecture-and-engineering",
+     "knowledge-dungeoneering",
+     "knowledge-geography",
+     "knowledge-history",
+     "knowledge-local",
+     "knowledge-nature",
+     "knowledge-nobility-and-royalty",
+     "knowledge-religion",
+     "knowledge-the-planes"
+    ],
+    "count": 2,
+    "ranks": 10
+   },
+   "section": "Skills",
+   "special": []
+  },
+  {
+   "id": "req-special",
+   "name": "Able to cast seven different divination spells, one of which must be 3rd level or higher",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "special": "can cast seven divination spells, one of 3rd level or higher"
+   },
+   "section": "Spells",
+   "special": []
+  },
+  {
+   "id": "secret",
+   "name": "Secret",
+   "level": 1,
+   "kind": "note",
+   "by_level": {
+    "1": 1,
+    "3": 2,
+    "5": 3,
+    "7": 4,
+    "9": 5
+   },
+   "special": [
+    "Secret"
+   ]
+  },
+  {
+   "id": "lore",
+   "name": "Lore",
+   "level": 2,
+   "kind": "note",
+   "special": [
+    "Lore"
+   ]
+  },
+  {
+   "id": "bonus-language",
+   "name": "Bonus language",
+   "level": 4,
+   "kind": "note",
+   "by_level": {
+    "4": 1,
+    "8": 2
+   },
+   "special": [
+    "Bonus language"
+   ]
+  },
+  {
+   "id": "greater-lore",
+   "name": "Greater lore",
+   "level": 6,
+   "kind": "note",
+   "special": [
+    "Greater lore"
+   ]
+  },
+  {
+   "id": "true-lore",
+   "name": "True lore",
+   "level": 10,
+   "kind": "note",
+   "special": [
+    "True lore"
+   ]
+  }
+ ],
+ "mystic-theurge": [
+  {
+   "id": "casting",
+   "name": "Spells per day",
+   "level": 1,
+   "kind": "casting",
+   "advances": [
+    "arcane",
+    "divine"
+   ],
+   "by_level": {
+    "1": true,
+    "2": true,
+    "3": true,
+    "4": true,
+    "5": true,
+    "6": true,
+    "7": true,
+    "8": true,
+    "9": true,
+    "10": true
+   },
+   "count": 2,
+   "special": []
+  },
+  {
+   "id": "proficiency",
+   "name": "Weapon and armour proficiency",
+   "level": 1,
+   "kind": "proficiency",
+   "armour": [],
+   "special": [],
+   "weapon_ids": [],
+   "weapons": []
+  },
+  {
+   "id": "req-cast-arcane-2",
+   "name": "Able to cast 2nd-level divine spells and 2nd-level arcane spells",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "cast": {
+     "level": 2,
+     "kind": "arcane"
+    }
+   },
+   "section": "Spells",
+   "special": []
+  },
+  {
+   "id": "req-cast-divine-2",
+   "name": "Able to cast 2nd-level divine spells and 2nd-level arcane spells",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "cast": {
+     "level": 2,
+     "kind": "divine"
+    }
+   },
+   "section": "Spells",
+   "special": []
+  },
+  {
+   "id": "req-skill-knowledge-arcana",
+   "name": "Knowledge (arcana) 6 ranks",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "skill": "knowledge-arcana",
+    "ranks": 6
+   },
+   "section": "Skills",
+   "special": []
+  },
+  {
+   "id": "req-skill-knowledge-religion",
+   "name": "Knowledge (religion) 6 ranks",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "skill": "knowledge-religion",
+    "ranks": 6
+   },
+   "section": "Skills",
+   "special": []
+  }
+ ],
+ "shadowdancer": [
+  {
+   "id": "hide-in-plain-sight",
+   "name": "Hide in plain sight",
+   "level": 1,
+   "kind": "note",
+   "special": [
+    "Hide in plain sight"
+   ]
+  },
+  {
+   "id": "proficiency",
+   "name": "Weapon and armour proficiency",
+   "level": 1,
+   "kind": "proficiency",
+   "armour": [
+    "light"
+   ],
+   "special": [],
+   "weapon_ids": [
+    "club",
+    "crossbow-hand",
+    "crossbow-heavy",
+    "crossbow-light",
+    "dagger",
+    "dagger-punching",
+    "dart",
+    "mace-heavy",
+    "mace-light",
+    "morningstar",
+    "quarterstaff",
+    "rapier",
+    "sap",
+    "shortbow",
+    "shortbow-composite",
+    "sword-short"
+   ],
+   "weapons": []
+  },
+  {
+   "id": "req-feat-combat-reflexes",
+   "name": "Combat Reflexes",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "feat": "combat-reflexes"
+   },
+   "section": "Feats",
+   "special": []
+  },
+  {
+   "id": "req-feat-dodge",
+   "name": "Dodge",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "feat": "dodge"
+   },
+   "section": "Feats",
+   "special": []
+  },
+  {
+   "id": "req-feat-mobility",
+   "name": "Mobility",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "feat": "mobility"
+   },
+   "section": "Feats",
+   "special": []
+  },
+  {
+   "id": "req-skill-hide",
+   "name": "Hide 10 ranks",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "skill": "hide",
+    "ranks": 10
+   },
+   "section": "Skills",
+   "special": []
+  },
+  {
+   "id": "req-skill-move-silently",
+   "name": "Move Silently 8 ranks",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "skill": "move-silently",
+    "ranks": 8
+   },
+   "section": "Skills",
+   "special": []
+  },
+  {
+   "id": "req-skill-perform-dance",
+   "name": "Perform (dance) 5 ranks",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "skill": "perform-dance",
+    "ranks": 5
+   },
+   "section": "Skills",
+   "special": []
+  },
+  {
+   "id": "darkvision",
+   "name": "Darkvision",
+   "level": 2,
+   "kind": "note",
+   "special": [
+    "darkvision"
+   ]
+  },
+  {
+   "id": "evasion",
+   "name": "Evasion",
+   "level": 2,
+   "kind": "note",
+   "special": [
+    "Evasion"
+   ]
+  },
+  {
+   "id": "uncanny-dodge",
+   "name": "Uncanny dodge",
+   "level": 2,
+   "kind": "feat",
+   "feat": "uncanny-dodge",
+   "special": [
+    "uncanny dodge"
+   ]
+  },
+  {
+   "id": "shadow-illusion",
+   "name": "Shadow illusion",
+   "level": 3,
+   "kind": "uses",
+   "by_level": {
+    "3": 1
+   },
+   "special": [
+    "Shadow illusion"
+   ]
+  },
+  {
+   "id": "summon-shadow",
+   "name": "Summon shadow",
+   "level": 3,
+   "kind": "note",
+   "by_level": {
+    "3": "+0 HD",
+    "6": "+2 HD",
+    "9": "+4 HD"
+   },
+   "special": [
+    "summon shadow",
+    "Summon shadow"
+   ]
+  },
+  {
+   "id": "shadow-jump",
+   "name": "Shadow jump",
+   "level": 4,
+   "kind": "note",
+   "by_level": {
+    "4": 20,
+    "6": 40,
+    "8": 80,
+    "10": 160
+   },
+   "special": [
+    "Shadow jump 20 ft.",
+    "Shadow jump 40 ft.",
+    "Shadow jump 80 ft.",
+    "Shadow jump 160 ft."
+   ]
+  },
+  {
+   "id": "defensive-roll",
+   "name": "Defensive roll",
+   "level": 5,
+   "kind": "uses",
+   "by_level": {
+    "5": 1
+   },
+   "special": [
+    "Defensive roll"
+   ]
+  },
+  {
+   "id": "improved-uncanny-dodge",
+   "name": "Improved uncanny dodge",
+   "level": 5,
+   "kind": "note",
+   "special": [
+    "improved uncanny dodge"
+   ]
+  },
+  {
+   "id": "slippery-mind",
+   "name": "Slippery mind",
+   "level": 7,
+   "kind": "note",
+   "special": [
+    "Slippery mind"
+   ]
+  },
+  {
+   "id": "improved-evasion",
+   "name": "Improved evasion",
+   "level": 10,
+   "kind": "note",
+   "special": [
+    "improved evasion"
+   ]
+  }
+ ],
+ "thaumaturgist": [
+  {
+   "id": "casting",
+   "name": "Spells per day",
+   "level": 1,
+   "kind": "casting",
+   "advances": "any",
+   "by_level": {
+    "1": true,
+    "2": true,
+    "3": true,
+    "4": true,
+    "5": true
+   },
+   "count": 1,
+   "special": []
+  },
+  {
+   "id": "improved-ally",
+   "name": "Improved ally",
+   "level": 1,
+   "kind": "note",
+   "special": [
+    "Improved ally"
+   ]
+  },
+  {
+   "id": "proficiency",
+   "name": "Weapon and armour proficiency",
+   "level": 1,
+   "kind": "proficiency",
+   "armour": [],
+   "special": [],
+   "weapon_ids": [],
+   "weapons": []
+  },
+  {
+   "id": "req-feat-spell-focus-conjuration",
+   "name": "Spell Focus (conjuration)",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "feat": "spell-focus",
+    "choice": "conjuration"
+   },
+   "section": "Feats",
+   "special": []
+  },
+  {
+   "id": "req-spell-planar-ally-lesser",
+   "name": "Able to cast *lesser planar ally*",
+   "level": 1,
+   "kind": "requirement",
+   "requires": {
+    "spell": "planar-ally-lesser"
+   },
+   "section": "Spells",
+   "special": []
+  },
+  {
+   "id": "augment-summoning",
+   "name": "Augment Summoning",
+   "level": 2,
+   "kind": "feat",
+   "feat": "augment-summoning",
+   "special": [
+    "Augment Summoning"
+   ]
+  },
+  {
+   "id": "extended-summoning",
+   "name": "Extended summoning",
+   "level": 3,
+   "kind": "note",
+   "special": [
+    "Extended summoning"
+   ]
+  },
+  {
+   "id": "contingent-conjuration",
+   "name": "Contingent conjuration",
+   "level": 4,
+   "kind": "note",
+   "special": [
+    "Contingent conjuration"
+   ]
+  },
+  {
+   "id": "planar-cohort",
+   "name": "Planar cohort",
+   "level": 5,
+   "kind": "note",
+   "special": [
+    "Planar cohort"
+   ]
+  }
+ ]
+}

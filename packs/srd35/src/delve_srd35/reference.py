@@ -47,6 +47,64 @@ def ranked(rows: list[dict[str, Any]], name: str) -> list[dict[str, Any]]:
     return sorted((r for r in rows if all(w in name_key(r["name"]) for w in words)), key=lambda r: len(r["name"]))
 
 
+FAMILY_NAMES = {"dragon": "True Dragon", "dragons": "True Dragon", "true dragons": "True Dragon"}
+"""Bare names that ask for a family's parent row: "dragon" is the true dragon's general entry."""
+
+
+def _words(name: str) -> tuple[str, ...]:
+    """A name's words in any order, without commas: "red dragon, young" and "Young Red Dragon" have the same."""
+    return tuple(sorted(re.findall(r"[a-z0-9'-]+", name_key(name))))
+
+
+def monsters_ranked(rows: list[dict[str, Any]], name: str) -> list[dict[str, Any]]:
+    """`ranked`, but a row with the very name stays first, then a row with the same words in any order ("red dragon,
+    young" is the Young Red Dragon, "huge earth elemental" the Huge Earth Elemental), and a bare "dragon" asks for
+    the true dragon's entry (`FAMILY_NAMES`), which a family's refusal answers (`family_refusal`)."""
+    asked = " ".join(name_key(name).split())
+    found = ranked(rows, name)
+    exact = found[:1] if found and name_key(found[0]["name"]) == asked else []
+    wanted = _words(FAMILY_NAMES.get(asked, name))
+    ahead = [*exact, *(r for r in rows if _words(r["name"]) == wanted and r not in exact)]
+    return [*ahead, *(r for r in found if r not in ahead)]
+
+
+def family_refusal(row: dict[str, Any]) -> str | None:
+    """Why a family's parent row (its `variants` named) is no combatant, naming the variants: "Red Dragon is a family,
+    not one monster: name one of its variants: Wyrmling Red Dragon, …". The true dragon's variants are families
+    themselves: its refusal names the colours and their ages. None for any other row."""
+    variants = list(row.get("variants") or ())
+    if not variants:
+        return None
+    rows = {r["name"]: r for r in load("monsters")}
+    nested = [rows[v] for v in variants if rows.get(v, {}).get("variants")]
+    said = f"name one of its variants: {', '.join(variants)}"
+    if nested:
+        kinds = [v.removesuffix(" " + row["name"].split()[-1]) for v in variants]
+        grades = [v.removesuffix(" " + nested[0]["name"]) for v in nested[0]["variants"]]
+        said = f"name one of {', '.join(kinds)} and one of {', '.join(grades)}, as in '{nested[0]['variants'][2]}'"
+    return f"{row['name']} is a family, not one monster: {said}."
+
+
+RACE_ENTRIES = frozenset({"elf", "aquatic elf", "gray elf", "wild elf", "wood elf", "gnome", "forest gnome",
+                          "mountain dwarf", "deep dwarf", "duergar", "drow", "svirfneblin", "half-elf", "half-orcs"})  # fmt: skip
+"""The rows that are a race's or subrace's entry (SOURCES.md's "a subrace"); the other rows without a stat block are
+templates."""
+
+
+def entry_refusal(row: dict[str, Any]) -> str | None:
+    """Why a template's or race entry's row (no full attack, no variants: Ghost, Werebear, Drow) has no attack to swing,
+    naming the monsters built on it that have a stat block ("Human Form Werebear", "1st-level Warrior Drow"). None for
+    any other row."""
+    name = str(row.get("name") or "")
+    if str(row.get("full_attack") or "").strip() or row.get("variants") or not name:
+        return None
+    kind = "a race entry" if name.lower() in RACE_ENTRIES else "a template"
+    built = sorted(r["name"] for r in load("monsters") if r["name"] != name and str(r.get("full_attack") or "").strip()
+                   and re.search(rf"(?i)\b{re.escape(name)}$", r["name"]))  # fmt: skip
+    said = f"; the monsters built on it: {', '.join(built)}" if built else ""
+    return f"{name} is {kind}, with no stat block of its own and no attack: give it one with update_combatant{said}."
+
+
 def _signed(number: int) -> str:
     return f"+{number}" if number > 0 else str(number)
 
@@ -55,7 +113,7 @@ class Srd35Reference:
     """SRD 3.5's data as a `RulesetReference`."""
 
     def monster(self, name: str) -> list[dict]:
-        return ranked(load("monsters"), name)[:MOST]
+        return monsters_ranked(load("monsters"), name)[:MOST]
 
     def spell(self, name: str, caster: str = "") -> list[dict]:
         wanted = caster.strip().lower()

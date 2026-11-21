@@ -88,6 +88,20 @@ TABLES = RuleTables(
     mounts={},
     mount_fly={},
     # The SRD's Initiative Checks: "Characters act in order, counting down from highest result to lowest. In every
-    # round that follows, the characters act in the same order".
-    fight=FightRules(initiative_once=True, highest_first=True),
+    # round that follows, the characters act in the same order". A tie: "the combatants who are tied act in order of
+    # total initiative modifier (highest first). If there is still a tie, the tied characters should roll again".
+    # Casting: a spell of one action is cast on the caster's turn, and only "if you take damage while trying to cast
+    # a spell" (an attack of opportunity, a readied action, a longer casting time) is a Concentration check called
+    # for: a hit earlier in the round spoils nothing (DEL-433). Injury and Death: at exactly 0 a character is
+    # disabled, "a single move action or standard action each turn", and "if he performs any standard action (or any
+    # other strenuous action) he takes 1 point of damage after completing the act" (DEL-434); a dying character
+    # "rolls d% to see whether he becomes stable. He has a 10% chance" (DEL-442).
+    fight=FightRules(
+        initiative_once=True,
+        highest_first=True,
+        ties_by_bonus=True,
+        cast_on_turn=True,
+        disabled_at_zero=True,
+        stabilise_chance=10,
+    ),
 )

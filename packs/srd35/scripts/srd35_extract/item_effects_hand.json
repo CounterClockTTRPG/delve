@@ -1,0 +1,26 @@
+{
+ "worn": {
+  "protection": {"type": "deflection", "target": "ac"},
+  "amulet-of-natural-armor": {"type": "natural", "target": "ac"},
+  "cloak-of-resistance": {"type": "resistance", "target": "saves"},
+  "bracers-of-armor": {"type": "armor", "target": "ac"},
+  "gauntlets-of-ogre-power": {"type": "enhancement", "target": "str"},
+  "belt-of-giant-strength": {"type": "enhancement", "target": "str"},
+  "gloves-of-dexterity": {"type": "enhancement", "target": "dex"},
+  "amulet-of-health": {"type": "enhancement", "target": "con"},
+  "headband-of-intellect": {"type": "enhancement", "target": "int"},
+  "periapt-of-wisdom": {"type": "enhancement", "target": "wis"},
+  "cloak-of-charisma": {"type": "enhancement", "target": "cha"}
+ },
+ "words": {
+  "deflection": "deflection bonus",
+  "natural": "natural armor",
+  "resistance": "resistance bonus",
+  "armor": "armor bonus",
+  "enhancement": "enhancement bonus"
+ },
+ "abilities": {"str": "Strength", "dex": "Dexterity", "con": "Constitution", "int": "Intelligence", "wis": "Wisdom",
+               "cha": "Charisma"},
+ "enhancement": {"most": 5, "total": 10},
+ "extras": ["armor-spikes", "shield-spikes", "gauntlet-locked"]
+}

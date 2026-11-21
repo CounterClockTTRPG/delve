@@ -1,7 +1,7 @@
 """Live mode (opt-in, never in tests): play a case through Delve's real `claude -p` provider and record a fixture.
 
 It never touches real play. Everything runs in a temp data dir:
-- OSRIC is installed from `packs/osric` (a case of another ruleset or a setting pack needs that pack installed too);
+- the case's packs are installed (`packs_for(case)`): OSRIC from `packs/osric`, and an srd35 case's `packs/srd35`;
 - the case's sample module is imported and a campaign started on it with the seeded house rules;
 - the setup calls and the secrets go through the tool host;
 - a Delve serves the internal tool endpoint on a free loopback port, for `delve dm-bridge`;
@@ -29,7 +29,7 @@ import sys
 import tempfile
 import threading
 import time
-from collections.abc import Callable
+from collections.abc import Callable, Iterable
 from datetime import datetime
 from pathlib import Path
 from types import SimpleNamespace
@@ -55,15 +55,22 @@ class Recorder:
     as stream-json records, the `result`, and an `eval_turn_end` with the beat's timings.
 
     The provider strips `mcp__delve__` from Delve's tools; the recorder puts it back on them, so a call to anything
-    else keeps its own name and no_state_bypass sees it.
+    else keeps its own name and no_state_bypass sees it. `tools` names Delve's tools for the case's ruleset (the
+    core's and the pack's own, `set_build`...); without it, the core's.
     """
 
-    def __init__(self, path: Path, meta: dict[str, Any], clock: Callable[[], float] = time.monotonic) -> None:
+    def __init__(
+        self,
+        path: Path,
+        meta: dict[str, Any],
+        clock: Callable[[], float] = time.monotonic,
+        tools: Iterable[str] | None = None,
+    ) -> None:
         self.path = Path(path)
         self.meta = meta
         self.clock = clock
         self._file = None
-        self._delve = _delve_tool_names()
+        self._delve = frozenset(tools) if tools is not None else _delve_tool_names()
 
     def __enter__(self) -> Self:
         self.path.parent.mkdir(parents=True, exist_ok=True)
@@ -278,7 +285,8 @@ async def _play(
 
     config = Config(data_dir=root / "data", host="127.0.0.1")
     config.data_dir.mkdir(parents=True)
-    install_pack(Path(__file__).resolve().parents[1] / "packs" / "osric", config.packs_dir)
+    for pack in _cases.packs_for(case):
+        install_pack(pack, config.packs_dir)
     storage = open_storage(config)
     server = thread = sock = provider = conversation = None
     try:
@@ -345,7 +353,8 @@ async def _play(
             "tone": played["tone"],
             "xp_awards": played["xp_awards"],
         }
-        with Recorder(out, meta) as recorder:
+        tools = [spec.name for spec in host.specs(case.get("ruleset", _cases.RULESET))]
+        with Recorder(out, meta, tools=tools) as recorder:
             for n, beat in enumerate(case.get("beats") or []):
                 recorder.start_beat(n, beat["player"], ask=bool(beat.get("ask")))
                 if beat.get("ask"):
